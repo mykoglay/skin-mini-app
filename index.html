@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>CS2 Cases</title>
+    <!-- Подключаем Telegram WebApp SDK -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; -webkit-user-select: none; }
         body { background-color: #0d0e12; color: #ffffff; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
@@ -21,12 +23,8 @@
         .roulette-track { display: flex; height: 100%; position: absolute; left: 0; top: 0; will-change: transform; }
         
         .skin-card { min-width: 90px; width: 90px; height: 85px; margin: 10px 4px; background: #1a1d29; border-radius: 8px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 4px; border-bottom: 4px solid #fff; flex-shrink: 0; }
-        .skin-card .title { font-size: 9px; text-align: center; color: #ddd; font-weight: 600; width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 5px; }
-        
-        .gun-icon { width: 50px; height: 25px; border-radius: 4px; position: relative; margin-top: 5px; }
-        .gun-ak { background: #e74c3c; border-top: 4px solid #f39c12; }
-        .gun-m4 { background: #9b59b6; border-right: 6px solid #3498db; }
-        .gun-awp { background: #2ecc71; border-bottom: 4px solid #1abc9c; }
+        .skin-card img { width: 65px; height: 45px; object-fit: contain; }
+        .skin-card .title { font-size: 9px; text-align: center; color: #ddd; font-weight: 600; width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px; }
         
         .covert { border-bottom-color: #eb4b4b; background: linear-gradient(180deg, #1a1d29 20%, rgba(235, 75, 75, 0.25)); }
         .classified { border-bottom-color: #d32ce6; background: linear-gradient(180deg, #1a1d29 20%, rgba(211, 44, 230, 0.25)); }
@@ -42,16 +40,25 @@
         .btn-gray { background: #252836; color: #ccc; }
         
         .inventory-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; width: 100%; }
-        .
+        .inv-card { background: #14161f; border-radius: 8px; padding: 8px; display: flex; flex-direction: column; align-items: center; border: 1px solid #252836; }
+        .inv-card img { width: 60px; height: 40px; object-fit: contain; }
+        .inv-card .
 
 
-inv-card { background: #14161f; border-radius: 8px; padding: 8px; display: flex; flex-direction: column; align-items: center; border: 1px solid #252836; }
-        .inv-card .title { font-size: 9px; text-align: center; color: #aaa; margin: 4px 0; height: 22px; overflow: hidden; }
+title { font-size: 9px; text-align: center; color: #aaa; margin: 4px 0; height: 22px; overflow: hidden; }
         .inv-card .price { font-size: 11px; font-weight: bold; color: #2ec771; margin-bottom: 6px; }
         
+        /* Профиль */
+        .profile-card { width: 100%; background: #14161f; border-radius: 12px; padding: 20px; display: flex; flex-direction: column; align-items: center; border: 1px solid #252836; }
+        .profile-avatar { width: 80px; height: 80px; border-radius: 50%; border: 2px solid #f39c12; margin-bottom: 10px; object-fit: cover; }
+        .profile-name { font-size: 16px; font-weight: bold; color: #fff; }
+        .profile-username { font-size: 13px; color: #7f8c8d; margin-bottom: 6px; }
+        .profile-id { font-size: 12px; color: #f39c12; background: rgba(243, 156, 18, 0.1); padding: 4px 10px; border-radius: 10px; }
+
         .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.85); z-index: 999999; justify-content: center; align-items: center; }
         .modal.active { display: flex !important; }
         .modal-card { background: #1a1d29; padding: 20px; border-radius: 16px; text-align: center; border: 2px solid #f39c12; width: 85%; max-width: 300px; display: flex; flex-direction: column; align-items: center; }
+        .modal-card img { width: 120px; height: 80px; object-fit: contain; margin: 10px 0; }
         .modal-btns { width: 100%; display: flex; flex-direction: column; gap: 8px; margin-top: 15px; }
         
         .nav-bar { height: 60px; background: #14161f; border-top: 1px solid #252836; display: flex; width: 100%; flex-shrink: 0; }
@@ -67,6 +74,7 @@ inv-card { background: #14161f; border-radius: 8px; padding: 8px; display: flex;
     </div>
 
     <div class="main-container">
+        <!-- Кейсы -->
         <div id="pCases" class="page active">
             <div class="roulette-box">
                 <div class="roulette-line"></div>
@@ -79,12 +87,19 @@ inv-card { background: #14161f; border-radius: 8px; padding: 8px; display: flex;
             </div>
         </div>
 
+        <!-- Инвентарь -->
         <div id="pInv" class="page">
             <div class="inventory-grid" id="invGrid"></div>
         </div>
 
+        <!-- Профиль -->
         <div id="pProf" class="page">
-            <p style="text-align: center; color: #aaa; margin-top: 20px;">Мой Профиль</p>
+            <div class="profile-card">
+                <img id="uAvatar" class="profile-avatar" src="https://ui-avatars.com/api/?name=User&background=f39c12&color=fff" alt="Avatar">
+                <div class="profile-name" id="uName">Игрок</div>
+                <div class="profile-username" id="uUsername">@username</div>
+                <div class="profile-id" id="uId">ID: 000000000</div>
+            </div>
         </div>
     </div>
 
@@ -94,46 +109,80 @@ inv-card { background: #14161f; border-radius: 8px; padding: 8px; display: flex;
         <button class="nav-item" id="btnProf" onclick="switchTab('Prof', this)">Профиль</button>
     </div>
 
+    <!-- Модальное окно выигрыша -->
     <div class="modal" id="winModal">
         <div class="modal-card">
             <h2 style="color: #f39c12; font-size: 16px;">ВЫ ВЫБИЛИ!</h2>
-            <div id="mImgBox" style="margin: 15px 0;"></div>
+            <img id="mImg" src="" alt="Skin">
             <h3 id="mTitle" style="font-size: 13px; color: #fff;">---</h3>
             <p id="mPrice" style="color: #2ec771; font-weight: bold; font-size: 13px; margin-top: 4px;">0 💎</p>
             
             <div class="modal-btns">
-                <button class="btn btn-green" id="mSellBtn">Продать сходу</button>
+
+
+<button class="btn btn-green" id="mSellBtn">Продать сходу</button>
                 <button class="btn btn-gray" id="mKeepBtn">Оставить в инвентаре</button>
             </div>
         </div>
     </div>
 
     <script>
+        // Инициализация Telegram WebApp
+        var tg = window.Telegram ? window.Telegram.WebApp : null;
+        if (tg) tg.expand();
+
+        // Скины с валидными прямыми ссылками на картинки
         var skins = [
-            { id: 1, name: "AK-47 | Asiimov", rarity: "covert", price: 450, cssClass: "gun-ak" },
-            { id: 2, name: "M4A4 | Howl", rarity: "covert", price: 600, cssClass: "gun-m4" },
-            { id: 3, name: "AWP | Hyper Beast", rarity: "classified", price: 250, cssClass: "gun-awp" },
-            { id: 4, name: "Glock-18 | Water", rarity: "restricted", price: 120, cssClass: "gun-ak" },
-            { id: 5, name: "USP-S | Cyrex", rarity: "restricted", price: 70, cssClass: "gun-m4" }
+            { id: 1, name: "AK-47 | Asiimov", rarity: "covert", price: 450, img: "https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZFCb4R71FAzo4_2cWHZuqRI14vSE4BEW8i_840c8pS-gI-S1E6061n8a8_Jgw-JgtRuO3_fA41g_L3fTxO7c6x29bfk-KgZb2GxjNW6J10j7-Up92l0QThqkNsZG_3IYXAewQ_aAnSq1DrlerK18S97p3M1zI97eH83nI" },
+            { id: 2, name: "M4A4 | Howl", rarity: "covert", price: 600, img: "https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZFCb4R71FAzo4_2cWHZuqRI14vSE4BEW8i_840c8pS-gI-S1E6061n8a8_Jgw1Jh82cQC2v767FAZ3iP33fThI482_m9S3l_ChZuLSxT4H6cRz2-3Co9Sk2QWyqE49Nm-mLI6ccAYaMN9IS6LsqA" },
+            { id: 3, name: "AWP | Hyper Beast", rarity: "classified", price: 250, img: "https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZFCb4R71FAzo4_2cWHZuqRI14vSE4BEW8i_840c8pS-gI-S1E6061n8a8_Jgw-JgtRtOf8fz943f33ey1R59m029S1m8j4Y-OFw39T6cBz3L2So92l3A2x_xU9Nzyld9WdJwY2MwqEq1W7yObLp8W93m35" },
+            { id: 4, name: "Glock-18 | Water Elemental", rarity: "restricted", price: 120, img: "https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZFCb4R71FAzo4_2cWHZuqRI14vSE4BEW8i_840c8pS-gI-S1E6061n8a8_Jgw-JgtRtOn8ezR42v33ey1R59m029_i_C4IYeG333xU4pwi0urEp9n01AS_qkdtMmHzctCddARoZA3Ur1m6k-3o0MW_41fO12A" },
+            { id: 5, name: "USP-S | Cyrex", rarity: "restricted", price: 70, img: "https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZFCb4R71FAzo4_2cWHZuqRI14vSE4BEW8i_840c8pS-gI-S1E6061n8a8_Jgw-JgtRtOv_ezV42v33ey1R59m028_x1C4GYOHx33sIvcB32rCS94j21g3grkRkZmzxJ9XBdANsZQmD-1jrwr26" }
         ];
 
-        var balance = 1000;
-        var inventory = [];
+        // Загрузка сохраненного состояния из localStorage
+        var balance = parseInt(localStorage.getItem("cs_balance")) || 1000;
+        var inventory = JSON.parse(localStorage.getItem("cs_inventory")) || [];
+        
         var isSpinning = false;
         var currentWin = null;
 
         var track = document.getElementById("track");
         var openBtn = document.getElementById("openBtn");
 
+        function saveData() {
+            localStorage.setItem("cs_balance", balance);
+            localStorage.setItem("cs_inventory", JSON.stringify(inventory));
+        }
+
+        function initProfile() {
+            if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) {
+                var u = tg.initDataUnsafe.user;
+                document.getElementById("uName").innerText = (u.first_name  "") + " " + (u.last_name  "");
+                document.getElementById("uUsername").innerText = u.username ? "@" + u.username : "нет юзернейма";
+                document.getElementById("uId").innerText = "ID: " + u.id;
+                if (u.photo_url) {
+                    document.getElementById("uAvatar").src = u.photo_url;
+                } else {
+                    document.getElementById("uAvatar").src = "https://ui-avatars.com/api/?name=" + encodeURIComponent(u.first_name) + "&background=f39c12&color=fff";
+                }
+            } else {
+                document.getElementById("uName").innerText = "Тестовый Юзер";
+                document.getElementById("uUsername").innerText = "@test_user";
+                document.getElementById("uId").innerText = "ID: 123456789";
+            }
+        }
+
         function buildTrack() {
-
-
-track.innerHTML = "";
+            track.innerHTML = "";
             for (var i = 0; i < 60; i++) {
                 var skin = skins[Math.floor(Math.random() * skins.length)];
                 var card = document.createElement("div");
                 card.className = "skin-card " + skin.rarity;
-                card.innerHTML = '<div class="gun-icon ' + skin.cssClass + '"></div><div class="title">' + skin.name + '</div>';
+                card.
+
+
+innerHTML = '<img src="' + skin.img + '"><div class="title">' + skin.name + '</div>';
                 card.dataset.id = skin.id;
                 track.appendChild(card);
             }
@@ -165,6 +214,7 @@ track.innerHTML = "";
             openBtn.disabled = true;
             balance -= 100;
             document.getElementById("balVal").innerText = balance;
+            saveData();
 
             track.style.transition = "none";
             track.style.transform = "translateX(0px)";
@@ -195,7 +245,7 @@ track.innerHTML = "";
         }
 
         function showWinModal(skin) {
-            document.getElementById("mImgBox").innerHTML = '<div class="gun-icon ' + skin.cssClass + '" style="width:80px;height:40px;"></div>';
+            document.getElementById("mImg").src = skin.img;
             document.getElementById("mTitle").innerText = skin.name;
             document.getElementById("mPrice").innerText = "+" + skin.price + " 💎";
             document.getElementById("mSellBtn").innerText = "Продать за " + skin.price + " 💎";
@@ -206,6 +256,7 @@ track.innerHTML = "";
             if (!currentWin) return;
             balance += currentWin.price;
             document.getElementById("balVal").innerText = balance;
+            saveData();
             closeWinModal();
         };
 
@@ -216,9 +267,10 @@ track.innerHTML = "";
                 name: currentWin.name,
                 rarity: currentWin.rarity,
                 price: currentWin.price,
-                cssClass: currentWin.cssClass,
+                img: currentWin.img,
                 instId: Date.now() + Math.random()
             });
+            saveData();
             closeWinModal();
         };
 
@@ -230,10 +282,7 @@ track.innerHTML = "";
         }
 
         function renderInventory() {
-            var grid = document.
-
-
-getElementById("invGrid");
+            var grid = document.getElementById("invGrid");
             grid.innerHTML = "";
 
             if (inventory.length === 0) {
@@ -241,12 +290,15 @@ getElementById("invGrid");
                 return;
             }
 
-            for (var i = 0; i < inventory.length; i++) {
+            for (var i = 0; i < inventory.
+
+
+length; i++) {
                 var item = inventory[i];
                 var card = document.createElement("div");
                 card.className = "inv-card " + item.rarity;
                 card.innerHTML = 
-                    '<div class="gun-icon ' + item.cssClass + '"></div>' +
+                    '<img src="' + item.img + '">' +
                     '<div class="title">' + item.name + '</div>' +
                     '<div class="price">' + item.price + ' 💎</div>' +
                     '<button class="btn btn-green" style="padding: 4px; font-size: 10px;" onclick="sellFromInv(' + item.instId + ')">Продать</button>';
@@ -266,10 +318,14 @@ getElementById("invGrid");
                 balance += inventory[idx].price;
                 document.getElementById("balVal").innerText = balance;
                 inventory.splice(idx, 1);
+                saveData();
                 renderInventory();
             }
         };
 
+        // Запуск
+        document.getElementById("balVal").innerText = balance;
+        initProfile();
         buildTrack();
     </script>
 </body>
