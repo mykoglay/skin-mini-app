@@ -1,18 +1,14 @@
-<button class="btn-open" style="margin-top: 15px;" onclick="closeModal()">Забрать</button>
-        </div>
-    </div>
-
-    <script>
-        const tg = window.Telegram.WebApp;
-        tg.expand();
+tg.expand();
+        }
 
         // Скины для рулетки
         const skins = [
-            { name: "AK-47 | Азимов", rarity: "rarity-covert", img: "https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZFCb4d11V2yp1OH6-m4cCoU4BoR63B&/150fx150f" },
-            { name: "M4A4 | Вой", rarity: "rarity-covert", img: "https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZFCb4d11V2yp1OH6-m4cCoU4BoR63B&/150fx150f" },
-            { name: "AWP | Скоростной зверь", rarity: "rarity-classified", img: "https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZFCb4d11V2yp1OH6-m4cCoU4BoR63B&/150fx150f" },
-            { name: "Glock-18 | Дух воды", rarity: "rarity-restricted", img: "https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZFCb4d11V2yp1OH6-m4cCoU4BoR63B&/150fx150f" },
-            { name: "USP-S | Сайрекс", rarity: "rarity-mil-spec", img: "https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZFCb4d11V2yp1OH6-m4cCoU4BoR63B&/150fx150f" }
+            { name: "AK-47 | Азимов", rarity: "rarity-covert", icon: "🔫" },
+            { name: "M4A4 | Вой", rarity: "rarity-covert", icon: "🐉" },
+            { name: "AWP | Скоростной зверь", rarity: "rarity-classified", icon: "🎯" },
+            { name: "Glock-18 | Дух воды", rarity: "rarity-restricted", icon: "💥" },
+            { name: "USP-S | Сайрекс", rarity: "rarity-mil-spec", icon: "⚡" },
+            { name: "Керамбит | Градиент", rarity: "rarity-covert", icon: "🔪" }
         ];
 
         const track = document.getElementById('track');
@@ -27,14 +23,72 @@
                 const card = document.createElement('div');
                 card.className = item-card ${randomSkin.rarity};
                 card.innerHTML = `
-                    <img src="${randomSkin.img}" alt="${randomSkin.name}">
+                    <div class="icon">${randomSkin.icon}</div>
                     <div class="name">${randomSkin.name}</div>
                 `;
                 card.dataset.name = randomSkin.name;
-                card.dataset.img = randomSkin.img;
+                card.dataset.icon = randomSkin.icon;
                 track.appendChild(card);
             }
         }
+
+        // Скрытие загрузчика (гарантированное закрытие)
+        function hideLoader() {
+            const loader = document.getElementById('loader');
+            if (loader) {
+                loader.style.opacity = '0';
+                setTimeout(() => loader.style.visibility = 'hidden', 500);
+            }
+        }
+
+        // Инициализация при загрузке
+        generateTrack();
+        setTimeout(hideLoader, 800);
+
+        // Функция вращения рулетки
+        function spinRoulette() {
+            if (isSpinning) return;
+            isSpinning = true;
+            openBtn.disabled = true;
+
+            // Сброс позиции
+            track.style.transition = 'none';
+            track.style.transform = 'translateX(0px)';
+
+            // Генерация нового трека
+            generateTrack();
+
+            setTimeout(() => {
+                const itemWidth = 110; // ширина карточки + margin
+                const winIndex = 45; // Предмет под указателем
+                const winningCard = track.children[winIndex];
+
+                const offset = (winIndex * itemWidth) - (document.querySelector('.roulette-wrapper').offsetWidth / 2) + (itemWidth / 2);
+
+                track.style.transition = 'transform 5s cubic-bezier(0.15, 0.9, 0.2, 1)';
+                track.style.transform = translateX(-${offset}px);
+
+                // Показ результата после прокрутки
+                setTimeout(() => {
+                    document.getElementById('winName').innerText = winningCard.dataset.name;
+                    document.getElementById('winIcon').innerText = winningCard.dataset.icon;
+                    document.getElementById('winModal').classList.add('active');
+                    
+                    if (tg && tg.HapticFeedback) {
+                        tg.HapticFeedback.notificationOccurred('success');
+                    }
+                }, 5200);
+            }, 50);
+        }
+
+        function closeModal() {
+            document.getElementById('winModal').classList.remove('active');
+            isSpinning = false;
+            openBtn.disabled = false;
+        }
+    </script>
+</body>
+</html>        }
 
         // Эмуляция загрузки приложения
         window.addEventListener('load', () => {
