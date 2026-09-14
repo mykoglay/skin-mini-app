@@ -3,8 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <!-- Запрет кеширования для Telegram и мобильных браузеров -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    
     <title>CS2 Cases</title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://telegram.org/js/telegram-web-app.js?v=1.0.1"></script>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; -webkit-user-select: none; }
         body { background-color: #0d0e12; color: #ffffff; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
@@ -21,12 +27,10 @@
         .roulette-line { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 3px; height: 100%; background: #f39c12; z-index: 10; box-shadow: 0 0 8px #f39c12; }
         .roulette-track { display: flex; height: 100%; position: absolute; left: 0; top: 0; will-change: transform; }
         
-        /* Стилизация карточки и оружия без внешних картинок */
         .skin-card { min-width: 90px; width: 90px; height: 85px; margin: 10px 4px; background: #1a1d29; border-radius: 8px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 6px; border-bottom: 4px solid #fff; flex-shrink: 0; }
         .gun-shape { width: 50px; height: 26px; border-radius: 4px; position: relative; margin-bottom: 4px; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: bold; text-shadow: 0 1px 2px #000; }
         .skin-card .title { font-size: 9px; text-align: center; color: #ddd; font-weight: 600; width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         
-        /* Цвета редкостей */
         .covert { border-bottom-color: #eb4b4b; background: linear-gradient(180deg, #1a1d29 20%, rgba(235, 75, 75, 0.35)); }
         .classified { border-bottom-color: #d32ce6; background: linear-gradient(180deg, #1a1d29 20%, rgba(211, 44, 230, 0.35)); }
         .restricted { border-bottom-color: #8847ff; background: linear-gradient(180deg, #1a1d29 20%, rgba(136, 71, 255, 0.35)); }
@@ -40,11 +44,11 @@
         .btn-green { background: linear-gradient(135deg, #27ae60, #2ec771); }
         .btn-gray { background: #252836; color: #ccc; }
         
-        .inventory-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; width: 100%; }
         .
 
 
-inv-card { background: #14161f; border-radius: 8px; padding: 8px; display: flex; flex-direction: column; align-items: center; border: 1px solid #252836; }
+inventory-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; width: 100%; }
+        .inv-card { background: #14161f; border-radius: 8px; padding: 8px; display: flex; flex-direction: column; align-items: center; border: 1px solid #252836; }
         .inv-card .title { font-size: 9px; text-align: center; color: #aaa; margin: 4px 0; height: 22px; overflow: hidden; }
         .inv-card .price { font-size: 11px; font-weight: bold; color: #2ec771; margin-bottom: 6px; }
         
@@ -113,13 +117,21 @@ inv-card { background: #14161f; border-radius: 8px; padding: 8px; display: flex;
             
             <div class="modal-btns">
                 <button class="btn btn-green" id="mSellBtn">Продать сходу</button>
-                <button class="btn btn-gray" id="mKeepBtn">Оставить в инвентаре</button>
+
+
+<button class="btn btn-gray" id="mKeepBtn">Оставить в инвентаре</button>
             </div>
         </div>
     </div>
 
+    <script>
+        // Принудительная очистка старых поврежденных структур данных при обновлении версии
+        var CURRENT_VER = "1.0.1";
+        if (localStorage.getItem("app_ver") !== CURRENT_VER) {
+            localStorage.clear();
+            localStorage.setItem("app_ver", CURRENT_VER);
+        }
 
-<script>
         var tg = window.Telegram ? window.Telegram.WebApp : null;
         if (tg) {
             try { tg.expand(); } catch(e){}
@@ -192,7 +204,8 @@ inv-card { background: #14161f; border-radius: 8px; padding: 8px; display: flex;
             document.getElementById("p" + tabName).classList.add("active");
             btnElem.classList.add("active");
 
-            if (tabName === "Inv") renderInventory();
+
+if (tabName === "Inv") renderInventory();
         }
 
         function spinRoulette() {
@@ -208,10 +221,7 @@ inv-card { background: #14161f; border-radius: 8px; padding: 8px; display: flex;
             document.getElementById("balVal").innerText = balance;
             saveData();
 
-            track.
-
-
-style.transition = "none";
+            track.style.transition = "none";
             track.style.transform = "translateX(0px)";
             buildTrack();
 
@@ -294,7 +304,9 @@ style.transition = "none";
                     '<div class="gun-shape" style="background:' + item.bg + '">' + item.tag + '</div>' +
                     '<div class="title">' + item.name + '</div>' +
                     '<div class="price">' + item.price + ' 💎</div>' +
-                    '<button class="btn btn-green" style="padding: 4px; font-size: 10px;" onclick="sellFromInv(' + item.instId + ')">Продать</button>';
+
+
+'<button class="btn btn-green" style="padding: 4px; font-size: 10px;" onclick="sellFromInv(' + item.instId + ')">Продать</button>';
                 grid.appendChild(card);
             }
         }
@@ -308,9 +320,7 @@ style.transition = "none";
                 }
             }
             if (idx !== -1) {
-
-
-balance += inventory[idx].price;
+                balance += inventory[idx].price;
                 document.getElementById("balVal").innerText = balance;
                 inventory.splice(idx, 1);
                 saveData();
