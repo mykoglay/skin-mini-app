@@ -2,8 +2,8 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>CS2 Case Opening</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
+    <title>CS2 Mini App</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         * {
@@ -11,61 +11,63 @@
             user-select: none;
             margin: 0;
             padding: 0;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
             background-color: #0d0e12;
             color: #ffffff;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            min-height: 100vh;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            padding-bottom: 70px;
-            overflow-x: hidden;
+            justify-content: space-between;
         }
 
-        .container {
-            width: 100%;
-            max-width: 420px;
-            padding: 15px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        /* HEADER */
+        /* ШАПКА */
         .header {
             width: 100%;
+            padding: 15px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
+            background: #14161f;
+            border-bottom: 1px solid #252836;
         }
 
         .header h1 {
-            font-size: 18px;
+            font-size: 16px;
             color: #f39c12;
             letter-spacing: 0.5px;
-            text-shadow: 0 0 12px rgba(243, 156, 18, 0.4);
         }
 
         .balance-box {
             background: #1a1d29;
-            padding: 6px 14px;
+            padding: 6px 12px;
             border-radius: 20px;
             border: 1px solid #252836;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 6px;
+            color: #fff;
         }
 
-        /* PAGES */
+        /* КОНТЕНТНАЯ ОБЛАСТЬ */
+        .content-area {
+            flex: 1;
+            position: relative;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 15px;
+        }
+
         .page {
             display: none;
             width: 100%;
+            max-width: 400px;
             flex-direction: column;
             align-items: center;
         }
@@ -78,13 +80,13 @@
         .roulette-wrapper {
             position: relative;
             width: 100%;
-            height: 120px;
+            height: 110px;
             background: #14161f;
             border: 2px solid #252836;
             border-radius: 12px;
             overflow: hidden;
             margin-bottom: 20px;
-            box-shadow: inset 0 0 15px rgba(0,0,0,0.9);
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.8);
         }
 
         .roulette-wrapper::before {
@@ -97,7 +99,7 @@
             height: 100%;
             background: #f39c12;
             z-index: 10;
-            box-shadow: 0 0 12px #f39c12;
+            box-shadow: 0 0 10px #f39c12;
         }
 
         .roulette-track {
@@ -110,8 +112,9 @@
         }
 
         .item-card {
-            min-width: 100px;
-            height: 100px;
+            min-width: 95px;
+            width: 95px;
+            height: 90px;
             margin: 10px 4px;
             background: #1a1d29;
             border-radius: 8px;
@@ -119,333 +122,308 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 6px;
-            border-bottom: 4px solid #fff;
-            box-sizing: border-box;
+            padding: 5px;
+            border-bottom: 3px solid #fff;
         }
 
-        .item-card svg {
-            width: 55px;
+        .item-card img {
+            width: 60px;
             height: 45px;
-            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.5));
+            object-fit: contain;
         }
 
         .item-card .name {
-            font-size: 10px;
+            font-size: 9px;
             text-align: center;
-            margin-top: 6px;
-            font-weight: 600;
+            margin-top: 4px;
             color: #ccc;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            width: 90px;
+            width: 100%;
         }
 
         /* РЕДКОСТИ */
-        .rarity-covert { border-bottom-color: #eb4b4b; background: linear-gradient(180deg, #1a1d29 50%, rgba(235, 75, 75, 0.25)); }
-        .rarity-classified { border-bottom-color: #d32ce6; background: linear-gradient(180deg, #1a1d29 50%, rgba(211, 44, 230, 0.25)); }
+        .rarity-covert { border-bottom-color: #eb4b4b; background: linear-gradient(180deg, #1a1d29 40%, rgba(235, 75, 75, 0.2)); }
+        .rarity-classified { border-bottom-color: #d32ce6; background: linear-gradient(180deg, #1a1d29 40%, rgba(211, 44, 230, 0.2)); }
         .
 
 
-rarity-restricted { border-bottom-color: #8847ff; background: linear-gradient(180deg, #1a1d29 50%, rgba(136, 71, 255, 0.25)); }
-        .rarity-mil-spec { border-bottom-color: #4b69ff; background: linear-gradient(180deg, #1a1d29 50%, rgba(75, 105, 255, 0.25)); }
+rarity-restricted { border-bottom-color: #8847ff; background: linear-gradient(180deg, #1a1d29 40%, rgba(136, 71, 255, 0.2)); }
 
-        /* КЕЙС */
+        /* БЛОК КЕЙСА */
         .case-preview {
             width: 100%;
             background: #14161f;
             border-radius: 12px;
             padding: 20px;
-            display: flex;...
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border: 1px solid #252836;
+        }
 
+        .case-img-box {
+            width: 100px;
+            height: 80px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
-win-card {
-            background: #1a1d29;
+        .case-img-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        /* КНОПКИ */
+        .btn {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            border: none;
+            color: #fff;
+            padding: 14px 20px;
+            font-size: 15px;
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(243, 156, 18, 0.3);
+        }
+
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .btn-sell { background: linear-gradient(135deg, #27ae60, #2ec771); box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3); }
+        .btn-keep { background: #252836; box-shadow: none; color: #ccc; }
+
+        /* ИНВЕНТАРЬ */
+        .inventory-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            width: 100%;
+        }
+
+        .inv-card {
+            background: #14161f;
+            border-radius: 8px;
+            padding: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border: 1px solid #252836;
+        }
+
+        .inv-card img { width: 50px; height: 40px; object-fit: contain; }
+        .inv-card .name { font-size: 9px; text-align: center; color: #aaa; margin: 4px 0; height: 22px; overflow: hidden; }
+        .inv-card .price { font-size: 11px; font-weight: bold; color: #2ec771; margin-bottom: 6px; }
+
+        /* ПРОФИЛЬ */
+        .profile-card {
+            background: #14161f;
+            border-radius: 12px;
             padding: 20px;
+            width: 100%;
+            border: 1px solid #252836;
+        }
+
+        .profile-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #252836;
+            font-size: 14px;
+        }
+
+        /* ВСПЛЫВАЮЩЕЕ ОКНО ВЫИГРЫША */
+        .win-modal {
+            display: none;
+            position: fixed;
+            top: 0; 
+            left: 0; 
+            width: 100vw; 
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 999;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .win-modal.active {
+            display: flex !important;
+        }
+
+        .win-card {
+            background: #1a1d29;
+            padding: 25px 20px;
             border-radius: 16px;
             text-align: center;
             border: 2px solid #f39c12;
             width: 85%;
             max-width: 320px;
-            box-shadow: 0 0 30px rgba(243, 156, 18, 0.3);
-        }
-
-        .win-card svg { width: 110px; height: 80px; margin: 15px 0; }
-        .win-actions { display: flex; flex-direction: column; gap: 8px; margin-top: 15px; }
-
-        /* НИЖНЕЕ МЕНЮ */
-        .navbar {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 60px;
-            background: #14161f;
-            border-top: 1px solid #252836;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            z-index: 90;
-        }
-
-        .nav-item {
+            box-shadow: 0 0 30px rgba(243, 156, 18, 0.4);
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 4px;
+        }
+
+        .win-card img {
+            width: 120px;
+            height: 80px;
+            object-fit: contain;
+            margin: 15px 0;
+        }
+
+        .win-btns {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        /* НАВИГАЦИЯ СНИЗУ В РЯД (СЛЕВА НАПРАВО) */
+        .bottom-nav {
+            width: 100%;
+            height: 60px;
+            background: #14161f;
+
+
+border-top: 1px solid #252836;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            align-items: center;
+        }
+
+        .nav-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
             color: #7f8c8d;
             font-size: 11px;
             cursor: pointer;
-            width: 33%;
+            background: none;
+            border: none;
         }
 
-        .nav-item.active { color: #f39c12; }
-        .nav-item svg { width: 20px; height: 20px; fill: currentColor; }
+        .nav-btn.active {
+            color: #f39c12;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <!-- HEADER -->
-        <div class="header">
-            <h1>🔥 CS2 CASES</h1>
-            <div class="balance-box">
-                <span id="userBalance">1000</span> 💎
-            </div>
+    <!-- ШАПКА -->
+    <div class="header">
+        <h1>🔥 CS2 CASES</h1>
+        <div class="balance-box">
+            <span id="userBalance">1000</span> 💎
         </div>
+    </div>
 
-        <!-- СТРАНИЦА: КЕЙСЫ -->
+    <!-- ОСНОВНОЙ КОНТЕНТ -->
+    <div class="content-area">
+
+        <!-- 1. ВКТАДКА: КЕЙСЫ -->
         <div id="pageCases" class="page active">
             <div class="roulette-wrapper">
                 <div class="roulette-track" id="track"></div>
             </div>
 
             <div class="case-preview">
-                <div class="case-icon" id="caseIcon">
-                    <svg viewBox="0 0 64 48" fill="none">
-                        <rect x="2" y="10" width="60" height="34" rx="4" fill="#2c3e50" stroke="#f39c12" stroke-width="3"/>
-                        <path d="M2 18H62" stroke="#f39c12" stroke-width="2"/>
-                        <rect x="26" y="20" width="12" height="10" rx="2" fill="#f39c12"/>
-                    </svg>
+                <div class="case-img-box">
+                    <img id="caseImage" src="" alt="Case">
                 </div>
-                <button class="btn" id="openBtn">Открыть за 100 💎</button>
+                <button class="btn" id="openBtn" onclick="spinRoulette()">Открыть за 100 💎</button>
             </div>
         </div>
 
-        <!-- СТРАНИЦА: ИНВЕНТАРЬ -->
+        <!-- 2. ВКЛАДКА: ИНВЕНТАРЬ -->
         <div id="pageInventory" class="page">
-            <h2 style="font-size: 16px; margin-bottom: 10px; width: 100%;">Мои скины</h2>
+            <h3 style="margin-bottom: 12px; width: 100%;">Мой Инвентарь</h3>
             <div class="inventory-grid" id="inventoryGrid"></div>
         </div>
 
-        <!-- СТРАНИЦА: ПРОФИЛЬ -->
+        <!-- 3. ВКЛАДКА: ПРОФИЛЬ -->
         <div id="pageProfile" class="page">
             <div class="profile-card">
-                <div class="profile-stat">
-                    <span>Имя:</span>
-                    <strong id="profName">Игрок</strong>
+                <div class="profile-row">
+                    <span>Игрок:</span>
+                    <strong id="profName">User</strong>
                 </div>
-                <div class="profile-stat">
+                <div class="profile-row">
                     <span>Открыто кейсов:</span>
-                    <strong id="profOpened">0</strong>
-                </div>
-                <div class="profile-stat">
-                    <span>Скинов в инвентаре:</span>
-                    <strong id="profItems">0</strong>
-                </div>
-                <button class="btn btn-secondary" style="margin-top: 10px;" onclick="addBonus()">Получить бонус +500 💎</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- МОДАЛКА ВЫИГРЫША -->
-    <div class="win-modal" id="winModal">
-        <div class="win-card">
-            <h2 style="color: #f39c12;">ВЫ ВЫБИЛИ!</h2>
-            <div id="winSvgContainer"></div>
-            <h3 id="winName" style="color: #fff; font-size: 14px; margin-bottom: 4px;">---</h3>
-            <p id="winPrice" style="color: #2ec771; font-size: 13px; font-weight: bold;">0 💎</p>
-            <div class="win-actions">
-                <button class="btn btn-sell" id="winSellBtn">Продать за 0 💎</button>
-                <button class="btn btn-secondary" id="winKeepBtn">Оставить в инвентаре</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- НИЖНЯЯ НАВИГАЦИЯ -->
-    <div class="navbar">
+                    <strong id="profOpened">0</strong>...
 
 
-<div class="nav-item active" onclick="switchPage('Cases', this)">
-            <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11z"/></svg>
-            <span>Кейсы</span>
-        </div>
-        <div class="nav-item" onclick="switchPage('Inventory', this)">
-            <svg viewBox="0 0 24 24"><path d="M20 6h-4V4c0-1.11-.89-2-2-2h-4c-1.11 0-2 .89-2 2v2H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-6 0h-4V4h4v2z"/></svg>
-            <span>Инвентарь</span>
-        </div>
-        <div class="nav-item" onclick="switchPage('Profile', this)">
-            <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-            <span>Профиль</span>
-        </div>
-    </div>
-
-    <script>
-        const tg = window.Telegram?.WebApp;
-        if (tg) {
-            try { tg.ready(); tg.expand(); } catch(e){}
-        }
-
-        // Данные
-        let balance = 1000;
-        let casesOpened = 0;
-        let inventory = [];
-        const casePrice = 100;
-        let pendingWin = null;
-
-        // SVG шаблоны оружия
-        const akSvg = <svg viewBox="0 0 64 40" fill="none"><path d="M6 26L22 26L28 14L56 14L58 20L44 22L42 28L10 28Z" fill="#e74c3c"/><rect x="4" y="24" width="8" height="10" fill="#7f8c8d"/></svg>;
-        const m4Svg = <svg viewBox="0 0 64 40" fill="none"><path d="M6 26L20 26L26 12L54 12L56 18L42 20L40 28L10 28Z" fill="#d32ce6"/><rect x="4" y="24" width="8" height="10" fill="#7f8c8d"/></svg>;
-        const awpSvg = <svg viewBox="0 0 64 40" fill="none"><path d="M2 22L18 22L24 10L60 10L62 16L48 18L44 28L8 28Z" fill="#8847ff"/><rect x="2" y="20" width="8" height="10" fill="#7f8c8d"/></svg>;
-        const uspSvg = <svg viewBox="0 0 64 40" fill="none"><path d="M12 24L26 24L30 16L52 16L54 20L42 22L38 28L14 28Z" fill="#4b69ff"/><rect x="10" y="22" width="6" height="8" fill="#7f8c8d"/></svg>;
-
-        const skins = [
-            { id: 1, name: "AK-47 | Азимов", rarity: "rarity-covert", price: 450, svg: akSvg },
-            { id: 2, name: "M4A4 | Вой", rarity: "rarity-covert", price: 600, svg: m4Svg },
-            { id: 3, name: "AWP | Скоростной зверь", rarity: "rarity-classified", price: 250, svg: awpSvg },
-            { id: 4, name: "Glock-18 | Дух воды", rarity: "rarity-restricted", price: 120, svg: uspSvg },
-            { id: 5, name: "USP-S | Сайрекс", rarity: "rarity-mil-spec", price: 60, svg: uspSvg }
-        ];
-
-        // Элементы
-        const track = document.getElementById('track');
-        const openBtn = document.getElementById('openBtn');
-        const caseIcon = document.getElementById('caseIcon');
-        const balanceEl = document.getElementById('userBalance');
-        const winModal = document.getElementById('winModal');
-        let isSpinning = false;
-
-        // Инициализация имени
-        if (tg?.initDataUnsafe?.user?.first_name) {
-            document.getElementById('profName').innerText = tg.initDataUnsafe.user.first_name;
-        }
-
-        // Переключение страниц
-        function switchPage(pageName, el) {
-            if (isSpinning) return;
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-            
-            document.getElementById(`page${pageName}`).classList.add('active');
-            el.classList.add('active');
-
-            if (pageName === 'Inventory') renderInventory();
-            if (pageName === 'Profile') updateProfile();
-        }
-
-        // Генерация трека рулетки
-        function generateTrack() {
-            track.innerHTML = '';
-            for (let i = 0; i < 60; i++) {
-                const randomSkin = skins[Math.floor(Math.random() * skins.length)];
-                const card = document.createElement('div');
-                card.className = item-card ${randomSkin.rarity};
-                card.innerHTML = ${randomSkin.
-
-
-svg}<div class="name">${randomSkin.name}</div>;
-                card.dataset.index = i;
-                card.dataset.skinId = randomSkin.id;
-                track.appendChild(card);
-            }
-        }
-
-        generateTrack();
-
-        // Открытие кейса
-        openBtn.addEventListener('click', () => {
-            if (isSpinning) return;
-            if (balance < casePrice) {
-                if (tg?.showAlert) tg.showAlert("Недостаточно кристаллов!");
-                else alert("Недостаточно кристаллов!");
-                return;
-            }
-
-            isSpinning = true;
-            openBtn.disabled = true;
-
-            balance -= casePrice;
-            casesOpened++;
-            balanceEl.innerText = balance;
-
-            // Анимация кейса
-            caseIcon.classList.add('shake');
-            setTimeout(() => caseIcon.classList.remove('shake'), 500);
-
-            // Сброс рулетки
-            track.style.transition = 'none';
+transition = 'none';
             track.style.transform = 'translateX(0px)';
             generateTrack();
 
             setTimeout(() => {
-                const itemWidth = 108; // 100px width + 8px margin
+                const itemWidth = 103; // 95px width + 8px margin
                 const winIndex = 45;
-                const winningCard = track.children[winIndex];
-                const skin = skins.find(s => s.id == winningCard.dataset.skinId);
+                const winCard = track.children[winIndex];
+                const skin = skins.find(s => s.id == winCard.dataset.skinId);
                 pendingWin = skin;
 
-                const rouletteWidth = document.querySelector('.roulette-wrapper').offsetWidth;
-                const offset = (winIndex * itemWidth) - (rouletteWidth / 2) + (itemWidth / 2);
+                const wrapperWidth = document.querySelector('.roulette-wrapper').offsetWidth;
+                const offset = (winIndex * itemWidth) - (wrapperWidth / 2) + (itemWidth / 2);
 
                 track.style.transition = 'transform 5s cubic-bezier(0.1, 0.85, 0.15, 1)';
                 track.style.transform = translateX(-${offset}px);
 
+                // ПОКАЗАТЬ МОДАЛКУ ТОЛЬКО ПОСЛЕ ЗАВЕРШЕНИЯ ПРОКРУТКИ
                 setTimeout(() => {
-                    showWinModal(skin);
-                    if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+                    showModal(skin);
                 }, 5200);
             }, 50);
-        });
+        }
 
-        // Модалка выигрыша
-        function showWinModal(skin) {
-            document.getElementById('winSvgContainer').innerHTML = skin.svg;
+        // ОТОБРАЖЕНИЕ ВСПЛЫВАЮЩЕГО ОКНА
+        function showModal(skin) {
+            document.getElementById('winImg').src = skin.img;
             document.getElementById('winName').innerText = skin.name;
             document.getElementById('winPrice').innerText = +${skin.price} 💎;
             document.getElementById('winSellBtn').innerText = Продать за ${skin.price} 💎;
-            winModal.classList.add('active');
+
+            document.getElementById('winModal').classList.add('active');
         }
 
-        // Продать сходу
-        document.getElementById('winSellBtn').addEventListener('click', () => {
+        // ДЕЙСТВИЯ С ВЫИГРЫШЕМ
+        document.getElementById('winSellBtn').onclick = function() {
             if (!pendingWin) return;
             balance += pendingWin.price;
-            balanceEl.innerText = balance;
-            closeWinModal();
-        });
+            document.getElementById('userBalance').innerText = balance;
+            closeModal();
+        };
 
-        // Оставить в инвентаре
-        document.getElementById('winKeepBtn').addEventListener('click', () => {
+        document.getElementById('winKeepBtn').onclick = function() {
             if (!pendingWin) return;
             inventory.push({ ...pendingWin, instanceId: Date.now() + Math.random() });
-            closeWinModal();
-        });
+            closeModal();
+        };
 
-        function closeWinModal() {
-            winModal.classList.remove('active');
+        function closeModal() {
+            document.getElementById('winModal').classList.remove('active');
             pendingWin = null;
             isSpinning = false;
-            openBtn.disabled = false;
+            document.getElementById('openBtn').disabled = false;
         }
 
-        // Рендер инвентаря
+        // ИНВЕНТАРЬ
         function renderInventory() {
             const grid = document.getElementById('inventoryGrid');
             grid.innerHTML = '';
 
             if (inventory.length === 0) {
-                grid.innerHTML = <p style="grid-column: 1/-1; color: #7f8c8d; text-align: center; font-size: 13px; margin-top: 20px;">Инвентарь пуст</p>;
+                grid.innerHTML = <p style="grid-column: 1/-1; text-align: center; color: #7f8c8d; font-size: 13px; margin-top: 20px;">Инвентарь пуст</p>;
                 return;
             }
 
@@ -453,40 +431,34 @@ svg}<div class="name">${randomSkin.name}</div>;
                 const card = document.createElement('div');
                 card.className = inv-card ${item.rarity};
                 card.innerHTML = `
-                    ${item.svg}
+                    <img src="${item.img}" alt="">
                     <div class="name">${item.name}</div>
                     <div class="price">${item.price} 💎</div>
-                    <button class="btn btn-sell" style="padding: 4px 8px; font-size: 10px;" onclick="sellFromInventory(${item.instanceId})">Продать</button>
+                    <button class="btn btn-sell" style="padding: 4px 8px; font-size: 10px;" onclick="sellItem(${item.instanceId})">Продать</button>
                 `;
                 grid.appendChild(card);
             });
+        }
 
-
-}
-
-        // Продажа из инвентаря
-        window.sellFromInventory = function(instanceId) {
-            const index = inventory.findIndex(i => i.instanceId === instanceId);
-            if (index !== -1) {
-                balance += inventory[index].price;
-                balanceEl.innerText = balance;
-                inventory.splice(index, 1);
+        window.sellItem = function(instanceId) {
+            const idx = inventory.findIndex(i => i.instanceId === instanceId);
+            if (idx !== -1) {
+                balance += inventory[idx].price;
+                document.getElementById('userBalance').innerText = balance;
+                inventory.splice(idx, 1);
                 renderInventory();
             }
         };
 
-        // Обновление профиля
         function updateProfile() {
             document.getElementById('profOpened').innerText = casesOpened;
             document.getElementById('profItems').innerText = inventory.length;
         }
 
-        // Бонус
         window.addBonus = function() {
             balance += 500;
-            balanceEl.innerText = balance;
-            if (tg?.showAlert) tg.showAlert("Вам зачислено 500 💎!");
-            else alert("Вам зачислено 500 💎!");
+            document.getElementById('userBalance').innerText = balance;
+            alert("Бонус +500 💎 зачислен!");
         };
     </script>
 </body>
