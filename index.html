@@ -556,3 +556,376 @@ function closeModal() {
     </script>
 </body>
 </html>
+
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>CS2 Cases</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-user-select: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #0d0e12;
+            color: #ffffff;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ШАПКА */
+        .header {
+            height: 50px;
+            background: #14161f;
+            border-bottom: 1px solid #252836;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 16px;
+            flex-shrink: 0;
+        }
+
+        .header h1 {
+            font-size: 15px;
+            color: #f39c12;
+            font-weight: 800;
+        }
+
+        .balance {
+            background: #1a1d29;
+            padding: 6px 12px;
+            border-radius: 20px;
+            border: 1px solid #252836;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        /* ОСНОВНОЙ КОНТЕЙНЕР */
+        .main-container {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .page {
+            display: none;
+            width: 100%;
+            height: 100%;
+            padding: 16px;
+            box-sizing: border-box;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .page.active {
+            display: flex;
+        }
+
+        /* РУЛЕТКА */
+        .roulette-box {
+            position: relative;
+            width: 100%;
+            height: 110px;
+            background: #14161f;
+            border: 2px solid #252836;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 15px;
+            flex-shrink: 0;
+        }
+
+        .roulette-line {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 3px;
+            height: 100%;
+            background: #f39c12;
+            z-index: 10;
+            box-shadow: 0 0 8px #f39c12;
+        }
+
+        .roulette-track {
+            display: flex;
+            height: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
+            will-change: transform;
+        }
+
+        .skin-card {
+            min-width: 90px;
+            width: 90px;
+            height: 85px;
+            margin: 10px 4px;
+            background: #1a1d29;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 4px;
+            border-bottom: 4px solid #fff;
+            flex-shrink: 0;
+        }
+
+        .skin-card .img-placeholder {
+            width: 50px;
+            height: 35px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            margin-bottom: 4px;
+        }
+
+        .skin-card .title {
+            font-size: 9px;
+            text-align: center;
+            color: #ddd;
+            font-weight: 600;
+            width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* ЦВЕТА РЕДКОСТИ */
+        .covert { border-bottom-color: #eb4b4b; background: linear-gradient(180deg, #1a1d29 20%, rgba(235, 75, 75, 0.2)); }
+        .classified { border-bottom-color: #d32ce6; background: linear-gradient(180deg, #1a1d29 20%, rgba(211, 44, 230, 0.2)); }
+        .
+
+
+restricted { border-bottom-color: #8847ff; background: linear-gradient(180deg, #1a1d29 20%, rgba(136, 71, 255, 0.2)); }
+
+        /* КЕЙС */
+        .case-card {
+            width: 100%;
+            background: #14161f;
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border: 1px solid #252836;
+        }
+
+        .case-icon {
+            width: 100px;
+            height: 70px;
+            background: #f39c12;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            box-shadow: 0 0 20px rgba(243, 156, 18, 0.3);
+        }
+
+        /* КНОПКА ОТКРЫТИЯ */
+        .btn-open {
+            width: 100%;
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            border: none;
+            color: #fff;
+            padding: 14px;
+            font-size: 15px;
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .btn-open:active { opacity: 0.8; }
+        .btn-open:disabled { opacity: 0.4; cursor: not-allowed; }
+
+        /* ИНВЕНТАРЬ */
+        .inventory-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            width: 100%;
+        }
+
+        /* НИЖНЕЕ МЕНЮ (ФИКСИРОВАННОЕ С ВЫСОКИМ Z-INDEX) */
+        .nav-bar {
+            height: 60px;
+            background: #14161f;
+            border-top: 1px solid #252836;
+            display: flex;
+            width: 100%;
+            flex-shrink: 0;
+            z-index: 99999;
+            position: relative;
+        }
+
+        .nav-item {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #7f8c8d;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+            background: transparent;
+            border: none;
+            outline: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .nav-item.active {
+            color: #f39c12;
+            background: rgba(243, 156, 18, 0.05);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>🔥 CS2 CASES</h1>
+        <div class="balance"><span id="balVal">1000</span> 💎</div>
+    </div>
+
+    <div class="main-container">
+        <!-- КЕЙСЫ -->
+        <div id="pCases" class="page active">
+            <div class="roulette-box">
+                <div class="roulette-line"></div>
+                <div class="roulette-track" id="track"></div>
+            </div>
+
+            <div class="case-card">
+                <div class="case-icon">🧰</div>
+                <button class="btn-open" id="openBtn">Открыть за 100 💎</button>
+            </div>
+        </div>
+
+        <!-- ИНВЕНТАРЬ -->
+        <div id="pInv" class="page">
+            <div class="inventory-grid" id="invGrid"></div>
+        </div>
+
+        <!-- ПРОФИЛЬ -->
+        <div id="pProf" class="page">
+            <p>Профиль пользователя</p>
+        </div>
+    </div>
+
+    <!-- МЕНЮ -->
+    <div class="nav-bar">
+        <button class="nav-item active" id="btnCases">Кейсы</button>
+        <button class="nav-item" id="btnInv">Инвентарь</button>
+        <button class="nav-item" id="btnProf">Профиль</button>
+    </div>
+
+    <script>
+        // Инициализация при полной загрузке DOM
+        document.addEventListener("DOMContentLoaded", function() {
+            
+            // Базовые данные скинов (изображения в формате DataURL для 100% отображения)
+            const gunSvg = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 50'><path d='M10 25 L30 25 L40 15 L80 15 L90 22 L90 27 L70 27 L50 35 L40 35 L45 27 Z' fill='%23ffffff'/></svg>";
+
+            const skins = [
+                { id: 1, name: "AK-47 | Азимов", rarity: "covert", price: 450 },
+
+
+{ id: 2, name: "M4A4 | Вой", rarity: "covert", price: 600 },
+                { id: 3, name: "AWP | Скоростной зверь", rarity: "classified", price: 250 },
+                { id: 4, name: "Glock-18 | Дух воды", rarity: "restricted", price: 120 },
+                { id: 5, name: "USP-S | Сайрекс", rarity: "restricted", price: 70 }
+            ];
+
+            let balance = 1000;
+            let isSpinning = false;
+            const track = document.getElementById("track");
+            const openBtn = document.getElementById("openBtn");
+
+            // 1. ГЕНЕРАЦИЯ ЛЕНТЫ
+            function buildTrack() {
+                track.innerHTML = "";
+                for (let i = 0; i < 60; i++) {
+                    const skin = skins[Math.floor(Math.random() * skins.length)];
+                    const card = document.createElement("div");
+                    card.className = "skin-card " + skin.rarity;
+                    card.innerHTML = '<div class="img-placeholder" style="background-image:url(\'' + gunSvg + '\')"></div><div class="title">' + skin.name + '</div>';
+                    card.dataset.id = skin.id;
+                    track.appendChild(card);
+                }
+            }
+            buildTrack();
+
+            // 2. НАВИГАЦИЯ (ОТДЕЛЬНЫЕ СОБЫТИЯ НА КЛИК И ТАЧ)
+            function setupNav(btnId, pageId) {
+                const btn = document.getElementById(btnId);
+                btn.addEventListener("click", function() {
+                    if (isSpinning) return;
+                    
+                    document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+                    document.querySelectorAll(".nav-item").forEach(b => b.classList.remove("active"));
+                    
+                    document.getElementById(pageId).classList.add("active");
+                    btn.classList.add("active");
+                });
+            }
+
+            setupNav("btnCases", "pCases");
+            setupNav("btnInv", "pInv");
+            setupNav("btnProf", "pProf");
+
+            // 3. ВРАЩЕНИЕ РУЛЕТКИ
+            openBtn.addEventListener("click", function() {
+                if (isSpinning) return;
+                if (balance < 100) {
+                    alert("Недостаточно средств!");
+                    return;
+                }
+
+                isSpinning = true;
+                openBtn.disabled = true;
+                balance -= 100;
+                document.getElementById("balVal").innerText = balance;
+
+                // Сброс позиции
+                track.style.transition = "none";
+                track.style.transform = "translateX(0px)";
+                buildTrack();
+
+                setTimeout(function() {
+                    const cardWidth = 98; // 90px + 8px margin
+                    const winIndex = 35;
+                    const offset = Math.floor(Math.random() * 40) - 20;
+                    const wrapperWidth = track.parentElement.offsetWidth;
+                    const targetX = (winIndex * cardWidth) - (wrapperWidth / 2) + (cardWidth / 2) + offset;
+
+                    track.style.transition = "transform 4.5s cubic-bezier(0.1, 0.8, 0.1, 1)";
+                    track.style.transform = "translateX(-" + targetX + "px)";
+
+                    setTimeout(function() {
+                        const winCard = track.children[winIndex];
+                        const skin = skins.find(s => s.id == winCard.dataset.id);
+                        alert("Вы выбили: " + skin.name + " (" + skin.price + " 💎)");
+                        
+                        isSpinning = false;
+                        openBtn.disabled = false;
+                    }, 4700);
+                }, 50);
+            });
+        });
+    </script>
+</body>
+</html>
