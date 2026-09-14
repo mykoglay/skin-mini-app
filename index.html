@@ -1,62 +1,93 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CS:GO Cases Mini App</title>
-    <!-- Обязательный скрипт Telegram Web App -->
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <style>
-        body {
-            background-color: #121212;
-            color: #ffffff;
-            font-family: Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .case-card {
-            background: #1e1e1e;
-            padding: 20px;
-            border-radius: 12px;
-            text-align: center;
-            border: 2px solid #333;
-            width: 80%;
-            max-width: 300px;
-        }
-        .btn-open {
-            background: #ff9800;
-            border: none;
-            color: #fff;
-            padding: 12px 24px;
-            font-size: 16px;
-            font-weight: bold;
-            border-radius: 8px;
-            cursor: pointer;
-            margin-top: 15px;
-            width: 100%;
-        }
-    </style>
-</head>
-<body>
-
-    <div class="case-card">
-        <h2>📦 Оружейный кейс</h2>
-        <p>Шанс выпадения редкого ножа!</p>
-        <button class="btn-open" onclick="openCase()">Открыть за 100 ₽</button>
+<button class="btn-open" style="margin-top: 15px;" onclick="closeModal()">Забрать</button>
+        </div>
     </div>
 
     <script>
-        // Инициализация Telegram WebApp
         const tg = window.Telegram.WebApp;
-        tg.expand(); // Разворачивает окно на весь экран
+        tg.expand();
 
-        function openCase() {
-            // Уведомление внутри Telegram
-            tg.showAlert("🎉 Вы выбили: AK-47 | Азимов!");
+        // Скины для рулетки
+        const skins = [
+            { name: "AK-47 | Азимов", rarity: "rarity-covert", img: "https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZFCb4d11V2yp1OH6-m4cCoU4BoR63B&/150fx150f" },
+            { name: "M4A4 | Вой", rarity: "rarity-covert", img: "https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZFCb4d11V2yp1OH6-m4cCoU4BoR63B&/150fx150f" },
+            { name: "AWP | Скоростной зверь", rarity: "rarity-classified", img: "https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZFCb4d11V2yp1OH6-m4cCoU4BoR63B&/150fx150f" },
+            { name: "Glock-18 | Дух воды", rarity: "rarity-restricted", img: "https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZFCb4d11V2yp1OH6-m4cCoU4BoR63B&/150fx150f" },
+            { name: "USP-S | Сайрекс", rarity: "rarity-mil-spec", img: "https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZFCb4d11V2yp1OH6-m4cCoU4BoR63B&/150fx150f" }
+        ];
+
+        const track = document.getElementById('track');
+        const openBtn = document.getElementById('openBtn');
+        let isSpinning = false;
+
+        // Генерация элементов рулетки
+        function generateTrack() {
+            track.innerHTML = '';
+            for (let i = 0; i < 60; i++) {
+                const randomSkin = skins[Math.floor(Math.random() * skins.length)];
+                const card = document.createElement('div');
+                card.className = item-card ${randomSkin.rarity};
+                card.innerHTML = `
+                    <img src="${randomSkin.img}" alt="${randomSkin.name}">
+                    <div class="name">${randomSkin.name}</div>
+                `;
+                card.dataset.name = randomSkin.name;
+                card.dataset.img = randomSkin.img;
+                track.appendChild(card);
+            }
+        }
+
+        // Эмуляция загрузки приложения
+        window.addEventListener('load', () => {
+            generateTrack();
+            setTimeout(() => {
+                const loader = document.getElementById('loader');
+                loader.style.opacity = '0';
+                setTimeout(() => loader.style.visibility = 'hidden', 500);
+            }, 1200); // Прелоадер виден 1.2 секунды
+        });
+
+        // Функция вращения рулетки
+        function spinRoulette() {
+            if (isSpinning) return;
+            isSpinning = true;
+            openBtn.disabled = true;
+
+            // Сброс позиции
+            track.style.transition = 'none';
+            track.style.transform = 'translateX(0px)';
+
+            // Генерация нового трека
+            generateTrack();
+
+            setTimeout(() => {
+                const itemWidth = 110; // ширина карточки + margin
+                const winIndex = 45; // Предмет, который остановится под указателем
+                const winningCard = track.children[winIndex];
+
+                // Расчет смещения
+                const offset = (winIndex * itemWidth) - (document.querySelector('.roulette-wrapper').offsetWidth / 2) + (itemWidth / 2);
+
+                track.style.transition = 'transform 5s cubic-bezier(0.15, 0.9, 0.2, 1)';
+                track.style.transform = translateX(-${offset}px);
+
+                // Показ результата после прокрутки
+                setTimeout(() => {
+                    document.getElementById('winName').innerText = winningCard.dataset.name;
+                    document.getElementById('winImg').src = winningCard.dataset.img;
+                    document.getElementById('winModal').classList.add('active');
+                    
+                    // Вибрация от Telegram WebApp при победе
+                    if (tg.HapticFeedback) {
+                        tg.HapticFeedback.notificationOccurred('success');
+                    }
+                }, 5200);
+            }, 50);
+        }
+
+        function closeModal() {
+            document.getElementById('winModal').classList.remove('active');
+            isSpinning = false;
+            openBtn.disabled = false;
         }
     </script>
 </body>
