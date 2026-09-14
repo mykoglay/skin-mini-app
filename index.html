@@ -33,16 +33,34 @@
             align-items: center;
         }
 
-        .header h1 {
-            font-size: 20px;
-            color: #f39c12;
-            text-align: center;
+        .header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 20px;
-            letter-spacing: 1px;
+        }
+
+        .header h1 {
+            font-size: 18px;
+            color: #f39c12;
+            letter-spacing: 0.5px;
             text-shadow: 0 0 12px rgba(243, 156, 18, 0.4);
         }
 
-        /* РУЛЕТКА */
+        .balance-box {
+            background: #1a1d29;
+            padding: 6px 12px;
+            border-radius: 20px;
+            border: 1px solid #252836;
+            font-size: 14px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* РУЛЕТКА И АНИМАЦИИ */
         .roulette-wrapper {
             position: relative;
             width: 100%;
@@ -65,7 +83,7 @@
             height: 100%;
             background: #f39c12;
             z-index: 10;
-            box-shadow: 0 0 8px #f39c12;
+            box-shadow: 0 0 12px #f39c12;
         }
 
         .roulette-track {
@@ -89,12 +107,19 @@
             justify-content: center;
             padding: 6px;
             border-bottom: 4px solid #fff;
+            transition: transform 0.2s ease, filter 0.2s ease;
         }
 
         .item-card img {
             width: 75px;
             height: 55px;
             object-fit: contain;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.5));
+            transition: transform 0.3s ease;
+        }
+
+        .item-card:hover img {
+            transform: scale(1.1) rotate(-3deg);
         }
 
         .item-card .name {
@@ -109,13 +134,31 @@
             width: 95%;
         }
 
-        /* РЕДКОСТИ */
-        .rarity-covert { border-bottom-color: #eb4b4b; background: linear-gradient(180deg, #1a1d29 60%, rgba(235, 75, 75, 0.15)); }
-        .rarity-classified { border-bottom-color: #d32ce6; background: linear-gradient(180deg, #1a1d29 60%, rgba(211, 44, 230, 0.15)); }
-        .rarity-restricted { border-bottom-color: #8847ff; background: linear-gradient(180deg, #1a1d29 60%, rgba(136, 71, 255, 0.15)); }
-        .rarity-mil-spec { border-bottom-color: #4b69ff; background: linear-gradient(180deg, #1a1d29 60%, rgba(75, 105, 255, 0.15)); }
+        /* РЕДКОСТИ С СВЕЧЕНИЕМ */
+        .rarity-covert { 
+            border-bottom-color: #eb4b4b; 
+            background: linear-gradient(180deg, #1a1d29 50%, rgba(235, 75, 75, 0.25));
+            box-shadow: inset 0 -10px 15px rgba(235, 75, 75, 0.2);
+        }
+        .rarity-classified { 
+            border-bottom-color: #d32ce6; 
+            background: linear-gradient(180deg, #1a1d29 50%, rgba(211, 44, 230, 0.25));
 
-        /* КЕЙС */
+
+box-shadow: inset 0 -10px 15px rgba(211, 44, 230, 0.2);
+        }
+        .rarity-restricted { 
+            border-bottom-color: #8847ff; 
+            background: linear-gradient(180deg, #1a1d29 50%, rgba(136, 71, 255, 0.25));
+            box-shadow: inset 0 -10px 15px rgba(136, 71, 255, 0.2);
+        }
+        .rarity-mil-spec { 
+            border-bottom-color: #4b69ff; 
+            background: linear-gradient(180deg, #1a1d29 50%, rgba(75, 105, 255, 0.25));
+            box-shadow: inset 0 -10px 15px rgba(75, 105, 255, 0.2);
+        }
+
+        /* АНИМАЦИИ КЕЙСА */
         .case-preview {
             width: 100%;
             background: #14161f;
@@ -123,23 +166,38 @@
             padding: 20px;
             text-align: center;
             border: 1px solid #252836;
+            perspective: 1000px;
         }
 
         .case-img {
-            width: 130px;
-            height: 100px;
+            width: 140px;
+            height: 110px;
             object-fit: contain;
             margin-bottom: 15px;
-            animation: float 3s ease-in-out infinite;
+            animation: caseFloat 3.5s ease-in-out infinite;
+            transition: transform 0.4s ease;
+            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.6));
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-6px); }
+        @keyframes caseFloat {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-8px) rotate(2deg); }
         }
 
+        .case-img.open-anim {
+            animation: caseShake 0.5s ease-in-out;
+        }
 
-.btn-open {
+        @keyframes caseShake {
+            0% { transform: scale(1) rotate(0); }
+            20% { transform: scale(1.1) rotate(-5deg); }
+            40% { transform: scale(1.1) rotate(5deg); }
+            60% { transform: scale(1.15) rotate(-3deg); }
+            80% { transform: scale(1.15) rotate(3deg); }
+            100% { transform: scale(1) rotate(0); }
+        }
+
+        .btn-open {
             background: linear-gradient(135deg, #f39c12, #e67e22);
             border: none;
             color: #fff;
@@ -150,17 +208,18 @@
             cursor: pointer;
             width: 100%;
             box-shadow: 0 4px 15px rgba(243, 156, 18, 0.3);
-            transition: transform 0.1s, opacity 0.2s;
+            transition: transform 0.1s, opacity 0.2s, box-shadow 0.2s;
         }
 
-        .btn-open:active { transform: scale(0.98); }
-        .btn-open:disabled { opacity: 0.5; cursor: not-allowed; }
+        .btn-open:active { transform: scale(0.97); }
+        .btn-open:disabled { opacity: 0.5; cursor: not-allowed; filter: grayscale(0.6); }
 
-        /* МОДАЛКА */
+        /* МОДАЛЬНОЕ ОКНО С ВЫИГРЫШЕМ */
         .win-modal {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(5px);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -177,33 +236,15 @@
             padding: 25px;
             border-radius: 16px;
             text-align: center;
-            border: 2px solid #f39c12;
-            width: 80%;
-            max-width: 300px;
-        }
+            border: 2px solid #f39c12;...
 
-        .win-card img {
-            width: 120px;
-            height: 90px;
-            object-fit: contain;
-            margin: 15px 0;
-        }
-    </style>
-</head>
-<body>
 
-    <div class="container">
-        <div class="header">
-            <h1>🔥 CS2 CASE OPENING</h1>
-        </div>
-
-        <div class="roulette-wrapper">
-            <div class="roulette-track" id="track"></div>
+<div class="roulette-track" id="track"></div>
         </div>
 
         <div class="case-preview">
-            <img src="https://raw.githubusercontent.com/ByMykel/CSGO-API/main/public/images/econ/weapon_cases/crate_weapon_case_01.png" class="case-img" alt="Case">
-            <button class="btn-open" id="openBtn" onclick="spinRoulette()">Открыть за 100 ₽</button>
+            <img id="caseImage" src="https://raw.githubusercontent.com/ByMykel/CSGO-API/main/public/images/econ/weapon_cases/crate_weapon_case_01.png" class="case-img" alt="Case">
+            <button class="btn-open" id="openBtn" onclick="spinRoulette()">Открыть за 100 💎</button>
         </div>
     </div>
 
@@ -224,6 +265,43 @@
             tg.expand();
         }
 
+        let balance = 1000;
+        const casePrice = 100;
+
+        // Звуковые эффекты (Web Audio API)
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        
+        function playClickSound() {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(400, audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(80, audioCtx.currentTime + 0.04);
+            gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.04);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.04);
+        }
+
+        function playWinSound() {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(523.25, audioCtx.currentTime); // C5
+            osc.frequency.setValueAtTime(659.25, audioCtx.currentTime + 0.1); // E5
+            osc.frequency.setValueAtTime(783.99, audioCtx.currentTime + 0.2); // G5
+            gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.5);
+        }
+
         const skins = [
             { name: "AK-47 | Азимов", rarity: "rarity-covert", img: "https://raw.githubusercontent.com/ByMykel/CSGO-API/main/public/images/econ/default_generated/weapon_ak47_cu_ak47_asiimov_light_large.png" },
             { name: "M4A4 | Вой", rarity: "rarity-covert", img: "https://raw.githubusercontent.com/ByMykel/CSGO-API/main/public/images/econ/default_generated/weapon_m4a1_cu_howl_light_large.png" },
@@ -234,16 +312,16 @@
 
         const track = document.getElementById('track');
         const openBtn = document.getElementById('openBtn');
+        const balanceEl = document.getElementById('userBalance');
+        const caseImg = document.getElementById('caseImage');
         let isSpinning = false;
 
-        function generateTrack() {
+
+function generateTrack() {
             track.innerHTML = '';
             for (let i = 0; i < 60; i++) {
                 const randomSkin = skins[Math.floor(Math.random() * skins.length)];
-                const card = document.
-
-
-createElement('div');
+                const card = document.createElement('div');
                 card.className = item-card ${randomSkin.rarity};
                 card.innerHTML = `
                     <img src="${randomSkin.img}" alt="${randomSkin.name}">
@@ -259,8 +337,23 @@ createElement('div');
 
         function spinRoulette() {
             if (isSpinning) return;
+
+            if (balance < casePrice) {
+                if (tg && tg.showAlert) tg.showAlert("Недостаточно кристаллов!");
+                else alert("Недостаточно кристаллов!");
+                return;
+            }
+
             isSpinning = true;
             openBtn.disabled = true;
+
+            // Списание средств
+            balance -= casePrice;
+            balanceEl.innerText = balance;
+
+            // Анимация встряски кейса
+            caseImg.classList.add('open-anim');
+            setTimeout(() => caseImg.classList.remove('open-anim'), 500);
 
             track.style.transition = 'none';
             track.style.transform = 'translateX(0px)';
@@ -273,19 +366,26 @@ createElement('div');
 
                 const offset = (winIndex * itemWidth) - (document.querySelector('.roulette-wrapper').offsetWidth / 2) + (itemWidth / 2);
 
-                track.style.transition = 'transform 5s cubic-bezier(0.15, 0.9, 0.2, 1)';
+                track.style.transition = 'transform 5s cubic-bezier(0.12, 0.8, 0.15, 1)';
                 track.style.transform = translateX(-${offset}px);
+
+                // Воспроизведение щелчков рулетки
+                let clickInterval = setInterval(() => {
+                    playClickSound();
+                    if (tg && tg.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
+                }, 150);
+
+                setTimeout(() => clearInterval(clickInterval), 4000);
 
                 setTimeout(() => {
                     document.getElementById('winName').innerText = winningCard.dataset.name;
                     document.getElementById('winImg').src = winningCard.dataset.img;
                     document.getElementById('winModal').classList.add('active');
                     
-                    if (tg && tg.HapticFeedback) {
-                        tg.HapticFeedback.notificationOccurred('success');
-                    }
+                    playWinSound();
+                    if (tg && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
                 }, 5200);
-            }, 50);
+            }, 100);
         }
 
         function closeModal() {
