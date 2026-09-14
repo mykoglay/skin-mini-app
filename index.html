@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
-    <title>CS2 Mini App</title>
+    <title>CS2 WebApp</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         * {
@@ -29,7 +29,7 @@
         /* ШАПКА */
         .header {
             width: 100%;
-            padding: 15px;
+            padding: 12px 16px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -40,20 +40,23 @@
         .header h1 {
             font-size: 16px;
             color: #f39c12;
-            letter-spacing: 0.5px;
+            font-weight: 800;
         }
 
         .balance-box {
             background: #1a1d29;
-            padding: 6px 12px;
+            padding: 6px 14px;
             border-radius: 20px;
             border: 1px solid #252836;
             font-size: 13px;
             font-weight: bold;
             color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 4px;
         }
 
-        /* КОНТЕНТНАЯ ОБЛАСТЬ */
+        /* ОСНОВНОЙ КОНТЕЙНЕР */
         .content-area {
             flex: 1;
             position: relative;
@@ -86,7 +89,7 @@
             border-radius: 12px;
             overflow: hidden;
             margin-bottom: 20px;
-            box-shadow: inset 0 0 15px rgba(0,0,0,0.8);
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.9);
         }
 
         .roulette-wrapper::before {
@@ -122,36 +125,36 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 5px;
+            padding: 6px;
             border-bottom: 3px solid #fff;
         }
 
-        .item-card img {
+        .item-card svg {
             width: 60px;
-            height: 45px;
-            object-fit: contain;
+            height: 40px;
         }
 
         .item-card .name {
             font-size: 9px;
             text-align: center;
-            margin-top: 4px;
+            margin-top: 5px;
             color: #ccc;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
             width: 100%;
+            font-weight: 600;
         }
 
         /* РЕДКОСТИ */
         .rarity-covert { border-bottom-color: #eb4b4b; background: linear-gradient(180deg, #1a1d29 40%, rgba(235, 75, 75, 0.2)); }
-        .rarity-classified { border-bottom-color: #d32ce6; background: linear-gradient(180deg, #1a1d29 40%, rgba(211, 44, 230, 0.2)); }
         .
 
 
-rarity-restricted { border-bottom-color: #8847ff; background: linear-gradient(180deg, #1a1d29 40%, rgba(136, 71, 255, 0.2)); }
+rarity-classified { border-bottom-color: #d32ce6; background: linear-gradient(180deg, #1a1d29 40%, rgba(211, 44, 230, 0.2)); }
+        .rarity-restricted { border-bottom-color: #8847ff; background: linear-gradient(180deg, #1a1d29 40%, rgba(136, 71, 255, 0.2)); }
 
-        /* БЛОК КЕЙСА */
+        /* КЕЙС */
         .case-preview {
             width: 100%;
             background: #14161f;
@@ -163,19 +166,16 @@ rarity-restricted { border-bottom-color: #8847ff; background: linear-gradient(18
             border: 1px solid #252836;
         }
 
-        .case-img-box {
-            width: 100px;
-            height: 80px;
+        .case-svg-box {
+            width: 120px;
+            height: 90px;
             margin-bottom: 15px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
         }
 
-        .case-img-box img {
+        .case-svg-box svg {
             width: 100%;
             height: 100%;
-            object-fit: contain;
+            filter: drop-shadow(0 6px 12px rgba(243, 156, 18, 0.2));
         }
 
         /* КНОПКИ */
@@ -191,8 +191,10 @@ rarity-restricted { border-bottom-color: #8847ff; background: linear-gradient(18
             width: 100%;
             text-align: center;
             box-shadow: 0 4px 15px rgba(243, 156, 18, 0.3);
+            transition: transform 0.1s;
         }
 
+        .btn:active { transform: scale(0.98); }
         .btn:disabled { opacity: 0.5; cursor: not-allowed; }
         .btn-sell { background: linear-gradient(135deg, #27ae60, #2ec771); box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3); }
         .btn-keep { background: #252836; box-shadow: none; color: #ccc; }
@@ -215,7 +217,7 @@ rarity-restricted { border-bottom-color: #8847ff; background: linear-gradient(18
             border: 1px solid #252836;
         }
 
-        .inv-card img { width: 50px; height: 40px; object-fit: contain; }
+        .inv-card svg { width: 50px; height: 35px; }
         .inv-card .name { font-size: 9px; text-align: center; color: #aaa; margin: 4px 0; height: 22px; overflow: hidden; }
         .inv-card .price { font-size: 11px; font-weight: bold; color: #2ec771; margin-bottom: 6px; }
 
@@ -236,14 +238,12 @@ rarity-restricted { border-bottom-color: #8847ff; background: linear-gradient(18
             font-size: 14px;
         }
 
-        /* ВСПЛЫВАЮЩЕЕ ОКНО ВЫИГРЫША */
+        /* МОДАЛЬНОЕ ОКНО */
         .win-modal {
             display: none;
             position: fixed;
-            top: 0; 
-            left: 0; 
-            width: 100vw; 
-            height: 100vh;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
             background: rgba(0, 0, 0, 0.85);
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
@@ -270,10 +270,9 @@ rarity-restricted { border-bottom-color: #8847ff; background: linear-gradient(18
             align-items: center;
         }
 
-        .win-card img {
-            width: 120px;
-            height: 80px;
-            object-fit: contain;
+        .win-card svg {
+            width: 110px;
+            height: 70px;
             margin: 15px 0;
         }
 
@@ -285,14 +284,14 @@ rarity-restricted { border-bottom-color: #8847ff; background: linear-gradient(18
             margin-top: 15px;
         }
 
-        /* НАВИГАЦИЯ СНИЗУ В РЯД (СЛЕВА НАПРАВО) */
+        /* НАВИГАЦИЯ В РЯД (СЛЕВА НАПРАВО) */
         .bottom-nav {
             width: 100%;
             height: 60px;
-            background: #14161f;
 
 
-border-top: 1px solid #252836;
+background: #14161f;
+            border-top: 1px solid #252836;
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
             align-items: center;
@@ -305,7 +304,8 @@ border-top: 1px solid #252836;
             justify-content: center;
             height: 100%;
             color: #7f8c8d;
-            font-size: 11px;
+            font-size: 12px;
+            font-weight: 600;
             cursor: pointer;
             background: none;
             border: none;
@@ -327,30 +327,35 @@ border-top: 1px solid #252836;
         </div>
     </div>
 
-    <!-- ОСНОВНОЙ КОНТЕНТ -->
+    <!-- КОНТЕНТ -->
     <div class="content-area">
 
-        <!-- 1. ВКТАДКА: КЕЙСЫ -->
+        <!-- 1. КЕЙСЫ -->
         <div id="pageCases" class="page active">
             <div class="roulette-wrapper">
                 <div class="roulette-track" id="track"></div>
             </div>
 
             <div class="case-preview">
-                <div class="case-img-box">
-                    <img id="caseImage" src="" alt="Case">
+                <div class="case-svg-box">
+                    <svg viewBox="0 0 100 80">
+                        <rect x="5" y="15" width="90" height="55" rx="6" fill="#2c3e50" stroke="#f39c12" stroke-width="4"/>
+                        <path d="M5 28h90" stroke="#f39c12" stroke-width="3"/>
+                        <rect x="42" y="32" width="16" height="12" rx="3" fill="#f39c12"/>
+                        <path d="M15 15L30 5H70L85 15" stroke="#f39c12" stroke-width="3" fill="none"/>
+                    </svg>
                 </div>
                 <button class="btn" id="openBtn" onclick="spinRoulette()">Открыть за 100 💎</button>
             </div>
         </div>
 
-        <!-- 2. ВКЛАДКА: ИНВЕНТАРЬ -->
+        <!-- 2. ИНВЕНТАРЬ -->
         <div id="pageInventory" class="page">
             <h3 style="margin-bottom: 12px; width: 100%;">Мой Инвентарь</h3>
             <div class="inventory-grid" id="inventoryGrid"></div>
         </div>
 
-        <!-- 3. ВКЛАДКА: ПРОФИЛЬ -->
+        <!-- 3. ПРОФИЛЬ -->
         <div id="pageProfile" class="page">
             <div class="profile-card">
                 <div class="profile-row">
@@ -359,15 +364,121 @@ border-top: 1px solid #252836;
                 </div>
                 <div class="profile-row">
                     <span>Открыто кейсов:</span>
-                    <strong id="profOpened">0</strong>...
+                    <strong id="profOpened">0</strong>
+                </div>
+                <div class="profile-row">
+                    <span>Предметов в инвентаре:</span>
+                    <strong id="profItems">0</strong>
+                </div>
+                <button class="btn btn-keep" style="margin-top: 15px;" onclick="addBonus()">Получить +500 💎</button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ВСПЛЫВАЮЩЕЕ ОКНО ВЫИГРЫША -->
+    <div class="win-modal" id="winModal">
+        <div class="win-card">
+            <h2 style="color: #f39c12; font-size: 18px;">ВЫ ВЫБИЛИ!</h2>
+            <div id="winSvgBox"></div>
+            <h3 id="winName" style="font-size: 14px; margin-bottom: 4px; color: #fff;">---</h3>
+            <p id="winPrice" style="color: #2ec771; font-weight: bold; font-size: 13px;">0 💎</p>
+            
+            <div class="win-btns">
+                <button class="btn btn-sell" id="winSellBtn">Продать сходу</button>
+                <button class="btn btn-keep" id="winKeepBtn">Забрать в инвентарь</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- НИЖНЯЯ НАВИГАЦИЯ -->
+    <div class="bottom-nav">
+        <button class="nav-btn active" onclick="switchTab('Cases', this)">Кейсы</button>
+        <button class="nav-btn" onclick="switchTab('Inventory', this)">Инвентарь</button>
+        <button class="nav-btn" onclick="switchTab('Profile', this)">Профиль</button>
+    </div>
+
+    <script>
+        const tg = window.Telegram?.WebApp;
+        if (tg) {
+            try { tg.ready(); tg.expand(); } catch(e){}
+        }
+
+        // SVG ШАБЛОНЫ ОРУЖИЯ
 
 
-transition = 'none';
+const svgAk = <svg viewBox="0 0 100 60"><path d="M10 38l20 0l10 -18l45 0l5 10l-25 4l-5 8l-40 0z" fill="#eb4b4b"/><rect x="8" y="35" width="10" height="12" fill="#7f8c8d"/></svg>;
+        const svgM4 = <svg viewBox="0 0 100 60"><path d="M10 38l20 0l10 -18l45 0l5 10l-25 4l-5 8l-40 0z" fill="#d32ce6"/><rect x="8" y="35" width="10" height="12" fill="#7f8c8d"/></svg>;
+        const svgAwp = <svg viewBox="0 0 100 60"><path d="M5 38l25 0l10 -20l50 0l5 10l-30 4l-5 8l-45 0z" fill="#8847ff"/><rect x="5" y="35" width="10" height="12" fill="#7f8c8d"/></svg>;
+
+        const skins = [
+            { id: 1, name: "AK-47 | Азимов", rarity: "rarity-covert", price: 450, svg: svgAk },
+            { id: 2, name: "M4A4 | Вой", rarity: "rarity-covert", price: 600, svg: svgM4 },
+            { id: 3, name: "AWP | Скоростной зверь", rarity: "rarity-classified", price: 250, svg: svgAwp },
+            { id: 4, name: "Glock-18 | Дух воды", rarity: "rarity-restricted", price: 120, svg: svgAk },
+            { id: 5, name: "USP-S | Сайрекс", rarity: "rarity-restricted", price: 70, svg: svgM4 }
+        ];
+
+        let balance = 1000;
+        let casesOpened = 0;
+        let inventory = [];
+        let isSpinning = false;
+        let pendingWin = null;
+
+        if (tg?.initDataUnsafe?.user?.first_name) {
+            document.getElementById('profName').innerText = tg.initDataUnsafe.user.first_name;
+        }
+
+        // НАВИГАЦИЯ
+        function switchTab(tabName, btn) {
+            if (isSpinning) return;
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+
+            document.getElementById(`page${tabName}`).classList.add('active');
+            btn.classList.add('active');
+
+            if (tabName === 'Inventory') renderInventory();
+            if (tabName === 'Profile') updateProfile();
+        }
+
+        // РЕНДЕР ЛЕНТЫ
+        const track = document.getElementById('track');
+
+        function generateTrack() {
+            track.innerHTML = '';
+            for (let i = 0; i < 60; i++) {
+                const skin = skins[Math.floor(Math.random() * skins.length)];
+                const card = document.createElement('div');
+                card.className = item-card ${skin.rarity};
+                card.innerHTML = ${skin.svg}<div class="name">${skin.name}</div>;
+                card.dataset.skinId = skin.id;
+                track.appendChild(card);
+            }
+        }
+        generateTrack();
+
+        // КРУЧЕНИЕ
+        function spinRoulette() {
+            if (isSpinning) return;
+            if (balance < 100) {
+                alert("Недостаточно кристаллов!");
+                return;
+            }
+
+            isSpinning = true;
+            document.getElementById('openBtn').disabled = true;
+
+            balance -= 100;
+            casesOpened++;
+            document.getElementById('userBalance').innerText = balance;
+
+            track.style.transition = 'none';
             track.style.transform = 'translateX(0px)';
             generateTrack();
 
             setTimeout(() => {
-                const itemWidth = 103; // 95px width + 8px margin
+                const itemWidth = 103;
                 const winIndex = 45;
                 const winCard = track.children[winIndex];
                 const skin = skins.find(s => s.id == winCard.dataset.skinId);
@@ -379,24 +490,25 @@ transition = 'none';
                 track.style.transition = 'transform 5s cubic-bezier(0.1, 0.85, 0.15, 1)';
                 track.style.transform = translateX(-${offset}px);
 
-                // ПОКАЗАТЬ МОДАЛКУ ТОЛЬКО ПОСЛЕ ЗАВЕРШЕНИЯ ПРОКРУТКИ
                 setTimeout(() => {
                     showModal(skin);
                 }, 5200);
             }, 50);
         }
 
-        // ОТОБРАЖЕНИЕ ВСПЛЫВАЮЩЕГО ОКНА
+        // ВЫИГРЫШ
         function showModal(skin) {
-            document.getElementById('winImg').src = skin.img;
+            document.getElementById('winSvgBox').innerHTML = skin.svg;
             document.getElementById('winName').innerText = skin.name;
-            document.getElementById('winPrice').innerText = +${skin.price} 💎;
+            document.
+
+
+getElementById('winPrice').innerText = +${skin.price} 💎;
             document.getElementById('winSellBtn').innerText = Продать за ${skin.price} 💎;
 
             document.getElementById('winModal').classList.add('active');
         }
 
-        // ДЕЙСТВИЯ С ВЫИГРЫШЕМ
         document.getElementById('winSellBtn').onclick = function() {
             if (!pendingWin) return;
             balance += pendingWin.price;
@@ -431,7 +543,7 @@ transition = 'none';
                 const card = document.createElement('div');
                 card.className = inv-card ${item.rarity};
                 card.innerHTML = `
-                    <img src="${item.img}" alt="">
+                    ${item.svg}
                     <div class="name">${item.name}</div>
                     <div class="price">${item.price} 💎</div>
                     <button class="btn btn-sell" style="padding: 4px 8px; font-size: 10px;" onclick="sellItem(${item.instanceId})">Продать</button>
