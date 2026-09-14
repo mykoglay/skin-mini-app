@@ -107,12 +107,11 @@
             justify-content: center;
             padding: 6px;
             border-bottom: 4px solid #fff;
-            transition: transform 0.2s ease;
         }
 
         .item-card img {
-            width: 75px;
-            height: 55px;
+            width: 80px;
+            height: 60px;
             object-fit: contain;
             filter: drop-shadow(0 4px 6px rgba(0,0,0,0.5));
         }
@@ -141,10 +140,11 @@
             box-shadow: inset 0 -10px 15px rgba(211, 44, 230, 0.2);
         }
         .rarity-restricted { 
-            border-bottom-color: #8847ff;
+            border-bottom-color: #8847ff; 
+            background: linear-gradient(180deg, #1a1d29 50%, rgba(136, 71, 255, 0.
 
 
-background: linear-gradient(180deg, #1a1d29 50%, rgba(136, 71, 255, 0.25));
+25));
             box-shadow: inset 0 -10px 15px rgba(136, 71, 255, 0.2);
         }
         .rarity-mil-spec { 
@@ -159,7 +159,9 @@ background: linear-gradient(180deg, #1a1d29 50%, rgba(136, 71, 255, 0.25));
             background: #14161f;
             border-radius: 12px;
             padding: 20px;
-            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             border: 1px solid #252836;
         }
 
@@ -200,6 +202,10 @@ background: linear-gradient(180deg, #1a1d29 50%, rgba(136, 71, 255, 0.25));
             border-radius: 8px;
             cursor: pointer;
             width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 6px;
             box-shadow: 0 4px 15px rgba(243, 156, 18, 0.3);
             transition: transform 0.1s, opacity 0.2s;
         }
@@ -246,12 +252,6 @@ background: linear-gradient(180deg, #1a1d29 50%, rgba(136, 71, 255, 0.25));
             height: 95px;
             object-fit: contain;
             margin: 15px 0;
-            animation: winPop 0.6s ease forwards;
-        }
-
-        @keyframes winPop {
-            0% { transform: scale(0.5) rotate(-10deg); opacity: 0; }
-            100% { transform: scale(1) rotate(0deg); opacity: 1; }
         }
     </style>
 </head>
@@ -270,10 +270,11 @@ background: linear-gradient(180deg, #1a1d29 50%, rgba(136, 71, 255, 0.25));
         </div>
 
         <div class="case-preview">
-            <img id="caseImage" src="https://raw.githubusercontent.com/ByMykel/CSGO-API/main/public/images/econ/weapon_cases/crate_weapon_case_01.png" class="case-img" alt="Case">
+            <img id="caseImage" src="https://community.akamai.steamstatic.
 
 
-<button class="btn-open" id="openBtn" onclick="spinRoulette()">Открыть за 100 💎</button>
+com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZFCb4d1y081oBSHi4Lge8828_BFpd654AG6ox12_45Y1D6Ac4E64M454261M14J1F_P4ewJwk216v3dz5R7dq0m461m_P3O73U2DgC75dz3uSUpNmk21fm_UZrZ23zIYLAe1Q7YQ6E81m8ye_v18O4vp3Lz3RmvSAn-z-I_mvb651i2S33-0M4a--C3A" class="case-img" alt="Case">
+            <button class="btn-open" id="openBtn" onclick="spinRoulette()">Открыть за 100 💎</button>
         </div>
     </div>
 
@@ -295,19 +296,20 @@ background: linear-gradient(180deg, #1a1d29 50%, rgba(136, 71, 255, 0.25));
                 tg.ready();
                 tg.expand();
             } catch (e) {
-                console.error("Ошибка Telegram WebApp SDK:", e);
+                console.error(e);
             }
         }
 
         let balance = 1000;
         const casePrice = 100;
 
+        // CDN Ссылки на хостинге Steam
         const skins = [
-            { name: "AK-47 | Азимов", rarity: "rarity-covert", img: "https://raw.githubusercontent.com/ByMykel/CSGO-API/main/public/images/econ/default_generated/weapon_ak47_cu_ak47_asiimov_light_large.png" },
-            { name: "M4A4 | Вой", rarity: "rarity-covert", img: "https://raw.githubusercontent.com/ByMykel/CSGO-API/main/public/images/econ/default_generated/weapon_m4a1_cu_howl_light_large.png" },
-            { name: "AWP | Скоростной зверь", rarity: "rarity-classified", img: "https://raw.githubusercontent.com/ByMykel/CSGO-API/main/public/images/econ/default_generated/weapon_awp_cu_awp_hyper_beast_light_large.png" },
-            { name: "Glock-18 | Дух воды", rarity: "rarity-restricted", img: "https://raw.githubusercontent.com/ByMykel/CSGO-API/main/public/images/econ/default_generated/weapon_glock_cu_water_elemental_light_large.png" },
-            { name: "USP-S | Сайрекс", rarity: "rarity-mil-spec", img: "https://raw.githubusercontent.com/ByMykel/CSGO-API/main/public/images/econ/default_generated/weapon_usp_silencer_cu_usps_cyrex_light_large.png" }
+            { name: "AK-47 | Азимов", rarity: "rarity-covert", img: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZFCb4d1y081oBSHi4Lge8828_BFpd654AG6ox12_45Y1D6Ac4E64M454261M14J1F_P4ewJwk216v3dz5R7dq0m461m_P3O73U2DgC75dz3uSUpNmk21fm_UZrZ23zIYLAe1Q7YQ6E81m8ye_v18O4vp3Lz3RmvSAn-z-I_mvb651i2S33-0M4a--C3A" },
+            { name: "M4A4 | Вой", rarity: "rarity-covert", img: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZFCb4d1y081oBSHi4Lge8828_BFpd654AG6ox12_45Y1D6Ac4E64M454261M14J1F_P4ewJwk216v3dz5R7dq0m461m_P3O73U2DgC75dz3uSUpNmk21fm_UZrZ23zIYLAe1Q7YQ6E81m8ye_v18O4vp3Lz3RmvSAn-z-I_mvb651i2S33-0M4a--C3A" },
+            { name: "AWP | Скоростной зверь", rarity: "rarity-classified", img: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZFCb4d1y081oBSHi4Lge8828_BFpd654AG6ox12_45Y1D6Ac4E64M454261M14J1F_P4ewJwk216v3dz5R7dq0m461m_P3O73U2DgC75dz3uSUpNmk21fm_UZrZ23zIYLAe1Q7YQ6E81m8ye_v18O4vp3Lz3RmvSAn-z-I_mvb651i2S33-0M4a--C3A" },
+            { name: "Glock-18 | Дух воды", rarity: "rarity-restricted", img: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZFCb4d1y081oBSHi4Lge8828_BFpd654AG6ox12_45Y1D6Ac4E64M454261M14J1F_P4ewJwk216v3dz5R7dq0m461m_P3O73U2DgC75dz3uSUpNmk21fm_UZrZ23zIYLAe1Q7YQ6E81m8ye_v18O4vp3Lz3RmvSAn-z-I_mvb651i2S33-0M4a--C3A" },
+            { name: "USP-S | Сайрекс", rarity: "rarity-mil-spec", img: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZFCb4d1y081oBSHi4Lge8828_BFpd654AG6ox12_45Y1D6Ac4E64M454261M14J1F_P4ewJwk216v3dz5R7dq0m461m_P3O73U2DgC75dz3uSUpNmk21fm_UZrZ23zIYLAe1Q7YQ6E81m8ye_v18O4vp3Lz3RmvSAn-z-I_mvb651i2S33-0M4a--C3A" }
         ];
 
         const track = document.getElementById('track');
@@ -335,7 +337,9 @@ background: linear-gradient(180deg, #1a1d29 50%, rgba(136, 71, 255, 0.25));
         generateTrack();
 
         function spinRoulette() {
-            if (isSpinning) return;
+
+
+if (isSpinning) return;
 
             if (balance < casePrice) {
                 if (tg && tg.showAlert) tg.showAlert("Недостаточно кристаллов!");
@@ -363,10 +367,7 @@ background: linear-gradient(180deg, #1a1d29 50%, rgba(136, 71, 255, 0.25));
 
                 const offset = (winIndex * itemWidth) - (document.querySelector('.roulette-wrapper').offsetWidth / 2) + (itemWidth / 2);
 
-                track.style.
-
-
-transition = 'transform 5s cubic-bezier(0.12, 0.8, 0.15, 1)';
+                track.style.transition = 'transform 5s cubic-bezier(0.12, 0.8, 0.15, 1)';
                 track.style.transform = translateX(-${offset}px);
 
                 setTimeout(() => {
