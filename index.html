@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CS:GO Cases Mini App</title>
+    <!-- Обязательный скрипт Telegram Web App -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .case-card {
+            background: #1e1e1e;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            border: 2px solid #333;
+            width: 80%;
+            max-width: 300px;
+        }
+        .btn-open {
+            background: #ff9800;
+            border: none;
+            color: #fff;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 15px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="case-card">
+        <h2>📦 Оружейный кейс</h2>
+        <p>Шанс выпадения редкого ножа!</p>
+        <button class="btn-open" onclick="openCase()">Открыть за 100 ₽</button>
+    </div>
+
+    <script>
+        // Инициализация Telegram WebApp
+        const tg = window.Telegram.WebApp;
+        tg.expand(); // Разворачивает окно на весь экран
+
+        function openCase() {
+            // Уведомление внутри Telegram
+            tg.showAlert("🎉 Вы выбили: AK-47 | Азимов!");
+        }
+    </script>
+</body>
+</html>
