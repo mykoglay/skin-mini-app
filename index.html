@@ -45,6 +45,259 @@
             font-size: 18px;
             color: #f39c12;
             letter-spacing: 0.5px;
+        }
+
+        .balance-box {
+            background: #1a1d29;
+            padding: 6px 12px;
+            border-radius: 20px;
+            border: 1px solid #252836;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        /* РУЛЕТКА */
+        .roulette-wrapper {
+            position: relative;
+            width: 100%;
+            height: 130px;
+            background: #14161f;
+            border: 2px solid #252836;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 25px;
+        }
+
+        .roulette-wrapper::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 3px;
+            height: 100%;
+            background: #f39c12;
+            z-index: 10;
+            box-shadow: 0 0 10px #f39c12;
+        }
+
+        .roulette-track {
+            display: flex;
+            height: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
+            will-change: transform;
+        }
+
+        .item-card {
+            min-width: 105px;
+            height: 110px;
+            margin: 10px 4px;
+            background: #1a1d29;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 6px;
+            border-bottom: 4px solid #fff;
+        }
+
+        .item-card img {
+            width: 75px;
+            height: 55px;
+            object-fit: contain;
+        }
+
+        .item-card .name {
+            font-size: 10px;
+            text-align: center;
+            margin-top: 6px;
+            font-weight: 600;
+            color: #ccc;...
+
+
+border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .btn-open:disabled { opacity: 0.5; }
+
+        /* МОДАЛКА */
+        .win-modal {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease;
+            z-index: 100;
+        }
+
+        .win-modal.active { opacity: 1; visibility: visible; }
+
+        .win-card {
+            background: #1a1d29;
+            padding: 25px;
+            border-radius: 16px;
+            text-align: center;
+            border: 2px solid #f39c12;
+            width: 80%;
+            max-width: 300px;
+        }
+
+        .win-card img {
+            width: 120px;
+            height: 90px;
+            object-fit: contain;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header">
+            <h1>🔥 CS2 CASES</h1>
+            <div class="balance-box">
+                <span id="userBalance">1000</span> 💎
+            </div>
+        </div>
+
+        <div class="roulette-wrapper">
+            <div class="roulette-track" id="track"></div>
+        </div>
+
+        <div class="case-preview">
+            <img src="https://raw.githubusercontent.com/ByMykel/CSGO-API/main/public/images/econ/weapon_cases/crate_weapon_case_01.png" class="case-img" alt="Case">
+            <button class="btn-open" id="openBtn" onclick="spinRoulette()">Открыть за 100 💎</button>
+        </div>
+    </div>
+
+    <div class="win-modal" id="winModal">
+        <div class="win-card">
+            <h2 style="color: #f39c12;">ПОЗДРАВЛЯЕМ!</h2>
+            <p style="margin-top: 5px; color: #aaa;">Вы выбили:</p>
+            <img id="winImg" src="" alt="Skin">
+            <h3 id="winName" style="color: #fff; font-size: 15px;">---</h3>
+            <button class="btn-open" style="margin-top: 15px;" onclick="closeModal()">Забрать</button>
+        </div>
+    </div>
+
+    <script>
+        // Безопасная инициализация Telegram WebApp
+        let tg = null;
+        if (window.Telegram && window.Telegram.WebApp) {
+            tg = window.Telegram.WebApp;
+            try {
+                tg.ready();
+                tg.expand();
+            } catch (e) {
+                console.error("Ошибка инициализации Telegram SDK:", e);
+            }
+        }
+
+        let balance = 1000;
+        const casePrice = 100;
+
+        const skins = [
+            { name: "AK-47 | Азимов", rarity: "rarity-covert", img: "https://raw.githubusercontent.com/ByMykel/CSGO-API/main/public/images/econ/default_generated/weapon_ak47_cu_ak47_asiimov_light_large.png" },
+            { name: "M4A4 | Вой", rarity: "rarity-covert", img: "https://raw.githubusercontent.com/ByMykel/CSGO-API/main/public/images/econ/default_generated/weapon_m4a1_cu_howl_light_large.png" },
+            { name: "AWP | Скоростной зверь", rarity: "rarity-classified", img: "https://raw.githubusercontent.com/ByMykel/CSGO-API/main/public/images/econ/default_generated/weapon_awp_cu_awp_hyper_beast_light_large.png" },
+            { name: "Glock-18 | Дух воды", rarity: "rarity-restricted", img: "https://raw.githubusercontent.com/ByMykel/CSGO-API/main/public/images/econ/default_generated/weapon_glock_cu_water_elemental_light_large.png" },
+            { name: "USP-S | Сайрекс", rarity: "rarity-mil-spec", img: "https://raw.githubusercontent.com/ByMykel/CSGO-API/main/public/images/econ/default_generated/weapon_usp_silencer_cu_usps_cyrex_light_large.png" }
+        ];
+
+        const track = document.getElementById('track');
+        const openBtn = document.getElementById('openBtn');
+        const balanceEl = document.getElementById('userBalance');
+        let isSpinning = false;
+
+        function generateTrack() {
+            track.innerHTML = '';
+            for (let i = 0; i < 60; i++) {
+                const randomSkin = skins[Math.floor(Math.
+
+
+random() * skins.length)];
+                const card = document.createElement('div');
+                card.className = item-card ${randomSkin.rarity};
+                card.innerHTML = `
+                    <img src="${randomSkin.img}" alt="${randomSkin.name}">
+                    <div class="name">${randomSkin.name}</div>
+                `;
+                card.dataset.name = randomSkin.name;
+                card.dataset.img = randomSkin.img;
+                track.appendChild(card);
+            }
+        }
+
+        generateTrack();
+
+        function spinRoulette() {
+            if (isSpinning) return;
+
+            if (balance < casePrice) {
+                if (tg && tg.showAlert) tg.showAlert("Недостаточно кристаллов!");
+                else alert("Недостаточно кристаллов!");
+                return;
+            }
+
+            isSpinning = true;
+            openBtn.disabled = true;
+
+            balance -= casePrice;
+            balanceEl.innerText = balance;
+
+            track.style.transition = 'none';
+            track.style.transform = 'translateX(0px)';
+            generateTrack();
+
+            setTimeout(() => {
+                const itemWidth = 113;
+                const winIndex = 45;
+                const winningCard = track.children[winIndex];
+
+                const offset = (winIndex * itemWidth) - (document.querySelector('.roulette-wrapper').offsetWidth / 2) + (itemWidth / 2);
+
+                track.style.transition = 'transform 5s cubic-bezier(0.12, 0.8, 0.15, 1)';
+                track.style.transform = translateX(-${offset}px);
+
+                setTimeout(() => {
+                    document.getElementById('winName').innerText = winningCard.dataset.name;
+                    document.getElementById('winImg').src = winningCard.dataset.img;
+                    document.getElementById('winModal').classList.add('active');
+                    
+                    if (tg && tg.HapticFeedback) {
+                        tg.HapticFeedback.notificationOccurred('success');
+                    }
+                }, 5200);
+            }, 50);
+        }
+
+        function closeModal() {
+            document.getElementById('winModal').classList.remove('active');
+            isSpinning = false;
+            openBtn.disabled = false;
+        }
+    </script>
+</body>
+</html>            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            font-size: 18px;
+            color: #f39c12;
+            letter-spacing: 0.5px;
             text-shadow: 0 0 12px rgba(243, 156, 18, 0.4);
         }
 
