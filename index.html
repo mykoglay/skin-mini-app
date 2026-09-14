@@ -1,488 +1,3 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>CS2 Cases</title>
-    <style>
-        * {
-            box-sizing: border-box;
-            user-select: none;
-            -webkit-user-select: none;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            background-color: #0d0e12;
-            color: #ffffff;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            height: 100vh;
-            width: 100vw;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .header {
-            height: 50px;
-            background: #14161f;
-            border-bottom: 1px solid #252836;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 16px;
-            flex-shrink: 0;
-        }
-
-        .header h1 {
-            font-size: 15px;
-            color: #f39c12;
-            font-weight: 800;
-        }
-
-        .balance {
-            background: #1a1d29;
-            padding: 6px 12px;
-            border-radius: 20px;
-            border: 1px solid #252836;
-            font-size: 13px;
-            font-weight: bold;
-        }
-
-        .main-container {
-            flex: 1;
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .page {
-            display: none;
-            width: 100%;
-            height: 100%;
-            padding: 16px;
-            box-sizing: border-box;
-            flex-direction: column;
-            align-items: center;
-            overflow-y: auto;
-        }
-
-        .page.active {
-            display: flex;
-        }
-
-        .roulette-box {
-            position: relative;
-            width: 100%;
-            height: 110px;
-            background: #14161f;
-            border: 2px solid #252836;
-            border-radius: 12px;
-            overflow: hidden;
-            margin-bottom: 15px;
-            flex-shrink: 0;
-        }
-
-        .roulette-line {
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 3px;
-            height: 100%;
-            background: #f39c12;
-            z-index: 10;
-            box-shadow: 0 0 8px #f39c12;
-        }
-
-        .roulette-track {
-            display: flex;
-            height: 100%;
-            position: absolute;
-            left: 0;
-            top: 0;
-            will-change: transform;
-        }
-
-        .skin-card {
-            min-width: 90px;
-            width: 90px;
-            height: 85px;
-            margin: 10px 4px;
-            background: #1a1d29;
-            border-radius: 8px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 4px;
-            border-bottom: 4px solid #fff;
-            flex-shrink: 0;
-        }
-
-        .skin-card img {
-            width: 65px;
-            height: 42px;
-            object-fit: contain;
-            margin-bottom: 2px;
-        }
-
-        .skin-card .title {
-            font-size: 9px;
-            text-align: center;
-            color: #ddd;
-            font-weight: 600;
-            width: 100%;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .covert { border-bottom-color: #eb4b4b; background: linear-gradient(180deg, #1a1d29 20%, rgba(235, 75, 75, 0.25)); }
-        .classified { border-bottom-color: #d32ce6; background: linear-gradient(180deg, #1a1d29 20%, rgba(211, 44, 230, 0.25)); }
-        .restricted { border-bottom-color: #8847ff; background: linear-gradient(180deg, #1a1d29 20%, rgba(136, 71, 255, 0.25)); }
-
-        .case-card {
-            width: 100%;
-            background: #14161f;
-            border-radius: 12px;
-            padding: 20px;
-
-
-display: flex;
-            flex-direction: column;
-            align-items: center;
-            border: 1px solid #252836;
-        }
-
-        .case-icon {
-            width: 80px;
-            height: 60px;
-            background: #f39c12;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 28px;
-            box-shadow: 0 0 15px rgba(243, 156, 18, 0.3);
-        }
-
-        .btn {
-            width: 100%;
-            background: linear-gradient(135deg, #f39c12, #e67e22);
-            border: none;
-            color: #fff;
-            padding: 14px;
-            font-size: 15px;
-            font-weight: bold;
-            border-radius: 10px;
-            cursor: pointer;
-            text-align: center;
-        }
-
-        .btn:active { opacity: 0.8; }
-        .btn:disabled { opacity: 0.4; cursor: not-allowed; }
-        .btn-green { background: linear-gradient(135deg, #27ae60, #2ec771); }
-        .btn-gray { background: #252836; color: #ccc; }
-
-        .inventory-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            width: 100%;
-        }
-
-        .inv-card {
-            background: #14161f;
-            border-radius: 8px;
-            padding: 8px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            border: 1px solid #252836;
-        }
-
-        .inv-card img { width: 55px; height: 35px; object-fit: contain; margin-bottom: 4px; }
-        .inv-card .title { font-size: 9px; text-align: center; color: #aaa; margin-bottom: 4px; height: 22px; overflow: hidden; }
-        .inv-card .price { font-size: 11px; font-weight: bold; color: #2ec771; margin-bottom: 6px; }
-
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
-            z-index: 999999;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal.active { display: flex !important; }
-
-        .modal-card {
-            background: #1a1d29;
-            padding: 20px;
-            border-radius: 16px;
-            text-align: center;
-            border: 2px solid #f39c12;
-            width: 85%;
-            max-width: 300px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .modal-card img { width: 110px; height: 70px; object-fit: contain; margin: 15px 0; }
-        .modal-btns { width: 100%; display: flex; flex-direction: column; gap: 8px; margin-top: 15px; }
-
-        .nav-bar {
-            height: 60px;
-            background: #14161f;
-            border-top: 1px solid #252836;
-            display: flex;
-            width: 100%;
-            flex-shrink: 0;
-            z-index: 99999;
-            position: relative;
-        }
-
-        .nav-item {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #7f8c8d;
-            font-size: 13px;
-            font-weight: bold;
-            cursor: pointer;
-            background: transparent;
-            border: none;
-            outline: none;
-        }
-
-        .nav-item.active {
-            color: #f39c12;
-            background: rgba(243, 156, 18, 0.05);
-        }
-    </style>
-</head>
-<body>
-
-    <div class="header">
-        <h1>🔥 CS2 CASES</h1>
-        <div class="balance"><span id="balVal">1000</span> 💎</div>
-    </div>
-
-    <div class="main-container">
-        <div id="pCases" class="page active">
-            <div class="roulette-box">
-                <div class="roulette-line"></div>
-                <div class="roulette-track" id="track"></div>
-            </div>
-
-            <div class="case-card">
-                <div class="case-icon">🧰</div>
-
-
-<button class="btn" id="openBtn" onclick="spinRoulette()">Открыть за 100 💎</button>
-            </div>
-        </div>
-
-        <div id="pInv" class="page">
-            <div class="inventory-grid" id="invGrid"></div>
-        </div>
-
-        <div id="pProf" class="page">
-            <p style="text-align: center; color: #aaa; margin-top: 20px;">Мой Профиль</p>
-        </div>
-    </div>
-
-    <div class="nav-bar">
-        <button class="nav-item active" id="btnCases" onclick="switchTab('Cases', this)">Кейсы</button>
-        <button class="nav-item" id="btnInv" onclick="switchTab('Inv', this)">Инвентарь</button>
-        <button class="nav-item" id="btnProf" onclick="switchTab('Prof', this)">Профиль</button>
-    </div>
-
-    <div class="modal" id="winModal">
-        <div class="modal-card">
-            <h2 style="color: #f39c12; font-size: 16px;">ВЫ ВЫБИЛИ!</h2>
-            <img id="mImg" src="" alt="Skin">
-            <h3 id="mTitle" style="font-size: 13px; color: #fff;">---</h3>
-            <p id="mPrice" style="color: #2ec771; font-weight: bold; font-size: 13px; margin-top: 4px;">0 💎</p>
-            
-            <div class="modal-btns">
-                <button class="btn btn-green" id="mSellBtn">Продать сходу</button>
-                <button class="btn btn-gray" id="mKeepBtn">Оставить в инвентаре</button>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // Стабильные внешние PNG-картинки с прозрачным фоном
-        var skins = [
-            { id: 1, name: "AK-47 | Asiimov", rarity: "covert", price: 450, img: "https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZFCb4556UTxevT-45EAuu8ter45575681zb5dd_v7fM2R1pC94_NfQstX339S405Vw3--2OAZk3_33dG197dm0loS0l_CmL76CwjlXsMcj2L-S84itiQ23-xA4Nzv3IZjBdw48NF3V8gO-xL3nhJC9v5iYySQ173V34C3U_mGg1g/360fx360f" },
-            { id: 2, name: "M4A4 | Howl", rarity: "covert", price: 600, img: "https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZFCb4556UTxevT-45EAuu8ter45575681zb5dd_v7fM2R1pC94_NfQstX339S405Vw4u2vOAN01_b3czpt4dy02931wtuhxe-2Mr2H32pUvdwn2rmT9Imi31ewrhE9MGCmJ4eXewM2Y1_X_1W9wOa-15S46pzK1zI173s2sCzZ9w/360fx360f" },
-            { id: 3, name: "AWP | Hyper Beast", rarity: "classified", price: 250, img: "https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZFCb4556UTxevT-45EAuu8ter45575681zb5dd_v7fM2R1pC94_NfQstX339S405Vw1Oy5P2Rk3-f3fGt9vNnjkt3hh9S3Mb_338mGlz5S_8By2LqRp4mi2A3kqktvY273co-ddw4vaV-A_FPslO_vgZC-7szJy3A1s3R_s3_x03U/360fx360f" },
-            { id: 4, name: "Glock-18 | Water Elemental", rarity: "restricted", price: 120, img: "https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZFCb4556UTxevT-45EAuu8ter45575681zb5dd_v7fM2R1pC94_NfQstX339S405Vw2e2eOgRg3_ffczpvhdy4m9LhlI3_M_yG2zgFu5By37uUrIn2jACx_ERsZjqiI9Pde1I_M12C_gXql-e-hMDv7p_XmyI2vHM8p26M7MIn5S4/360fx360f" },
-            { id: 5, name: "USP-S | Cyrex", rarity: "restricted", price: 70, img: "https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZFCb4556UTxevT-45EAuu8ter45575681zb5dd_v7fM2R1pC94_NfQstX339S405Vw1eu4NzBk3_ffezpt49m1ldLlh42_O-fO3m8C7cMv37qSrIn0jACx-EQ8a2_zcY3BIVM1Z_238C9qleru2mI36-S98C_gX3N2yI33Mcm1c9I3/360fx360f" }
-        ];
-
-        var balance = 1000;
-        var inventory = [];
-        var isSpinning = false;
-        var currentWin = null;
-
-        var track = document.getElementById("track");
-        var openBtn = document.getElementById("openBtn");
-
-        function buildTrack() {
-            track.innerHTML = "";
-            for (var i = 0; i < 60; i++) {
-                var skin = skins[Math.floor(Math.random() * skins.length)];
-                var card = document.createElement("div");
-                card.className = "skin-card " + skin.rarity;
-                card.innerHTML = '<img src="' + skin.img + '" alt="skin"><div class="title">' + skin.name + '</div>';
-                card.dataset.id = skin.id;
-                track.appendChild(card);
-            }
-        }
-
-
-function switchTab(tabName, btn) {
-            if (isSpinning) return;
-            
-            var pages = document.querySelectorAll(".page");
-            for (var i = 0; i < pages.length; i++) pages[i].classList.remove("active");
-
-            var navs = document.querySelectorAll(".nav-item");
-            for (var j = 0; j < navs.length; j++) navs[j].classList.remove("active");
-
-            document.getElementById("p" + tabName).classList.add("active");
-            btn.classList.add("active");
-
-            if (tabName === "Inv") renderInventory();
-        }
-
-        function spinRoulette() {
-            if (isSpinning) return;
-            if (balance < 100) {
-                alert("Недостаточно кристаллов!");
-                return;
-            }
-
-            isSpinning = true;
-            openBtn.disabled = true;
-            balance -= 100;
-            document.getElementById("balVal").innerText = balance;
-
-            track.style.transition = "none";
-            track.style.transform = "translateX(0px)";
-            buildTrack();
-
-            setTimeout(function() {
-                var cardWidth = 98;
-                var winIndex = 35;
-                var offset = Math.floor(Math.random() * 40) - 20;
-                var wrapperWidth = track.parentElement.offsetWidth;
-                var targetX = (winIndex * cardWidth) - (wrapperWidth / 2) + (cardWidth / 2) + offset;
-
-                track.style.transition = "transform 4.5s cubic-bezier(0.1, 0.8, 0.1, 1)";
-                track.style.transform = "translateX(-" + targetX + "px)";
-
-                setTimeout(function() {
-                    var winCard = track.children[winIndex];
-                    currentWin = skins.find(function(s) { return s.id == winCard.dataset.id; });
-                    showWinModal(currentWin);
-                }, 4700);
-            }, 50);
-        }
-
-        function showWinModal(skin) {
-            document.getElementById("mImg").src = skin.img;
-            document.getElementById("mTitle").innerText = skin.name;
-            document.getElementById("mPrice").innerText = "+" + skin.price + " 💎";
-            document.getElementById("mSellBtn").innerText = "Продать за " + skin.price + " 💎";
-            document.getElementById("winModal").classList.add("active");
-        }
-
-        document.getElementById("mSellBtn").onclick = function() {
-            if (!currentWin) return;
-            balance += currentWin.price;
-            document.getElementById("balVal").innerText = balance;
-            closeWinModal();
-        };
-
-        document.getElementById("mKeepBtn").onclick = function() {
-            if (!currentWin) return;
-            inventory.push({
-                id: currentWin.id,
-                name: currentWin.name,
-                rarity: currentWin.rarity,
-                price: currentWin.price,
-                img: currentWin.img,
-                instId: Date.now() + Math.random()
-            });
-            closeWinModal();
-        };
-
-        function closeWinModal() {
-            document.getElementById("winModal").classList.remove("active");
-            currentWin = null;
-            isSpinning = false;
-            openBtn.disabled = false;
-        }
-
-        function renderInventory() {
-            var grid = document.getElementById("invGrid");
-            grid.innerHTML = "";
-
-            if (inventory.length === 0) {
-                grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #7f8c8d; font-size: 13px; margin-top: 20px;">Инвентарь пуст</p>';
-                return;
-            }
-
-            for (var i = 0; i < inventory.length; i++) {
-                var item = inventory[i];
-                var card = document.createElement("div");
-                card.className = "inv-card " + item.rarity;
-                card.innerHTML = 
-                    '<img src="' + item.img + '" alt="skin">' +
-                    '<div class="title">' + item.name + '</div>' +
-                    '<div class="price">' + item.price + ' 💎</div>' +
-
-
-'<button class="btn btn-green" style="padding: 4px; font-size: 10px;" onclick="sellFromInv(' + item.instId + ')">Продать</button>';
-                grid.appendChild(card);
-            }
-        }
-
-        window.sellFromInv = function(instId) {
-            var idx = -1;
-            for (var i = 0; i < inventory.length; i++) {
-                if (inventory[i].instId === instId) {
-                    idx = i;
-                    break;
-                }
-            }
-            if (idx !== -1) {
-                balance += inventory[idx].price;
-                document.getElementById("balVal").innerText = balance;
-                inventory.splice(idx, 1);
-                renderInventory();
-            }
-        };
-
-        // Запуск при старте
-        buildTrack();
-    </script>
-</body>
-</html>
-
-
 <script>
         // Чистые векторные SVG стволов — 100% отображение без внешних запросов и блокировок
         var svgAK = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 50"><path d="M5 28 L25 28 L35 15 L75 15 L85 22 L95 24 L95 28 L80 30 L60 30 L55 38 L45 38 L48 30 L20 30 Z" fill="%23eb4b4b"/><rect x="35" y="18" width="20" height="6" fill="%232c3e50"/></svg>';
@@ -549,7 +64,21 @@ function switchTab(tabName, btn) {
             buildTrack();
 
             setTimeout(function() {
-                var cardWidth = 98;...
+                var cardWidth = 98;
+                var winIndex = 35;
+                var offset = Math.floor(Math.random() * 40) - 20;
+                var wrapperWidth = track.parentElement.offsetWidth;
+                var targetX = (winIndex * cardWidth) - (wrapperWidth / 2) + (cardWidth / 2) + offset;
+
+                track.style.transition = "transform 4.5s cubic-bezier(0.1, 0.8, 0.1, 1)";
+                track.style.transform = "translateX(-" + targetX + "px)";
+
+                setTimeout(function() {
+                    var winCard = track.children[winIndex];
+                    currentWin = skins.find(function(s) { return s.id == winCard.dataset.id; });
+                    showWinModal(currentWin);
+                }, 4700);
+            }, 50);
 
 
 }
@@ -604,6 +133,169 @@ function switchTab(tabName, btn) {
                 card.className = "inv-card " + item.rarity;
                 card.innerHTML = 
                     '<img src="' + item.img + '" alt="skin">' +
+                    '<div class="title">' + item.name + '</div>' +
+                    '<div class="price">' + item.price + ' 💎</div>' +
+                    '<button class="btn btn-green" style="padding: 4px; font-size: 10px;" onclick="sellFromInv(' + item.instId + ')">Продать</button>';
+                grid.appendChild(card);
+            }
+        }
+
+        window.sellFromInv = function(instId) {
+            var idx = -1;
+            for (var i = 0; i < inventory.length; i++) {
+                if (inventory[i].instId === instId) {
+                    idx = i;
+                    break;
+                }
+            }
+            if (idx !== -1) {
+                balance += inventory[idx].price;
+                document.getElementById("balVal").innerText = balance;
+                inventory.splice(idx, 1);
+                renderInventory();
+            }
+        };
+
+        buildTrack();
+    </script>
+
+
+<script>
+        // Чистый векторный SVG в виде DOM-строк (работает без тегов <img>)
+        var svgAK = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 50" style="width:65px;height:42px;"><path d="M5 28 L25 28 L35 15 L75 15 L85 22 L95 24 L95 28 L80 30 L60 30 L55 38 L45 38 L48 30 L20 30 Z" fill="#eb4b4b"/><rect x="35" y="18" width="20" height="6" fill="#2c3e50"/></svg>';
+        var svgM4 = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 50" style="width:65px;height:42px;"><path d="M8 26 L28 26 L38 14 L80 14 L88 20 L96 22 L96 26 L78 28 L58 28 L52 38 L42 38 L46 28 L18 28 Z" fill="#d32ce6"/><rect x="40" y="16" width="25" height="5" fill="#f1c40f"/></svg>';
+        var svgAWP = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 50" style="width:65px;height:42px;"><path d="M2 24 L20 24 L30 12 L88 12 L98 20 L98 23 L75 25 L50 25 L45 38 L36 38 L40 25 L12 25 Z" fill="#8847ff"/><rect x="30" y="8" width="35" height="3" fill="#2c3e50"/></svg>';
+
+        var skins = [
+            { id: 1, name: "AK-47 | Asiimov", rarity: "covert", price: 450, svg: svgAK },
+            { id: 2, name: "M4A4 | Howl", rarity: "covert", price: 600, svg: svgM4 },
+            { id: 3, name: "AWP | Hyper Beast", rarity: "classified", price: 250, svg: svgAWP },
+            { id: 4, name: "Glock-18 | Water", rarity: "restricted", price: 120, svg: svgAK },
+            { id: 5, name: "USP-S | Cyrex", rarity: "restricted", price: 70, svg: svgM4 }
+        ];
+
+        var balance = 1000;
+        var inventory = [];
+        var isSpinning = false;
+        var currentWin = null;
+
+        var track = document.getElementById("track");
+        var openBtn = document.getElementById("openBtn");
+
+        function buildTrack() {
+            track.innerHTML = "";
+            for (var i = 0; i < 60; i++) {
+                var skin = skins[Math.floor(Math.random() * skins.length)];
+                var card = document.createElement("div");
+                card.className = "skin-card " + skin.rarity;
+                card.innerHTML = skin.svg + '<div class="title">' + skin.name + '</div>';
+                card.dataset.id = skin.id;
+                track.appendChild(card);
+            }
+        }
+
+        function switchTab(tabName, btn) {
+            if (isSpinning) return;
+            
+            var pages = document.querySelectorAll(".page");
+            for (var i = 0; i < pages.length; i++) pages[i].classList.remove("active");
+
+            var navs = document.querySelectorAll(".nav-item");
+            for (var j = 0; j < navs.length; j++) navs[j].classList.remove("active");
+
+            document.getElementById("p" + tabName).classList.add("active");
+            btn.classList.add("active");
+
+            if (tabName === "Inv") renderInventory();
+        }
+
+        function spinRoulette() {
+            if (isSpinning) return;
+            if (balance < 100) {
+                alert("Недостаточно кристаллов!");
+                return;
+            }
+
+            isSpinning = true;
+            openBtn.disabled = true;
+            balance -= 100;
+            document.getElementById("balVal").innerText = balance;
+
+            track.style.transition = "none";
+            track.style.transform = "translateX(0px)";
+            buildTrack();
+
+            setTimeout(function() {
+                var cardWidth = 98;
+                var winIndex = 35;
+                var offset = Math.floor(Math.random() * 40) - 20;
+                var wrapperWidth = track.parentElement.offsetWidth;
+                var targetX = (winIndex * cardWidth) - (wrapperWidth / 2) + (cardWidth / 2) + offset;
+
+                track.style.transition = "transform 4.5s cubic-bezier(0.1, 0.8, 0.1, 1)";
+                track.style.transform = "translateX(-" + targetX + "px)";
+
+                setTimeout(function() {
+                    var winCard = track.children[winIndex];
+                    currentWin = skins.find(function(s) { return s.id == winCard.dataset.id; });
+                    showWinModal(currentWin);
+                }, 4700);
+            }, 50);
+        }
+
+
+function showWinModal(skin) {
+            var imgContainer = document.getElementById("mImg");
+            imgContainer.outerHTML = '<div id="mImg">' + skin.svg + '</div>';
+            
+            document.getElementById("mTitle").innerText = skin.name;
+            document.getElementById("mPrice").innerText = "+" + skin.price + " 💎";
+            document.getElementById("mSellBtn").innerText = "Продать за " + skin.price + " 💎";
+            document.getElementById("winModal").classList.add("active");
+        }
+
+        document.getElementById("mSellBtn").onclick = function() {
+            if (!currentWin) return;
+            balance += currentWin.price;
+            document.getElementById("balVal").innerText = balance;
+            closeWinModal();
+        };
+
+        document.getElementById("mKeepBtn").onclick = function() {
+            if (!currentWin) return;
+            inventory.push({
+                id: currentWin.id,
+                name: currentWin.name,
+                rarity: currentWin.rarity,
+                price: currentWin.price,
+                svg: currentWin.svg,
+                instId: Date.now() + Math.random()
+            });
+            closeWinModal();
+        };
+
+        function closeWinModal() {
+            document.getElementById("winModal").classList.remove("active");
+            currentWin = null;
+            isSpinning = false;
+            openBtn.disabled = false;
+        }
+
+        function renderInventory() {
+            var grid = document.getElementById("invGrid");
+            grid.innerHTML = "";
+
+            if (inventory.length === 0) {
+                grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #7f8c8d; font-size: 13px; margin-top: 20px;">Инвентарь пуст</p>';
+                return;
+            }
+
+            for (var i = 0; i < inventory.length; i++) {
+                var item = inventory[i];
+                var card = document.createElement("div");
+                card.className = "inv-card " + item.rarity;
+                card.innerHTML = 
+                    item.svg +
                     '<div class="title">' + item.name + '</div>' +
                     '<div class="price">' + item.price + ' 💎</div>' +
                     '<button class="btn btn-green" style="padding: 4px; font-size: 10px;" onclick="sellFromInv(' + item.instId + ')">Продать</button>';
