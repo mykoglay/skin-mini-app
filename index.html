@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>CS Cases Mini App</title>
-    <!-- Telegram WebApp SDK -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         * {
@@ -25,16 +24,272 @@
             overflow-x: hidden;
         }
 
-        /* ---------------- PRELOADER (ЭКРАН ЗАГРУЗКИ) ---------------- */
-        #loader {
-            position: fixed;
-            top: 0;
-            left: 0;
+        .container {
             width: 100%;
-            height: 100%;
-            background: #0b0c10;
+            max-width: 420px;
+            padding: 20px 15px;
             display: flex;
             flex-direction: column;
+            align-items: center;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            font-size: 22px;
+            color: #f39c12;
+            text-shadow: 0 0 10px rgba(243, 156, 18, 0.3);
+        }
+
+        /* РУЛЕТКА */
+        .roulette-wrapper {
+            position: relative;
+            width: 100%;
+            height: 130px;
+            background: #161822;
+            border: 2px solid #2a2e3d;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 25px;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.8);
+        }
+
+        .roulette-wrapper::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 100%;
+            background: #f39c12;
+            z-index: 10;
+            box-shadow: 0 0 10px #f39c12;
+        }
+
+        .roulette-track {
+            display: flex;
+            height: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
+            will-change: transform;
+            transition: transform 5s cubic-bezier(0.15, 0.9, 0.2, 1);
+        }
+
+        .item-card {
+            min-width: 100px;
+            height: 110px;
+            margin: 10px 5px;
+            background: #1c1f2e;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 5px;
+            position: relative;
+            border-bottom: 4px solid #fff;
+        }
+
+        .item-card .icon { font-size: 36px; }
+
+        .item-card .name {
+            font-size: 10px;
+            text-align: center;
+            margin-top: 8px;
+            font-weight: bold;
+            color: #ddd;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 90%;
+        }
+
+        .rarity-covert { border-bottom-color: #eb4b4b; }
+        .rarity-classified { border-bottom-color: #d32ce6; }
+        .rarity-restricted { border-bottom-color: #8847ff; }
+        .rarity-mil-spec { border-bottom-color: #4b69ff; }
+
+        /* КЕЙС */
+        .case-preview {
+            width: 100%;
+            background: #161822;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid #2a2e3d;
+        }
+
+        .case-icon {
+            font-size: 64px;
+            margin-bottom: 15px;
+            display: inline-block;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .btn-open {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            border: none;
+            color: #fff;
+            padding: 14px 28px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+
+
+width: 100%;
+            box-shadow: 0 4px 15px rgba(243, 156, 18, 0.4);
+        }
+
+        .btn-open:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        /* МОДАЛЬНОЕ ОКНО */
+        .win-modal {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease;
+            z-index: 100;
+        }
+
+        .win-modal.active { opacity: 1; visibility: visible; }
+
+        .win-card {
+            background: #1c1f2e;
+            padding: 25px;
+            border-radius: 16px;
+            text-align: center;
+            border: 2px solid #f39c12;
+            max-width: 300px;
+            width: 80%;
+        }
+
+        .win-card .icon { font-size: 60px; margin: 15px 0; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header">
+            <h1>🔥 CS2 CASE OPENING</h1>
+        </div>
+
+        <div class="roulette-wrapper">
+            <div class="roulette-track" id="track"></div>
+        </div>
+
+        <div class="case-preview">
+            <div class="case-icon">🧰</div>
+            <button class="btn-open" id="openBtn" onclick="spinRoulette()">Открыть за 100 ₽</button>
+        </div>
+    </div>
+
+    <div class="win-modal" id="winModal">
+        <div class="win-card">
+            <h2 style="color: #f39c12;">ПОЗДРАВЛЯЕМ!</h2>
+            <p style="margin-top: 5px; color: #aaa;">Вы выбили:</p>
+            <div class="icon" id="winIcon">🔪</div>
+            <h3 id="winName" style="color: #fff; font-size: 16px;">---</h3>
+            <button class="btn-open" style="margin-top: 15px;" onclick="closeModal()">Забрать</button>
+        </div>
+    </div>
+
+    <script>
+        const tg = window.Telegram.WebApp;
+        if (tg) {
+            tg.ready();
+            tg.expand();
+        }
+
+        const skins = [
+            { name: "AK-47 | Азимов", rarity: "rarity-covert", icon: "🔫" },
+            { name: "M4A4 | Вой", rarity: "rarity-covert", icon: "🐉" },
+            { name: "AWP | Скоростной зверь", rarity: "rarity-classified", icon: "🎯" },
+            { name: "Glock-18 | Дух воды", rarity: "rarity-restricted", icon: "💥" },
+            { name: "USP-S | Сайрекс", rarity: "rarity-mil-spec", icon: "⚡" },
+            { name: "Керамбит | Градиент", rarity: "rarity-covert", icon: "🔪" }
+        ];
+
+        const track = document.getElementById('track');
+        const openBtn = document.getElementById('openBtn');
+        let isSpinning = false;
+
+        function generateTrack() {
+            track.innerHTML = '';
+            for (let i = 0; i < 60; i++) {
+                const randomSkin = skins[Math.floor(Math.random() * skins.length)];
+                const card = document.createElement('div');
+                card.className = item-card ${randomSkin.rarity};
+                card.innerHTML = `
+                    <div class="icon">${randomSkin.icon}</div>
+                    <div class="name">${randomSkin.name}</div>
+                `;
+                card.dataset.name = randomSkin.name;
+                card.dataset.icon = randomSkin.icon;
+                track.appendChild(card);
+            }
+        }
+
+        generateTrack();
+
+        function spinRoulette() {
+            if (isSpinning) return;
+            isSpinning = true;
+            openBtn.disabled = true;
+
+            track.style.transition = 'none';
+            track.style.transform = 'translateX(0px)';
+            generateTrack();
+
+            setTimeout(() => {
+                const itemWidth = 110;
+                const winIndex = 45;
+                const winningCard = track.children[winIndex];
+
+                const offset = (winIndex * itemWidth) - (document.querySelector('.roulette-wrapper').offsetWidth / 2) + (itemWidth / 2);
+
+                track.style.transition = 'transform 5s cubic-bezier(0.15, 0.9, 0.2, 1)';
+                track.
+
+
+style.transform = translateX(-${offset}px);
+
+                setTimeout(() => {
+                    document.getElementById('winName').innerText = winningCard.dataset.name;
+                    document.getElementById('winIcon').innerText = winningCard.dataset.icon;
+                    document.getElementById('winModal').classList.add('active');
+                    
+                    if (tg && tg.HapticFeedback) {
+                        tg.HapticFeedback.notificationOccurred('success');
+                    }
+                }, 5200);
+            }, 50);
+        }
+
+        function closeModal() {
+            document.getElementById('winModal').classList.remove('active');
+            isSpinning = false;
+            openBtn.disabled = false;
+        }
+    </script>
+</body>
+</html>            flex-direction: column;
             justify-content: center;
             align-items: center;
             z-index: 999;
