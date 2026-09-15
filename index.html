@@ -6,179 +6,72 @@
     <title>CS2 Case Drop</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            user-select: none;
-            -webkit-user-select: none;
-        }
-        body {
-            background-color: #0d0f17;
-            color: #ffffff;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; -webkit-user-select: none; }
+        body { background-color: #0d0f17; color: #ffffff; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
         
-        .header {
-            height: 50px;
-            background: #151824;
-            border-bottom: 1px solid rgba(102, 252, 241, 0.2);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 16px;
-            flex-shrink: 0;
-        }
-        .header h1 {
-            font-size: 14px;
-            color: #66fcf1;
-            font-weight: 900;
-        }
-        .balance {
-            background: #0d0f17;
-            padding: 4px 12px;
-            border-radius: 20px;
-            border: 1px solid #45a29e;
-            font-size: 13px;
-            font-weight: bold;
-            color: #66fcf1;
-        }
+        .header { height: 50px; background: #151824; border-bottom: 1px solid rgba(102, 252, 241, 0.2); display: flex; justify-content: space-between; align-items: center; padding: 0 16px; flex-shrink: 0; }
+        .header h1 { font-size: 14px; color: #66fcf1; font-weight: 900; }
+        .balance { background: #0d0f17; padding: 4px 12px; border-radius: 20px; border: 1px solid #45a29e; font-size: 13px; font-weight: bold; color: #66fcf1; }
         
-        .main-container {
-            flex: 1;
-            overflow-y: auto;
-            padding: 12px;
-            position: relative;
-        }
-        .page {
-            display: none;
-            flex-direction: column;
-            width: 100%;
-        }
-        .page.active {
-            display: flex;
-        }
+        .main-container { flex: 1; overflow-y: auto; padding: 12px; position: relative; }
+        .page { display: none; flex-direction: column; width: 100%; }
+        .page.active { display: flex; }
         
-        .section-title {
-            font-size: 12px;
-            text-transform: uppercase;
-            color: #8f9bba;
-            font-weight: 800;
-            margin: 12px 0 6px 0;
-        }
-        .cases-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            width: 100%;
-            margin-bottom: 15px;
-        }
+        .section-title { font-size: 12px; text-transform: uppercase; color: #8f9bba; font-weight: 800; margin: 12px 0 6px 0; }
+        .cases-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; width: 100%; margin-bottom: 15px; }
         
         .case-card { 
-            background: #181c2b; 
-            border-radius: 10px; 
-            padding: 14px 10px; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            border: 1px solid #23283b; 
-            cursor: pointer;
-            position: relative;
-            z-index: 10;
-            transition: transform 0.1s, border-color 0.1s;
+            background: #181c2b; border-radius: 10px; padding: 12px 10px; display: flex; flex-direction: column; align-items: center; border: 1px solid #23283b; cursor: pointer; position: relative; z-index: 10;
         }
-        .case-card:active { 
-            transform: scale(0.96); 
-            border-color: #66fcf1; 
-        }
-        .case-card .name { 
-            font-size: 12px; 
-            font-weight: 700; 
-            margin-top: 6px; 
-            text-align: center; 
-            pointer-events: none; 
-        }
-        .case-card .price { 
-            font-size: 11px; 
-            color: #66fcf1; 
-            margin-top: 4px; 
-            font-weight: bold; 
-            pointer-events: none; 
-        }
+        .case-card:active { transform: scale(0.96); border-color: #66fcf1; }
+        .case-card .name { font-size: 12px; font-weight: 700; margin-top: 6px; text-align: center; pointer-events: none; }
+        .case-card .price { font-size: 11px; color: #66fcf1; margin-top: 4px; font-weight: bold; pointer-events: none; }
+        .tag { position: absolute; top: 6px; right: 6px; font-size: 8px; padding: 2px 5px; border-radius: 4px; font-weight: 900; background: #2ecc71; color: #fff; }
 
-        .roulette-box { 
-            position: relative; 
-            width: 100%; 
-            height: 110px; 
-            background: #121522; 
-            border: 2px solid #45a29e; 
-            border-radius: 12px; 
-            overflow: hidden; 
-            margin: 15px 0; 
-        }
-        .roulette-line { 
-            position: absolute; 
-            top: 0; 
-            left: 50%; 
-            transform: translateX(-50%); 
-            width: 2px; 
-            height: 100%; 
-            background: #66fcf1; 
-            z-index: 10; 
-        }
-        .roulette-track { 
-            display: flex; 
-            height: 100%; 
-            position: absolute; 
-            left: 0; 
-            top: 0; 
-        }
+        .roulette-box { position: relative; width: 100%; height: 110px; background: #121522; border: 2px solid #45a29e; border-radius: 12px; overflow: hidden; margin: 15px 0; }
+        .roulette-line { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 2px; height: 100%; background: #66fcf1; z-index: 10; }
+        .roulette-track { display: flex; height: 100%; position: absolute; left: 0; top: 0; }
+        
+        .skin-card { width: 90px; height: 85px; margin: 10px 4px; background: #181c2b; border-radius: 8px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 4px; flex-shrink: 0; border-bottom: 3px solid #fff; }
+        .skin-card img { width: 45px; height: 35px; object-fit: contain; }
+        .skin-card .title { font-size: 8px; text-align: center; margin-top: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; }
 
-        .btn { 
-            width: 100%; 
-            background: #66fcf1; 
-            border: none; 
-            color: #0d0f17; 
-            padding: 12px; 
-            font-size: 13px; 
-            font-weight: 800;
+        .trash { border-bottom-color: #b0c3d9; }
+        .mil-spec { border-bottom-color: #4b69ff; }
+        .restricted { border-bottom-color: #8847ff; }
+        .classified { border-bottom-color: #d32ce6; }
+        .covert { border-bottom-color: #eb4b4b; }
+        .extraordinary { border-bottom-color: #ffd700; }
 
-
-border-radius: 8px; 
-            cursor: pointer; 
-        }
+        .btn { width: 100%; background: #66fcf1; border: none; color: #0d0f17; padding: 12px; font-size: 13px; font-weight: 800; border-radius: 8px; cursor: pointer; text-align: center; }
         .btn:active { opacity: 0.8; }
+        .btn-green { background: #2ecc71; color: #fff; }
+        .btn-blue { background: #3498db; color: #fff; }
+        .btn-gray { background: #23283b; color: #ccc; }
+        .btn-sm { padding: 8px; font-size: 11px; }
 
-        .nav-bar { 
-            height: 50px; 
-            background: #151824; 
-            border-top: 1px solid rgba(102, 252, 241, 0.2); 
-            display: flex; 
-            width: 100%; 
-            flex-shrink: 0; 
-            z-index: 20;
-        }
-        .nav-item { 
-            flex: 1; 
-            height: 100%; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            color: #8f9bba; 
-            font-size: 11px; 
-            font-weight: 800; 
-            cursor: pointer; 
-            border: none; 
-            background: transparent; 
-        }
-        .nav-item.active { 
-            color: #66fcf1; 
-            border-top: 2px solid #66fcf1; 
-        }
+        .inventory-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; width: 100%; }
+        .
+
+
+inv-card { background: #181c2b; border-radius: 8px; padding: 10px; display: flex; flex-direction: column; align-items: center; border: 1px solid #23283b; }
+        .inv-card .title { font-size: 10px; text-align: center; margin: 4px 0; color: #aaa; }
+        .inv-card .price { font-size: 11px; font-weight: bold; color: #2ecc71; margin-bottom: 6px; }
+        .inv-btns { display: flex; gap: 4px; width: 100%; }
+        .inv-btns button { flex: 1; border: none; padding: 5px; font-size: 9px; font-weight: bold; border-radius: 4px; cursor: pointer; color: #fff; }
+        .btn-sell { background: #e74c3c; }
+        .btn-withdraw { background: #3498db; }
+
+        .profile-card { background: #181c2b; border-radius: 10px; padding: 12px; width: 100%; border: 1px solid #23283b; margin-bottom: 12px; }
+        .input-field { width: 100%; background: #121522; border: 1px solid #45a29e; color: #fff; padding: 8px; border-radius: 6px; font-size: 11px; margin: 6px 0; outline: none; }
+
+        .nav-bar { height: 50px; background: #151824; border-top: 1px solid rgba(102, 252, 241, 0.2); display: flex; width: 100%; flex-shrink: 0; z-index: 20; }
+        .nav-item { flex: 1; height: 100%; display: flex; align-items: center; justify-content: center; color: #8f9bba; font-size: 11px; font-weight: 800; cursor: pointer; border: none; background: transparent; }
+        .nav-item.active { color: #66fcf1; border-top: 2px solid #66fcf1; }
+
+        .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.85); z-index: 999; justify-content: center; align-items: center; }
+        .modal.active { display: flex; }
+        .modal-card { background: #181c2b; padding: 20px; border-radius: 12px; text-align: center; border: 1px solid #66fcf1; width: 85%; max-width: 300px; }
     </style>
 </head>
 <body>
@@ -200,7 +93,7 @@ border-radius: 8px;
 
         <!-- СТРАНИЦА ОТКРЫТИЯ -->
         <div id="pOpen" class="page">
-            <button class="btn" id="backBtn" style="width: auto; padding: 6px 12px; margin-bottom: 10px;">← Назад</button>
+            <button class="btn btn-sm btn-gray" id="backBtn" style="width: auto; align-self: flex-start; margin-bottom: 10px;">← Назад</button>
             <h3 id="cName">Кейс</h3>
             <div class="roulette-box">
                 <div class="roulette-line"></div>
@@ -209,70 +102,268 @@ border-radius: 8px;
             <button class="btn" id="spinBtn">Открыть</button>
         </div>
 
-        <!-- СТРАНИЦА ПРОФИЛЯ -->
+        <!-- ИНВЕНТАРЬ -->
+        <div id="pInv" class="page">
+            <div class="section-title">🎒 Ваш Инвентарь</div>
+            <div class="inventory-grid" id="invGrid"></div>
+        </div>
+
+        <!-- ПРОФИЛЬ -->
         <div id="pProf" class="page">
-            <h3 style="margin-bottom: 10px;">Профиль</h3>
-            <p id="uId" style="margin-bottom: 15px; color: #8f9bba;">ID: ---</p>
-            <div class="section-title">Реферальная ссылка:</div>
-            <input type="text" id="refLink" style="width:100%; padding: 10px; background:#181c2b; border:1px solid #45a29e; color:#fff; border-radius:6px;" readonly>
+            <div class="profile-card" style="text-align: center;">
+                <h3 id="uName">Пользователь</h3>
+                <p id="uId" style="color: #8f9bba; font-size: 11px;">ID: ---</p>
+            </div>
+
+            <div class="profile-card">
+                <div style="font-size: 12px; font-weight: 800; color: #66fcf1;">⚙️ Trade URL (для вывода)</div>
+                <input type="text" id="profTradeUrlInput" class="input-field" placeholder="https://steamcommunity.com/tradeoffer/new/?partner=...">
+                <button class="btn btn-blue btn-sm" id="saveTradeUrlBtn">Сохранить Trade URL</button>
+            </div>
+
+            <div class="profile-card">
+                <div style="font-size: 12px; font-weight: 800; color: #66fcf1;">🔗 Реферальная ссылка</div>
+                <input type="text" id="refLinkText" class="input-field" readonly>
+                <div style="display: flex; gap: 6px; margin-top: 6px;">
+
+
+<button class="btn btn-blue btn-sm" id="copyRefBtn" style="flex:1;">📋 Копировать</button>
+                    <button class="btn btn-green btn-sm" id="shareRefBtn" style="flex:1;">📲 Отправить другу</button>
+                </div>
+            </div>
         </div>
     </div>
 
+    <!-- МОДАЛЬНОЕ ОКНО ВЫИГРЫША -->
+    <div class="modal" id="winModal">
+        <div class="modal-card">
+            <h3 style="color: #66fcf1; font-size: 14px;">ВЫ ВЫБИЛИ!</h3>
+            <h4 id="mTitle" style="font-size: 12px; margin: 10px 0; color: #fff;">---</h4>
+            <p id="mPrice" style="color: #2ecc71; font-weight: bold; font-size: 13px; margin-bottom: 12px;">0 💎</p>
+            <button class="btn btn-green" id="mSellBtn" style="margin-bottom: 6px;">Продать</button>
+            <button class="btn btn-gray" id="mKeepBtn">Оставить в инвентаре</button>
+        </div>
+    </div>
+
+    <!-- НАВИГАЦИЯ -->
     <div class="nav-bar">
         <button class="nav-item active" id="tabCases">Кейсы</button>
+        <button class="nav-item" id="tabInv">Инвентарь</button>
         <button class="nav-item" id="tabProf">Профиль</button>
     </div>
 
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const tg = window.Telegram?.WebApp;
-            if (tg) {
-                tg.expand();
-                tg.ready();
-            }
+            if (tg) { tg.expand(); tg.ready(); }
 
             const userId = tg?.initDataUnsafe?.user?.id || "123456";
+            const botUsername = "TestCSing_bot"; 
+            const refLink = https://t.me/${botUsername}?start=${userId};
+
+            let balance = parseInt(localStorage.getItem("cs_balance")) || 1000;
+            let inventory = JSON.parse(localStorage.getItem("cs_inventory") || "[]");
+            let savedTradeUrl = localStorage.getItem("cs_trade_url") || "";
+
+            let currentCase = null;
+            let isSpinning = false;
+            let currentWin = null;
+
             document.getElementById("uId").innerText = "ID: " + userId;
-            document.getElementById("refLink").value = "https://t.me/TestCSing_bot?start=" + userId;
+            document.getElementById("refLinkText").value = refLink;
+            if (savedTradeUrl) document.getElementById("profTradeUrlInput").value = savedTradeUrl;
+
+            const skinPool = [
+                { id: 1, name: "P250 | Sand Dune", rarity: "trash", price: 5 },
+                { id: 2, name: "Glock-18 | Water Elemental", rarity: "restricted", price: 120 },
+                { id: 3, name: "AWP | Hyper Beast", rarity: "classified", price: 350 },
+                { id: 4, name: "AK-47 | Asiimov", rarity: "covert", price: 1200 },
+                { id: 5, name: "★ Butterfly Knife | Fade", rarity: "extraordinary", price: 15000 }
+            ];
 
             const cases = [
                 { id: "f1", name: "Free Start", price: 0, category: "free" },
-                { id: "f2", name: "Daily Bonus", price: 0, category: "free" },
                 { id: "c1", name: "Kilowatt Case", price: 150, category: "official" },
-                { id: "c2", name: "Revolution Case", price: 200, category: "official" },
-                { id: "c3", name: "Recoil Case", price: 120, category: "official" },
-                { id: "c4", name: "Dreams & Nightmares", price: 180, category: "official" }
+                { id: "c2", name: "Revolution Case", price: 200, category: "official" }
             ];
+
+            function saveData() {
+                localStorage.setItem("cs_balance", balance);
+                localStorage.setItem("cs_inventory", JSON.stringify(inventory));
+                localStorage.setItem("cs_trade_url", savedTradeUrl);
+            }
+
+            function updateUI() {
+                document.getElementById("balVal").innerText = balance;
+            }
 
             function renderCases() {
                 const freeG = document.getElementById("freeCasesGrid");
                 const offG = document.getElementById("officialCasesGrid");
-                
-                freeG.innerHTML = "";
-                offG.innerHTML = "";
+                freeG.innerHTML = ""; offG.innerHTML = "";
 
                 cases.forEach(c => {
                     const el = document.createElement("div");
                     el.className = "case-card";
                     el.innerHTML = `
+                        ${c.price === 0 ? '<div class="tag">FREE</div>' : ''}
                         <div class="name">${c.name}</div>
-
-
-<div class="price">${c.price > 0 ? c.price + " 💎" : "БЕСПЛАТНО"}</div>
+                        <div class="price">${c.price > 0 ? c.price + " 💎" : "БЕСПЛАТНО"}</div>
                     `;
                     
                     el.addEventListener("click", () => {
-                        document.getElementById("cName").innerText = c.name;
+                        currentCase = c;
+
+
+document.getElementById("cName").innerText = c.name;
                         switchTab("Open");
+                        buildTrack();
                     });
 
-                    if (c.category === "free") {
-                        freeG.appendChild(el);
-                    } else {
-                        offG.appendChild(el);
-                    }
+                    if (c.category === "free") freeG.appendChild(el);
+                    else offG.appendChild(el);
                 });
             }
+
+            function buildTrack() {
+                const track = document.getElementById("track");
+                track.innerHTML = "";
+                for (let i = 0; i < 50; i++) {
+                    const skin = skinPool[Math.floor(Math.random() * skinPool.length)];
+                    const card = document.createElement("div");
+                    card.className = skin-card ${skin.rarity};
+                    card.innerHTML = <div class="title">${skin.name}</div>;
+                    card.dataset.id = skin.id;
+                    track.appendChild(card);
+                }
+            }
+
+            function spinRoulette() {
+                if (isSpinning || !currentCase) return;
+                if (currentCase.price > balance) {
+                    alert("Недостаточно 💎!");
+                    return;
+                }
+
+                isSpinning = true;
+                balance -= currentCase.price;
+                updateUI();
+                saveData();
+
+                const track = document.getElementById("track");
+                track.style.transition = "none";
+                track.style.transform = "translateX(0px)";
+                buildTrack();
+
+                setTimeout(() => {
+                    const cardWidth = 98;
+                    const winIndex = 30;
+                    const targetX = (winIndex * cardWidth) - (track.parentElement.offsetWidth / 2) + (cardWidth / 2);
+
+                    track.style.transition = "transform 4s cubic-bezier(0.1, 0.8, 0.1, 1)";
+                    track.style.transform = translateX(-${targetX}px);
+
+                    setTimeout(() => {
+                        const winId = track.children[winIndex].dataset.id;
+                        currentWin = skinPool.find(s => s.id == winId) || skinPool[0];
+                        showWinModal(currentWin);
+                    }, 4200);
+                }, 50);
+            }
+
+            function showWinModal(skin) {
+                document.getElementById("mTitle").innerText = skin.name;
+                document.getElementById("mPrice").innerText = "+" + skin.price + " 💎";
+                document.getElementById("winModal").classList.add("active");
+            }
+
+            document.getElementById("mSellBtn").addEventListener("click", () => {
+                if (!currentWin) return;
+                balance += currentWin.price;
+                updateUI();
+                saveData();
+                closeWinModal();
+            });
+
+            document.getElementById("mKeepBtn").addEventListener("click", () => {
+                if (!currentWin) return;
+                inventory.push(Object.assign({}, currentWin));
+                saveData();
+                closeWinModal();
+            });
+
+            function closeWinModal() {
+                document.getElementById("winModal").classList.remove("active");
+                currentWin = null;
+                isSpinning = false;
+            }
+
+            function renderInventory() {
+                const grid = document.getElementById("invGrid");
+                grid.innerHTML = "";
+                if (inventory.length === 0) {
+                    grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #8f9bba; font-size: 12px; margin-top: 20px;">Инвентарь пуст</p>';
+                    return;
+                }
+
+                inventory.forEach((item, index) => {
+                    const card = document.createElement("div");
+                    card.className = "inv-card";
+                    card.innerHTML = `
+                        <div class="title">${item.name}</div>
+                        <div class="price">${item.price} 💎</div>
+                        <div class="inv-btns">
+
+
+<button class="btn-sell">Продать</button>
+                            <button class="btn-withdraw">Вывести</button>
+                        </div>
+                    `;
+
+                    card.querySelector(".btn-sell").addEventListener("click", () => {
+                        balance += item.price;
+                        inventory.splice(index, 1);
+                        saveData();
+                        updateUI();
+                        renderInventory();
+                    });
+
+                    card.querySelector(".btn-withdraw").addEventListener("click", () => {
+                        if (!savedTradeUrl || savedTradeUrl.trim() === "") {
+                            alert("⚠️ Вы не указали Trade URL!\n\nПерейдите в раздел 'Профиль' и сохраните ссылку на обмен.");
+                            switchTab("Prof");
+                            return;
+                        }
+                        alert(`✅ Заявка на вывод предмета "${item.name}" отправлена на ваш Trade URL!`);
+                        inventory.splice(index, 1);
+                        saveData();
+                        renderInventory();
+                    });
+
+                    grid.appendChild(card);
+                });
+            }
+
+            document.getElementById("saveTradeUrlBtn").addEventListener("click", () => {
+                const val = document.getElementById("profTradeUrlInput").value.trim();
+                if (!val) {
+                    alert("Введите Trade URL!");
+                    return;
+                }
+                savedTradeUrl = val;
+                saveData();
+                alert("✅ Trade URL успешно сохранён!");
+            });
+
+            document.getElementById("copyRefBtn").addEventListener("click", () => {
+                navigator.clipboard.writeText(refLink).then(() => alert("Ссылка скопирована!"));
+            });
+
+            document.getElementById("shareRefBtn").addEventListener("click", () => {
+                const shareUrl = https://t.me/share/url?url=${encodeURIComponent(refLink)}&text=${encodeURIComponent("Открывай бесплатные кейсы CS2!")};
+                if (tg?.openTelegramLink) tg.openTelegramLink(shareUrl);
+                else window.open(shareUrl, "_blank");
+            });
 
             function switchTab(tab) {
                 document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
@@ -281,6 +372,10 @@ border-radius: 8px;
                 if (tab === "Cases") {
                     document.getElementById("pCases").classList.add("active");
                     document.getElementById("tabCases").classList.add("active");
+                } else if (tab === "Inv") {
+                    document.getElementById("pInv").classList.add("active");
+                    document.getElementById("tabInv").classList.add("active");
+                    renderInventory();
                 } else if (tab === "Prof") {
                     document.getElementById("pProf").classList.add("active");
                     document.getElementById("tabProf").classList.add("active");
@@ -290,9 +385,12 @@ border-radius: 8px;
             }
 
             document.getElementById("tabCases").addEventListener("click", () => switchTab("Cases"));
+            document.getElementById("tabInv").addEventListener("click", () => switchTab("Inv"));
             document.getElementById("tabProf").addEventListener("click", () => switchTab("Prof"));
             document.getElementById("backBtn").addEventListener("click", () => switchTab("Cases"));
+            document.getElementById("spinBtn").addEventListener("click", spinRoulette);
 
+            updateUI();
             renderCases();
         });
     </script>
