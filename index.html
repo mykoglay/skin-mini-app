@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <title>CS2 Cases</title>
-    <!-- Официальный SDK Telegram Mini Apps -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; -webkit-user-select: none; }
@@ -46,8 +45,8 @@
 
 
 price { font-size: 11px; font-weight: bold; color: #2ec771; margin-bottom: 6px; }
+        .btn-sell-inv { background: #27ae60; border: none; color: white; border-radius: 4px; padding: 4px 8px; font-size: 10px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 4px; }
         
-        /* Исправление верстки для меню */
         .nav-bar { height: 60px; background: #14161f; border-top: 1px solid #252836; display: flex; flex-direction: row; justify-content: space-around; align-items: center; width: 100%; flex-shrink: 0; z-index: 100; }
         .nav-item { flex: 1; height: 100%; display: flex; align-items: center; justify-content: center; color: #7f8c8d; font-size: 13px; font-weight: bold; cursor: pointer; background: transparent; border: none; }
         .nav-item.active { color: #f39c12; }
@@ -118,16 +117,14 @@ price { font-size: 11px; font-weight: bold; color: #2ec771; margin-bottom: 6px; 
                 tg.ready();
             }
 
-            // Загрузка реальных данных из Telegram
             if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) {
                 var user = tg.initDataUnsafe.user;
                 var name = user.first_name + (user.last_name ? " " + user.last_name : "");
                 document.getElementById("uName").innerText = name;
                 document.getElementById("uId").innerText = "ID: " + user.id;
-                document.getElementById("uAvatar").innerText = user.first_name ? user.first_name.
 
 
-charAt(0).toUpperCase() : "U";
+document.getElementById("uAvatar").innerText = user.first_name ? user.first_name.charAt(0).toUpperCase() : "U";
             }
 
             var skins = [
@@ -138,13 +135,31 @@ charAt(0).toUpperCase() : "U";
                 { id: 5, name: "USP-S | Cyrex", rarity: "restricted", price: 70, tag: "USP-S", bg: "#8e44ad" }
             ];
 
-            var balance = 1000;
+            // Загрузка сохранённого состояния из localStorage
+            var balance = parseInt(localStorage.getItem("cs_balance"));
+            if (isNaN(balance)) balance = 1000;
+
             var inventory = [];
+            try {
+                var savedInv = localStorage.getItem("cs_inventory");
+                if (savedInv) inventory = JSON.parse(savedInv);
+            } catch(e) { inventory = []; }
+
             var isSpinning = false;
             var currentWin = null;
 
             var track = document.getElementById("track");
             var openBtn = document.getElementById("openBtn");
+
+            // Функция сохранения данных в память браузера
+            function saveData() {
+                localStorage.setItem("cs_balance", balance);
+                localStorage.setItem("cs_inventory", JSON.stringify(inventory));
+            }
+
+            function updateBalanceUI() {
+                document.getElementById("balVal").innerText = balance;
+            }
 
             function buildTrack() {
                 track.innerHTML = "";
@@ -168,7 +183,8 @@ charAt(0).toUpperCase() : "U";
                 isSpinning = true;
                 openBtn.disabled = true;
                 balance -= 100;
-                document.getElementById("balVal").innerText = balance;
+                updateBalanceUI();
+                saveData();
 
                 track.style.transition = "none";
                 track.style.transform = "translateX(0px)";
@@ -199,7 +215,10 @@ charAt(0).toUpperCase() : "U";
             }
 
             function showWinModal(skin) {
-                document.getElementById("mShapeBox").innerHTML = '<div class="gun-badge" style="background:' + skin.bg + '; width: 80px; height: 40px; font-size: 14px;">' + skin.tag + '</div>';
+                document.getElementById("mShapeBox").
+
+
+innerHTML = '<div class="gun-badge" style="background:' + skin.bg + '; width: 80px; height: 40px; font-size: 14px;">' + skin.tag + '</div>';
                 document.getElementById("mTitle").innerText = skin.name;
                 document.getElementById("mPrice").innerText = "+" + skin.price + " 💎";
                 document.getElementById("mSellBtn").innerText = "Продать за " + skin.price + " 💎";
@@ -209,15 +228,17 @@ charAt(0).toUpperCase() : "U";
             document.getElementById("mSellBtn").onclick = function() {
                 if (!currentWin) return;
                 balance += currentWin.price;
-                document.getElementById("balVal").innerText = balance;
+                updateBalanceUI();
+                saveData();
                 closeWinModal();
             };
 
             document.getElementById("mKeepBtn").onclick = function() {
-
-
-if (!currentWin) return;
-                inventory.push(currentWin);
+                if (!currentWin) return;
+                // Присваиваем уникальный ID экземпляра для корректной продажи
+                var skinItem = Object.assign({}, currentWin, { instanceId: Date.now() + Math.random() });
+                inventory.push(skinItem);
+                saveData();
                 closeWinModal();
             };
 
@@ -248,12 +269,29 @@ if (!currentWin) return;
                     grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #7f8c8d; font-size: 13px; margin-top: 20px;">Инвентарь пуст</p>';
                     return;
                 }
+
                 for (var i = 0; i < inventory.length; i++) {
-                    var item = inventory[i];
-                    var card = document.createElement("div");
-                    card.className = "inv-card " + item.rarity;
-                    card.innerHTML = '<div class="gun-badge" style="background:' + item.bg + '">' + item.tag + '</div><div class="title">' + item.name + '</div><div class="price">' + item.price + ' 💎</div>';
-                    grid.appendChild(card);
+                    (function(index) {
+                        var item = inventory[index];
+                        var card = document.createElement("div");
+                        card.className = "inv-card " + item.rarity;
+                        card.innerHTML = 
+                            '<div class="gun-badge" style="background:' + item.bg + '">' + item.tag + '</div>' +
+                            '<div class="title">' + item.name + '</div>' +
+                            '<div class="price">' + item.price + ' 💎</div>' +
+                            '<button class="btn-sell-inv">Продать</button>';
+                        
+                        // Обработка продажи предмета из инвентаря
+                        card.querySelector(".btn-sell-inv").onclick = function() {
+                            balance += item.price;
+                            inventory.splice(index, 1);
+                            saveData();
+                            updateBalanceUI();
+                            renderInventory();
+                        };
+
+                        grid.appendChild(card);
+                    })(i);
                 }
             }
 
@@ -262,6 +300,7 @@ if (!currentWin) return;
             document.getElementById("btnInv").onclick = function() { switchTab('Inv', this); };
             document.getElementById("btnProf").onclick = function() { switchTab('Prof', this); };
 
+            updateBalanceUI();
             buildTrack();
         });
     </script>
