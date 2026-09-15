@@ -8,74 +8,95 @@
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; -webkit-user-select: none; }
-        body { background-color: #0b0c10; color: #ffffff; font-family: -apple-system, BlinkMacSystemFont, sans-serif; height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
+        body { background-color: #0d0f17; color: #ffffff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
         
-        .header { height: 50px; background: #1f2833; border-bottom: 1px solid #45a29e; display: flex; justify-content: space-between; align-items: center; padding: 0 16px; flex-shrink: 0; }
-        .header h1 { font-size: 15px; color: #66fcf1; font-weight: 800; }
-        .balance { background: #0b0c10; padding: 6px 12px; border-radius: 20px; border: 1px solid #45a29e; font-size: 13px; font-weight: bold; color: #66fcf1; }
+        .header { height: 52px; background: #151824; border-bottom: 1px solid rgba(102, 252, 241, 0.2); display: flex; justify-content: space-between; align-items: center; padding: 0 16px; flex-shrink: 0; }
+        .header h1 { font-size: 15px; color: #66fcf1; font-weight: 900; letter-spacing: 0.5px; text-transform: uppercase; }
+        .balance { background: #0d0f17; padding: 6px 14px; border-radius: 20px; border: 1px solid #45a29e; font-size: 13px; font-weight: bold; color: #66fcf1; box-shadow: 0 0 10px rgba(102, 252, 241, 0.15); }
         
         .main-container { flex: 1; position: relative; overflow: hidden; display: flex; flex-direction: column; }
         .page { display: none; width: 100%; height: 100%; padding: 12px; flex-direction: column; align-items: center; overflow-y: auto; }
         .page.active { display: flex; }
         
-        /* Сетка кейсов */
-        .section-title { font-size: 13px; text-transform: uppercase; color: #c5c6c7; font-weight: bold; margin: 12px 0 8px 0; width: 100%; text-align: left; }
-        .cases-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; width: 100%; margin-bottom: 15px; }
-        .case-card { background: #1f2833; border-radius: 10px; padding: 12px; display: flex; flex-direction: column; align-items: center; border: 1px solid #252836; cursor: pointer; position: relative; }
-        .case-card:active { transform: scale(0.98); }
-        .case-card .icon { font-size: 38px; margin-bottom: 6px; }
-        .case-card .name { font-size: 12px; font-weight: bold; color: #fff; text-align: center; }
-        .case-card .price { font-size: 11px; color: #66fcf1; margin-top: 4px; font-weight: bold; }
-        .case-card .tag { position: absolute; top: 6px; right: 6px; font-size: 8px; padding: 2px 5px; border-radius: 4px; font-weight: bold; background: #e74c3c; color: #fff; }
+        .section-title { font-size: 12px; text-transform: uppercase; color: #8f9bba; font-weight: 800; margin: 14px 0 8px 0; width: 100%; text-align: left; letter-spacing: 0.5px; }
+        .cases-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; width: 100%; margin-bottom: 10px; }
+        
+        .case-card { 
+            background: linear-gradient(145deg, #181c2b, #121522); 
+            border-radius: 12px; 
+            padding: 10px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            border: 1px solid #23283b; 
+            cursor: pointer; 
+            position: relative; 
+            transition: all 0.2s ease;
+        }
+        .case-card:active { transform: scale(0.96); border-color: #66fcf1; }
+        .case-card img.case-img { width: 85px; height: 65px; object-fit: contain; margin-bottom: 6px; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5)); }
+        .case-card .name { font-size: 12px; font-weight: 700; color: #fff; text-align: center; }
+        .case-card .price { font-size: 11px; color: #66fcf1; margin-top: 4px; font-weight: bold; background: rgba(102, 252, 241, 0.1); padding: 3px 8px; border-radius: 12px; }
+        .case-card .tag { position: absolute; top: 8px; right: 8px; font-size: 8px; padding: 2px 6px; border-radius: 4px; font-weight: 900; background: #e74c3c; color: #fff; text-transform: uppercase; }
         .case-card .tag.free { background: #2ecc71; }
         
-        /* Рулетка */
-        .back-btn { align-self: flex-start; background: #1f2833; border: 1px solid #45a29e; color: #fff; padding: 6px 12px; border-radius: 6px; font-size: 12px; cursor: pointer; margin-bottom: 10px; }
-        .roulette-box { position: relative; width: 100%; height: 110px; background: #1f2833; border: 2px solid #45a29e; border-radius: 12px; overflow: hidden; margin-bottom: 15px; flex-shrink: 0; }
-        .roulette-line { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 3px; height: 100%; background: #66fcf1; z-index: 10; box-shadow: 0 0 8px #66fcf1; }
+        .back-btn { align-self: flex-start; background: #181c2b; border: 1px solid #45a29e; color: #fff; padding: 6px 14px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; margin-bottom: 12px; }
+        .roulette-box { position: relative; width: 100%; height: 115px; background: #121522; border: 2px solid #45a29e; border-radius: 14px; overflow: hidden; margin-bottom: 15px; flex-shrink: 0; box-shadow: inset 0 0 20px rgba(0,0,0,0.8); }
+        .roulette-line { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 3px; height: 100%; background: #66fcf1; z-index: 10; box-shadow: 0 0 10px #66fcf1; }
         .roulette-track { display: flex; height: 100%; position: absolute; left: 0; top: 0; width: max-content; }
         
-        .skin-card { width: 90px; height: 85px; margin: 10px 4px; background: #0b0c10; border-radius: 8px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 6px; border-bottom: 4px solid #fff; flex-shrink: 0; }
-        .gun-badge { width: 50px; height: 26px; border-radius: 4px; margin-bottom: 4px; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: bold; color: #fff; text-shadow: 0 1px 2px #000; text-align: center; }
-        .skin-card .title { font-size: 9px; text-align: center; color: #ddd; font-weight: 600; width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .skin-card { width: 95px; height: 90px; margin: 12px 4px; background: #181c2b; border-radius: 8px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 6px; border-bottom: 4px solid #fff; flex-shrink: 0; position: relative; }
+        .
+
+
+skin-card img { width: 50px; height: 38px; object-fit: contain; margin-bottom: 4px; }
+        .skin-card .title { font-size: 9px; text-align: center; color: #e1e1e1; font-weight: 600; width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         
-        /* Редкости CS2 */
         .trash { border-bottom-color: #b0c3d9; }
         .mil-spec { border-bottom-color: #4b69ff; }
         .restricted { border-bottom-color: #8847ff; }
-
-
-.classified { border-bottom-color: #d32ce6; }
+        .classified { border-bottom-color: #d32ce6; }
         .covert { border-bottom-color: #eb4b4b; }
         .extraordinary { border-bottom-color: #ffd700; }
         
-        .btn { width: 100%; background: linear-gradient(135deg, #45a29e, #66fcf1); border: none; color: #0b0c10; padding: 12px; font-size: 14px; font-weight: bold; border-radius: 10px; cursor: pointer; text-align: center; margin-top: 8px; }
+        .btn { width: 100%; background: linear-gradient(135deg, #45a29e, #66fcf1); border: none; color: #0d0f17; padding: 12px; font-size: 14px; font-weight: 800; border-radius: 10px; cursor: pointer; text-align: center; margin-top: 8px; }
         .btn:disabled { opacity: 0.4; cursor: not-allowed; }
-        .btn-green { background: #2ecc71; color: #fff; }
-        .btn-blue { background: #3498db; color: #fff; }
-        .btn-gray { background: #1f2833; color: #ccc; }
-        .btn-sm { padding: 6px 10px; font-size: 10px; border-radius: 6px; }
+        .btn-green { background: linear-gradient(135deg, #27ae60, #2ecc71); color: #fff; }
+        .btn-blue { background: linear-gradient(135deg, #2980b9, #3498db); color: #fff; }
+        .btn-gray { background: #23283b; color: #ccc; }
+        .btn-sm { padding: 8px 10px; font-size: 11px; border-radius: 8px; }
         
-        /* Инвентарь */
         .inventory-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; width: 100%; }
-        .inv-card { background: #1f2833; border-radius: 8px; padding: 10px; display: flex; flex-direction: column; align-items: center; border: 1px solid #252836; }
-        .inv-card .title { font-size: 10px; text-align: center; color: #aaa; margin: 4px 0; }
-        .inv-card .price { font-size: 11px; font-weight: bold; color: #2ecc71; margin-bottom: 6px; }
+        .inv-card { background: #181c2b; border-radius: 10px; padding: 10px; display: flex; flex-direction: column; align-items: center; border: 1px solid #23283b; }
+        .inv-card img { width: 60px; height: 45px; object-fit: contain; margin-bottom: 6px; }
+        .inv-card .title { font-size: 10px; text-align: center; color: #aaa; margin: 4px 0; height: 26px; overflow: hidden; }
+        .inv-card .price { font-size: 11px; font-weight: bold; color: #2ecc71; margin-bottom: 8px; }
         .inv-btn-group { display: flex; gap: 6px; width: 100%; }
-        .btn-sell-inv { background: #e74c3c; border: none; color: white; border-radius: 4px; padding: 6px; font-size: 10px; font-weight: bold; cursor: pointer; flex: 1; }
-        .btn-withdraw-inv { background: #3498db; border: none; color: white; border-radius: 4px; padding: 6px; font-size: 10px; font-weight: bold; cursor: pointer; flex: 1; }
+        .btn-sell-inv { background: #e74c3c; border: none; color: white; border-radius: 6px; padding: 6px; font-size: 10px; font-weight: bold; cursor: pointer; flex: 1; }
+        .btn-withdraw-inv { background: #3498db; border: none; color: white; border-radius: 6px; padding: 6px; font-size: 10px; font-weight: bold; cursor: pointer; flex: 1; }
 
-        .nav-bar { height: 55px; background: #1f2833; border-top: 1px solid #45a29e; display: flex; flex-direction: row; justify-content: space-around; align-items: center; width: 100%; flex-shrink: 0; z-index: 100; }
-        .nav-item { flex: 1; height: 100%; display: flex; align-items: center; justify-content: center; color: #c5c6c7; font-size: 12px; font-weight: bold; cursor: pointer; background: transparent; border: none; }
-        .nav-item.active { color: #66fcf1; }
-
-        .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.85); z-index: 999; justify-content: center; align-items: center; }
-        .modal.active { display: flex; }
-        .modal-card { background: #1f2833; padding: 20px; border-radius: 16px; text-align: center; border: 2px solid #66fcf1; width: 85%; max-width: 310px; }
+        .profile-card { background: #181c2b; border-radius: 14px; padding: 16px; width: 100%; border: 1px solid #23283b; margin-bottom: 12px; }
+        .profile-title { font-size: 13px; font-weight: 800; color: #66fcf1; text-transform: uppercase; margin-bottom: 10px; text-align: left; }
         
-        .input-field { width: 100%; background: #0b0c10; border: 1px solid #45a29e; color: #fff; padding: 10px; border-radius: 8px; font-size: 12px; margin: 10px 0; text-align: center; outline: none; }
-        .condition-desc { font-size: 11px; color: #e74c3c; margin-top: 6px; text-align: center; }
-        .ref-box { background: #0b0c10; border: 1px dashed #45a29e; border-radius: 8px; padding: 8px; margin: 10px 0; font-size: 11px; color: #66fcf1; word-break: break-all; }
+        .input-field { width: 100%; background: #121522; border: 1px solid #45a29e; color: #fff; padding: 10px 12px; border-radius: 8px; font-size: 12px; margin: 8px 0; outline: none; }
+        .input-field:focus { border-color: #66fcf1; box-shadow: 0 0 8px rgba(102, 252, 241, 0.3); }
+        
+        .mini-link { display: inline-block; font-size: 11px; color: #3498db; text-decoration: underline; margin-top: 4px; cursor: pointer; font-weight: 600; }
+        .mini-link:hover { color: #5dade2; }
+
+        .nav-bar { height: 56px; background: #151824; border-top: 1px solid rgba(102, 252, 241, 0.2); display: flex; justify-content: space-around; align-items: center; width: 100%; flex-shrink: 0; z-index: 100; }
+        .nav-item { flex: 1; height: 100%; display: flex; align-items: center; justify-content: center; color: #8f9bba; font-size: 12px; font-weight: 800; cursor: pointer; background: transparent; border: none; text-transform: uppercase; }
+        .nav-item.active { color: #66fcf1; border-top: 2px solid #66fcf1; }
+
+        .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.85); z-index: 999; justify-content: center; align-items: center; backdrop-filter: blur(4px); }
+        .modal.active { display: flex; }
+        .modal-card { background: #181c2b; padding: 20px; border-radius: 16px; text-align: center; border: 1px solid #66fcf1; width: 85%; max-width: 310px; box-shadow: 0 0 20px rgba(102, 252, 241, 0.2); }
+        
+        .
+
+
+condition-desc { font-size: 11px; color: #e74c3c; margin-top: 6px; text-align: center; font-weight: 600; }
+        .ref-box { background: #121522; border: 1px dashed #45a29e; border-radius: 8px; padding: 8px; margin: 10px 0; font-size: 11px; color: #66fcf1; word-break: break-all; }
     </style>
 </head>
 <body>
@@ -108,8 +129,7 @@
                 <div class="roulette-track" id="track"></div>
             </div>
 
-
-<button class="btn" id="openBtn">Открыть кейс</button>
+            <button class="btn" id="openBtn">Открыть кейс</button>
             <div class="condition-desc" id="condDesc"></div>
         </div>
 
@@ -118,24 +138,34 @@
             <div class="inventory-grid" id="invGrid"></div>
         </div>
 
-        <!-- Профиль и рефералы -->
+        <!-- Профиль -->
         <div id="pProf" class="page">
-            <div style="background: #1f2833; padding: 16px; border-radius: 12px; width: 100%; text-align: center; border: 1px solid #45a29e;">
-                <h3 id="uName" style="font-size: 16px;">Пользователь</h3>
-                <p id="uId" style="color: #c5c6c7; font-size: 12px; margin-top: 4px;">ID: ---</p>
+            <div class="profile-card" style="text-align: center;">
+                <h3 id="uName" style="font-size: 16px; color: #fff;">Пользователь</h3>
+                <p id="uId" style="color: #8f9bba; font-size: 12px; margin-top: 2px;">ID: ---</p>
                 
-                <div style="margin-top: 15px; text-align: left; font-size: 12px; border-top: 1px solid #252836; padding-top: 10px;">
+                <div style="margin-top: 12px; text-align: left; font-size: 12px; border-top: 1px solid #23283b; padding-top: 10px;">
                     <p>💳 Депозит от 5$: <b id="depStatus" style="color: #e74c3c;">Нет</b></p>
-                    <p style="margin-top: 4px;">👥 Активные рефералы: <b id="refCount" style="color: #66fcf1;">0 / 5</b></p>
+                    <p style="margin-top: 4px;">👥 Приглашенные рефералы: <b id="refCount" style="color: #66fcf1;">0</b></p>
                 </div>
+            </div>
 
-                <div style="margin-top: 15px; border-top: 1px solid #252836; padding-top: 10px;">
-                    <p style="font-size: 12px; color: #c5c6c7; font-weight: bold;">🔗 Ваша реферальная ссылка:</p>
-                    <div class="ref-box" id="refLinkText">https://t.me/your_bot?start=12345</div>
-                    <div style="display: flex; gap: 8px;">
-                        <button class="btn btn-blue btn-sm" id="copyRefBtn" style="flex:1;">📋 Скопировать</button>
-                        <button class="btn btn-green btn-sm" id="shareRefBtn" style="flex:1;">📲 Отправить другу</button>
-                    </div>
+            <div class="profile-card">
+                <div class="profile-title">⚙️ Настройки вывода (Steam Trade URL)</div>
+                <p style="font-size: 11px; color: #aaa;">Укажите ваш Trade URL один раз, чтобы выводить выбитые предметы в 1 клик:</p>
+                <input type="text" id="profTradeUrlInput" class="input-field" placeholder="https://steamcommunity.com/tradeoffer/new/?partner=...">
+                <div style="text-align: left;">
+                    <a id="getTradeUrlLink" class="mini-link">🔗 Где взять ссылку на обмен (Trade URL)?</a>
+                </div>
+                <button class="btn btn-blue btn-sm" id="saveTradeUrlBtn" style="margin-top: 10px; width: 100%;">Сохранить Trade URL</button>
+            </div>
+
+            <div class="profile-card">
+                <div class="profile-title">🔗 Реферальная ссылка</div>
+                <div class="ref-box" id="refLinkText">https://t.me/testingbotcs_bot?start=12345</div>
+                <div style="display: flex; gap: 8px;">
+                    <button class="btn btn-blue btn-sm" id="copyRefBtn" style="flex:1;">📋 Скопировать</button>
+                    <button class="btn btn-green btn-sm" id="shareRefBtn" style="flex:1;">📲 Отправить другу</button>
                 </div>
             </div>
         </div>
@@ -147,26 +177,16 @@
         <button class="nav-item" id="btnProf">Профиль</button>
     </div>
 
-    <!-- Модальное окно выигрыша -->
     <div class="modal" id="winModal">
         <div class="modal-card">
-            <h2 style="color: #66fcf1; font-size: 15px;">ВЫ ВЫБИЛИ!</h2>
+
+
+<h2 style="color: #66fcf1; font-size: 15px;">ВЫ ВЫБИЛИ!</h2>
             <div id="mShapeBox" style="margin: 15px 0; display: flex; justify-content: center;"></div>
             <h3 id="mTitle" style="font-size: 12px; color: #fff;">---</h3>
             <p id="mPrice" style="color: #2ecc71; font-weight: bold; font-size: 13px; margin: 8px 0;">0 💎</p>
             <button class="btn btn-green" id="mSellBtn" style="margin-bottom: 8px;">Продать</button>
             <button class="btn btn-gray" id="mKeepBtn">Оставить в инвентаре</button>
-        </div>
-    </div>
-
-    <!-- Модальное окно вывода предметов -->
-    <div class="modal" id="withdrawModal">
-        <div class="modal-card">
-            <h2 style="color: #3498db; font-size: 15px;">ВЫВОД ПРЕДМЕТА</h2>
-            <p id="wItemTitle" style="font-size: 12px; color: #fff; margin-top: 8px;">Предмет</p>
-            <input type="text" id="tradeUrlInput" class="input-field" placeholder="Вставьте ваш Trade URL или кошелек">
-            <button class="btn btn-blue" id="confirmWithdrawBtn">Подтвердить вывод</button>
-            <button class="btn btn-gray" id="closeWithdrawBtn" style="margin-top: 6px;">Отмена</button>
         </div>
     </div>
 
@@ -176,75 +196,93 @@
             if (tg) { tg.expand(); tg.ready(); }
 
             var userId = (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) ? tg.initDataUnsafe.user.id : "12345678";
-            var botUsername = "testingbotcs_bot"; // Укажите имя вашего бота
+            var botUsername = "testingbotcs_bot"; 
             var refLink = "https://t.me/" + botUsername + "?start=" + userId;
 
             document.getElementById("refLinkText").innerText = refLink;
 
             if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) {
                 var user = tg.initDataUnsafe.user;
-                document.getElementById("uName").innerText = user.
-
-
-first_name + (user.last_name ? " " + user.last_name : "");
+                document.getElementById("uName").innerText = user.first_name + (user.last_name ? " " + user.last_name : "");
                 document.getElementById("uId").innerText = "ID: " + user.id;
             }
 
-            // Пул предметов с дешёвыми наклейками и ширпом ($0.001 = 1-2 💎)
+            // Обработка реферального параметра
+            var startParam = (tg && tg.initDataUnsafe) ? tg.initDataUnsafe.start_param : null;
+            var userStats = JSON.parse(localStorage.getItem("cs_user_stats") || '{"deposited": false, "refs": 0, "referredBy": null, "openedFree": {}}');
+
+            if (startParam && startParam != userId && !userStats.referredBy) {
+                userStats.referredBy = startParam;
+                // В локальном окружении увеличиваем счетчик реферала для пригласившего
+                var refList = JSON.parse(localStorage.getItem("cs_ref_counts") || "{}");
+                refList[startParam] = (refList[startParam] || 0) + 1;
+                localStorage.setItem("cs_ref_counts", JSON.stringify(refList));
+            }
+
+            // Подгружаем общее количество рефералов пользователя
+            var allRefCounts = JSON.parse(localStorage.getItem("cs_ref_counts") || "{}");
+            userStats.refs = allRefCounts[userId]  userStats.refs  0;
+
+            var caseImages = {
+                free: "https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZFCb5B7nUVnmOi639g2C04610G33L41B24c6ff2_63065b20b22ffL91b5c_L9d06b00",
+                kilowatt: "https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZFCb5B7nUVnmOi639g2C04610G33L41B24c6ff2_63065b20b22ffL91b5c_L9d06b00",
+                revolution: "https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZFCb5B7nUVnmOi639g2C04610G33L41B24c6ff2_63065b20b22ffL91b5c_L9d06b00",
+                recoil: "https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZFCb5B7nUVnmOi639g2C04610G33L41B24c6ff2_63065b20b22ffL91b5c_L9d06b00"
+            };
+
             var skinPool = [
-                // Ширпотреб и Наклейки ($0.001 - $0.01) - высокая вероятность для бесплатных кейсов
-                { id: 1, name: "Sticker | PGT (Paper)", rarity: "trash", price: 1, tag: "Sticker", bg: "#b0c3d9", weight: 65 },
-                { id: 2, name: "P250 | Sand Dune (BS)", rarity: "trash", price: 1, tag: "P250", bg: "#b0c3d9", weight: 60 },
-                { id: 3, name: "Sticker | Chicken Lover", rarity: "trash", price: 2, tag: "Sticker", bg: "#b0c3d9", weight: 50 },
-                
-                // Mil-spec ($0.05 - $0.10)
-                { id: 101, name: "P90 | Traction", rarity: "mil-spec", price: 10, tag: "P90", bg: "#4b69ff", weight: 20 },
-                
-                // Restricted / Classified ($0.50 - $3.50)
-                { id: 201, name: "Glock-18 | Water Elemental", rarity: "restricted", price: 120, tag: "Glock", bg: "#8847ff", weight: 5 },
-                { id: 301, name: "AWP | Hyper Beast", rarity: "classified", price: 350, tag: "AWP", bg: "#d32ce6", weight: 1.5 },
-                
-                // Covert / Rare ($10+)
-                { id: 401, name: "AK-47 | Asiimov", rarity: "covert", price: 1200, tag: "AK-47", bg: "#eb4b4b", weight: 0.3 },
-                { id: 501, name: "Butterfly Knife | Fade", rarity: "extraordinary", price: 18000, tag: "★ Knife", bg: "#ffd700", weight: 0.05 }
+                { id: 1, name: "Sticker | PGT (Paper)", rarity: "trash", price: 1, img: "https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZFCb5B7nUVnmOi639g2C04610G33L41B24c6ff2_63065b20b22ffL91b5c_L9d06b00", weight: 65 },
+                { id: 2, name: "P250 | Sand Dune (BS)", rarity: "trash", price: 1, img: "https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZFCb5B7nUVnmOi639g2C04610G33L41B24c6ff2_63065b20b22ffL91b5c_L9d06b00", weight: 60 },
+                { id: 3, name: "Sticker | Chicken Lover", rarity: "trash", price: 2, img: "https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZFCb5B7nUVnmOi639g2C04610G33L41B24c6ff2_63065b20b22ffL91b5c_L9d06b00", weight: 50 },
+
+
+{ id: 101, name: "P90 | Traction", rarity: "mil-spec", price: 10, img: "https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZFCb5B7nUVnmOi639g2C04610G33L41B24c6ff2_63065b20b22ffL91b5c_L9d06b00", weight: 20 },
+                { id: 201, name: "Glock-18 | Water Elemental", rarity: "restricted", price: 120, img: "https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZFCb5B7nUVnmOi639g2C04610G33L41B24c6ff2_63065b20b22ffL91b5c_L9d06b00", weight: 5 },
+                { id: 301, name: "AWP | Hyper Beast", rarity: "classified", price: 350, img: "https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZFCb5B7nUVnmOi639g2C04610G33L41B24c6ff2_63065b20b22ffL91b5c_L9d06b00", weight: 1.5 },
+                { id: 401, name: "AK-47 | Asiimov", rarity: "covert", price: 1200, img: "https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZFCb5B7nUVnmOi639g2C04610G33L41B24c6ff2_63065b20b22ffL91b5c_L9d06b00", weight: 0.3 },
+                { id: 501, name: "★ Butterfly Knife | Fade", rarity: "extraordinary", price: 18000, img: "https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZFCb5B7nUVnmOi639g2C04610G33L41B24c6ff2_63065b20b22ffL91b5c_L9d06b00", weight: 0.05 }
             ];
 
             var casesData = [
-                { id: "f1", name: "Free Start", price: 0, icon: "🎁", category: "free", type: "daily", req: "Первый вход" },
-                { id: "f2", name: "Free Deposit", price: 0, icon: "💳", category: "free", type: "deposit", req: "Депозит от 5$" },
-                { id: "f3", name: "Free 5 Ref", price: 0, icon: "👥", category: "free", type: "ref5", req: "5 активных рефералов" },
-                { id: "f4", name: "Free PRO Ref", price: 0, icon: "🌟", category: "free", type: "ref15", req: "15 активных рефералов" },
-                { id: "f5", name: "Free VIP Ref", price: 0, icon: "👑", category: "free", type: "ref50", req: "50 активных рефералов" },
+                { id: "f1", name: "Free Start", price: 0, img: caseImages.free, category: "free", type: "daily", req: "Первый вход" },
+                { id: "f2", name: "Free Deposit", price: 0, img: caseImages.free, category: "free", type: "deposit", req: "Депозит от 5$" },
+                { id: "f3", name: "Free 5 Ref", price: 0, img: caseImages.free, category: "free", type: "ref5", req: "5 активных рефералов" },
+                { id: "f4", name: "Free PRO Ref", price: 0, img: caseImages.free, category: "free", type: "ref15", req: "15 активных рефералов" },
+                { id: "f5", name: "Free VIP Ref", price: 0, img: caseImages.free, category: "free", type: "ref50", req: "50 активных рефералов" },
 
-                { id: "c1", name: "Kilowatt Case", price: 150, icon: "⚡", category: "official" },
-                { id: "c2", name: "Revolution Case", price: 200, icon: "🔥", category: "official" },
-                { id: "c3", name: "Recoil Case", price: 100, icon: "📦", category: "official" },
+                { id: "c1", name: "Kilowatt Case", price: 150, img: caseImages.kilowatt, category: "official" },
+                { id: "c2", name: "Revolution Case", price: 200, img: caseImages.revolution, category: "official" },
+                { id: "c3", name: "Recoil Case", price: 100, img: caseImages.recoil, category: "official" },
 
-                { id: "a1", name: "All In Knife", price: 2500, icon: "🔪", category: "allin" },
-                { id: "a2", name: "All In Dragon Lore", price: 5000, icon: "🐉", category: "allin" },
-                { id: "a3", name: "All In Howl", price: 3500, icon: "🐺", category: "allin" }
+                { id: "a1", name: "All In Knife", price: 2500, img: caseImages.free, category: "allin" },
+                { id: "a2", name: "All In Dragon Lore", price: 5000, img: caseImages.free, category: "allin" },
+                { id: "a3", name: "All In Howl", price: 3500, img: caseImages.free, category: "allin" }
             ];
 
             var balance = parseInt(localStorage.getItem("cs_balance")) || 1000;
             var inventory = JSON.parse(localStorage.getItem("cs_inventory") || "[]");
-            var userStats = JSON.parse(localStorage.getItem("cs_user_stats") || '{"deposited": false, "refs": 0, "openedFree": {}}');
+            var savedTradeUrl = localStorage.getItem("cs_trade_url") || "";
 
             var currentCase = null;
             var isSpinning = false;
             var currentWin = null;
-            var selectedWithdrawIndex = null;
+
+            if (savedTradeUrl) {
+                document.getElementById("profTradeUrlInput").value = savedTradeUrl;
+            }
 
             function saveData() {
                 localStorage.setItem("cs_balance", balance);
                 localStorage.setItem("cs_inventory", JSON.stringify(inventory));
                 localStorage.setItem("cs_user_stats", JSON.stringify(userStats));
+                localStorage.setItem("cs_trade_url", savedTradeUrl);
             }
 
             function updateBalanceUI() {
                 document.getElementById("balVal").innerText = balance;
                 document.getElementById("depStatus").innerText = userStats.deposited ? "Выполнен" : "Нет";
                 document.getElementById("depStatus").style.color = userStats.deposited ? "#2ecc71" : "#e74c3c";
-                document.getElementById("refCount").innerText = userStats.refs + " / 5";
+                document.getElementById("refCount").innerText = userStats.refs;
             }
 
 
@@ -263,7 +301,11 @@ function renderCasesGrid() {
                     var tagHtml = c.category === "free" ? '<div class="tag free">FREE</div>' : '';
                     var priceText = c.price === 0 ? c.req : c.price + " 💎";
                     
-                    card.innerHTML = tagHtml + '<div class="icon">' + c.icon + '</div><div class="name">' + c.name + '</div><div class="price">' + priceText + '</div>';
+                    card.innerHTML = tagHtml + 
+                        '<img class="case-img" src="' + c.img + '" alt="' + c.name + '" onerror="this.src=\'https://via.placeholder.com/80?text=Case\'">' + 
+                        '<div class="name">' + c.name + '</div>' + 
+                        '<div class="price">' + priceText + '</div>';
+                    
                     card.onclick = function() { openCaseView(c); };
 
                     if (c.category === "free") freeContainer.appendChild(card);
@@ -278,7 +320,7 @@ function renderCasesGrid() {
 
                 if (c.type === "daily") return { canOpen: true, reason: "" };
                 if (c.type === "deposit") return { canOpen: userStats.deposited, reason: "Требуется депозит от 5$" };
-                if (c.type === "ref5") return { canOpen: userStats.refs >= 5, reason: "Нужно 5 рефералов с депозитом/выводом" };
+                if (c.type === "ref5") return { canOpen: userStats.refs >= 5, reason: "Нужно 5 рефералов" };
                 if (c.type === "ref15") return { canOpen: userStats.refs >= 15, reason: "Нужно 15 рефералов" };
                 if (c.type === "ref50") return { canOpen: userStats.refs >= 50, reason: "Нужно 50 рефералов" };
 
@@ -302,130 +344,18 @@ function renderCasesGrid() {
             }
 
             function getRandomSkin() {
-                var totalWeight = 0;
-                skinPool.forEach(function(s) { totalWeight += s.weight; });
-                var random = Math.random() * totalWeight;
-                for (var i = 0; i < skinPool.length; i++) {
-                    if (random < skinPool[i].weight) return skinPool[i];
-                    random -= skinPool[i].weight;
-                }
-                return skinPool[0];
-            }
-
-            function buildTrack() {
-                var track = document.getElementById("track");
-                track.innerHTML = "";
-                for (var i = 0; i < 60; i++) {
-                    var skin = getRandomSkin();
-                    var card = document.createElement("div");
-                    card.className = "skin-card " + skin.rarity;
-                    card.innerHTML = '<div class="gun-badge" style="background:' + skin.bg + '">' + skin.tag + '</div><div class="title">' + skin.name + '</div>';
-                    card.dataset.id = skin.id;
-                    track.appendChild(card);
-                }
-            }
-
-            function spinRoulette() {
-                if (isSpinning || !currentCase) return;
+                var totalWeight = 0;...
 
 
-var elig = checkCaseEligibility(currentCase);
-                if (!elig.canOpen) return;
-
-                isSpinning = true;
-                document.getElementById("openBtn").disabled = true;
-
-                if (currentCase.price > 0) {
-                    balance -= currentCase.price;
-                } else {
-                    userStats.openedFree[currentCase.id] = true;
-                }
-                updateBalanceUI();
-                saveData();
-
-                var track = document.getElementById("track");
-                track.style.transition = "none";
-                track.style.transform = "translateX(0px)";
-                buildTrack();
-
-                setTimeout(function() {
-                    var cardWidth = 98;
-                    var winIndex = 35;
-                    var offset = Math.floor(Math.random() * 40) - 20;
-                    var wrapperWidth = track.parentElement.offsetWidth;
-                    var targetX = (winIndex * cardWidth) - (wrapperWidth / 2) + (cardWidth / 2) + offset;
-
-                    track.style.transition = "transform 4.5s cubic-bezier(0.1, 0.8, 0.1, 1)";
-                    track.style.transform = "translateX(-" + targetX + "px)";
-
-                    setTimeout(function() {
-                        var winCard = track.children[winIndex];
-                        var winId = winCard.dataset.id;
-                        currentWin = skinPool.find(function(s) { return s.id == winId; }) || skinPool[0];
-                        showWinModal(currentWin);
-                    }, 4700);
-                }, 50);
-            }
-
-            function showWinModal(skin) {
-                document.getElementById("mShapeBox").innerHTML = '<div class="gun-badge" style="background:' + skin.bg + '; width: 80px; height: 40px; font-size: 13px;">' + skin.tag + '</div>';
-                document.getElementById("mTitle").innerText = skin.name;
-                document.getElementById("mPrice").innerText = "+" + skin.price + " 💎";
-                document.getElementById("mSellBtn").innerText = "Продать за " + skin.price + " 💎";
-                document.getElementById("winModal").classList.add("active");
-            }
-
-            document.getElementById("mSellBtn").onclick = function() {
-                if (!currentWin) return;
-                balance += currentWin.price;
-                updateBalanceUI();
-                saveData();
-                closeWinModal();
-            };
-
-            document.getElementById("mKeepBtn").onclick = function() {
-                if (!currentWin) return;
-                inventory.push(Object.assign({}, currentWin, { instanceId: Date.now() + Math.random() }));
-                saveData();
-                closeWinModal();
-            };
-
-            function closeWinModal() {
-                document.getElementById("winModal").classList.remove("active");
-                currentWin = null;
-                isSpinning = false;
-                openCaseView(currentCase);
-            }
-
-            function switchTab(tabName, btnElem) {
-                if (isSpinning) return;
-                var pages = document.querySelectorAll(".page");
-                pages.forEach(function(p) { p.classList.remove("active"); });
-                var navs = document.querySelectorAll(".nav-item");
-                navs.forEach(function(n) { n.classList.remove("active"); });
-
-                document.getElementById("p" + tabName).classList.add("active");
-                if (btnElem) btnElem.classList.add("active");
-
-                if (tabName === "Inv") renderInventory();
-            }
-
-            function renderInventory() {
-                var grid = document.getElementById("invGrid");
-                grid.innerHTML = "";
-                if (inventory.length === 0) {
-                    grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #c5c6c7; font-size: 13px; margin-top: 20px;">Инвентарь пуст</p>';
+innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #8f9bba; font-size: 13px; margin-top: 30px;">Инвентарь пуст</p>';
                     return;
                 }
 
                 inventory.forEach(function(item, index) {
-                    var card = document.
-
-
-createElement("div");
+                    var card = document.createElement("div");
                     card.className = "inv-card " + item.rarity;
                     card.innerHTML = 
-                        '<div class="gun-badge" style="background:' + item.bg + '">' + item.tag + '</div>' +
+                        '<img src="' + item.img + '" onerror="this.src=\'https://via.placeholder.com/60\'">' +
                         '<div class="title">' + item.name + '</div>' +
                         '<div class="price">' + item.price + ' 💎</div>' +
                         '<div class="inv-btn-group">' +
@@ -442,63 +372,78 @@ createElement("div");
                     };
 
                     card.querySelector(".btn-withdraw-inv").onclick = function() {
-                        openWithdrawModal(index);
+                        handleWithdrawItem(index);
                     };
 
                     grid.appendChild(card);
                 });
             }
 
-            function openWithdrawModal(index) {
-                selectedWithdrawIndex = index;
-                var item = inventory[index];
-                document.getElementById("wItemTitle").innerText = item.name + " (" + item.price + " 💎)";
-                document.getElementById("withdrawModal").classList.add("active");
-            }
-
-            document.getElementById("closeWithdrawBtn").onclick = function() {
-                document.getElementById("withdrawModal").classList.remove("active");
-                selectedWithdrawIndex = null;
-            };
-
-            document.getElementById("confirmWithdrawBtn").onclick = function() {
-                var tradeUrl = document.getElementById("tradeUrlInput").value.trim();
-                if (!tradeUrl) {
-                    alert("Введите Trade URL!");
+            function handleWithdrawItem(index) {
+                if (!savedTradeUrl || savedTradeUrl.trim() === "") {
+                    alert("⚠️ Вы не указали Trade URL в профиле!\n\nПожалуйста, введите ваш Trade URL в разделе 'Профиль', чтобы выводить предметы.");
+                    switchTab("Prof", document.getElementById("btnProf"));
+                    document.getElementById("profTradeUrlInput").focus();
                     return;
                 }
 
-                if (selectedWithdrawIndex !== null) {
-                    inventory.splice(selectedWithdrawIndex, 1);
+                var item = inventory[index];
+                if (confirm("Вывести " + item.name + " на указанный Trade URL?\n\n" + savedTradeUrl)) {
+                    inventory.splice(index, 1);
                     saveData();
                     renderInventory();
-                    document.getElementById("withdrawModal").classList.remove("active");
-                    alert("Заявка на вывод создана! Предмет поступит на ваш аккаунт.");
+                    alert("✅ Заявка на вывод предмета " + item.name + " принята!");
+                }
+            }
+
+            document.getElementById("saveTradeUrlBtn").onclick = function() {
+                var val = document.getElementById("profTradeUrlInput").value.trim();
+                if (!val) {
+                    alert("Пожалуйста, вставьте ссылку Trade URL!");
+                    return;
+                }
+                savedTradeUrl = val;
+                saveData();
+                alert("✅ Trade URL успешно сохранён!");
+            };
+
+            document.getElementById("getTradeUrlLink").onclick = function() {
+                var steamTradeHelpUrl = "https://steamcommunity.com/my/tradeoffers/privacy#trade_offer_access_url";
+                if (tg && tg.openLink) {
+                    tg.openLink(steamTradeHelpUrl);
+                } else {
+                    window.open(steamTradeHelpUrl, "_blank");
                 }
             };
 
-            // Копирование и шаринг реферальной ссылки
             document.getElementById("copyRefBtn").onclick = function() {
                 navigator.clipboard.writeText(refLink).then(function() {
-                    alert("Ссылка скопирована в буфер обмена!");
+                    alert("Реферальная ссылка скопирована!");
                 });
             };
 
+            // Рабочая отправка через встроенный шер Telegram
             document.getElementById("shareRefBtn").onclick = function() {
-                var shareUrl = "https://t.me/share/url?url=" + encodeURIComponent(refLink) + "&text=" + encodeURIComponent("Открывай бесплатные кейсы CS2 и выбивай крутые скины!");
+                var shareText = "Открывай бесплатные кейсы CS2 и выбивай крутые скины!";
+                var fullShareUrl = "https://t.me/share/url?url=" + encodeURIComponent(refLink) + "&text=" + encodeURIComponent(shareText);
+                
                 if (tg && tg.openTelegramLink) {
-                    tg.openTelegramLink(shareUrl);
+                    tg.openTelegramLink(fullShareUrl);
                 } else {
-                    window.open(shareUrl, '_blank');
+                    window.open(fullShareUrl, "_blank");
                 }
             };
 
-            document.getElementById("openBtn").onclick = spinRoulette;
+            document.getElementById("openBtn").
+
+
+onclick = spinRoulette;
             document.getElementById("backToCasesBtn").onclick = function() { switchTab("Cases", document.getElementById("btnCases")); };
             document.getElementById("btnCases").onclick = function() { switchTab('Cases', this); };
             document.getElementById("btnInv").onclick = function() { switchTab('Inv', this); };
             document.getElementById("btnProf").onclick = function() { switchTab('Prof', this); };
 
+            saveData();
             updateBalanceUI();
             renderCasesGrid();
         });
