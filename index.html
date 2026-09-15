@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <title>CS2 Cases</title>
+    <!-- Официальный SDK Telegram Mini Apps -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; -webkit-user-select: none; }
         body { background-color: #0d0e12; color: #ffffff; font-family: -apple-system, BlinkMacSystemFont, sans-serif; height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
@@ -40,18 +42,22 @@
         .inventory-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; width: 100%; }
         .inv-card { background: #14161f; border-radius: 8px; padding: 8px; display: flex; flex-direction: column; align-items: center; border: 1px solid #252836; }
         .inv-card .title { font-size: 9px; text-align: center; color: #aaa; margin: 4px 0; }
-        .inv-card .price { font-size: 11px; font-weight: bold; color: #2ec771; margin-bottom: 6px; }
+        .inv-card .
+
+
+price { font-size: 11px; font-weight: bold; color: #2ec771; margin-bottom: 6px; }
         
-        .
-
-
-nav-bar { height: 60px; background: #14161f; border-top: 1px solid #252836; display: flex; width: 100%; flex-shrink: 0; }
-        .nav-item { flex: 1; display: flex; align-items: center; justify-content: center; color: #7f8c8d; font-size: 13px; font-weight: bold; cursor: pointer; background: transparent; border: none; }
+        /* Исправление верстки для меню */
+        .nav-bar { height: 60px; background: #14161f; border-top: 1px solid #252836; display: flex; flex-direction: row; justify-content: space-around; align-items: center; width: 100%; flex-shrink: 0; z-index: 100; }
+        .nav-item { flex: 1; height: 100%; display: flex; align-items: center; justify-content: center; color: #7f8c8d; font-size: 13px; font-weight: bold; cursor: pointer; background: transparent; border: none; }
         .nav-item.active { color: #f39c12; }
 
         .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.85); z-index: 999; justify-content: center; align-items: center; }
         .modal.active { display: flex; }
         .modal-card { background: #1a1d29; padding: 20px; border-radius: 16px; text-align: center; border: 2px solid #f39c12; width: 85%; max-width: 300px; }
+        
+        .user-card { background: #14161f; border: 1px solid #252836; border-radius: 12px; padding: 20px; width: 100%; text-align: center; }
+        .user-avatar { width: 60px; height: 60px; background: #f39c12; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; font-size: 24px; font-weight: bold; color: #fff; }
     </style>
 </head>
 <body>
@@ -79,9 +85,10 @@ nav-bar { height: 60px; background: #14161f; border-top: 1px solid #252836; disp
         </div>
 
         <div id="pProf" class="page">
-            <div style="text-align: center; margin-top: 30px;">
-                <h3>Профиль</h3>
-                <p style="color: #7f8c8d; margin-top: 10px;">ID: User_Mac</p>
+            <div class="user-card">
+                <div class="user-avatar" id="uAvatar">U</div>
+                <h3 id="uName" style="font-size: 16px; margin-bottom: 4px;">Пользователь</h3>
+                <p id="uId" style="color: #7f8c8d; font-size: 12px;">ID: ---</p>
             </div>
         </div>
     </div>
@@ -104,8 +111,25 @@ nav-bar { height: 60px; background: #14161f; border-top: 1px solid #252836; disp
     </div>
 
     <script>
-        // Инициализация при полной загрузке DOM
         document.addEventListener("DOMContentLoaded", function() {
+            var tg = window.Telegram && window.Telegram.WebApp ? window.Telegram.WebApp : null;
+            if (tg) {
+                tg.expand();
+                tg.ready();
+            }
+
+            // Загрузка реальных данных из Telegram
+            if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) {
+                var user = tg.initDataUnsafe.user;
+                var name = user.first_name + (user.last_name ? " " + user.last_name : "");
+                document.getElementById("uName").innerText = name;
+                document.getElementById("uId").innerText = "ID: " + user.id;
+                document.getElementById("uAvatar").innerText = user.first_name ? user.first_name.
+
+
+charAt(0).toUpperCase() : "U";
+            }
+
             var skins = [
                 { id: 1, name: "AK-47 | Asiimov", rarity: "covert", price: 450, tag: "AK-47", bg: "#e74c3c" },
                 { id: 2, name: "M4A4 | Howl", rarity: "covert", price: 600, tag: "M4A4", bg: "#c0392b" },
@@ -129,9 +153,7 @@ nav-bar { height: 60px; background: #14161f; border-top: 1px solid #252836; disp
                     var card = document.createElement("div");
                     card.className = "skin-card " + skin.rarity;
                     card.innerHTML = '<div class="gun-badge" style="background:' + skin.bg + '">' + skin.tag + '</div><div class="title">' + skin.name + '</div>';
-
-
-card.dataset.id = skin.id;
+                    card.dataset.id = skin.id;
                     track.appendChild(card);
                 }
             }
@@ -192,7 +214,9 @@ card.dataset.id = skin.id;
             };
 
             document.getElementById("mKeepBtn").onclick = function() {
-                if (!currentWin) return;
+
+
+if (!currentWin) return;
                 inventory.push(currentWin);
                 closeWinModal();
             };
@@ -224,9 +248,7 @@ card.dataset.id = skin.id;
                     grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #7f8c8d; font-size: 13px; margin-top: 20px;">Инвентарь пуст</p>';
                     return;
                 }
-
-
-for (var i = 0; i < inventory.length; i++) {
+                for (var i = 0; i < inventory.length; i++) {
                     var item = inventory[i];
                     var card = document.createElement("div");
                     card.className = "inv-card " + item.rarity;
@@ -235,13 +257,11 @@ for (var i = 0; i < inventory.length; i++) {
                 }
             }
 
-            // Назначение событий на элементы напрямую
             openBtn.onclick = spinRoulette;
             document.getElementById("btnCases").onclick = function() { switchTab('Cases', this); };
             document.getElementById("btnInv").onclick = function() { switchTab('Inv', this); };
             document.getElementById("btnProf").onclick = function() { switchTab('Prof', this); };
 
-            // Рендер стартовой рулетки
             buildTrack();
         });
     </script>
