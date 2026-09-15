@@ -3,100 +3,182 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <title>CS2 Case Drop</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; -webkit-user-select: none; }
-        body { background-color: #0d0f17; color: #ffffff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        body {
+            background-color: #0d0f17;
+            color: #ffffff;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
         
-        .header { height: 52px; background: #151824; border-bottom: 1px solid rgba(102, 252, 241, 0.2); display: flex; justify-content: space-between; align-items: center; padding: 0 16px; flex-shrink: 0; }
-        .header h1 { font-size: 15px; color: #66fcf1; font-weight: 900; letter-spacing: 0.5px; text-transform: uppercase; }
-        .balance { background: #0d0f17; padding: 6px 14px; border-radius: 20px; border: 1px solid #45a29e; font-size: 13px; font-weight: bold; color: #66fcf1; box-shadow: 0 0 10px rgba(102, 252, 241, 0.15); }
+        .header {
+            height: 50px;
+            background: #151824;
+            border-bottom: 1px solid rgba(102, 252, 241, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 16px;
+            flex-shrink: 0;
+        }
+        .header h1 {
+            font-size: 14px;
+            color: #66fcf1;
+            font-weight: 900;
+        }
+        .balance {
+            background: #0d0f17;
+            padding: 4px 12px;
+            border-radius: 20px;
+            border: 1px solid #45a29e;
+            font-size: 13px;
+            font-weight: bold;
+            color: #66fcf1;
+        }
         
-        .main-container { flex: 1; position: relative; overflow: hidden; display: flex; flex-direction: column; }
-        .page { display: none; width: 100%; height: 100%; padding: 12px; flex-direction: column; align-items: center; overflow-y: auto; }
-        .page.active { display: flex; }
+        .main-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 12px;
+            position: relative;
+        }
+        .page {
+            display: none;
+            flex-direction: column;
+            width: 100%;
+        }
+        .page.active {
+            display: flex;
+        }
         
-        .section-title { font-size: 12px; text-transform: uppercase; color: #8f9bba; font-weight: 800; margin: 14px 0 8px 0; width: 100%; text-align: left; letter-spacing: 0.5px; }
-        .cases-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; width: 100%; margin-bottom: 10px; }
+        .section-title {
+            font-size: 12px;
+            text-transform: uppercase;
+            color: #8f9bba;
+            font-weight: 800;
+            margin: 12px 0 6px 0;
+        }
+        .cases-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            width: 100%;
+            margin-bottom: 15px;
+        }
         
         .case-card { 
-            background: linear-gradient(145deg, #181c2b, #121522); 
-            border-radius: 12px; 
-            padding: 10px; 
+            background: #181c2b; 
+            border-radius: 10px; 
+            padding: 14px 10px; 
             display: flex; 
             flex-direction: column; 
             align-items: center; 
             border: 1px solid #23283b; 
-            cursor: pointer; 
-            position: relative; 
-            transition: all 0.2s ease;
+            cursor: pointer;
+            position: relative;
+            z-index: 10;
+            transition: transform 0.1s, border-color 0.1s;
         }
-        .case-card:active { transform: scale(0.96); border-color: #66fcf1; }
-        .case-card img.case-img { width: 85px; height: 65px; object-fit: contain; margin-bottom: 6px; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5)); }
-        .case-card .name { font-size: 12px; font-weight: 700; color: #fff; text-align: center; }
-        .case-card .price { font-size: 11px; color: #66fcf1; margin-top: 4px; font-weight: bold; background: rgba(102, 252, 241, 0.1); padding: 3px 8px; border-radius: 12px; }
-        .case-card .tag { position: absolute; top: 8px; right: 8px; font-size: 8px; padding: 2px 6px; border-radius: 4px; font-weight: 900; background: #e74c3c; color: #fff; text-transform: uppercase; }
-        .case-card .tag.free { background: #2ecc71; }
-        
-        .back-btn { align-self: flex-start; background: #181c2b; border: 1px solid #45a29e; color: #fff; padding: 6px 14px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; margin-bottom: 12px; }
-        .roulette-box { position: relative; width: 100%; height: 115px; background: #121522; border: 2px solid #45a29e; border-radius: 14px; overflow: hidden; margin-bottom: 15px; flex-shrink: 0; box-shadow: inset 0 0 20px rgba(0,0,0,0.8); }
-        .roulette-line { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 3px; height: 100%; background: #66fcf1; z-index: 10; box-shadow: 0 0 10px #66fcf1; }
-        .roulette-track { display: flex; height: 100%; position: absolute; left: 0; top: 0; width: max-content; }
-        
-        .skin-card { width: 95px; height: 90px; margin: 12px 4px; background: #181c2b; border-radius: 8px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 6px; border-bottom: 4px solid #fff; flex-shrink: 0; position: relative; }
-        .
+        .case-card:active { 
+            transform: scale(0.96); 
+            border-color: #66fcf1; 
+        }
+        .case-card .name { 
+            font-size: 12px; 
+            font-weight: 700; 
+            margin-top: 6px; 
+            text-align: center; 
+            pointer-events: none; 
+        }
+        .case-card .price { 
+            font-size: 11px; 
+            color: #66fcf1; 
+            margin-top: 4px; 
+            font-weight: bold; 
+            pointer-events: none; 
+        }
+
+        .roulette-box { 
+            position: relative; 
+            width: 100%; 
+            height: 110px; 
+            background: #121522; 
+            border: 2px solid #45a29e; 
+            border-radius: 12px; 
+            overflow: hidden; 
+            margin: 15px 0; 
+        }
+        .roulette-line { 
+            position: absolute; 
+            top: 0; 
+            left: 50%; 
+            transform: translateX(-50%); 
+            width: 2px; 
+            height: 100%; 
+            background: #66fcf1; 
+            z-index: 10; 
+        }
+        .roulette-track { 
+            display: flex; 
+            height: 100%; 
+            position: absolute; 
+            left: 0; 
+            top: 0; 
+        }
+
+        .btn { 
+            width: 100%; 
+            background: #66fcf1; 
+            border: none; 
+            color: #0d0f17; 
+            padding: 12px; 
+            font-size: 13px; 
+            font-weight: 800;
 
 
-skin-card img { width: 50px; height: 38px; object-fit: contain; margin-bottom: 4px; }
-        .skin-card .title { font-size: 9px; text-align: center; color: #e1e1e1; font-weight: 600; width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        
-        .trash { border-bottom-color: #b0c3d9; }
-        .mil-spec { border-bottom-color: #4b69ff; }
-        .restricted { border-bottom-color: #8847ff; }
-        .classified { border-bottom-color: #d32ce6; }
-        .covert { border-bottom-color: #eb4b4b; }
-        .extraordinary { border-bottom-color: #ffd700; }
-        
-        .btn { width: 100%; background: linear-gradient(135deg, #45a29e, #66fcf1); border: none; color: #0d0f17; padding: 12px; font-size: 14px; font-weight: 800; border-radius: 10px; cursor: pointer; text-align: center; margin-top: 8px; }
-        .btn:disabled { opacity: 0.4; cursor: not-allowed; }
-        .btn-green { background: linear-gradient(135deg, #27ae60, #2ecc71); color: #fff; }
-        .btn-blue { background: linear-gradient(135deg, #2980b9, #3498db); color: #fff; }
-        .btn-gray { background: #23283b; color: #ccc; }
-        .btn-sm { padding: 8px 10px; font-size: 11px; border-radius: 8px; }
-        
-        .inventory-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; width: 100%; }
-        .inv-card { background: #181c2b; border-radius: 10px; padding: 10px; display: flex; flex-direction: column; align-items: center; border: 1px solid #23283b; }
-        .inv-card img { width: 60px; height: 45px; object-fit: contain; margin-bottom: 6px; }
-        .inv-card .title { font-size: 10px; text-align: center; color: #aaa; margin: 4px 0; height: 26px; overflow: hidden; }
-        .inv-card .price { font-size: 11px; font-weight: bold; color: #2ecc71; margin-bottom: 8px; }
-        .inv-btn-group { display: flex; gap: 6px; width: 100%; }
-        .btn-sell-inv { background: #e74c3c; border: none; color: white; border-radius: 6px; padding: 6px; font-size: 10px; font-weight: bold; cursor: pointer; flex: 1; }
-        .btn-withdraw-inv { background: #3498db; border: none; color: white; border-radius: 6px; padding: 6px; font-size: 10px; font-weight: bold; cursor: pointer; flex: 1; }
+border-radius: 8px; 
+            cursor: pointer; 
+        }
+        .btn:active { opacity: 0.8; }
 
-        .profile-card { background: #181c2b; border-radius: 14px; padding: 16px; width: 100%; border: 1px solid #23283b; margin-bottom: 12px; }
-        .profile-title { font-size: 13px; font-weight: 800; color: #66fcf1; text-transform: uppercase; margin-bottom: 10px; text-align: left; }
-        
-        .input-field { width: 100%; background: #121522; border: 1px solid #45a29e; color: #fff; padding: 10px 12px; border-radius: 8px; font-size: 12px; margin: 8px 0; outline: none; }
-        .input-field:focus { border-color: #66fcf1; box-shadow: 0 0 8px rgba(102, 252, 241, 0.3); }
-        
-        .mini-link { display: inline-block; font-size: 11px; color: #3498db; text-decoration: underline; margin-top: 4px; cursor: pointer; font-weight: 600; }
-        .mini-link:hover { color: #5dade2; }
-
-        .nav-bar { height: 56px; background: #151824; border-top: 1px solid rgba(102, 252, 241, 0.2); display: flex; justify-content: space-around; align-items: center; width: 100%; flex-shrink: 0; z-index: 100; }
-        .nav-item { flex: 1; height: 100%; display: flex; align-items: center; justify-content: center; color: #8f9bba; font-size: 12px; font-weight: 800; cursor: pointer; background: transparent; border: none; text-transform: uppercase; }
-        .nav-item.active { color: #66fcf1; border-top: 2px solid #66fcf1; }
-
-        .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.85); z-index: 999; justify-content: center; align-items: center; backdrop-filter: blur(4px); }
-        .modal.active { display: flex; }
-        .modal-card { background: #181c2b; padding: 20px; border-radius: 16px; text-align: center; border: 1px solid #66fcf1; width: 85%; max-width: 310px; box-shadow: 0 0 20px rgba(102, 252, 241, 0.2); }
-        
-        .
-
-
-condition-desc { font-size: 11px; color: #e74c3c; margin-top: 6px; text-align: center; font-weight: 600; }
-        .ref-box { background: #121522; border: 1px dashed #45a29e; border-radius: 8px; padding: 8px; margin: 10px 0; font-size: 11px; color: #66fcf1; word-break: break-all; }
+        .nav-bar { 
+            height: 50px; 
+            background: #151824; 
+            border-top: 1px solid rgba(102, 252, 241, 0.2); 
+            display: flex; 
+            width: 100%; 
+            flex-shrink: 0; 
+            z-index: 20;
+        }
+        .nav-item { 
+            flex: 1; 
+            height: 100%; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            color: #8f9bba; 
+            font-size: 11px; 
+            font-weight: 800; 
+            cursor: pointer; 
+            border: none; 
+            background: transparent; 
+        }
+        .nav-item.active { 
+            color: #66fcf1; 
+            border-top: 2px solid #66fcf1; 
+        }
     </style>
 </head>
 <body>
@@ -107,345 +189,111 @@ condition-desc { font-size: 11px; color: #e74c3c; margin-top: 6px; text-align: c
     </div>
 
     <div class="main-container">
-        <!-- Витрина кейсов -->
+        <!-- СТРАНИЦА КЕЙСОВ -->
         <div id="pCases" class="page active">
             <div class="section-title">🎁 Бесплатные Кейсы</div>
             <div class="cases-grid" id="freeCasesGrid"></div>
 
-            <div class="section-title">📦 Официальные Кейсы CS2</div>
+            <div class="section-title">📦 Официальные Кейсы</div>
             <div class="cases-grid" id="officialCasesGrid"></div>
-
-            <div class="section-title">🔥 Лимитированные / All-In</div>
-            <div class="cases-grid" id="allInCasesGrid"></div>
         </div>
 
-        <!-- Экран рулетки -->
+        <!-- СТРАНИЦА ОТКРЫТИЯ -->
         <div id="pOpen" class="page">
-            <button class="back-btn" id="backToCasesBtn">← К выбору кейсов</button>
-            <h2 id="currentCaseName" style="font-size: 16px; margin-bottom: 10px;">Кейс</h2>
-            
+            <button class="btn" id="backBtn" style="width: auto; padding: 6px 12px; margin-bottom: 10px;">← Назад</button>
+            <h3 id="cName">Кейс</h3>
             <div class="roulette-box">
                 <div class="roulette-line"></div>
                 <div class="roulette-track" id="track"></div>
             </div>
-
-            <button class="btn" id="openBtn">Открыть кейс</button>
-            <div class="condition-desc" id="condDesc"></div>
+            <button class="btn" id="spinBtn">Открыть</button>
         </div>
 
-        <!-- Инвентарь -->
-        <div id="pInv" class="page">
-            <div class="inventory-grid" id="invGrid"></div>
-        </div>
-
-        <!-- Профиль -->
+        <!-- СТРАНИЦА ПРОФИЛЯ -->
         <div id="pProf" class="page">
-            <div class="profile-card" style="text-align: center;">
-                <h3 id="uName" style="font-size: 16px; color: #fff;">Пользователь</h3>
-                <p id="uId" style="color: #8f9bba; font-size: 12px; margin-top: 2px;">ID: ---</p>
-                
-                <div style="margin-top: 12px; text-align: left; font-size: 12px; border-top: 1px solid #23283b; padding-top: 10px;">
-                    <p>💳 Депозит от 5$: <b id="depStatus" style="color: #e74c3c;">Нет</b></p>
-                    <p style="margin-top: 4px;">👥 Приглашенные рефералы: <b id="refCount" style="color: #66fcf1;">0</b></p>
-                </div>
-            </div>
-
-            <div class="profile-card">
-                <div class="profile-title">⚙️ Настройки вывода (Steam Trade URL)</div>
-                <p style="font-size: 11px; color: #aaa;">Укажите ваш Trade URL один раз, чтобы выводить выбитые предметы в 1 клик:</p>
-                <input type="text" id="profTradeUrlInput" class="input-field" placeholder="https://steamcommunity.com/tradeoffer/new/?partner=...">
-                <div style="text-align: left;">
-                    <a id="getTradeUrlLink" class="mini-link">🔗 Где взять ссылку на обмен (Trade URL)?</a>
-                </div>
-                <button class="btn btn-blue btn-sm" id="saveTradeUrlBtn" style="margin-top: 10px; width: 100%;">Сохранить Trade URL</button>
-            </div>
-
-            <div class="profile-card">
-                <div class="profile-title">🔗 Реферальная ссылка</div>
-                <div class="ref-box" id="refLinkText">https://t.me/testingbotcs_bot?start=12345</div>
-                <div style="display: flex; gap: 8px;">
-                    <button class="btn btn-blue btn-sm" id="copyRefBtn" style="flex:1;">📋 Скопировать</button>
-                    <button class="btn btn-green btn-sm" id="shareRefBtn" style="flex:1;">📲 Отправить другу</button>
-                </div>
-            </div>
+            <h3 style="margin-bottom: 10px;">Профиль</h3>
+            <p id="uId" style="margin-bottom: 15px; color: #8f9bba;">ID: ---</p>
+            <div class="section-title">Реферальная ссылка:</div>
+            <input type="text" id="refLink" style="width:100%; padding: 10px; background:#181c2b; border:1px solid #45a29e; color:#fff; border-radius:6px;" readonly>
         </div>
     </div>
 
     <div class="nav-bar">
-        <button class="nav-item active" id="btnCases">Кейсы</button>
-        <button class="nav-item" id="btnInv">Инвентарь</button>
-        <button class="nav-item" id="btnProf">Профиль</button>
-    </div>
-
-    <div class="modal" id="winModal">
-        <div class="modal-card">
-
-
-<h2 style="color: #66fcf1; font-size: 15px;">ВЫ ВЫБИЛИ!</h2>
-            <div id="mShapeBox" style="margin: 15px 0; display: flex; justify-content: center;"></div>
-            <h3 id="mTitle" style="font-size: 12px; color: #fff;">---</h3>
-            <p id="mPrice" style="color: #2ecc71; font-weight: bold; font-size: 13px; margin: 8px 0;">0 💎</p>
-            <button class="btn btn-green" id="mSellBtn" style="margin-bottom: 8px;">Продать</button>
-            <button class="btn btn-gray" id="mKeepBtn">Оставить в инвентаре</button>
-        </div>
+        <button class="nav-item active" id="tabCases">Кейсы</button>
+        <button class="nav-item" id="tabProf">Профиль</button>
     </div>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            var tg = window.Telegram && window.Telegram.WebApp ? window.Telegram.WebApp : null;
-            if (tg) { tg.expand(); tg.ready(); }
-
-            var userId = (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) ? tg.initDataUnsafe.user.id : "12345678";
-            var botUsername = "testingbotcs_bot"; 
-            var refLink = "https://t.me/" + botUsername + "?start=" + userId;
-
-            document.getElementById("refLinkText").innerText = refLink;
-
-            if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) {
-                var user = tg.initDataUnsafe.user;
-                document.getElementById("uName").innerText = user.first_name + (user.last_name ? " " + user.last_name : "");
-                document.getElementById("uId").innerText = "ID: " + user.id;
+        document.addEventListener("DOMContentLoaded", () => {
+            const tg = window.Telegram?.WebApp;
+            if (tg) {
+                tg.expand();
+                tg.ready();
             }
 
-            // Обработка реферального параметра
-            var startParam = (tg && tg.initDataUnsafe) ? tg.initDataUnsafe.start_param : null;
-            var userStats = JSON.parse(localStorage.getItem("cs_user_stats") || '{"deposited": false, "refs": 0, "referredBy": null, "openedFree": {}}');
+            const userId = tg?.initDataUnsafe?.user?.id || "123456";
+            document.getElementById("uId").innerText = "ID: " + userId;
+            document.getElementById("refLink").value = "https://t.me/TestCSing_bot?start=" + userId;
 
-            if (startParam && startParam != userId && !userStats.referredBy) {
-                userStats.referredBy = startParam;
-                // В локальном окружении увеличиваем счетчик реферала для пригласившего
-                var refList = JSON.parse(localStorage.getItem("cs_ref_counts") || "{}");
-                refList[startParam] = (refList[startParam] || 0) + 1;
-                localStorage.setItem("cs_ref_counts", JSON.stringify(refList));
-            }
-
-            // Подгружаем общее количество рефералов пользователя
-            var allRefCounts = JSON.parse(localStorage.getItem("cs_ref_counts") || "{}");
-            userStats.refs = allRefCounts[userId]  userStats.refs  0;
-
-            var caseImages = {
-                free: "https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZFCb5B7nUVnmOi639g2C04610G33L41B24c6ff2_63065b20b22ffL91b5c_L9d06b00",
-                kilowatt: "https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZFCb5B7nUVnmOi639g2C04610G33L41B24c6ff2_63065b20b22ffL91b5c_L9d06b00",
-                revolution: "https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZFCb5B7nUVnmOi639g2C04610G33L41B24c6ff2_63065b20b22ffL91b5c_L9d06b00",
-                recoil: "https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZFCb5B7nUVnmOi639g2C04610G33L41B24c6ff2_63065b20b22ffL91b5c_L9d06b00"
-            };
-
-            var skinPool = [
-                { id: 1, name: "Sticker | PGT (Paper)", rarity: "trash", price: 1, img: "https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZFCb5B7nUVnmOi639g2C04610G33L41B24c6ff2_63065b20b22ffL91b5c_L9d06b00", weight: 65 },
-                { id: 2, name: "P250 | Sand Dune (BS)", rarity: "trash", price: 1, img: "https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZFCb5B7nUVnmOi639g2C04610G33L41B24c6ff2_63065b20b22ffL91b5c_L9d06b00", weight: 60 },
-                { id: 3, name: "Sticker | Chicken Lover", rarity: "trash", price: 2, img: "https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZFCb5B7nUVnmOi639g2C04610G33L41B24c6ff2_63065b20b22ffL91b5c_L9d06b00", weight: 50 },
-
-
-{ id: 101, name: "P90 | Traction", rarity: "mil-spec", price: 10, img: "https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZFCb5B7nUVnmOi639g2C04610G33L41B24c6ff2_63065b20b22ffL91b5c_L9d06b00", weight: 20 },
-                { id: 201, name: "Glock-18 | Water Elemental", rarity: "restricted", price: 120, img: "https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZFCb5B7nUVnmOi639g2C04610G33L41B24c6ff2_63065b20b22ffL91b5c_L9d06b00", weight: 5 },
-                { id: 301, name: "AWP | Hyper Beast", rarity: "classified", price: 350, img: "https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZFCb5B7nUVnmOi639g2C04610G33L41B24c6ff2_63065b20b22ffL91b5c_L9d06b00", weight: 1.5 },
-                { id: 401, name: "AK-47 | Asiimov", rarity: "covert", price: 1200, img: "https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZFCb5B7nUVnmOi639g2C04610G33L41B24c6ff2_63065b20b22ffL91b5c_L9d06b00", weight: 0.3 },
-                { id: 501, name: "★ Butterfly Knife | Fade", rarity: "extraordinary", price: 18000, img: "https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZFCb5B7nUVnmOi639g2C04610G33L41B24c6ff2_63065b20b22ffL91b5c_L9d06b00", weight: 0.05 }
+            const cases = [
+                { id: "f1", name: "Free Start", price: 0, category: "free" },
+                { id: "f2", name: "Daily Bonus", price: 0, category: "free" },
+                { id: "c1", name: "Kilowatt Case", price: 150, category: "official" },
+                { id: "c2", name: "Revolution Case", price: 200, category: "official" },
+                { id: "c3", name: "Recoil Case", price: 120, category: "official" },
+                { id: "c4", name: "Dreams & Nightmares", price: 180, category: "official" }
             ];
 
-            var casesData = [
-                { id: "f1", name: "Free Start", price: 0, img: caseImages.free, category: "free", type: "daily", req: "Первый вход" },
-                { id: "f2", name: "Free Deposit", price: 0, img: caseImages.free, category: "free", type: "deposit", req: "Депозит от 5$" },
-                { id: "f3", name: "Free 5 Ref", price: 0, img: caseImages.free, category: "free", type: "ref5", req: "5 активных рефералов" },
-                { id: "f4", name: "Free PRO Ref", price: 0, img: caseImages.free, category: "free", type: "ref15", req: "15 активных рефералов" },
-                { id: "f5", name: "Free VIP Ref", price: 0, img: caseImages.free, category: "free", type: "ref50", req: "50 активных рефералов" },
-
-                { id: "c1", name: "Kilowatt Case", price: 150, img: caseImages.kilowatt, category: "official" },
-                { id: "c2", name: "Revolution Case", price: 200, img: caseImages.revolution, category: "official" },
-                { id: "c3", name: "Recoil Case", price: 100, img: caseImages.recoil, category: "official" },
-
-                { id: "a1", name: "All In Knife", price: 2500, img: caseImages.free, category: "allin" },
-                { id: "a2", name: "All In Dragon Lore", price: 5000, img: caseImages.free, category: "allin" },
-                { id: "a3", name: "All In Howl", price: 3500, img: caseImages.free, category: "allin" }
-            ];
-
-            var balance = parseInt(localStorage.getItem("cs_balance")) || 1000;
-            var inventory = JSON.parse(localStorage.getItem("cs_inventory") || "[]");
-            var savedTradeUrl = localStorage.getItem("cs_trade_url") || "";
-
-            var currentCase = null;
-            var isSpinning = false;
-            var currentWin = null;
-
-            if (savedTradeUrl) {
-                document.getElementById("profTradeUrlInput").value = savedTradeUrl;
-            }
-
-            function saveData() {
-                localStorage.setItem("cs_balance", balance);
-                localStorage.setItem("cs_inventory", JSON.stringify(inventory));
-                localStorage.setItem("cs_user_stats", JSON.stringify(userStats));
-                localStorage.setItem("cs_trade_url", savedTradeUrl);
-            }
-
-            function updateBalanceUI() {
-                document.getElementById("balVal").innerText = balance;
-                document.getElementById("depStatus").innerText = userStats.deposited ? "Выполнен" : "Нет";
-                document.getElementById("depStatus").style.color = userStats.deposited ? "#2ecc71" : "#e74c3c";
-                document.getElementById("refCount").innerText = userStats.refs;
-            }
-
-
-function renderCasesGrid() {
-                var freeContainer = document.getElementById("freeCasesGrid");
-                var officialContainer = document.getElementById("officialCasesGrid");
-                var allInContainer = document.getElementById("allInCasesGrid");
-
-                freeContainer.innerHTML = "";
-                officialContainer.innerHTML = "";
-                allInContainer.innerHTML = "";
-
-                casesData.forEach(function(c) {
-                    var card = document.createElement("div");
-                    card.className = "case-card";
-                    var tagHtml = c.category === "free" ? '<div class="tag free">FREE</div>' : '';
-                    var priceText = c.price === 0 ? c.req : c.price + " 💎";
-                    
-                    card.innerHTML = tagHtml + 
-                        '<img class="case-img" src="' + c.img + '" alt="' + c.name + '" onerror="this.src=\'https://via.placeholder.com/80?text=Case\'">' + 
-                        '<div class="name">' + c.name + '</div>' + 
-                        '<div class="price">' + priceText + '</div>';
-                    
-                    card.onclick = function() { openCaseView(c); };
-
-                    if (c.category === "free") freeContainer.appendChild(card);
-                    else if (c.category === "official") officialContainer.appendChild(card);
-                    else if (c.category === "allin") allInContainer.appendChild(card);
-                });
-            }
-
-            function checkCaseEligibility(c) {
-                if (c.price > 0) return { canOpen: balance >= c.price, reason: "Недостаточно 💎" };
-                if (userStats.openedFree[c.id]) return { canOpen: false, reason: "Кейс уже открыт!" };
-
-                if (c.type === "daily") return { canOpen: true, reason: "" };
-                if (c.type === "deposit") return { canOpen: userStats.deposited, reason: "Требуется депозит от 5$" };
-                if (c.type === "ref5") return { canOpen: userStats.refs >= 5, reason: "Нужно 5 рефералов" };
-                if (c.type === "ref15") return { canOpen: userStats.refs >= 15, reason: "Нужно 15 рефералов" };
-                if (c.type === "ref50") return { canOpen: userStats.refs >= 50, reason: "Нужно 50 рефералов" };
-
-                return { canOpen: false, reason: "Условия не выполнены" };
-            }
-
-            function openCaseView(c) {
-                currentCase = c;
-                document.getElementById("currentCaseName").innerText = c.name;
+            function renderCases() {
+                const freeG = document.getElementById("freeCasesGrid");
+                const offG = document.getElementById("officialCasesGrid");
                 
-                var elig = checkCaseEligibility(c);
-                var openBtn = document.getElementById("openBtn");
-                var condDesc = document.getElementById("condDesc");
+                freeG.innerHTML = "";
+                offG.innerHTML = "";
 
-                openBtn.innerText = c.price === 0 ? "Открыть Бесплатно" : "Открыть за " + c.price + " 💎";
-                condDesc.innerText = elig.canOpen ? "" : elig.reason;
-                openBtn.disabled = !elig.canOpen;
-
-                switchTab("Open");
-                buildTrack();
-            }
-
-            function getRandomSkin() {
-                var totalWeight = 0;...
+                cases.forEach(c => {
+                    const el = document.createElement("div");
+                    el.className = "case-card";
+                    el.innerHTML = `
+                        <div class="name">${c.name}</div>
 
 
-innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #8f9bba; font-size: 13px; margin-top: 30px;">Инвентарь пуст</p>';
-                    return;
-                }
-
-                inventory.forEach(function(item, index) {
-                    var card = document.createElement("div");
-                    card.className = "inv-card " + item.rarity;
-                    card.innerHTML = 
-                        '<img src="' + item.img + '" onerror="this.src=\'https://via.placeholder.com/60\'">' +
-                        '<div class="title">' + item.name + '</div>' +
-                        '<div class="price">' + item.price + ' 💎</div>' +
-                        '<div class="inv-btn-group">' +
-                            '<button class="btn-sell-inv">Продать</button>' +
-                            '<button class="btn-withdraw-inv">Вывести</button>' +
-                        '</div>';
+<div class="price">${c.price > 0 ? c.price + " 💎" : "БЕСПЛАТНО"}</div>
+                    `;
                     
-                    card.querySelector(".btn-sell-inv").onclick = function() {
-                        balance += item.price;
-                        inventory.splice(index, 1);
-                        saveData();
-                        updateBalanceUI();
-                        renderInventory();
-                    };
+                    el.addEventListener("click", () => {
+                        document.getElementById("cName").innerText = c.name;
+                        switchTab("Open");
+                    });
 
-                    card.querySelector(".btn-withdraw-inv").onclick = function() {
-                        handleWithdrawItem(index);
-                    };
-
-                    grid.appendChild(card);
+                    if (c.category === "free") {
+                        freeG.appendChild(el);
+                    } else {
+                        offG.appendChild(el);
+                    }
                 });
             }
 
-            function handleWithdrawItem(index) {
-                if (!savedTradeUrl || savedTradeUrl.trim() === "") {
-                    alert("⚠️ Вы не указали Trade URL в профиле!\n\nПожалуйста, введите ваш Trade URL в разделе 'Профиль', чтобы выводить предметы.");
-                    switchTab("Prof", document.getElementById("btnProf"));
-                    document.getElementById("profTradeUrlInput").focus();
-                    return;
-                }
-
-                var item = inventory[index];
-                if (confirm("Вывести " + item.name + " на указанный Trade URL?\n\n" + savedTradeUrl)) {
-                    inventory.splice(index, 1);
-                    saveData();
-                    renderInventory();
-                    alert("✅ Заявка на вывод предмета " + item.name + " принята!");
-                }
-            }
-
-            document.getElementById("saveTradeUrlBtn").onclick = function() {
-                var val = document.getElementById("profTradeUrlInput").value.trim();
-                if (!val) {
-                    alert("Пожалуйста, вставьте ссылку Trade URL!");
-                    return;
-                }
-                savedTradeUrl = val;
-                saveData();
-                alert("✅ Trade URL успешно сохранён!");
-            };
-
-            document.getElementById("getTradeUrlLink").onclick = function() {
-                var steamTradeHelpUrl = "https://steamcommunity.com/my/tradeoffers/privacy#trade_offer_access_url";
-                if (tg && tg.openLink) {
-                    tg.openLink(steamTradeHelpUrl);
-                } else {
-                    window.open(steamTradeHelpUrl, "_blank");
-                }
-            };
-
-            document.getElementById("copyRefBtn").onclick = function() {
-                navigator.clipboard.writeText(refLink).then(function() {
-                    alert("Реферальная ссылка скопирована!");
-                });
-            };
-
-            // Рабочая отправка через встроенный шер Telegram
-            document.getElementById("shareRefBtn").onclick = function() {
-                var shareText = "Открывай бесплатные кейсы CS2 и выбивай крутые скины!";
-                var fullShareUrl = "https://t.me/share/url?url=" + encodeURIComponent(refLink) + "&text=" + encodeURIComponent(shareText);
+            function switchTab(tab) {
+                document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+                document.querySelectorAll(".nav-item").forEach(n => n.classList.remove("active"));
                 
-                if (tg && tg.openTelegramLink) {
-                    tg.openTelegramLink(fullShareUrl);
-                } else {
-                    window.open(fullShareUrl, "_blank");
+                if (tab === "Cases") {
+                    document.getElementById("pCases").classList.add("active");
+                    document.getElementById("tabCases").classList.add("active");
+                } else if (tab === "Prof") {
+                    document.getElementById("pProf").classList.add("active");
+                    document.getElementById("tabProf").classList.add("active");
+                } else if (tab === "Open") {
+                    document.getElementById("pOpen").classList.add("active");
                 }
-            };
+            }
 
-            document.getElementById("openBtn").
+            document.getElementById("tabCases").addEventListener("click", () => switchTab("Cases"));
+            document.getElementById("tabProf").addEventListener("click", () => switchTab("Prof"));
+            document.getElementById("backBtn").addEventListener("click", () => switchTab("Cases"));
 
-
-onclick = spinRoulette;
-            document.getElementById("backToCasesBtn").onclick = function() { switchTab("Cases", document.getElementById("btnCases")); };
-            document.getElementById("btnCases").onclick = function() { switchTab('Cases', this); };
-            document.getElementById("btnInv").onclick = function() { switchTab('Inv', this); };
-            document.getElementById("btnProf").onclick = function() { switchTab('Prof', this); };
-
-            saveData();
-            updateBalanceUI();
-            renderCasesGrid();
+            renderCases();
         });
     </script>
 </body>
