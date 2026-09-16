@@ -54,9 +54,6 @@ h1,h2,h3,.display{font-family:'Rajdhani',sans-serif;}
 .referral-banner b{font-size:12px; display:block;}
 .referral-banner span{font-size:10.5px; color:var(--sub);}
 
-.
-
-
 daily-strip{display:flex; align-items:center; justify-content:space-between; gap:10px; background:linear-gradient(135deg,#1e1822,#15111a); border:1px solid var(--line); border-radius:14px; padding:12px 14px; margin-bottom:4px;}
 .daily-left{display:flex; flex-direction:column; gap:2px;}
 .daily-left b{font-size:13px; font-family:'Rajdhani',sans-serif; font-weight:700;}
@@ -98,9 +95,6 @@ daily-strip{display:flex; align-items:center; justify-content:space-between; gap
 .roulette-line::before{top:-1px; border-top:6px solid var(--acc);}
 .roulette-line::after{bottom:-1px; border-bottom:6px solid var(--acc);}
 .roulette-track{display:flex; height:100%; position:absolute; left:0; top:0;}
-
-.
-
 
 skin-card{width:92px; height:98px; margin:10px 4px; background:var(--panel2); border-radius:10px; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:6px; flex-shrink:0; border-bottom:3px solid #444; position:relative;}
 .skin-card .sart{width:38px; height:38px; margin-bottom:4px;}
@@ -197,8 +191,6 @@ filled{border-style:solid; border-color:rgba(255,138,61,.4);}
 .profile-head span{font-size:11px; color:var(--sub);}
 .stat-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-top:12px;}
 .stat-box{background:#0f0c11; border-radius:10px; padding:8px 6px; text-align:center;}
-.
-
 
 stat-box b{display:block; font-family:'Rajdhani',sans-serif; font-size:16px; color:var(--acc);}
 .stat-box span{font-size:9px; color:var(--sub);}
@@ -556,51 +548,51 @@ const skinPool = [
   { id:"s19", name:"Galil AR | Погремушка",         rarity:"mil", price:17, shape:"rifle"  },
   { id:"s20", name:"Five-SeveN | Обезьяний бизнес", rarity:"mil", price:21, shape:"pistol" },
   // Запрещённое
-  { id:"s21", name:"UMP-45 | Индиго",               rarity:"restr", price:45, shape:"rifle"  },
-  { id:"s22", name:"USP-S | Кодекс",                rarity:"restr", price:60, shape:"pistol" },
-  { id:"s23", name:"Five-SeveN | Циркуляр",         rarity:"restr", price:70, shape:"pistol" },
-  { id:"s24", name:"M4A4 | Полосатая зебра",        rarity:"restr", price:55, shape:"rifle"  },
-  { id:"s25", name:"AK-47 | Элитная сборка",        rarity:"restr", price:65, shape:"rifle"  },
-  { id:"s26", name:"Desert Eagle | Нага",           rarity:"restr", price:80, shape:"pistol" },
-  { id:"s27", name:"FAMAS | Джинн",                 rarity:"restr", price:50, shape:"rifle"  },
-  { id:"s28", name:"MP7 | Немезида",                rarity:"restr", price:58, shape:"rifle"  },
-  { id:"s29", name:"SSG 08 | Кровь в воде",         rarity:"restr", price:62, shape:"sniper" },
-  { id:"s30", name:"P250 | Мертвецы",               rarity:"restr", price:47, shape:"pistol" },
+  { id:"s21", name:"UMP-45 | Индиго",               rarity:"restr", price:4500, shape:"rifle"  },
+  { id:"s22", name:"USP-S | Кодекс",                rarity:"restr", price:6000, shape:"pistol" },
+  { id:"s23", name:"Five-SeveN | Циркуляр",         rarity:"restr", price:7000, shape:"pistol" },
+  { id:"s24", name:"M4A4 | Полосатая зебра",        rarity:"restr", price:5500, shape:"rifle"  },
+  { id:"s25", name:"AK-47 | Элитная сборка",        rarity:"restr", price:55000, shape:"rifle"  },
+  { id:"s26", name:"Desert Eagle | Нага",           rarity:"restr", price:8000, shape:"pistol" },
+  { id:"s27", name:"FAMAS | Джинн",                 rarity:"restr", price:5000, shape:"rifle"  },
+  { id:"s28", name:"MP7 | Немезида",                rarity:"restr", price:5800, shape:"rifle"  },
+  { id:"s29", name:"SSG 08 | Кровь в воде",         rarity:"restr", price:6200, shape:"sniper" },
+  { id:"s30", name:"P250 | Мертвецы",               rarity:"restr", price:4700, shape:"pistol" },
   // Засекреченное
-  { id:"s31", name:"AWP | Гиперзверь",              rarity:"classi", price:180, shape:"sniper" },
-  { id:"s32", name:"M4A4 | Нео-нуар",               rarity:"classi", price:220, shape:"rifle"  },
-  { id:"s33", name:"AK-47 | Огненный змей",         rarity:"classi", price:260, shape:"rifle"  },
-  { id:"s34", name:"Glock-18 | Выцветание",         rarity:"classi", price:200, shape:"pistol" },
-  { id:"s35", name:"Desert Eagle | Принтстрим",     rarity:"classi", price:300, shape:"pistol" },
-  { id:"s36", name:"M4A1-S | Игрок Два",            rarity:"classi", price:190, shape:"rifle"  },
-  { id:"s37", name:"USP-S | Нео-нуар",              rarity:"classi", price:210, shape:"pistol" },
-  { id:"s38", name:"AK-47 | Кровавый спорт",        rarity:"classi", price:240, shape:"rifle"  },
-  { id:"s39", name:"AWP | Нео-нуар",                rarity:"classi", price:260, shape:"sniper" },
-  { id:"s40", name:"Five-SeveN | Разъярённая толпа",rarity:"classi", price:150, shape:"pistol" },
+  { id:"s31", name:"AWP | Гиперзверь",              rarity:"classi", price:99000, shape:"sniper" },
+  { id:"s32", name:"M4A4 | Нео-нуар",               rarity:"classi", price:35000, shape:"rifle"  },
+  { id:"s33", name:"AK-47 | Огненный змей",         rarity:"classi", price:7700000, shape:"rifle"  },
+  { id:"s34", name:"Glock-18 | Выцветание",         rarity:"classi", price:3008, shape:"pistol" },
+  { id:"s35", name:"Desert Eagle | Принтстрим",     rarity:"classi", price:9003, shape:"pistol" },
+  { id:"s36", name:"M4A1-S | Игрок Два",            rarity:"classi", price:16000, shape:"rifle"  },
+  { id:"s37", name:"USP-S | Нео-нуар",              rarity:"classi", price:9000, shape:"pistol" },
+  { id:"s38", name:"AK-47 | Кровавый спорт",        rarity:"classi", price:45000, shape:"rifle"  },
+  { id:"s39", name:"AWP | Нео-нуар",                rarity:"classi", price:55000, shape:"sniper" },
+  { id:"s40", name:"Five-SeveN | Разъярённая толпа",rarity:"classi", price:20000, shape:"pistol" },
   // Тайное
-  { id:"s41", name:"AK-47 | Красная линия",         rarity:"covert", price:500,  shape:"rifle"  },
-  { id:"s42", name:"AK-47 | Вулкан",                rarity:"covert", price:700,  shape:"rifle"  },
-  { id:"s43", name:"AK-47 | Азимов",                rarity:"covert", price:650,  shape:"rifle"  },
-  { id:"s44", name:"AK-47 | Изгой пустоши",         rarity:"covert", price:480,  shape:"rifle"  },
-  { id:"s45", name:"AWP | Азимов",                  rarity:"covert", price:750,  shape:"sniper" },
+  { id:"s41", name:"AK-47 | Красная линия",         rarity:"covert", price:80003,  shape:"rifle"  },
+  { id:"s42", name:"AK-47 | Вулкан",                rarity:"covert", price:113000,  shape:"rifle"  },
+  { id:"s43", name:"AK-47 | Азимов",                rarity:"covert", price:90000,  shape:"rifle"  },
+  { id:"s44", name:"AK-47 | Изгой пустоши",         rarity:"covert", price:27000,  shape:"rifle"  },
+  { id:"s45", name:"AWP | Азимов",                  rarity:"covert", price:450000,  shape:"sniper" },
 
 
-{ id:"s46", name:"AWP | Молниеносный удар",       rarity:"covert", price:900,  shape:"sniper" },
-  { id:"s47", name:"AWP | Дракон Лор",              rarity:"covert", price:1200, shape:"sniper" },
-  { id:"s48", name:"M4A4 | Вой",                    rarity:"covert", price:1100, shape:"rifle"  },
-  { id:"s49", name:"M4A1-S | Икар",                 rarity:"covert", price:780,  shape:"rifle"  },
-  { id:"s50", name:"Desert Eagle | Пламя",          rarity:"covert", price:500,  shape:"pistol" },
+{ id:"s46", name:"AWP | Молниеносный удар",       rarity:"covert", price:80000,  shape:"sniper" },
+  { id:"s47", name:"AWP | Дракон Лор",              rarity:"covert", price:8000000, shape:"sniper" },
+  { id:"s48", name:"M4A4 | Вой",                    rarity:"covert", price:13000000, shape:"rifle"  },
+  { id:"s49", name:"M4A1-S | Икар",                 rarity:"covert", price:2000000,  shape:"rifle"  },
+  { id:"s50", name:"Desert Eagle | Пламя",          rarity:"covert", price:2200000,  shape:"pistol" },
   { id:"s51", name:"USP-S | Подтверждённое убийство", rarity:"covert", price:620, shape:"pistol" },
   // Экстраординарное
-  { id:"s52", name:"★ Керамбит | Допплер",          rarity:"gold", price:5200, shape:"knife"  },
-  { id:"s53", name:"★ Нож-бабочка | Фейд",          rarity:"gold", price:5600, shape:"knife"  },
-  { id:"s54", name:"★ M9 Bayonet | Резня",          rarity:"gold", price:4300, shape:"knife"  },
-  { id:"s55", name:"★ Нож Талон | Автотроник",      rarity:"gold", price:4900, shape:"knife"  },
-  { id:"s56", name:"★ Штык-нож | Тигровый зуб",     rarity:"gold", price:4100, shape:"knife"  },
-  { id:"s57", name:"★ Складной нож | Мраморный узор", rarity:"gold", price:3800, shape:"knife" },
-  { id:"s58", name:"★ Перчатки | Ящик Пандоры",     rarity:"gold", price:4700, shape:"gloves" },
-  { id:"s59", name:"★ Спецназ перчатки | Багровое кимоно", rarity:"gold", price:4400, shape:"gloves" },
-  { id:"s60", name:"★ Перчатки водителя | Королевская змея", rarity:"gold", price:3600, shape:"gloves" },
+  { id:"s52", name:"★ Керамбит | Допплер",          rarity:"gold", price:1340000, shape:"knife"  },
+  { id:"s53", name:"★ Нож-бабочка | Фейд",          rarity:"gold", price:1900000, shape:"knife"  },
+  { id:"s54", name:"★ M9 Bayonet | Резня",          rarity:"gold", price:1100000, shape:"knife"  },
+  { id:"s55", name:"★ Нож Талон | Автотроник",      rarity:"gold", price:919000, shape:"knife"  },
+  { id:"s56", name:"★ Штык-нож | Тигровый зуб",     rarity:"gold", price:780000, shape:"knife"  },
+  { id:"s57", name:"★ Складной нож | Мраморный узор", rarity:"gold", price:700000, shape:"knife" },
+  { id:"s58", name:"★ Перчатки | Ящик Пандоры",     rarity:"gold", price:1300000, shape:"gloves" },
+  { id:"s59", name:"★ Спецназ перчатки | Багровое кимоно", rarity:"gold", price:939000, shape:"gloves" },
+  { id:"s60", name:"★ Перчатки водителя | Королевская змея", rarity:"gold", price:900000, shape:"gloves" },
   // Эксклюзив магазина
   { id:"s61", name:"★ Нож Фалчион | Закалка кейсом (Эксклюзив)", rarity:"gold", price:1000000, shape:"knife" }
 ];
