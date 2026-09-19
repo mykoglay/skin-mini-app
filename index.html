@@ -27,6 +27,7 @@ h1,h2,h3,.display{font-family:'Rajdhani',sans-serif;}
 @keyframes ringspin{0%{stroke-dashoffset:180;}50%{stroke-dashoffset:40;}100%{stroke-dashoffset:180;}}
 @keyframes ringrotate{to{transform:rotate(360deg);}}
 .loader-word{font-family:'Rajdhani',sans-serif; font-weight:700; font-size:15px; letter-spacing:.14em; color:var(--sub);}
+.loader-title{font-family:'Rajdhani',sans-serif; font-weight:700; font-size:26px; letter-spacing:.08em;}
 .loader-bar{width:160px; height:2px; background:#241d28; border-radius:2px; overflow:hidden;}
 .loader-bar i{display:block; height:100%; width:30%; background:var(--acc); border-radius:2px; animation:barmove 1.1s ease-in-out infinite;}
 @keyframes barmove{0%{transform:translateX(-120%);}100%{transform:translateX(420%);}}
@@ -72,6 +73,48 @@ h1,h2,h3,.display{font-family:'Rajdhani',sans-serif;}
 .section-title{font-size:12px; letter-spacing:.04em; color:var(--sub); font-weight:600;}
 .section-note{font-size:11px; color:var(--sub);}
 .hint-text{font-size:11px; color:var(--sub); line-height:1.4; margin-bottom:10px;}
+
+/* --- terminal promo banner --- */
+.terminal-banner{
+  display:flex; align-items:center; gap:12px; background:linear-gradient(135deg,#0f1a14,#0a0e0c);
+  border:1px solid rgba(61,220,132,.4); border-radius:14px; padding:14px; cursor:pointer;
+}
+.terminal-banner-icon{font-size:26px; flex-shrink:0;}
+.terminal-banner-text{flex:1; display:flex; flex-direction:column; gap:2px;}
+.terminal-banner-text b{font-family:'Rajdhani',sans-serif; font-size:14px; color:#3ddc84;}
+.terminal-banner-text span{font-size:10.5px; color:var(--sub); line-height:1.35;}
+.terminal-banner-arrow{width:18px; height:18px; color:#3ddc84; flex-shrink:0;}
+
+/* --- terminal screen (hacker laptop look) --- */
+.terminal-screen{
+  position:relative; background:#050807; border-radius:14px; border:1px solid #143323;
+  box-shadow:0 0 0 1px #0a1a12, 0 20px 50px -20px rgba(61,220,132,.35); overflow:hidden;
+  font-family:'Chakra Petch',monospace;
+}
+.terminal-scanlines{
+  position:absolute; inset:0; pointer-events:none; z-index:2;
+  background:repeating-linear-gradient(0deg, rgba(61,220,132,.05) 0px, rgba(61,220,132,.05) 1px, transparent 1px, transparent 3px);
+  animation:scanMove 6s linear infinite;
+}
+@keyframes scanMove{ from{ background-position-y:0; } to{ background-position-y:200px; } }
+.terminal-titlebar{display:flex; align-items:center; gap:6px; padding:10px 12px; background:#0a120e; border-bottom:1px solid #143323;}
+.terminal-dot{width:9px; height:9px; border-radius:50%; display:inline-block;}
+.terminal-titletext{margin-left:8px; font-size:11px; color:#3ddc84; opacity:.75;}
+.terminal-body{position:relative; z-index:1; padding:18px 16px 20px;}
+.terminal-attempts{font-size:11px; color:#3ddc84; margin-bottom:10px; letter-spacing:.05em;}
+.terminal-item{
+  min-height:150px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px;
+  background:#081008; border:1px dashed #1e4a30; border-radius:12px; margin-bottom:14px; padding:14px; text-align:center;
+}
+.terminal-item.scanning{ animation:termFlicker .15s steps(2) infinite; }
+@keyframes termFlicker{ 0%,100%{ opacity:1; } 50%{ opacity:.55; } }
+.terminal-placeholder{font-size:12px; color:#3ddc84; opacity:.7;}
+.terminal-scan-text{font-size:12px; color:#3ddc84;}
+.terminal-item .art{width:56px; height:56px;}
+.terminal-item-name{font-size:12px; font-weight:700; color:#e9f5ee;}
+.terminal-item-price{font-size:13px; font-weight:800;}
+.terminal-inprogress-actions{display:flex; gap:8px; margin-top:10px;}
+.terminal-inprogress-actions button{flex:1;}
 
 .referral-banner{display:flex; align-items:center; gap:10px; background:linear-gradient(135deg,#241a12,#1c1620); border:1px solid rgba(139,92,246,.35); border-radius:14px; padding:12px 14px; margin-bottom:12px;}
 .referral-banner svg{width:22px;height:22px; color:var(--acc); flex-shrink:0;}
@@ -139,8 +182,10 @@ h1,h2,h3,.display{font-family:'Rajdhani',sans-serif;}
 .open-title{font-family:'Rajdhani',sans-serif; font-weight:700; font-size:19px; margin-bottom:2px;}
 .open-sub{font-size:11px; color:var(--sub); margin-bottom:14px;}
 
-.roulette-wrap{position:relative; margin-bottom:14px;}
+.roulette-wrap{position:relative; margin-bottom:14px; display:flex; flex-direction:column; gap:8px;}
 .roulette-box{position:relative; width:100%; height:118px; background:#0d0a10; border:1px solid var(--line); border-radius:14px; overflow:hidden;}
+.roulette-box.size-md{height:92px;}
+.roulette-box.size-sm{height:74px;}
 .roulette-fade{position:absolute; top:0; bottom:0; width:36px; z-index:5; pointer-events:none;}
 .roulette-fade.left{left:0; background:linear-gradient(90deg,#0d0a10,transparent);}
 .roulette-fade.right{right:0; background:linear-gradient(270deg,#0d0a10,transparent);}
@@ -239,6 +284,23 @@ h1,h2,h3,.display{font-family:'Rajdhani',sans-serif;}
 .chance-fill{position:absolute; left:0; top:0; bottom:0; background:linear-gradient(90deg,var(--green),var(--acc)); border-radius:7px 0 0 7px;}
 .chance-marker{position:absolute; top:-4px; width:3px; height:22px; background:#fff; border-radius:2px; box-shadow:0 0 6px #fff; transition:left 2.4s cubic-bezier(.15,.7,.15,1); display:none;}
 
+.gauge-wrap{position:relative; width:170px; height:170px; margin:10px auto 4px;}
+.gauge-svg{width:100%; height:100%; transform:rotate(-90deg);}
+.gauge-track{fill:none; stroke:#0f0c11; stroke-width:12;}
+.gauge-arc{fill:none; stroke:var(--acc); stroke-width:12; stroke-linecap:round; stroke-dasharray:427.26; stroke-dashoffset:427.26; transition:stroke-dashoffset 2.2s cubic-bezier(.15,.7,.15,1), stroke 2.2s ease;}
+.gauge-center{position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px;}
+.gauge-pct{font-family:'Rajdhani',sans-serif; font-weight:700; font-size:30px;}
+.gauge-label{font-size:10px; letter-spacing:.05em; text-transform:uppercase; color:var(--sub); font-weight:700;}
+.gauge-brand{font-size:13px; letter-spacing:.08em;}
+.gauge-wrap.gauge-spinning .gauge-arc{ animation: gaugePulse .5s ease-in-out infinite; }
+@keyframes gaugePulse{ 0%,100%{ opacity:.55; } 50%{ opacity:1; } }
+
+.shop-tabs{display:flex; gap:6px; overflow-x:auto; margin-bottom:10px; padding-bottom:2px;}
+.shop-tabs::-webkit-scrollbar{display:none;}
+.shop-tabs button{flex-shrink:0; border:1px solid var(--line); background:var(--panel2); color:var(--sub); padding:7px 12px; border-radius:9px; font-size:11px; font-weight:700; font-family:'Rajdhani',sans-serif; cursor:pointer; white-space:nowrap;}
+.shop-tabs button.active{background:var(--acc); color:#1a1025; border-color:var(--acc);}
+.shop-loadmore{width:100%; margin-top:10px; border:1px solid var(--line); background:var(--panel2); color:var(--acc); padding:11px; border-radius:10px; font-size:12px; font-weight:700; font-family:'Rajdhani',sans-serif; cursor:pointer;}
+
 .picker-modal{display:none; position:fixed; inset:0; background:rgba(4,3,6,.9); z-index:1100; align-items:flex-end; justify-content:center;}
 .picker-modal.active{display:flex;}
 .picker-sheet{background:var(--panel); width:100%; max-width:480px; max-height:78vh; border-radius:18px 18px 0 0; padding:16px; display:flex; flex-direction:column; border:1px solid var(--line); border-bottom:none;}
@@ -298,6 +360,31 @@ h1,h2,h3,.display{font-family:'Rajdhani',sans-serif;}
 .multi-item .nm{font-size:8px; text-align:center; line-height:1.15; font-weight:600;}
 .multi-item .pr{font-size:9px; font-weight:700;}
 
+.battle-mode-toggle{display:flex; gap:8px; margin-bottom:14px; background:var(--panel2); border:1px solid var(--line); border-radius:14px; padding:5px;}
+.battle-mode-toggle button{
+  flex:1; display:flex; flex-direction:column; align-items:center; gap:4px; padding:10px 6px; border:none; border-radius:10px;
+  background:transparent; color:var(--sub); cursor:pointer; font-family:'Rajdhani',sans-serif; font-weight:700; font-size:13px;
+  transition:background .15s ease, color .15s ease;
+}
+.battle-mode-toggle button svg{width:24px; height:24px;}
+.battle-mode-toggle button.active{background:linear-gradient(135deg,var(--acc),#5b21b6); color:#fff; box-shadow:0 6px 16px -6px rgba(139,92,246,.6);}
+
+.battle-slots{display:grid; grid-template-columns:repeat(2,1fr); gap:10px;}
+.battle-slot{background:var(--panel2); border:1px solid var(--line); border-radius:12px; padding:14px 8px; text-align:center;}
+.battle-slot.waiting{border-style:dashed; cursor:pointer;}
+.battle-slot.waiting:active{transform:scale(.97);}
+.battle-avatar{width:38px; height:38px; border-radius:50%; margin:0 auto 6px; display:flex; align-items:center; justify-content:center; font-size:18px; background:#0f0c11;}
+.battle-avatar.you{border:2px solid var(--acc);}
+.battle-avatar.bot{border:2px solid var(--line);}
+.battle-avatar.empty{border:2px dashed var(--line); color:var(--sub); font-size:16px;}
+.battle-avatar.empty svg{width:16px; height:16px;}
+.battle-name{font-size:11px; font-weight:700; font-family:'Rajdhani',sans-serif;}
+.battle-name.waiting-text{color:var(--sub); font-weight:600; font-size:10px;}
+.battle-team{font-size:9px; color:var(--sub); margin-top:2px;}
+.battle-add-bot{margin-top:6px; border:1px solid var(--acc-dim); background:none; color:var(--acc); font-size:9.5px; font-weight:700; padding:4px 8px; border-radius:7px; cursor:pointer; font-family:'Rajdhani',sans-serif;}
+.battle-remove-bot{margin-top:4px; border:none; background:none; color:var(--sub); font-size:9px; cursor:pointer; text-decoration:underline;}
+.battle-track-label{font-size:10px; color:var(--sub); font-weight:700; margin:6px 0 4px;}
+
 .toast{position:fixed; bottom:76px; left:50%; transform:translateX(-50%) translateY(20px); background:#1e1922; border:1px solid var(--line); padding:10px 16px; border-radius:10px; font-size:12px; z-index:1200; opacity:0; transition:opacity .25s ease, transform .25s ease; pointer-events:none; max-width:88%; text-align:center;}
 .toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
 
@@ -328,6 +415,7 @@ h1,h2,h3,.display{font-family:'Rajdhani',sans-serif;}
 
 <div id="loader">
   <div class="loader-mark"><svg viewBox="0 0 80 80"><circle cx="40" cy="40" r="30" class="loader-ring"/><path d="M40 22 L48 36 H32 Z" fill="#8b5cf6" opacity="0.9"/></svg></div>
+  <div class="loader-title brand-text">ECODROP</div>
   <div class="loader-word">ЗАГРУЗКА ИНВЕНТАРЯ</div>
   <div class="loader-bar"><i></i></div>
 </div>
@@ -363,19 +451,47 @@ h1,h2,h3,.display{font-family:'Rajdhani',sans-serif;}
     <div class="section-row"><div class="section-title">Ол Ин кейсы</div><div class="section-note">риск ↑ награда ↑</div></div>
     <div class="hint-text">Ставка выше — шанс на топовый предмет выше, но можно выбить и что-то дешевле ставки.</div>
     <div class="cases-grid" id="allInCasesGrid"></div>
+
+    <div class="section-row"><div class="section-title">Терминал</div></div>
+    <div class="terminal-banner" onclick="switchTab('Terminal')">
+      <div class="terminal-banner-icon">🖥️</div>
+      <div class="terminal-banner-text">
+        <b>Взломай терминал</b>
+        <span>До 4 попыток поймать что-то дорогое. Вход — 10 000 ◆, сам предмет выкупается отдельно.</span>
+      </div>
+      <svg class="terminal-banner-arrow" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+  </div>
+
+  <div id="pTerminal" class="page">
+    <button class="back-btn" onclick="switchTab('Cases')"><svg viewBox="0 0 24 24" fill="none"><path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Все кейсы</button>
+    <div class="terminal-screen">
+      <div class="terminal-scanlines"></div>
+      <div class="terminal-titlebar">
+        <span class="terminal-dot" style="background:#ff5f56;"></span>
+        <span class="terminal-dot" style="background:#ffbd2e;"></span>
+        <span class="terminal-dot" style="background:#27c93f;"></span>
+        <span class="terminal-titletext">root@ecodrop:~$ unlock.sh</span>
+      </div>
+      <div class="terminal-body">
+        <div class="terminal-attempts" id="terminalAttempts">Попытка 0/4</div>
+        <div class="terminal-item" id="terminalItemDisplay">
+          <div class="terminal-placeholder">&gt; Нажмите «Запустить», чтобы начать взлом_</div>
+        </div>
+        <button class="open-btn" id="terminalStartBtn" onclick="terminalStart()">Запустить за 10000 ◆</button>
+        <div class="terminal-inprogress-actions" id="terminalInProgressActions" style="display:none;">
+          <button class="btn2 btn2-blue" id="terminalRerollBtn" onclick="terminalReroll()">Сменить</button>
+          <button class="btn2 btn2-acc" id="terminalBuyBtn" onclick="terminalBuy()">Купить</button>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div id="pOpen" class="page">
     <button class="back-btn" onclick="switchTab('Cases')"><svg viewBox="0 0 24 24" fill="none"><path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Все кейсы</button>
     <div class="open-title" id="cName">Кейс</div>
     <div class="open-sub" id="cDesc">—</div>
-    <div class="roulette-wrap">
-      <div class="roulette-box">
-        <div class="roulette-fade left"></div><div class="roulette-fade right"></div>
-        <div class="roulette-line"></div>
-        <div class="roulette-track" id="track"></div>
-      </div>
-    </div>
+    <div class="roulette-wrap" id="rouletteWrap"></div>
 
     <div class="qty-row" id="qtyRow">
       <span class="qty-label">Открыть сразу:</span>
@@ -395,7 +511,22 @@ h1,h2,h3,.display{font-family:'Rajdhani',sans-serif;}
 
   <div id="pUpgrade" class="page">
     <div class="section-row"><div class="section-title">Апгрейдер</div></div>
-    <div class="hint-text">Выберите скин из инвентаря и/или добавьте кристаллы ползунком, затем выберите желаемый предмет. Шанс зависит от соотношения ценностей. При неудаче ставка сгорает.</div>
+    <div class="hint-text">Шанс зависит от соотношения ценностей ставки и цели. Выберите скин из инвентаря и/или добавьте кристаллы ползунком, затем выберите желаемый предмет. При неудаче ставка сгорает.</div>
+
+    <div class="chance-card">
+      <div class="gauge-wrap">
+        <svg viewBox="0 0 160 160" class="gauge-svg">
+          <circle cx="80" cy="80" r="68" class="gauge-track"/>
+          <circle cx="80" cy="80" r="68" class="gauge-arc" id="gaugeArc"/>
+        </svg>
+        <div class="gauge-center">
+          <div class="gauge-pct" id="upgChanceVal">—</div>
+          <div class="gauge-brand brand-text">ECODROP</div>
+        </div>
+      </div>
+      <div class="chance-row"><span>Ставка</span><b id="upgStakeVal">0 ◆</b></div>
+      <div class="chance-row"><span>Цель</span><b id="upgTargetVal">—</b></div>
+    </div>
 
     <div class="upg-board">
       <div class="upg-slot" id="stakeSkinSlot" onclick="openPicker('stakeSkin')">
@@ -418,20 +549,44 @@ h1,h2,h3,.display{font-family:'Rajdhani',sans-serif;}
       <div class="slider-val"><span>0 ◆</span><b id="balanceSliderVal">0 ◆</b><span id="balanceSliderMax">0 ◆</span></div>
     </div>
 
-    <div class="chance-card">
-      <div class="chance-row"><span>Ставка</span><b id="upgStakeVal">0 ◆</b></div>
-      <div class="chance-row"><span>Цель</span><b id="upgTargetVal">—</b></div>
-      <div class="chance-row"><span>Шанс успеха</span><b id="upgChanceVal">—</b></div>
-      <div class="chance-bar"><div class="chance-fill" id="upgChanceFill" style="width:0%"></div><div class="chance-marker" id="upgMarker" style="left:0%"></div></div>
-    </div>
-
     <button class="open-btn" id="upgradeBtn" onclick="doUpgrade()" disabled>Выберите ставку и цель</button>
   </div>
 
   <div id="pShop" class="page">
     <div class="section-row"><div class="section-title">Магазин</div></div>
     <div class="hint-text">Покупайте скины напрямую за кристаллы. Эксклюзивный нож стоит целое состояние — придётся копить.</div>
+    <div class="shop-tabs" id="shopTabs"></div>
     <div class="shop-grid" id="shopGrid"></div>
+    <button class="shop-loadmore" id="shopLoadMore" style="display:none;" onclick="shopLoadMore()">Показать ещё</button>
+  </div>
+
+  <div id="pBattle" class="page">
+    <div class="section-row"><div class="section-title">Баттлы</div></div>
+    <div class="hint-text">Выберите режим и кейс, затем добавьте ботов в свободные слоты — они открывают тот же кейс с абсолютно такими же шансами, что и вы (никакого скрытого перевеса). Побеждает тот, у кого выпавший предмет (в 2×2 — сумма команды) стоит дороже — победитель забирает весь банк. При ничьей ставка возвращается всем поровну.</div>
+
+    <div class="battle-mode-toggle">
+      <button class="active" id="battleMode1v1" onclick="setBattleMode('1v1')">
+        <svg viewBox="0 0 24 24" fill="none"><circle cx="9" cy="8" r="3" stroke="currentColor" stroke-width="1.7"/><path d="M4 19c0-3 2.2-5 5-5s5 2 5 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="17" cy="8" r="3" stroke="currentColor" stroke-width="1.7"/><path d="M12.5 19c0-3 2-5 4.5-5s4.5 2 4.5 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+        <span>1 × 1</span>
+      </button>
+      <button id="battleMode2v2" onclick="setBattleMode('2v2')">
+        <svg viewBox="0 0 24 24" fill="none"><circle cx="6" cy="7" r="2.4" stroke="currentColor" stroke-width="1.6"/><circle cx="10" cy="9" r="2.4" stroke="currentColor" stroke-width="1.6"/><path d="M2.5 19c0-3 1.8-5 4-5.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M6.5 19c0-3.2 2-5.3 4.5-5.3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="18" cy="7" r="2.4" stroke="currentColor" stroke-width="1.6"/><circle cx="14" cy="9" r="2.4" stroke="currentColor" stroke-width="1.6"/><path d="M21.5 19c0-3-1.8-5-4-5.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M17.5 19c0-3.2-2-5.3-4.5-5.3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        <span>2 × 2</span>
+      </button>
+    </div>
+
+    <div class="upg-slot" id="battleCaseSlot" onclick="openBattleCasePicker()" style="min-height:100px; margin-bottom:12px;">
+      <svg viewBox="0 0 24 24" fill="none" style="width:26px;height:26px;color:#9a8f9c;"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      <div class="lbl">Выбрать кейс для баттла</div>
+    </div>
+
+    <div class="battle-slots" id="battleSlots"></div>
+
+    <div class="chance-row" style="margin:12px 0;"><span>Стоимость входа (за вас все слоты)</span><b id="battleCostVal">0 ◆</b></div>
+
+    <button class="open-btn" id="battleStartBtn" onclick="startBattle()" disabled>Выберите кейс</button>
+
+    <div class="roulette-wrap" id="battleRouletteWrap" style="display:none; margin-top:14px;"></div>
   </div>
 
   <div id="pInv" class="page">
@@ -499,6 +654,19 @@ h1,h2,h3,.display{font-family:'Rajdhani',sans-serif;}
   </div>
 </div>
 
+<div class="modal" id="battleModal">
+  <div class="win-card" style="max-width:340px;">
+    <div class="win-content">
+      <div class="win-eyebrow" id="battleResultTitle">РЕЗУЛЬТАТ БАТТЛА</div>
+      <div class="multi-grid" id="battleResultGrid"></div>
+      <div class="win-price" id="battleResultSummary" style="margin-top:10px;">—</div>
+      <div class="win-btns" style="margin-top:10px;">
+        <button class="wb-keep" onclick="closeBattleModal()">Продолжить</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="picker-modal" id="pickerModal">
   <div class="picker-sheet">
     <div class="picker-head"><b id="pickerTitle">Выбор предмета</b><button class="picker-close" onclick="closePicker()">✕</button></div>
@@ -511,6 +679,7 @@ h1,h2,h3,.display{font-family:'Rajdhani',sans-serif;}
 <div class="nav-bar">
   <button class="nav-item active" id="tabCases" onclick="switchTab('Cases')"><svg viewBox="0 0 24 24" fill="none"><path class="brand-icon-path" d="M12 2L20 6V12C20 17 16.5 20.5 12 22C7.5 20.5 4 17 4 12V6L12 2Z" stroke="currentColor" stroke-width="1.7"/></svg><span class="nav-label">Кейсы</span></button>
   <button class="nav-item" id="tabUpgrade" onclick="switchTab('Upgrade')"><svg viewBox="0 0 24 24" fill="none"><path d="M4 14l4-9 4 9M6 11h4M14 20l3-11 3 11M15.5 15h3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="nav-label">Апгрейд</span></button>
+  <button class="nav-item" id="tabBattle" onclick="switchTab('Battle')"><svg viewBox="0 0 24 24" fill="none"><path d="M6 18L18 6M9 6h4v4M6 15v4h4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="nav-label">Баттлы</span></button>
   <button class="nav-item" id="tabShop" onclick="switchTab('Shop')"><svg viewBox="0 0 24 24" fill="none"><path d="M4 8h16l-1.5 11a2 2 0 01-2 1.8H7.5a2 2 0 01-2-1.8L4 8Z" stroke="currentColor" stroke-width="1.6"/><path d="M8 8V6a4 4 0 018 0v2" stroke="currentColor" stroke-width="1.6"/></svg><span class="nav-label">Магазин</span></button>
   <button class="nav-item" id="tabInv" onclick="switchTab('Inv')"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="7" width="18" height="13" rx="2" stroke="currentColor" stroke-width="1.7"/><path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2" stroke="currentColor" stroke-width="1.7"/></svg><span class="nav-label">Инвент.</span></button>
   <button class="nav-item" id="tabProf" onclick="switchTab('Prof')"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="3.4" stroke="currentColor" stroke-width="1.7"/><path d="M4.5 20c1.4-3.6 4.4-5.6 7.5-5.6s6.1 2 7.5 5.6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><span class="nav-label">Профиль</span></button>
@@ -591,7 +760,11 @@ function weaponSVG(seedShape, color, id){
     sniper:`<path d="M2 28 L56 28 L56 24 L60 24 L60 32 L56 32 L56 30 L20 30 L20 38 L14 38 L14 30 L2 30 Z" fill="url(#${grad})"/>`,
     knife:`<path d="M8 34 L38 12 L44 18 L20 36 L14 42 Z" fill="url(#${grad})"/>`,
     gloves:`<path d="M14 10 h10 v14 h6 v-10 h8 v22 a8 8 0 01-8 8 h-8 a8 8 0 01-8-8 z" fill="url(#${grad})"/>`,
-    cash:`<circle cx="32" cy="24" r="16" fill="url(#${grad})"/><text x="32" y="29" font-size="14" text-anchor="middle" fill="#0b0a0e" font-weight="700">◆</text>`
+    cash:`<circle cx="32" cy="24" r="16" fill="url(#${grad})"/><text x="32" y="29" font-size="14" text-anchor="middle" fill="#0b0a0e" font-weight="700">◆</text>`,
+    graffiti:`<path d="M32 8c-8 0-8 10-14 12-4 1.5-6 5-6 8 0 6 5 10 11 10 3 0 5-1.5 6-3.5 1 2 3 3.5 6 3.5 6 0 11-4.5 11-10.5 0-6-6-8-6-13 0-3-3.5-6.5-8-6.5Z" fill="url(#${grad})"/>`,
+    sticker:`<path d="M12 8h32a4 4 0 014 4v20l-12 12H12a4 4 0 01-4-4V12a4 4 0 014-4Z" fill="url(#${grad})"/><path d="M36 44v-8a4 4 0 014-4h8" fill="none" stroke="#0b0a0e" stroke-width="1.4" opacity=".5"/>`,
+    charm:`<circle cx="22" cy="14" r="7" fill="none" stroke="url(#${grad})" stroke-width="4"/><path d="M22 21 L22 30" stroke="url(#${grad})" stroke-width="3"/><path d="M14 30 h16 l4 12 h-24 Z" fill="url(#${grad})"/>`,
+    agent:`<circle cx="32" cy="15" r="9" fill="url(#${grad})"/><path d="M14 42c0-10 8-16 18-16s18 6 18 16" fill="url(#${grad})"/>`
   };
   let overlay = "";
   if(pat===1) overlay = `<circle cx="20" cy="14" r="2" fill="#fff" opacity=".25"/><circle cx="44" cy="34" r="2" fill="#fff" opacity=".2"/>`;
@@ -706,7 +879,7 @@ function skinById(id){
     const amt = parseInt(id.split("_")[1],10) || 0;
     return { id, name:`+${amt} Кристаллов`, rarity:"gold", price:amt, shape:"cash", isCash:true };
   }
-  return skinPool.find(s=>s.id===id);
+  return skinPool.find(s=>s.id===id) || (typeof extraById==="function" ? extraById(id) : undefined);
 }
 
 /* ---------------- starter cooldown ---------------- */
@@ -843,6 +1016,136 @@ const shopItems = [
   { skinId:"s61", exclusive:true }
 ];
 
+/* ---------------- procedurally generated collectibles: graffiti / stickers / charms / agents ----------------
+   Generated in bulk (~1300 items) via name-combinators rather than hand-authored, so the file stays
+   maintainable. Kept out of case drop tables / upgrader picker to avoid overloading those lists —
+   sold only in the Shop's "Коллекция" tabs. Prices are hand-tuned ranges per category/tier, not
+   copied from any real marketplace data. */
+function priceToRarity(price){
+  if(price>=500000) return "gold";
+  if(price>=20000) return "covert";
+  if(price>=2000) return "classi";
+  if(price>=200) return "restr";
+  if(price>=20) return "mil";
+  return "trash";
+}
+function seededRand(seed){
+  let h = 0; for(const c of seed) h = (h*31 + c.charCodeAt(0)) >>> 0;
+  return (h % 1000) / 1000;
+}
+
+const extraItemsPool = [];
+(function generateCollectibles(){
+  // Граффити
+  const GRAFF_WORDS = ["Череп","Молния","Дракон","Клевер","Пламя","Тень","Волк","Корона","Звезда","Скорпион",
+    "Кинжал","Компас","Якорь","Смайл","Череп-бабочка","Роза","Клинок","Глаз","Крыло","Лапа","Клык","Пиксель",
+    "Граната","Прицел","Спираль","Молот","Меч","Пантера","Кобра","Феникс"];
+  const GRAFF_COLORS = ["Красный","Синий","Зелёный","Жёлтый","Фиолетовый","Оранжевый","Белый","Чёрный","Розовый",
+    "Голубой","Бирюзовый","Серебряный","Золотой","Хаки","Бордовый","Лаймовый","Пепельный","Индиго","Коралловый","Мятный"];
+  GRAFF_WORDS.forEach(w=>{
+    GRAFF_COLORS.forEach(c=>{
+      const id = `graf_${w}_${c}`.replace(/\s+/g,'');
+      const base = (1 + Math.floor(seededRand(id)*4)) * 10; // 10-40
+      extraItemsPool.push({ id, name:`Граффити | ${w} (${c})`, category:"graffiti", shape:"graffiti", price:base, rarity:priceToRarity(base) });
+    });
+  });
+
+  // Наклейки
+  const STICKER_TEAMS = ["Феникс","Гидра","Волки Севера","Красная Армия","Титан","Аврора","Небула","Вектор",
+    "Легион","Пантера","Спарта","Скиф","Орда","Циклон","Гром","Стрела","Барс","Гриф","Вихрь","Рубеж",
+    "Заря","Периметр","Импульс","Резонанс","Форпост","Авангард","Дозор","Гарпия","Кобра","Феррум",
+    "Мангуст","Сокол","Ястреб","Каскад","Призрак","Ротор","Оникс","Кварц","Магнетар","زenit"];
+  const STICKER_VARIANTS = [
+    { tag:"", mult:1 }, { tag:" (Глянец)", mult:3 }, { tag:" (Голография)", mult:9 },
+    { tag:" (Золото)", mult:60 }
+  ];
+  STICKER_TEAMS.forEach(t=>{
+    STICKER_VARIANTS.forEach(v=>{
+      const id = `stk_${t}_${v.tag}`.replace(/[\s()]+/g,'');
+      const base = (2 + Math.floor(seededRand("stk"+t)*12)) * v.mult * 10;
+      extraItemsPool.push({ id, name:`Наклейка | ${t}${v.tag}`, category:"sticker", shape:"sticker", price:base, rarity:priceToRarity(base) });
+    });
+  });
+
+  // Брелоки
+  const CHARM_WEAPONS = ["AK-47","M4A4","AWP","Desert Eagle","USP-S","Glock-18","Karambit","Butterfly Knife",
+    "P250","Five-SeveN","MAC-10","UMP-45","SSG 08","Galil AR","FAMAS","MP7","MP9","Nova","P90","Tec-9",
+    "SG 553","P2000","M4A1-S","Sawed-Off","Bayonet","Talon Knife","Flip Knife","Gut Knife","Bowie Knife","Falchion"];
+  const CHARM_FINISHES = ["мини", "золотой мини", "хром мини", "неоновый мини"];
+  CHARM_WEAPONS.forEach(w=>{
+    CHARM_FINISHES.forEach(f=>{
+      const id = `charm_${w}_${f}`.replace(/[\s-]+/g,'');
+      const base = (3 + Math.floor(seededRand(id)*60)) * 10;
+      extraItemsPool.push({ id, name:`Брелок | ${w} (${f})`, category:"charm", shape:"charm", price:base, rarity:priceToRarity(base) });
+    });
+  });
+
+  // Агенты
+  const AGENT_FACTIONS = ["Спецназ «Аврора»","Повстанцы «Тень»","Штурмовой отряд «Гром»","Наёмники «Скорпион»",
+    "Отряд «Феникс»","Группа «Вектор»","Легион «Титан»","Разведка «Нimbus»","Бригада «Оникс»","Клан «Кобра»",
+    "Служба «Периметр»","Отряд «Заря»","Гвардия «Рубеж»","Патруль «Дозор»","Ячейка «Магнетар»","Корпус «Ротор»",
+    "Резерв «Каскад»","Отдел «Импульс»","Бюро «Резонанс»","Форпост «Авангард»"];
+  const AGENT_NAMES = ["Коммандер Стил","Сержант Вега","Агент Нокс","Капитан Раш","Лейтенант Круз","Майор Фрост",
+    "Агент Райт","Сержант Хейл","Коммандер Блэйз","Капитан Данко","Агент Сокол","Майор Гром","Лейтенант Кейн",
+    "Агент Вольф","Сержант Рейн","Коммандер Айс","Капитан Зов","Агент Шторм","Майор Клык","Лейтенант Веста"];
+  const AGENT_VARIANTS = ["(Пустынный камуфляж)","(Городской камуфляж)"];
+  let ai = 0;
+  AGENT_FACTIONS.forEach(faction=>{
+    AGENT_NAMES.forEach(name=>{
+      AGENT_VARIANTS.forEach(v=>{
+        ai++;
+        const id = `agent_${ai}`;
+        const base = (80 + Math.floor(seededRand(id)*820)) * 10;
+        extraItemsPool.push({ id, name:`Агент | ${name}, ${faction} ${v}`, category:"agent", shape:"agent", price:base, rarity:priceToRarity(base) });
+      });
+    });
+  });
+})();
+function extraById(id){ return extraItemsPool.find(x=>x.id===id) || extraSkinsPool.find(x=>x.id===id); }
+
+/* ---------------- large browsable weapon-skin catalogue for the Shop (kept separate from the
+   balanced skinPool used by case drop tables / upgrader / battles, so odds stay unaffected) ---------------- */
+const extraSkinsPool = [];
+(function generateShopSkins(){
+  const SHOP_WEAPONS = [
+    {n:"AK-47", s:"rifle"}, {n:"M4A4", s:"rifle"}, {n:"M4A1-S", s:"rifle"}, {n:"AWP", s:"sniper"},
+    {n:"SSG 08", s:"sniper"}, {n:"Desert Eagle", s:"pistol"}, {n:"USP-S", s:"pistol"}, {n:"Glock-18", s:"pistol"},
+    {n:"P250", s:"pistol"}, {n:"Five-SeveN", s:"pistol"}, {n:"Tec-9", s:"pistol"}, {n:"P2000", s:"pistol"},
+    {n:"MAC-10", s:"rifle"}, {n:"UMP-45", s:"rifle"}, {n:"MP7", s:"rifle"}, {n:"MP9", s:"rifle"},
+    {n:"P90", s:"rifle"}, {n:"Nova", s:"rifle"}, {n:"Galil AR", s:"rifle"}, {n:"FAMAS", s:"rifle"}
+  ];
+  const SHOP_FINISHES = ["Полночь","Прибой","Раскол","Вихрь","Зенит","Осколок","Пламя","Лёд","Гравитация",
+    "Спектр","Оазис","Феррум","Крипта","Импульс","Резонанс","Гидра","Фантом","Обсидиан","Кобальт","Прототип"];
+  const WEAR_TIERS = [
+    { tag:"Прямо с завода", mult:1.6 }, { tag:"Немного поношенное", mult:1.2 }, { tag:"После полевых испытаний", mult:1.0 },
+    { tag:"Поношенное", mult:0.7 }, { tag:"Закалённое в боях", mult:0.5 }
+  ];
+  SHOP_WEAPONS.forEach(w=>{
+    SHOP_FINISHES.forEach(f=>{
+      const baseSeed = `shopskin_${w.n}_${f}`;
+      const base = 30 + Math.floor(seededRand(baseSeed) * 8000);
+      WEAR_TIERS.forEach(wear=>{
+        const price = Math.max(1, Math.round(base * wear.mult));
+        const id = `shopskin_${w.n}_${f}_${wear.tag}`.replace(/[\s()]+/g,'');
+        extraSkinsPool.push({
+          id, name:`${w.n} | ${f} (${wear.tag})`, category:"skins",
+          shape:w.s, price, rarity:priceToRarity(price)
+        });
+      });
+    });
+  });
+})();
+
+const SHOP_CATEGORIES = [
+  { key:"skins", label:"Скины" },
+  { key:"graffiti", label:"Граффити" },
+  { key:"sticker", label:"Наклейки" },
+  { key:"charm", label:"Брелоки" },
+  { key:"agent", label:"Агенты" }
+];
+let shopActiveCategory = "skins";
+let shopVisibleCount = 60;
+
 /* ---------------- login streak ---------------- */
 function dayString(d){ return d.toISOString().slice(0,10); }
 function processLogin(){
@@ -886,9 +1189,11 @@ function switchTab(tab){
   if(tab==='Cases'){ pCases.classList.add("active"); tabCases.classList.add("active"); renderCases(); }
   else if(tab==='Upgrade'){ pUpgrade.classList.add("active"); tabUpgrade.classList.add("active"); refreshUpgrade(); }
   else if(tab==='Shop'){ pShop.classList.add("active"); tabShop.classList.add("active"); renderShop(); }
+  else if(tab==='Battle'){ pBattle.classList.add("active"); tabBattle.classList.add("active"); initBattlePage(); }
   else if(tab==='Inv'){ pInv.classList.add("active"); tabInv.classList.add("active"); renderInventory(); }
   else if(tab==='Prof'){ pProf.classList.add("active"); tabProf.classList.add("active"); renderProfile(); }
   else if(tab==='Open'){ pOpen.classList.add("active"); }
+  else if(tab==='Terminal'){ pTerminal.classList.add("active"); initTerminalPage(); }
 }
 
 /* ---------------- case grids ---------------- */
@@ -912,8 +1217,7 @@ function renderCases(){
     const openable = unlocked && !onCooldown && !claimedForever;
     el.onclick = ()=>{
       if(!unlocked){ shakeLock(el); return; }
-      if(claimedForever){ showToast("Этот кейс уже получен и одноразовый"); return; }
-      if(onCooldown){ showToast("Стартовый кейс будет доступен через " + formatCooldown(STARTER_COOLDOWN_MS-(Date.now()-state.lastStarterOpen))); return; }
+      if(claimedForever || onCooldown){ openCasePage(c); return; }
       playUnlockAndOpen(el, c);
     };
     let tag = (unlocked && !alreadyOpenedOnce && (c.key==="starter"||c.key==="invited")) ? '<div class="tag-new">NEW</div>' : "";
@@ -963,7 +1267,7 @@ function renderPaidGrid(elId, list, cls){
     const el = document.createElement("div");
     el.className = "case-card " + cls + " unlocked" + (affordable ? "" : " unaffordable");
     el.onclick = ()=>{
-      if(!affordable){ showToast(`Нужно ${c.cost} ◆, у вас ${state.balance} ◆`); shakeLock(el); return; }
+      if(!affordable){ openCasePage(c); return; }
       playUnlockAndOpen(el, c);
     };
     el.innerHTML = `
@@ -1002,6 +1306,8 @@ function setOpenQty(q){
   if(currentCase && (currentCase.key==="starter" || currentCase.onceOnly)) q = 1;
   openQty = q;
   renderQtyButtons();
+  renderRouletteBoxes(openQty);
+  for(let i=0;i<openQty;i++){ buildTrackInto(document.getElementById("track_"+i), currentCase, null); }
   const st = computeSpinButtonState(currentCase, openQty);
   document.getElementById("spinBtn").disabled = st.disabled;
   document.getElementById("spinBtn").innerText = st.text;
@@ -1015,19 +1321,34 @@ function renderQtyButtons(){
   wrap.innerHTML = QTY_OPTIONS.map(q=>`<button class="${q===openQty?'active':''}" onclick="setOpenQty(${q})">x${q}</button>`).join("");
 }
 
+function renderRouletteBoxes(qty){
+  const wrap = document.getElementById("rouletteWrap");
+  const sizeClass = qty<=2 ? "" : qty<=4 ? " size-md" : " size-sm";
+  let html = "";
+  for(let i=0;i<qty;i++){
+    html += `<div class="roulette-box${sizeClass}">
+      <div class="roulette-fade left"></div><div class="roulette-fade right"></div>
+      <div class="roulette-line"></div>
+      <div class="roulette-track" id="track_${i}"></div>
+    </div>`;
+  }
+  wrap.innerHTML = html;
+}
+
 function openCasePage(c){
   currentCase = c;
   openQty = 1;
   document.getElementById("cName").innerText = c.name;
   document.getElementById("cDesc").innerText = c.desc;
   renderQtyButtons();
+  renderRouletteBoxes(1);
+  buildTrackInto(document.getElementById("track_0"), c, null);
   const st = computeSpinButtonState(c, openQty);
   document.getElementById("spinBtn").disabled = st.disabled;
   document.getElementById("spinBtn").innerText = st.text;
   document.getElementById("fastBtn").disabled = false;
   renderOdds(c);
   switchTab('Open');
-  buildTrack(c, null);
 }
 
 function renderOdds(c){
@@ -1044,9 +1365,9 @@ function renderOdds(c){
   }).join("");
 }
 
-function buildTrack(c, forcedSkinId){
-  const track = document.getElementById("track");
-  track.innerHTML = "";
+function buildTrackInto(trackEl, c, forcedSkinId){
+  if(!trackEl) return -1;
+  trackEl.innerHTML = "";
   const reelSkinIds = c.drops.map(d=>d.skinId);
   const totalCards = 44, winIndex = 36;
   for(let i=0;i<totalCards;i++){
@@ -1055,7 +1376,7 @@ function buildTrack(c, forcedSkinId){
     card.className = `skin-card ${RARITY[skin.rarity].css}`;
     card.dataset.id = skin.id;
     card.innerHTML = `<div class="sart">${weaponSVG(skin.shape, RARITY[skin.rarity].color, i)}</div><div class="sname">${skin.name}</div>`;
-    track.appendChild(card);
+    trackEl.appendChild(card);
   }
   return winIndex;
 }
@@ -1085,33 +1406,37 @@ function spinRoulette(fast){
   const wonIds = [];
   for(let i=0;i<qty;i++) wonIds.push(weightedDrop(currentCase.drops.filter(d=>d.weight>0)));
 
-  const track = document.getElementById("track");
-  track.style.transition = "none"; track.style.transform = "translateX(0px)";
-  const winIndex = buildTrack(currentCase, wonIds[0]);
   const spinDuration = fast ? 550 : 4200;
   const settleWait = fast ? 650 : 4300;
 
-  requestAnimationFrame(()=>{ requestAnimationFrame(()=>{
-    const cardWidth=100, boxWidth=track.parentElement.offsetWidth, jitter=(Math.random()*30)-15;
-    const targetX = (winIndex*cardWidth)-(boxWidth/2)+(cardWidth/2)+jitter;
-    track.style.transition = `transform ${spinDuration}ms cubic-bezier(0.12,0.75,0.1,1)`;
-    track.style.transform = `translateX(-${targetX}px)`;
+  for(let i=0;i<qty;i++){
+    const track = document.getElementById("track_"+i);
+    if(!track) continue;
+    track.style.transition = "none"; track.style.transform = "translateX(0px)";
+    const winIndex = buildTrackInto(track, currentCase, wonIds[i]);
+    // stagger the rAF slightly per-track is unnecessary; each animates independently with its own random jitter
+    requestAnimationFrame(()=>{ requestAnimationFrame(()=>{
+      const cardWidth=100, boxWidth=track.parentElement.offsetWidth, jitter=(Math.random()*30)-15;
+      const targetX = (winIndex*cardWidth)-(boxWidth/2)+(cardWidth/2)+jitter;
+      track.style.transition = `transform ${spinDuration}ms cubic-bezier(0.12,0.75,0.1,1)`;
+      track.style.transform = `translateX(-${targetX}px)`;
+    }); });
+  }
 
-    setTimeout(()=>{
-      state.casesOpenedTotal += qty;
-      state.openedCasesOnce[currentCase.key] = true;
-      if(currentCase.key==="starter") state.lastStarterOpen = Date.now();
-      saveState(); renderCases();
+  setTimeout(()=>{
+    state.casesOpenedTotal += qty;
+    state.openedCasesOnce[currentCase.key] = true;
+    if(currentCase.key==="starter") state.lastStarterOpen = Date.now();
+    saveState(); renderCases();
 
-      if(qty===1){
-        currentWin = skinById(wonIds[0]);
-        showWinModal(currentWin);
-      } else {
-        multiResults = wonIds.map(id=>skinById(id));
-        showMultiWinModal(multiResults);
-      }
-    }, settleWait);
-  }); });
+    if(qty===1){
+      currentWin = skinById(wonIds[0]);
+      showWinModal(currentWin);
+    } else {
+      multiResults = wonIds.map(id=>skinById(id));
+      showMultiWinModal(multiResults);
+    }
+  }, settleWait);
 }
 
 /* ---------------- lightning quick-open (charge then fast spin) ---------------- */
@@ -1252,18 +1577,47 @@ function sellInvItem(index){
 }
 
 /* ---------------- shop ---------------- */
+function renderShopTabs(){
+  const tabs = document.getElementById("shopTabs");
+  tabs.innerHTML = SHOP_CATEGORIES.map(cat=>{
+    const count = cat.key==="skins" ? (shopItems.length + extraSkinsPool.length) : extraItemsPool.filter(x=>x.category===cat.key).length;
+    return `<button class="${cat.key===shopActiveCategory?'active':''}" onclick="setShopCategory('${cat.key}')">${cat.label} (${count})</button>`;
+  }).join("");
+}
+function setShopCategory(key){
+  shopActiveCategory = key;
+  shopVisibleCount = 60;
+  renderShopTabs();
+  renderShop();
+}
+function shopLoadMore(){
+  shopVisibleCount += 60;
+  renderShop();
+}
+function shopCategoryItems(){
+  if(shopActiveCategory==="skins"){
+    const curated = shopItems.map(e=>({ item:skinById(e.skinId), exclusive:!!e.exclusive }));
+    const bulk = extraSkinsPool.map(item=>({ item, exclusive:false }));
+    return curated.concat(bulk);
+  }
+  return extraItemsPool.filter(x=>x.category===shopActiveCategory).map(item=>({ item, exclusive:false }));
+}
 function renderShop(){
+  renderShopTabs();
   const grid = document.getElementById("shopGrid");
+  const loadMoreBtn = document.getElementById("shopLoadMore");
   grid.innerHTML = "";
-  shopItems.forEach(entry=>{
-    const skin = skinById(entry.skinId);
+  const all = shopCategoryItems();
+  const visible = all.slice(0, shopVisibleCount);
+
+  visible.forEach(({item:skin, exclusive})=>{
     const r = RARITY[skin.rarity];
     const affordable = state.balance >= skin.price;
     const card = document.createElement("div");
-    card.className = "shop-card" + (entry.exclusive ? " exclusive" : "");
+    card.className = "shop-card" + (exclusive ? " exclusive" : "");
     card.style.borderTopColor = r.color;
     card.innerHTML = `
-      ${entry.exclusive ? '<div class="exclusive-badge">ЭКСКЛЮЗИВ</div>' : ''}
+      ${exclusive ? '<div class="exclusive-badge">ЭКСКЛЮЗИВ</div>' : ''}
       <div class="art">${weaponSVG(skin.shape, r.color, "shop"+skin.id)}</div>
       <div class="title">${skin.name}</div>
       <div class="price ${skin.price<1000?'cheap':''}">${fmtPrice(skin.price)}</div>
@@ -1271,6 +1625,12 @@ function renderShop(){
     `;
     grid.appendChild(card);
   });
+
+  if(all.length===0){
+    grid.innerHTML = `<div class="inv-empty" style="grid-column:1/-1;">В этой категории пока пусто</div>`;
+  }
+  loadMoreBtn.style.display = (all.length > shopVisibleCount) ? "block" : "none";
+  loadMoreBtn.innerText = `Показать ещё (осталось ${Math.max(0, all.length-shopVisibleCount)})`;
 }
 function buyShopItem(skinId){
   const skin = skinById(skinId);
@@ -1354,15 +1714,22 @@ function refreshUpgrade(){
   document.getElementById("upgTargetVal").innerText = targetVal ? fmtPrice(targetVal) : "—";
 
   const btn = document.getElementById("upgradeBtn");
-  const fill = document.getElementById("upgChanceFill");
+  const arc = document.getElementById("gaugeArc");
   const chanceLbl = document.getElementById("upgChanceVal");
+  const CIRC = 427.26;
 
   if(stakeVal<=0 || !targetSkin){
-    chanceLbl.innerText = "—"; fill.style.width = "0%"; btn.disabled = true; btn.innerText = "Выберите ставку и цель"; return;
+    chanceLbl.innerText = "—";
+    arc.style.stroke = "var(--acc)"; arc.style.strokeDashoffset = CIRC;
+    btn.disabled = true; btn.innerText = "Выберите ставку и цель"; return;
   }
   let chance = Math.min(75, Math.max(2, (stakeVal/targetVal)*88));
   chance = Math.round(chance*10)/10;
-  chanceLbl.innerText = chance + "%"; fill.style.width = chance + "%";
+  chanceLbl.innerText = chance + "%";
+  arc.style.strokeDashoffset = CIRC * (1 - chance/100);
+  if(chance < 25){ arc.style.stroke = "#ff5566"; }
+  else if(chance < 55){ arc.style.stroke = "#ffbe3d"; }
+  else{ arc.style.stroke = "#3ddc84"; }
   btn.disabled = false; btn.innerText = "Улучшить";
 }
 
@@ -1382,30 +1749,322 @@ function doUpgrade(){
   saveState(); updateBalanceUI();
 
   const btn = document.getElementById("upgradeBtn");
+  const arc = document.getElementById("gaugeArc");
+  const gaugeWrap = document.querySelector(".gauge-wrap");
   btn.disabled = true; btn.innerText = "Крутим...";
-  const marker = document.getElementById("upgMarker");
-  marker.style.transition = "none"; marker.style.left = "0%";
+  gaugeWrap.classList.add("gauge-spinning");
 
   const success = Math.random()*100 < chance;
-  const finalPos = success ? Math.random()*chance : chance + Math.random()*(100-chance);
 
-  requestAnimationFrame(()=>{ requestAnimationFrame(()=>{
-    marker.style.transition = "left 2.4s cubic-bezier(.15,.7,.15,1)";
-    marker.style.left = finalPos + "%";
-    setTimeout(()=>{
-      if(success){
-        state.inventory.push(Object.assign({instId: Date.now()+"_"+Math.random().toString(36).slice(2)}, targetSkin));
-        saveState(); showWinModal(targetSkin);
-      } else {
-        showToast("Апгрейд не удался — ставка потеряна");
-      }
-      stakeSkin = null; targetSkin = null;
-      document.getElementById("balanceSlider").value = 0;
-      onBalanceSliderInput();
-      refreshUpgrade(); renderInventory();
-      btn.disabled = false; btn.innerText = "Улучшить";
-    }, 2500);
-  }); });
+  setTimeout(()=>{
+    gaugeWrap.classList.remove("gauge-spinning");
+    arc.style.stroke = success ? "#3ddc84" : "#ff5566";
+    if(success){
+      state.inventory.push(Object.assign({instId: Date.now()+"_"+Math.random().toString(36).slice(2)}, targetSkin));
+      saveState(); showWinModal(targetSkin);
+    } else {
+      showToast("Апгрейд не удался — ставка потеряна");
+    }
+    stakeSkin = null; targetSkin = null;
+    document.getElementById("balanceSlider").value = 0;
+    onBalanceSliderInput();
+    refreshUpgrade(); renderInventory();
+    btn.disabled = false; btn.innerText = "Улучшить";
+  }, 1800);
+}
+
+/* ---------------- battles (1v1 / 2v2 vs bots — bots use the exact same odds as the player) ---------------- */
+let battleMode = "1v1";
+let battleCase = null;
+let battleInProgress = false;
+let battleSlotsState = []; // index 0 is always "you" (implicit); indices 1..N-1: null = waiting, "bot" = filled
+
+function initBattlePage(){
+  document.getElementById("battleRouletteWrap").style.display = "none";
+  document.getElementById("battleRouletteWrap").innerHTML = "";
+  resetBattleSlots();
+  updateBattleStartState();
+}
+
+function resetBattleSlots(){
+  const total = battleTotalSlots();
+  battleSlotsState = new Array(total - 1).fill(null); // slots after "you"
+  renderBattleSlots();
+}
+
+function setBattleMode(mode){
+  if(battleInProgress) return;
+  battleMode = mode;
+  document.getElementById("battleMode1v1").classList.toggle("active", mode==="1v1");
+  document.getElementById("battleMode2v2").classList.toggle("active", mode==="2v2");
+  resetBattleSlots();
+  updateBattleStartState();
+}
+
+function battleTotalSlots(){ return battleMode==="1v1" ? 2 : 4; }
+
+function addBotToSlot(slotIdx){
+  if(battleInProgress) return;
+  battleSlotsState[slotIdx-1] = "bot";
+  renderBattleSlots();
+  updateBattleStartState();
+}
+function removeBotFromSlot(slotIdx){
+  if(battleInProgress) return;
+  battleSlotsState[slotIdx-1] = null;
+  renderBattleSlots();
+  updateBattleStartState();
+}
+
+function renderBattleSlots(){
+  const wrap = document.getElementById("battleSlots");
+  const total = battleTotalSlots();
+  let html = "";
+  for(let i=0;i<total;i++){
+    const isYou = i===0;
+    const team = battleMode==="2v2" ? (i<2 ? "Команда A" : "Команда B") : null;
+    if(isYou){
+      html += `<div class="battle-slot">
+        <div class="battle-avatar you">👤</div>
+        <div class="battle-name">Вы</div>
+        ${team?`<div class="battle-team">${team}</div>`:''}
+      </div>`;
+      continue;
+    }
+    const filled = battleSlotsState[i-1] === "bot";
+    if(filled){
+      html += `<div class="battle-slot">
+        <div class="battle-avatar bot">🤖</div>
+        <div class="battle-name">Бот ${i}</div>
+        ${team?`<div class="battle-team">${team}</div>`:''}
+        <button class="battle-remove-bot" onclick="removeBotFromSlot(${i})">убрать</button>
+      </div>`;
+    } else {
+      html += `<div class="battle-slot waiting" onclick="addBotToSlot(${i})">
+        <div class="battle-avatar empty">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        </div>
+        <div class="battle-name waiting-text">Ожидание игрока…</div>
+        ${team?`<div class="battle-team">${team}</div>`:''}
+        <button class="battle-add-bot" onclick="event.stopPropagation(); addBotToSlot(${i})">+ Добавить бота</button>
+      </div>`;
+    }
+  }
+  wrap.innerHTML = html;
+}
+
+function openBattleCasePicker(){
+  if(battleInProgress) return;
+  const modal = document.getElementById("pickerModal");
+  const list = document.getElementById("pickerList");
+  document.getElementById("pickerTitle").innerText = "Выберите кейс для баттла";
+  const allCases = [...officialCases, ...allInCases];
+  list.innerHTML = allCases.map((c,idx)=>`
+    <div class="picker-item" onclick="selectBattleCase('${c.key}')">
+      <div class="art">${caseArtSVG(c.colorA,c.colorB,'bc'+idx)}</div>
+      <div class="nm">${c.name}</div>
+      <div class="pr">${c.cost} ◆</div>
+    </div>`).join("");
+  modal.classList.add("active");
+}
+function selectBattleCase(key){
+  battleCase = caseByKey(key);
+  closePicker();
+  const slot = document.getElementById("battleCaseSlot");
+  slot.classList.add("filled");
+  slot.innerHTML = `<div class="art">${caseArtSVG(battleCase.colorA,battleCase.colorB,'bcsel')}</div><div class="nm">${battleCase.name}</div><div class="pr">${battleCase.cost} ◆ за слот</div>`;
+  updateBattleStartState();
+}
+
+function battleAllSlotsFilled(){ return battleSlotsState.every(s=>s==="bot"); }
+
+function updateBattleStartState(){
+  const btn = document.getElementById("battleStartBtn");
+  if(battleInProgress) return;
+  if(!battleCase){
+    btn.disabled = true; btn.innerText = "Выберите кейс";
+    document.getElementById("battleCostVal").innerText = "0 ◆";
+    return;
+  }
+  const total = battleCase.cost * battleTotalSlots();
+  document.getElementById("battleCostVal").innerText = total + " ◆";
+  if(!battleAllSlotsFilled()){ btn.disabled = true; btn.innerText = "Заполните свободные слоты"; return; }
+  if(state.balance < total){ btn.disabled = true; btn.innerText = "Недостаточно кристаллов"; }
+  else{ btn.disabled = false; btn.innerText = `Начать баттл за ${total} ◆`; }
+}
+
+function startBattle(){
+  if(battleInProgress || !battleCase || !battleAllSlotsFilled()) return;
+  const totalSlots = battleTotalSlots();
+  const totalCost = battleCase.cost * totalSlots;
+  if(state.balance < totalCost){ showToast("Недостаточно кристаллов"); return; }
+
+  battleInProgress = true;
+  state.balance -= totalCost; saveState(); updateBalanceUI();
+  document.getElementById("battleStartBtn").disabled = true;
+  document.getElementById("battleStartBtn").innerText = "Идёт баттл...";
+
+  // Bots draw from the exact same weighted table as the player — no hidden advantage.
+  const wonIds = [];
+  for(let i=0;i<totalSlots;i++) wonIds.push(weightedDrop(battleCase.drops.filter(d=>d.weight>0)));
+
+  const wrap = document.getElementById("battleRouletteWrap");
+  wrap.style.display = "flex";
+  wrap.innerHTML = "";
+  for(let i=0;i<totalSlots;i++){
+    const label = i===0 ? "Вы" : "Бот "+i;
+    wrap.innerHTML += `<div class="battle-track-label">${label}</div>
+      <div class="roulette-box size-sm"><div class="roulette-fade left"></div><div class="roulette-fade right"></div><div class="roulette-line"></div><div class="roulette-track" id="battle_track_${i}"></div></div>`;
+  }
+
+  for(let i=0;i<totalSlots;i++){
+    const track = document.getElementById("battle_track_"+i);
+    const winIndex = buildTrackInto(track, battleCase, wonIds[i]);
+    requestAnimationFrame(()=>{ requestAnimationFrame(()=>{
+      const cardWidth=100, boxWidth=track.parentElement.offsetWidth, jitter=(Math.random()*30)-15;
+      const targetX = (winIndex*cardWidth)-(boxWidth/2)+(cardWidth/2)+jitter;
+      track.style.transition = "transform 3.4s cubic-bezier(0.12,0.75,0.1,1)";
+      track.style.transform = `translateX(-${targetX}px)`;
+    }); });
+  }
+
+  setTimeout(()=> finishBattle(wonIds, totalSlots, totalCost), 3600);
+}
+
+function finishBattle(wonIds, totalSlots, totalCost){
+  const results = wonIds.map(id=>skinById(id));
+  let sideA, sideB;
+  if(battleMode==="1v1"){ sideA = results[0].price; sideB = results[1].price; }
+  else { sideA = results[0].price + results[1].price; sideB = results[2].price + results[3].price; }
+
+  let outcome; // 'win' | 'lose' | 'draw'
+  if(sideA===sideB) outcome = 'draw';
+  else if(sideA>sideB) outcome = 'win';
+  else outcome = 'lose';
+
+  if(outcome==='win'){
+    results.forEach(skin=>{
+      if(skin.isCash) state.balance += skin.price;
+      else state.inventory.push(Object.assign({instId: Date.now()+"_"+Math.random().toString(36).slice(2)+Math.random()}, skin));
+    });
+  } else if(outcome==='draw'){
+    state.balance += totalCost; // refund entry, nobody's items are taken
+  }
+  saveState(); updateBalanceUI(); renderInventory();
+
+  showBattleResultModal(results, outcome);
+
+  battleInProgress = false;
+  resetBattleSlots();
+  document.getElementById("battleStartBtn").disabled = false;
+  updateBattleStartState();
+}
+
+function showBattleResultModal(results, outcome){
+  const grid = document.getElementById("battleResultGrid");
+  grid.innerHTML = results.map((skin,i)=>{
+    const r = RARITY[skin.rarity];
+    const label = i===0 ? "Вы" : "Бот "+i;
+    const onWinningSide = battleMode==="1v1" ? (outcome==='win' ? i===0 : i===1) : (outcome==='win' ? i<2 : i>=2);
+    const glow = (outcome!=='draw' && onWinningSide) ? `box-shadow:0 0 0 2px ${r.color} inset;` : ``;
+    return `<div class="multi-item" style="border-top-color:${r.color}; ${glow}">
+      <div class="art">${weaponSVG(skin.shape, r.color, "battle"+i)}</div>
+      <div class="nm">${label}: ${skin.name}</div>
+      <div class="pr" style="color:${r.color}">${fmtPrice(skin.price)}</div>
+    </div>`;
+  }).join("");
+
+  const total = results.reduce((a,s)=>a+s.price,0);
+  const titleEl = document.getElementById("battleResultTitle");
+  const summaryEl = document.getElementById("battleResultSummary");
+  if(outcome==='win'){ titleEl.innerText = "🏆 ВЫ ПОБЕДИЛИ!"; summaryEl.innerText = `Вы забрали весь банк: ${fmtPrice(total)}`; }
+  else if(outcome==='lose'){ titleEl.innerText = "😔 ПОБЕДИЛ БОТ"; summaryEl.innerText = "В этот раз у бота выпало дороже — банк ушёл ему (шансы были одинаковые для всех)."; }
+  else { titleEl.innerText = "🤝 НИЧЬЯ"; summaryEl.innerText = "Суммы совпали — ставка полностью возвращена."; }
+
+  document.getElementById("battleModal").classList.add("active");
+}
+function closeBattleModal(){ document.getElementById("battleModal").classList.remove("active"); }
+
+/* ---------------- terminal (hack-the-laptop reveal & buy mini-game) ---------------- */
+const TERMINAL_COST = 10000;
+const TERMINAL_MAX_ATTEMPTS = 4;
+// Skewed toward cheap items with a tiny chance at something very expensive — pulls from the
+// same balanced skinPool used elsewhere so relative values stay consistent with the rest of the app.
+const terminalDropTable = [
+  { skinId:"s1", weight:32 }, { skinId:"s5", weight:26 }, { skinId:"s13", weight:16 },
+  { skinId:"s22", weight:12 }, { skinId:"s32", weight:8 }, { skinId:"s41", weight:5 },
+  { skinId:"s52", weight:0.9 }, { skinId:"s61", weight:0.1 }
+];
+let terminalAttempts = 0;
+let terminalCurrentItem = null;
+
+function initTerminalPage(){
+  terminalAttempts = 0; terminalCurrentItem = null;
+  document.getElementById("terminalAttempts").innerText = `Попытка 0/${TERMINAL_MAX_ATTEMPTS}`;
+  document.getElementById("terminalItemDisplay").classList.remove("scanning");
+  document.getElementById("terminalItemDisplay").innerHTML = `<div class="terminal-placeholder">&gt; Нажмите «Запустить», чтобы начать взлом_</div>`;
+  document.getElementById("terminalInProgressActions").style.display = "none";
+  const startBtn = document.getElementById("terminalStartBtn");
+  startBtn.style.display = "block";
+  const canAfford = state.balance >= TERMINAL_COST;
+  startBtn.disabled = !canAfford;
+  startBtn.innerText = canAfford ? `Запустить за ${TERMINAL_COST} ◆` : "Недостаточно кристаллов";
+}
+
+function terminalStart(){
+  if(state.balance < TERMINAL_COST){ showToast("Недостаточно кристаллов"); return; }
+  state.balance -= TERMINAL_COST; saveState(); updateBalanceUI();
+  terminalAttempts = 0;
+  document.getElementById("terminalStartBtn").style.display = "none";
+  document.getElementById("terminalInProgressActions").style.display = "flex";
+  terminalRevealNext();
+}
+
+function terminalRevealNext(){
+  terminalAttempts++;
+  document.getElementById("terminalAttempts").innerText = `Попытка ${terminalAttempts}/${TERMINAL_MAX_ATTEMPTS}`;
+  const display = document.getElementById("terminalItemDisplay");
+  display.classList.add("scanning");
+  display.innerHTML = `<div class="terminal-scan-text">&gt; Взлом...</div>`;
+  const wonId = weightedDrop(terminalDropTable);
+
+  setTimeout(()=>{
+    terminalCurrentItem = skinById(wonId);
+    const r = RARITY[terminalCurrentItem.rarity];
+    display.classList.remove("scanning");
+    display.innerHTML = `
+      <div class="art">${weaponSVG(terminalCurrentItem.shape, r.color, "term"+terminalAttempts)}</div>
+      <div class="terminal-item-name">${terminalCurrentItem.name}</div>
+      <div class="terminal-item-price" style="color:${r.color}">${fmtPrice(terminalCurrentItem.price)}</div>
+    `;
+    updateTerminalButtons();
+  }, 650);
+}
+
+function updateTerminalButtons(){
+  const rerollBtn = document.getElementById("terminalRerollBtn");
+  const buyBtn = document.getElementById("terminalBuyBtn");
+  const canReroll = terminalAttempts < TERMINAL_MAX_ATTEMPTS;
+  rerollBtn.disabled = !canReroll;
+  rerollBtn.innerText = canReroll ? `Сменить (${terminalAttempts}/${TERMINAL_MAX_ATTEMPTS})` : "Попытки закончились";
+  const affordable = state.balance >= terminalCurrentItem.price;
+  buyBtn.disabled = !affordable;
+  buyBtn.innerText = affordable ? `Купить за ${fmtPrice(terminalCurrentItem.price)}` : "Недостаточно ◆";
+}
+
+function terminalReroll(){
+  if(terminalAttempts >= TERMINAL_MAX_ATTEMPTS){ showToast("Попытки закончились — купите текущий предмет или выйдите"); return; }
+  terminalRevealNext();
+}
+
+function terminalBuy(){
+  if(!terminalCurrentItem) return;
+  if(state.balance < terminalCurrentItem.price){ showToast("Недостаточно кристаллов"); return; }
+  state.balance -= terminalCurrentItem.price;
+  state.inventory.push(Object.assign({instId: Date.now()+"_"+Math.random().toString(36).slice(2)}, terminalCurrentItem));
+  saveState(); updateBalanceUI(); renderInventory();
+  showToast(`Получено: ${terminalCurrentItem.name}`);
+  initTerminalPage();
 }
 
 /* ---------------- profile / referrals ---------------- */
