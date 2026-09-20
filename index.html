@@ -146,7 +146,6 @@ h1,h2,h3,.display{font-family:'Rajdhani',sans-serif;}
 .cooldown-overlay span{font-size:10px; color:var(--text); font-weight:700;}
 .cooldown-overlay small{font-size:9px; color:var(--sub); font-weight:500;}
 .tag-new{position:absolute; top:8px; right:8px; font-size:8px; letter-spacing:.05em; padding:3px 6px; border-radius:5px; font-weight:700; background:var(--green); color:#04291a;}
-.case-card.unaffordable{opacity:.62;}
 
 /* --- lively hover --- */
 .case-card:hover{ transform:translateY(-4px); border-color:var(--acc); box-shadow:0 10px 24px -8px rgba(139,92,246,.45); }
@@ -264,6 +263,13 @@ h1,h2,h3,.display{font-family:'Rajdhani',sans-serif;}
 .upg-arrow{width:22px;height:22px; color:var(--sub); flex-shrink:0;}
 
 .balance-toggle-row{display:flex; align-items:center; gap:10px; margin-bottom:10px;}
+.mult-label{font-size:10.5px; color:var(--sub); margin-bottom:6px;}
+.mult-row{display:flex; gap:6px; margin-bottom:10px;}
+.mult-row button{flex:1; border:1px solid var(--line); background:var(--panel2); color:var(--acc); padding:9px 0; border-radius:9px; font-size:12px; font-weight:700; font-family:'Rajdhani',sans-serif; cursor:pointer;}
+.mult-row button:active{background:var(--acc); color:#1a1025;}
+.mult-custom-row{display:flex; gap:8px; margin-bottom:12px;}
+.mult-custom-row input{flex:1; margin:0;}
+.mult-custom-row button{flex-shrink:0;}
 .switch{position:relative; width:42px; height:24px; flex-shrink:0;}
 .switch input{opacity:0; width:0; height:0;}
 .slider-ui{position:absolute; cursor:pointer; inset:0; background:#2a232d; border-radius:24px; transition:.2s;}
@@ -294,6 +300,12 @@ h1,h2,h3,.display{font-family:'Rajdhani',sans-serif;}
 .gauge-brand{font-size:13px; letter-spacing:.08em;}
 .gauge-wrap.gauge-spinning .gauge-arc{ animation: gaugePulse .5s ease-in-out infinite; }
 @keyframes gaugePulse{ 0%,100%{ opacity:.55; } 50%{ opacity:1; } }
+.gauge-needle-wrap{position:absolute; inset:0; transform:rotate(0deg); transform-origin:50% 50%; pointer-events:none;}
+.gauge-needle-tip{
+  position:absolute; top:2px; left:50%; width:0; height:0; margin-left:-7px;
+  border-left:7px solid transparent; border-right:7px solid transparent; border-bottom:16px solid #fff;
+  filter:drop-shadow(0 0 5px #fff) drop-shadow(0 0 10px var(--acc));
+}
 
 .shop-tabs{display:flex; gap:6px; overflow-x:auto; margin-bottom:10px; padding-bottom:2px;}
 .shop-tabs::-webkit-scrollbar{display:none;}
@@ -385,6 +397,45 @@ h1,h2,h3,.display{font-family:'Rajdhani',sans-serif;}
 .battle-remove-bot{margin-top:4px; border:none; background:none; color:var(--sub); font-size:9px; cursor:pointer; text-decoration:underline;}
 .battle-track-label{font-size:10px; color:var(--sub); font-weight:700; margin:6px 0 4px;}
 
+.lobby-card{display:flex; flex-direction:column; gap:10px; background:var(--panel2); border:1px solid var(--line); border-radius:14px; padding:14px; margin-bottom:10px;}
+.lobby-card-top{display:flex; align-items:center; gap:10px;}
+.lobby-avatar{width:34px; height:34px; border-radius:50%; background:#0f0c11; border:2px solid var(--line); display:flex; align-items:center; justify-content:center; font-size:15px; flex-shrink:0;}
+.lobby-creator{flex:1; min-width:0; display:flex; flex-direction:column; gap:2px;}
+.lobby-creator b{font-size:12.5px; font-family:'Rajdhani',sans-serif; font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+.lobby-creator span{font-size:10.5px; color:var(--sub); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+.lobby-cases-row{display:flex; justify-content:center; align-items:flex-end; gap:14px; flex-wrap:wrap; padding:6px 0;}
+.lobby-case-item{position:relative; width:58px; height:58px;}
+.lobby-case-item .art{width:100%; height:100%; filter:drop-shadow(0 6px 12px rgba(0,0,0,.4));}
+.lobby-case-qty{
+  position:absolute; bottom:-4px; right:-6px; background:var(--acc); color:#1a1025; font-size:10px; font-weight:800;
+  border-radius:999px; padding:2px 6px; border:2px solid var(--panel2); font-family:'Rajdhani',sans-serif;
+}
+.lobby-join-btn{width:100%; border:none; border-radius:10px; padding:11px; font-size:12.5px; font-weight:700; font-family:'Rajdhani',sans-serif; cursor:pointer; background:var(--acc); color:#1a1025;}
+.lobby-join-btn:disabled{background:#241d28; color:var(--sub);}
+.lobby-empty{text-align:center; color:var(--sub); font-size:12px; padding:20px 0;}
+
+.battle-case-queue{display:flex; flex-direction:column; gap:6px; margin-bottom:10px;}
+.battle-case-queue-empty{text-align:center; color:var(--sub); font-size:11.5px; padding:14px 0; border:1px dashed var(--line); border-radius:10px;}
+.bcq-row{display:flex; align-items:center; gap:10px; background:var(--panel2); border:1px solid var(--line); border-radius:10px; padding:8px 10px;}
+.bcq-row .art{width:32px; height:32px; flex-shrink:0;}
+.bcq-row .info{flex:1; min-width:0; display:flex; flex-direction:column;}
+.bcq-row .info b{font-size:11.5px; font-family:'Rajdhani',sans-serif; font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+.bcq-row .info span{font-size:10px; color:var(--sub);}
+.bcq-qty{display:flex; align-items:center; gap:6px; flex-shrink:0;}
+.bcq-qty button{width:22px; height:22px; border-radius:6px; border:1px solid var(--line); background:#0f0c11; color:var(--acc); font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:13px;}
+.bcq-qty span{font-size:12px; font-weight:700; min-width:18px; text-align:center;}
+.bcq-remove{background:none; border:none; color:var(--sub); font-size:16px; cursor:pointer; flex-shrink:0; padding:0 2px;}
+
+.battle-fast-reveal{margin-top:8px;}
+.bfr-participant{margin-bottom:12px;}
+.bfr-name{font-size:11px; color:var(--sub); font-weight:700; margin-bottom:6px;}
+.bfr-strip{display:flex; gap:6px; overflow-x:auto; padding-bottom:4px;}
+.bfr-strip::-webkit-scrollbar{display:none;}
+.bfr-item{flex-shrink:0; width:44px; height:52px; background:var(--panel2); border-radius:8px; border-bottom:3px solid #444; display:flex; align-items:center; justify-content:center; opacity:0; transform:scale(.5); animation:bfrPop .25s ease forwards;}
+.bfr-item .art{width:26px; height:26px;}
+@keyframes bfrPop{ to{ opacity:1; transform:scale(1); } }
+.bfr-total{font-size:11px; color:var(--acc); font-weight:700; margin-top:4px;}
+
 .toast{position:fixed; bottom:76px; left:50%; transform:translateX(-50%) translateY(20px); background:#1e1922; border:1px solid var(--line); padding:10px 16px; border-radius:10px; font-size:12px; z-index:1200; opacity:0; transition:opacity .25s ease, transform .25s ease; pointer-events:none; max-width:88%; text-align:center;}
 .toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
 
@@ -409,12 +460,47 @@ h1,h2,h3,.display{font-family:'Rajdhani',sans-serif;}
 }
 
 @media (prefers-reduced-motion:reduce){ .loader-ring,.loader-bar i{animation:none;} }
+.loader-e-path{
+  stroke-dasharray:210; stroke-dashoffset:210;
+  animation: drawE 1.3s cubic-bezier(.4,0,.2,1) forwards, eHueGlow 2.2s linear 1.3s infinite;
+}
+@keyframes drawE{ to{ stroke-dashoffset:0; } }
+@keyframes eHueGlow{
+  from{ filter:hue-rotate(0deg) drop-shadow(0 0 5px rgba(139,92,246,.8)); }
+  to{ filter:hue-rotate(360deg) drop-shadow(0 0 5px rgba(139,92,246,.8)); }
+}
+.loader-flash{
+  position:absolute; inset:0; border-radius:50%;
+  background:radial-gradient(circle, rgba(139,92,246,.9) 0%, rgba(139,92,246,0) 70%);
+  opacity:0; transform:scale(.6);
+  animation: launchFlash .6s ease-out 1.25s 1;
+}
+@keyframes launchFlash{
+  0%{ opacity:0; transform:scale(.6); }
+  35%{ opacity:.9; transform:scale(1.15); }
+  100%{ opacity:0; transform:scale(1.6); }
+}
+@media (prefers-reduced-motion:reduce){ .loader-e-path,.loader-flash{ animation:none; opacity:1; stroke-dashoffset:0; } }
 </style>
 </head>
 <body ontouchstart="">
 
 <div id="loader">
-  <div class="loader-mark"><svg viewBox="0 0 80 80"><circle cx="40" cy="40" r="30" class="loader-ring"/><path d="M40 22 L48 36 H32 Z" fill="#8b5cf6" opacity="0.9"/></svg></div>
+  <div class="loader-mark" id="loaderMark">
+  <svg viewBox="0 0 80 80">
+    <defs>
+      <linearGradient id="eGrad" x1="10" y1="10" x2="70" y2="70" gradientUnits="userSpaceOnUse">
+        <stop offset="0" stop-color="#8b5cf6"/>
+        <stop offset="0.4" stop-color="#ff6ec7"/>
+        <stop offset="0.7" stop-color="#39e08a"/>
+        <stop offset="1" stop-color="#3ec6ff"/>
+      </linearGradient>
+    </defs>
+    <circle cx="40" cy="40" r="30" class="loader-ring"/>
+    <path class="loader-e-path" d="M27 24 L53 24 M27 24 L27 56 M27 40 L47 40 M27 56 L53 56" fill="none" stroke="url(#eGrad)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+  <div class="loader-flash"></div>
+</div>
   <div class="loader-title brand-text">ECODROP</div>
   <div class="loader-word">ЗАГРУЗКА ИНВЕНТАРЯ</div>
   <div class="loader-bar"><i></i></div>
@@ -519,6 +605,7 @@ h1,h2,h3,.display{font-family:'Rajdhani',sans-serif;}
           <circle cx="80" cy="80" r="68" class="gauge-track"/>
           <circle cx="80" cy="80" r="68" class="gauge-arc" id="gaugeArc"/>
         </svg>
+        <div class="gauge-needle-wrap" id="gaugeNeedleWrap"><div class="gauge-needle-tip"></div></div>
         <div class="gauge-center">
           <div class="gauge-pct" id="upgChanceVal">—</div>
           <div class="gauge-brand brand-text">ECODROP</div>
@@ -538,6 +625,19 @@ h1,h2,h3,.display{font-family:'Rajdhani',sans-serif;}
         <svg viewBox="0 0 24 24" fill="none" style="width:26px;height:26px;color:#9a8f9c;"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
         <div class="lbl">Выбрать желаемый скин</div>
       </div>
+    </div>
+
+    <div class="mult-label">Или быстро подобрать цель по кратности ставки:</div>
+    <div class="mult-row" id="multRow">
+      <button onclick="pickTargetByMultiplier(2)">×2</button>
+      <button onclick="pickTargetByMultiplier(3)">×3</button>
+      <button onclick="pickTargetByMultiplier(5)">×5</button>
+      <button onclick="pickTargetByMultiplier(10)">×10</button>
+      <button onclick="toggleCustomMult()" id="customMultToggleBtn">✎ Свой</button>
+    </div>
+    <div class="mult-custom-row" id="multCustomRow" style="display:none;">
+      <input type="number" min="1.1" step="0.1" id="customMultInput" class="input-field" placeholder="Например 20 или 100">
+      <button class="btn2 btn2-acc" onclick="applyCustomMult()">×Применить</button>
     </div>
 
     <div class="balance-toggle-row">
@@ -561,32 +661,50 @@ h1,h2,h3,.display{font-family:'Rajdhani',sans-serif;}
   </div>
 
   <div id="pBattle" class="page">
-    <div class="section-row"><div class="section-title">Баттлы</div></div>
-    <div class="hint-text">Выберите режим и кейс, затем добавьте ботов в свободные слоты — они открывают тот же кейс с абсолютно такими же шансами, что и вы (никакого скрытого перевеса). Побеждает тот, у кого выпавший предмет (в 2×2 — сумма команды) стоит дороже — победитель забирает весь банк. При ничьей ставка возвращается всем поровну.</div>
+    <div id="battleListView">
+      <div class="section-row"><div class="section-title">Баттлы</div></div>
+      <div class="hint-text">Присоединяйтесь к открытым сражениям или создайте своё. Побеждает тот, у кого выпавший предмет (в 2×2 — сумма команды) стоит дороже — победитель забирает весь банк. При ничьей ставка возвращается всем поровну.</div>
 
-    <div class="battle-mode-toggle">
-      <button class="active" id="battleMode1v1" onclick="setBattleMode('1v1')">
-        <svg viewBox="0 0 24 24" fill="none"><circle cx="9" cy="8" r="3" stroke="currentColor" stroke-width="1.7"/><path d="M4 19c0-3 2.2-5 5-5s5 2 5 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="17" cy="8" r="3" stroke="currentColor" stroke-width="1.7"/><path d="M12.5 19c0-3 2-5 4.5-5s4.5 2 4.5 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
-        <span>1 × 1</span>
-      </button>
-      <button id="battleMode2v2" onclick="setBattleMode('2v2')">
-        <svg viewBox="0 0 24 24" fill="none"><circle cx="6" cy="7" r="2.4" stroke="currentColor" stroke-width="1.6"/><circle cx="10" cy="9" r="2.4" stroke="currentColor" stroke-width="1.6"/><path d="M2.5 19c0-3 1.8-5 4-5.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M6.5 19c0-3.2 2-5.3 4.5-5.3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="18" cy="7" r="2.4" stroke="currentColor" stroke-width="1.6"/><circle cx="14" cy="9" r="2.4" stroke="currentColor" stroke-width="1.6"/><path d="M21.5 19c0-3-1.8-5-4-5.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M17.5 19c0-3.2-2-5.3-4.5-5.3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-        <span>2 × 2</span>
-      </button>
+      <button class="open-btn" onclick="showBattleCreateView()">+ Создать сражение</button>
+
+      <div class="section-row" style="margin-top:18px;">
+        <div class="section-title">Доступные сражения</div>
+        <div class="section-note" style="cursor:pointer; text-decoration:underline;" onclick="refreshBattleLobbies()">обновить</div>
+      </div>
+      <div id="battleLobbyList"></div>
     </div>
 
-    <div class="upg-slot" id="battleCaseSlot" onclick="openBattleCasePicker()" style="min-height:100px; margin-bottom:12px;">
-      <svg viewBox="0 0 24 24" fill="none" style="width:26px;height:26px;color:#9a8f9c;"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-      <div class="lbl">Выбрать кейс для баттла</div>
+    <div id="battleCreateView" style="display:none;">
+      <button class="back-btn" onclick="showBattleListView()"><svg viewBox="0 0 24 24" fill="none"><path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>К списку сражений</button>
+      <div class="hint-text">Выберите режим, соберите очередь кейсов (можно несколько видов и до 50 штук суммарно), затем добавьте ботов в свободные слоты — они открывают ту же очередь кейсов с абсолютно такими же шансами, что и вы.</div>
+
+      <div class="battle-mode-toggle">
+        <button class="active" id="battleMode1v1" onclick="setBattleMode('1v1')">
+          <svg viewBox="0 0 24 24" fill="none"><circle cx="9" cy="8" r="3" stroke="currentColor" stroke-width="1.7"/><path d="M4 19c0-3 2.2-5 5-5s5 2 5 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="17" cy="8" r="3" stroke="currentColor" stroke-width="1.7"/><path d="M12.5 19c0-3 2-5 4.5-5s4.5 2 4.5 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+          <span>1 × 1</span>
+        </button>
+        <button id="battleMode2v2" onclick="setBattleMode('2v2')">
+          <svg viewBox="0 0 24 24" fill="none"><circle cx="6" cy="7" r="2.4" stroke="currentColor" stroke-width="1.6"/><circle cx="10" cy="9" r="2.4" stroke="currentColor" stroke-width="1.6"/><path d="M2.5 19c0-3 1.8-5 4-5.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M6.5 19c0-3.2 2-5.3 4.5-5.3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="18" cy="7" r="2.4" stroke="currentColor" stroke-width="1.6"/><circle cx="14" cy="9" r="2.4" stroke="currentColor" stroke-width="1.6"/><path d="M21.5 19c0-3-1.8-5-4-5.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M17.5 19c0-3.2-2-5.3-4.5-5.3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          <span>2 × 2</span>
+        </button>
+      </div>
+
+      <div class="section-row" style="margin-bottom:6px;">
+        <div class="section-title">Кейсы в баттле</div>
+        <div class="section-note" id="battleQueueCount">0/50</div>
+      </div>
+      <div class="battle-case-queue" id="battleCaseQueueList"></div>
+      <button class="btn2 btn2-blue" style="width:100%; margin-bottom:12px;" onclick="openBattleCasePicker()">+ Добавить кейс</button>
+
+      <div class="battle-slots" id="battleSlots"></div>
+
+      <div class="chance-row" style="margin:12px 0;"><span>Стоимость входа (за вас все слоты)</span><b id="battleCostVal">0 ◆</b></div>
+
+      <button class="open-btn" id="battleStartBtn" onclick="startBattle()" disabled>Добавьте хотя бы один кейс</button>
+
+      <div class="roulette-wrap" id="battleRouletteWrap" style="display:none; margin-top:14px;"></div>
+      <div class="battle-fast-reveal" id="battleFastReveal" style="display:none;"></div>
     </div>
-
-    <div class="battle-slots" id="battleSlots"></div>
-
-    <div class="chance-row" style="margin:12px 0;"><span>Стоимость входа (за вас все слоты)</span><b id="battleCostVal">0 ◆</b></div>
-
-    <button class="open-btn" id="battleStartBtn" onclick="startBattle()" disabled>Выберите кейс</button>
-
-    <div class="roulette-wrap" id="battleRouletteWrap" style="display:none; margin-top:14px;"></div>
   </div>
 
   <div id="pInv" class="page">
@@ -871,6 +989,60 @@ const skinPool = [
   { id:"s63", name:"M4A4 | Дракон-король",          rarity:"covert", price:1300000,  shape:"rifle"  },
   { id:"s64", name:"★ Нож-коготь | Мраморный узор", rarity:"gold", price:6100000, shape:"knife" },
   { id:"s65", name:"★ Штурмовой нож | Тигровый зуб",rarity:"gold", price:5400000, shape:"knife" },
+  // Ширпотреб (доп.)
+  { id:"s66", name:"AWP | Пустынный камень",        rarity:"trash", price:1, shape:"sniper" },
+  { id:"s67", name:"Nova | Ржавчина",               rarity:"trash", price:2, shape:"rifle"  },
+  { id:"s68", name:"MP7 | Индастриал",              rarity:"trash", price:3, shape:"rifle"  },
+  { id:"s69", name:"P250 | Замазка",                rarity:"trash", price:2, shape:"pistol" },
+  { id:"s70", name:"UMP-45 | Ямы",                  rarity:"trash", price:3, shape:"rifle"  },
+  // Армейский (доп.)
+  { id:"s71", name:"AK-47 | Ягуар",                 rarity:"mil", price:350, shape:"rifle"  },
+  { id:"s72", name:"M4A4 | Факел",                  rarity:"mil", price:420, shape:"rifle"  },
+  { id:"s73", name:"AWP | Крылья",                  rarity:"mil", price:550, shape:"sniper" },
+  { id:"s74", name:"Desert Eagle | Кобра",          rarity:"mil", price:650, shape:"pistol" },
+  { id:"s75", name:"Glock-18 | Ходовые огни",       rarity:"mil", price:300, shape:"pistol" },
+  { id:"s76", name:"USP-S | Забвение",              rarity:"mil", price:380, shape:"pistol" },
+  { id:"s77", name:"Five-SeveN | Летальный удар",   rarity:"mil", price:470, shape:"pistol" },
+  { id:"s78", name:"P90 | Кислота",                 rarity:"mil", price:130, shape:"rifle"  },
+  { id:"s79", name:"MAC-10 | Рентген",              rarity:"mil", price:140, shape:"rifle"  },
+  { id:"s80", name:"Nova | Тарантул",               rarity:"mil", price:110, shape:"rifle"  },
+  // Запрещённое (доп.)
+  { id:"s81", name:"AK-47 | Слейт",                 rarity:"restr", price:9500,  shape:"rifle"  },
+  { id:"s82", name:"M4A1-S | Хайпер",               rarity:"restr", price:11000, shape:"rifle"  },
+  { id:"s83", name:"AWP | Электрический улей",      rarity:"restr", price:13000, shape:"sniper" },
+  { id:"s84", name:"Desert Eagle | Ртуть",          rarity:"restr", price:9800,  shape:"pistol" },
+  { id:"s85", name:"USP-S | Орион",                 rarity:"restr", price:10500, shape:"pistol" },
+  // Засекреченное (доп.)
+  { id:"s86", name:"AK-47 | Точка кипения",         rarity:"classi", price:35000,  shape:"rifle"  },
+  { id:"s87", name:"M4A4 | Дезолят",                rarity:"classi", price:55000,  shape:"rifle"  },
+  { id:"s88", name:"AWP | Матрица",                 rarity:"classi", price:75000,  shape:"sniper" },
+  { id:"s89", name:"Desert Eagle | Мардж",          rarity:"classi", price:45000,  shape:"pistol" },
+  { id:"s90", name:"Glock-18 | Затмение",           rarity:"classi", price:30000,  shape:"pistol" },
+  { id:"s91", name:"USP-S | Ночная операция",       rarity:"classi", price:40000,  shape:"pistol" },
+  { id:"s92", name:"Five-SeveN | Хромированный ястреб", rarity:"classi", price:25000, shape:"pistol" },
+  { id:"s93", name:"M4A1-S | Декагон",              rarity:"classi", price:95000,  shape:"rifle"  },
+  { id:"s94", name:"AK-47 | Нейтрино",              rarity:"classi", price:130000, shape:"rifle"  },
+  { id:"s95", name:"AWP | Атеон",                   rarity:"classi", price:150000, shape:"sniper" },
+  // Тайное (доп.)
+  { id:"s96",  name:"AK-47 | Легион огня",          rarity:"covert", price:350000,  shape:"rifle"  },
+  { id:"s97",  name:"M4A4 | Дезолат",               rarity:"covert", price:420000,  shape:"rifle"  },
+  { id:"s98",  name:"AWP | Хромовая пружина",       rarity:"covert", price:550000,  shape:"sniper" },
+  { id:"s99",  name:"Desert Eagle | Императрица",   rarity:"covert", price:320000,  shape:"pistol" },
+  { id:"s100", name:"USP-S | Стеклянный мираж",     rarity:"covert", price:380000,  shape:"pistol" },
+  { id:"s101", name:"M4A1-S | Полночный шторм",     rarity:"covert", price:470000,  shape:"rifle"  },
+  { id:"s102", name:"AK-47 | Найтвиш",              rarity:"covert", price:800000,  shape:"rifle"  },
+  { id:"s103", name:"AWP | Оникс",                  rarity:"covert", price:1000000, shape:"sniper" },
+  { id:"s104", name:"M4A4 | Феникс-огонь",          rarity:"covert", price:950000,  shape:"rifle"  },
+  { id:"s105", name:"Desert Eagle | Кобальт-диск",  rarity:"covert", price:720000,  shape:"pistol" },
+  // Экстраординарное (доп.)
+  { id:"s106", name:"★ Скелетон нож | Кровавая паутина", rarity:"gold", price:2500000, shape:"knife" },
+  { id:"s107", name:"★ Нож-бабочка | Ультрафиолет", rarity:"gold", price:2100000, shape:"knife" },
+  { id:"s108", name:"★ Спортивные перчатки | Голубая сталь", rarity:"gold", price:1800000, shape:"gloves" },
+  { id:"s109", name:"★ Керамбит | Мраморный вихрь", rarity:"gold", price:2900000, shape:"knife" },
+  { id:"s110", name:"★ Нож паракорд | Тигровый зуб", rarity:"gold", price:3300000, shape:"knife" },
+  { id:"s111", name:"★ Штык-нож M9 | Кровавая паутина", rarity:"gold", price:7200000, shape:"knife" },
+  { id:"s112", name:"★ Нож Талон | Октябрьский вихрь", rarity:"gold", price:6800000, shape:"knife" },
+  { id:"s113", name:"★ Складной нож | Слоновая кость", rarity:"gold", price:2000000, shape:"knife" },
   // Эксклюзив магазина (цена задана отдельно и намеренно ниже некоторых редких скинов)
   { id:"s61", name:"★ Нож Фалчион | Закалка кейсом (Эксклюзив)", rarity:"gold", price:1000000, shape:"knife" }
 ];
@@ -1013,6 +1185,8 @@ const shopItems = [
   { skinId:"s31" }, { skinId:"s33" }, { skinId:"s35" }, { skinId:"s38" },
   { skinId:"s41" }, { skinId:"s44" }, { skinId:"s46" }, { skinId:"s49" },
   { skinId:"s54" }, { skinId:"s57" }, { skinId:"s58" }, { skinId:"s60" },
+  { skinId:"s83" }, { skinId:"s88" }, { skinId:"s94" }, { skinId:"s98" },
+  { skinId:"s102" }, { skinId:"s105" }, { skinId:"s106" }, { skinId:"s109" }, { skinId:"s113" },
   { skinId:"s61", exclusive:true }
 ];
 
@@ -1112,10 +1286,16 @@ const extraSkinsPool = [];
     {n:"SSG 08", s:"sniper"}, {n:"Desert Eagle", s:"pistol"}, {n:"USP-S", s:"pistol"}, {n:"Glock-18", s:"pistol"},
     {n:"P250", s:"pistol"}, {n:"Five-SeveN", s:"pistol"}, {n:"Tec-9", s:"pistol"}, {n:"P2000", s:"pistol"},
     {n:"MAC-10", s:"rifle"}, {n:"UMP-45", s:"rifle"}, {n:"MP7", s:"rifle"}, {n:"MP9", s:"rifle"},
-    {n:"P90", s:"rifle"}, {n:"Nova", s:"rifle"}, {n:"Galil AR", s:"rifle"}, {n:"FAMAS", s:"rifle"}
+    {n:"P90", s:"rifle"}, {n:"Nova", s:"rifle"}, {n:"Galil AR", s:"rifle"}, {n:"FAMAS", s:"rifle"},
+    {n:"R8 Revolver", s:"pistol"}, {n:"Dual Berettas", s:"pistol"}, {n:"CZ75-Auto", s:"pistol"},
+    {n:"G3SG1", s:"sniper"}, {n:"SCAR-20", s:"sniper"}, {n:"AUG", s:"rifle"}, {n:"SG 553", s:"rifle"},
+    {n:"M249", s:"rifle"}, {n:"Negev", s:"rifle"}, {n:"XM1014", s:"rifle"}, {n:"Sawed-Off", s:"rifle"},
+    {n:"MAG-7", s:"rifle"}, {n:"PP-Bizon", s:"rifle"}
   ];
   const SHOP_FINISHES = ["Полночь","Прибой","Раскол","Вихрь","Зенит","Осколок","Пламя","Лёд","Гравитация",
-    "Спектр","Оазис","Феррум","Крипта","Импульс","Резонанс","Гидра","Фантом","Обсидиан","Кобальт","Прототип"];
+    "Спектр","Оазис","Феррум","Крипта","Импульс","Резонанс","Гидра","Фантом","Обсидиан","Кобальт","Прототип",
+    "Мираж","Затмение","Пустошь","Реликвия","Аномалия","Сияние","Разлом","Химера","Вспышка","Термит",
+    "Кислота","Барьер","Синтез","Голограмма","Дюна"];
   const WEAR_TIERS = [
     { tag:"Прямо с завода", mult:1.6 }, { tag:"Немного поношенное", mult:1.2 }, { tag:"После полевых испытаний", mult:1.0 },
     { tag:"Поношенное", mult:0.7 }, { tag:"Закалённое в боях", mult:0.5 }
@@ -1214,10 +1394,8 @@ function renderCases(){
 
     const el = document.createElement("div");
     el.className = "case-card" + (unlocked ? " unlocked" : "");
-    const openable = unlocked && !onCooldown && !claimedForever;
     el.onclick = ()=>{
       if(!unlocked){ shakeLock(el); return; }
-      if(claimedForever || onCooldown){ openCasePage(c); return; }
       playUnlockAndOpen(el, c);
     };
     let tag = (unlocked && !alreadyOpenedOnce && (c.key==="starter"||c.key==="invited")) ? '<div class="tag-new">NEW</div>' : "";
@@ -1227,7 +1405,7 @@ function renderCases(){
       <div class="art">${caseArtSVG(c.colorA,c.colorB,idx)}</div>
       <div class="cname">${c.name}</div>
       <div class="cprice">Бесплатно</div>
-      ${openable ? lockBadgeMarkup() : ``}
+      ${unlocked ? lockBadgeMarkup() : ``}
       ${!unlocked ? `<div class="locked-overlay">
         <svg viewBox="0 0 24 24" fill="none"><rect x="5" y="11" width="14" height="9" rx="2" stroke="#9a8f9c" stroke-width="1.6"/><path d="M8 11V8a4 4 0 018 0v3" stroke="#9a8f9c" stroke-width="1.6"/></svg>
         <span>${c.unlockLabel}</span></div>` : ``}
@@ -1263,18 +1441,14 @@ function renderPaidGrid(elId, list, cls){
   if(!grid) return;
   grid.innerHTML = "";
   list.forEach((c,idx)=>{
-    const affordable = state.balance >= c.cost;
     const el = document.createElement("div");
-    el.className = "case-card " + cls + " unlocked" + (affordable ? "" : " unaffordable");
-    el.onclick = ()=>{
-      if(!affordable){ openCasePage(c); return; }
-      playUnlockAndOpen(el, c);
-    };
+    el.className = "case-card " + cls + " unlocked";
+    el.onclick = ()=> playUnlockAndOpen(el, c);
     el.innerHTML = `
       <div class="art">${caseArtSVG(c.colorA,c.colorB,cls+idx)}</div>
       <div class="cname">${c.name}</div>
       <div class="costrow"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2L4 9L12 22L20 9L12 2Z" fill="currentColor"/></svg>${c.cost} ◆</div>
-      ${affordable ? lockBadgeMarkup() : ``}
+      ${lockBadgeMarkup()}
     `;
     grid.appendChild(el);
   });
@@ -1688,6 +1862,36 @@ function currentStakeValue(){
   return v;
 }
 
+/* Quick target pick: auto-selects the skin whose price is closest to stake × multiplier,
+   so the person doesn't have to hunt through the picker to find a matching-value item. */
+function pickTargetByMultiplier(mult){
+  const stakeVal = currentStakeValue();
+  if(stakeVal<=0){ showToast("Сначала выберите ставку (скин и/или кристаллы)"); return; }
+  const desired = stakeVal * mult;
+  let best = null, bestDiff = Infinity;
+  // search the full combined catalogue (curated skinPool + the large shop pool) so there's enough
+  // price density to actually land close to stake×multiplier instead of jumping tiers
+  const candidates = skinPool.concat(typeof extraSkinsPool!=="undefined" ? extraSkinsPool : []);
+  candidates.forEach(s=>{
+    const diff = Math.abs(s.price - desired);
+    if(diff < bestDiff){ bestDiff = diff; best = s; }
+  });
+  if(!best) return;
+  targetSkin = best;
+  document.getElementById("multCustomRow").style.display = "none";
+  refreshUpgrade();
+  showToast(`Цель ×${mult} (≈${fmtPrice(desired)}): ${best.name}`);
+}
+function toggleCustomMult(){
+  const row = document.getElementById("multCustomRow");
+  row.style.display = (row.style.display==="none" || !row.style.display) ? "flex" : "none";
+}
+function applyCustomMult(){
+  const val = parseFloat(document.getElementById("customMultInput").value);
+  if(!val || val<=1){ showToast("Введите множитель больше 1, например 20 или 100"); return; }
+  pickTargetByMultiplier(val);
+}
+
 function refreshUpgrade(){
   const slot = document.getElementById("stakeSkinSlot");
   if(stakeSkin){
@@ -1721,6 +1925,8 @@ function refreshUpgrade(){
   if(stakeVal<=0 || !targetSkin){
     chanceLbl.innerText = "—";
     arc.style.stroke = "var(--acc)"; arc.style.strokeDashoffset = CIRC;
+    const needle = document.getElementById("gaugeNeedleWrap");
+    needle.style.transition = "none"; needle.style.transform = "rotate(0deg)";
     btn.disabled = true; btn.innerText = "Выберите ставку и цель"; return;
   }
   let chance = Math.min(75, Math.max(2, (stakeVal/targetVal)*88));
@@ -1749,19 +1955,14 @@ function doUpgrade(){
   saveState(); updateBalanceUI();
 
   const btn = document.getElementById("upgradeBtn");
-  const arc = document.getElementById("gaugeArc");
-  const gaugeWrap = document.querySelector(".gauge-wrap");
   btn.disabled = true; btn.innerText = "Крутим...";
-  gaugeWrap.classList.add("gauge-spinning");
 
   const success = Math.random()*100 < chance;
 
-  setTimeout(()=>{
-    gaugeWrap.classList.remove("gauge-spinning");
-    arc.style.stroke = success ? "#3ddc84" : "#ff5566";
+  spinGaugeNeedle(success, chance, ()=>{
+    document.getElementById("gaugeArc").style.stroke = success ? "#3ddc84" : "#ff5566";
     if(success){
-      state.inventory.push(Object.assign({instId: Date.now()+"_"+Math.random().toString(36).slice(2)}, targetSkin));
-      saveState(); showWinModal(targetSkin);
+      currentWin = targetSkin; showWinModal(targetSkin);
     } else {
       showToast("Апгрейд не удался — ставка потеряна");
     }
@@ -1770,20 +1971,142 @@ function doUpgrade(){
     onBalanceSliderInput();
     refreshUpgrade(); renderInventory();
     btn.disabled = false; btn.innerText = "Улучшить";
-  }, 1800);
+  });
+}
+
+/* Spins the needle around the circular gauge and lands it inside the win zone (green arc) on
+   success, or the lose zone (rest of the circle) on failure — mirrors the reference gauge. */
+function spinGaugeNeedle(success, chance, onDone){
+  const wrap = document.getElementById("gaugeNeedleWrap");
+  wrap.style.transition = "none";
+  wrap.style.transform = "rotate(0deg)";
+  void wrap.offsetWidth; // force reflow so the reset above isn't merged into the animated transition
+
+  const winAngle = chance * 3.6; // degrees of the 360° circle that represent the win zone
+  const pad = 3; // keep the needle from landing exactly on the boundary line
+  let targetAngle;
+  if(success){
+    targetAngle = pad + Math.random() * Math.max(1, winAngle - pad*2);
+  } else {
+    targetAngle = winAngle + pad + Math.random() * Math.max(1, (360 - winAngle) - pad*2);
+  }
+  const spins = 4;
+  const finalRotation = spins*360 + targetAngle;
+
+  requestAnimationFrame(()=>{
+    wrap.style.transition = "transform 2.6s cubic-bezier(.14,.72,.22,1)";
+    wrap.style.transform = `rotate(${finalRotation}deg)`;
+  });
+
+  setTimeout(onDone, 2700);
 }
 
 /* ---------------- battles (1v1 / 2v2 vs bots — bots use the exact same odds as the player) ---------------- */
 let battleMode = "1v1";
-let battleCase = null;
+let battleCaseQueue = []; // [{key, qty}] — up to 50 total cases combined
+const BATTLE_MAX_CASES = 50;
+const BATTLE_ROULETTE_THRESHOLD = 3; // above this, switch to the fast batch-reveal animation
 let battleInProgress = false;
 let battleSlotsState = []; // index 0 is always "you" (implicit); indices 1..N-1: null = waiting, "bot" = filled
+let battleLobbies = [];
+
+const LOBBY_NAMES = ["xXShadowXx","Alex_Pro","NoScope228","KittyGamer","Vortex_RU","DarkKnight_99",
+  "Misha_CS","ProGamer","Lena_Sniper","MaxPower","Ice_Wolf","RustyBlade","Nika_Frag","StepanCS",
+  "GhostReaper","TigranAWP","OlyaDrop","BorisRush","ZenMaster","QuietStorm"];
 
 function initBattlePage(){
   document.getElementById("battleRouletteWrap").style.display = "none";
   document.getElementById("battleRouletteWrap").innerHTML = "";
-  resetBattleSlots();
+  document.getElementById("battleFastReveal").style.display = "none";
+  document.getElementById("battleFastReveal").innerHTML = "";
+  showBattleListView();
+}
+
+function showBattleListView(){
+  if(battleInProgress) return;
+  document.getElementById("battleListView").style.display = "block";
+  document.getElementById("battleCreateView").style.display = "none";
+  refreshBattleLobbies();
+}
+function showBattleCreateView(fromJoin){
+  document.getElementById("battleListView").style.display = "none";
+  document.getElementById("battleCreateView").style.display = "block";
+  if(!fromJoin){
+    battleMode = "1v1"; battleCaseQueue = [];
+    document.getElementById("battleMode1v1").classList.add("active");
+    document.getElementById("battleMode2v2").classList.remove("active");
+    resetBattleSlots();
+  }
+  renderBattleCaseQueue();
   updateBattleStartState();
+}
+
+function battleQueueTotalCount(){ return battleCaseQueue.reduce((a,e)=>a+e.qty,0); }
+function battleQueueCostPerSlot(){ return battleCaseQueue.reduce((a,e)=>a + caseByKey(e.key).cost*e.qty, 0); }
+
+function refreshBattleLobbies(){
+  const pool = [...officialCases, ...allInCases];
+  const shuffled = [...LOBBY_NAMES].sort(()=>Math.random()-0.5).slice(0, 4 + Math.floor(Math.random()*3));
+  battleLobbies = shuffled.map((name,idx)=>{
+    const mode = Math.random()<0.6 ? "1v1" : "2v2";
+    const caseCount = 1 + Math.floor(Math.random()*3); // 1-3 case types per lobby
+    const usedKeys = new Set();
+    const cases = [];
+    for(let i=0;i<caseCount;i++){
+      const c = pool[Math.floor(Math.random()*pool.length)];
+      if(usedKeys.has(c.key)) continue;
+      usedKeys.add(c.key);
+      cases.push({ key:c.key, qty: 1 + (Math.random()<0.3 ? Math.floor(Math.random()*3) : 0) });
+    }
+    return { id:`lobby_${idx}_${Date.now()}`, name, mode, cases };
+  });
+  renderBattleLobbyList();
+}
+
+function renderBattleLobbyList(){
+  const wrap = document.getElementById("battleLobbyList");
+  if(battleLobbies.length===0){ wrap.innerHTML = `<div class="lobby-empty">Сейчас открытых сражений нет — создайте своё</div>`; return; }
+  wrap.innerHTML = battleLobbies.map((l,li)=>{
+    const totalSlots = l.mode==="1v1" ? 2 : 4;
+    const costPerSlot = l.cases.reduce((a,e)=>a + caseByKey(e.key).cost*e.qty, 0);
+    const cost = costPerSlot * totalSlots;
+    const affordable = state.balance >= cost;
+    const casesHtml = l.cases.map((e,ei)=>{
+      const c = caseByKey(e.key);
+      return `<div class="lobby-case-item">
+        <div class="art">${caseArtSVG(c.colorA,c.colorB,`lob${li}_${ei}`)}</div>
+        ${e.qty>1 ? `<div class="lobby-case-qty">×${e.qty}</div>` : ``}
+      </div>`;
+    }).join("");
+    return `<div class="lobby-card">
+      <div class="lobby-card-top">
+        <div class="lobby-avatar">🎮</div>
+        <div class="lobby-creator"><b>Создал: ${l.name}</b><span>${l.mode==="1v1"?"1×1":"2×2"} · ждёт соперника</span></div>
+      </div>
+      <div class="lobby-cases-row">${casesHtml}</div>
+      <button class="lobby-join-btn" ${affordable?'':'disabled'} onclick="joinBattleLobby('${l.id}')">${affordable?`Войти за ${cost} ◆`:'Недостаточно ◆'}</button>
+    </div>`;
+  }).join("");
+}
+
+function joinBattleLobby(lobbyId){
+  const lobby = battleLobbies.find(l=>l.id===lobbyId);
+  if(!lobby || battleInProgress) return;
+  const totalSlots = lobby.mode==="1v1" ? 2 : 4;
+  const costPerSlot = lobby.cases.reduce((a,e)=>a + caseByKey(e.key).cost*e.qty, 0);
+  const cost = costPerSlot * totalSlots;
+  if(state.balance < cost){ showToast("Недостаточно кристаллов"); return; }
+
+  battleMode = lobby.mode;
+  battleCaseQueue = lobby.cases.map(e=>({ key:e.key, qty:e.qty }));
+  battleSlotsState = new Array(totalSlots - 1).fill("bot"); // lobby's own players/bots already filled — you take the last slot
+  document.getElementById("battleMode1v1").classList.toggle("active", battleMode==="1v1");
+  document.getElementById("battleMode2v2").classList.toggle("active", battleMode==="2v2");
+
+  showBattleCreateView(true);
+  renderBattleSlots();
+  updateBattleStartState();
+  startBattle();
 }
 
 function resetBattleSlots(){
@@ -1855,25 +2178,62 @@ function renderBattleSlots(){
 
 function openBattleCasePicker(){
   if(battleInProgress) return;
+  if(battleQueueTotalCount() >= BATTLE_MAX_CASES){ showToast(`Максимум ${BATTLE_MAX_CASES} кейсов в одном баттле`); return; }
   const modal = document.getElementById("pickerModal");
   const list = document.getElementById("pickerList");
-  document.getElementById("pickerTitle").innerText = "Выберите кейс для баттла";
+  document.getElementById("pickerTitle").innerText = "Добавить кейс в баттл";
   const allCases = [...officialCases, ...allInCases];
   list.innerHTML = allCases.map((c,idx)=>`
-    <div class="picker-item" onclick="selectBattleCase('${c.key}')">
+    <div class="picker-item" onclick="addCaseToQueue('${c.key}')">
       <div class="art">${caseArtSVG(c.colorA,c.colorB,'bc'+idx)}</div>
       <div class="nm">${c.name}</div>
       <div class="pr">${c.cost} ◆</div>
     </div>`).join("");
   modal.classList.add("active");
 }
-function selectBattleCase(key){
-  battleCase = caseByKey(key);
+function addCaseToQueue(key){
+  if(battleQueueTotalCount() >= BATTLE_MAX_CASES){ showToast(`Максимум ${BATTLE_MAX_CASES} кейсов в одном баттле`); closePicker(); return; }
+  const existing = battleCaseQueue.find(e=>e.key===key);
+  if(existing) existing.qty++;
+  else battleCaseQueue.push({ key, qty:1 });
   closePicker();
-  const slot = document.getElementById("battleCaseSlot");
-  slot.classList.add("filled");
-  slot.innerHTML = `<div class="art">${caseArtSVG(battleCase.colorA,battleCase.colorB,'bcsel')}</div><div class="nm">${battleCase.name}</div><div class="pr">${battleCase.cost} ◆ за слот</div>`;
+  renderBattleCaseQueue();
   updateBattleStartState();
+}
+function changeQueueQty(key, delta){
+  const entry = battleCaseQueue.find(e=>e.key===key);
+  if(!entry) return;
+  if(delta>0 && battleQueueTotalCount()>=BATTLE_MAX_CASES){ showToast(`Максимум ${BATTLE_MAX_CASES} кейсов в одном баттле`); return; }
+  entry.qty += delta;
+  if(entry.qty<=0) battleCaseQueue = battleCaseQueue.filter(e=>e.key!==key);
+  renderBattleCaseQueue();
+  updateBattleStartState();
+}
+function removeFromQueue(key){
+  battleCaseQueue = battleCaseQueue.filter(e=>e.key!==key);
+  renderBattleCaseQueue();
+  updateBattleStartState();
+}
+function renderBattleCaseQueue(){
+  const wrap = document.getElementById("battleCaseQueueList");
+  document.getElementById("battleQueueCount").innerText = `${battleQueueTotalCount()}/${BATTLE_MAX_CASES}`;
+  if(battleCaseQueue.length===0){
+    wrap.innerHTML = `<div class="battle-case-queue-empty">Кейсов пока нет — нажмите «Добавить кейс»</div>`;
+    return;
+  }
+  wrap.innerHTML = battleCaseQueue.map((e,idx)=>{
+    const c = caseByKey(e.key);
+    return `<div class="bcq-row">
+      <div class="art">${caseArtSVG(c.colorA,c.colorB,'bcq'+idx)}</div>
+      <div class="info"><b>${c.name}</b><span>${c.cost} ◆ за штуку</span></div>
+      <div class="bcq-qty">
+        <button onclick="changeQueueQty('${e.key}',-1)">−</button>
+        <span>${e.qty}</span>
+        <button onclick="changeQueueQty('${e.key}',1)">+</button>
+      </div>
+      <button class="bcq-remove" onclick="removeFromQueue('${e.key}')">✕</button>
+    </div>`;
+  }).join("");
 }
 
 function battleAllSlotsFilled(){ return battleSlotsState.every(s=>s==="bot"); }
@@ -1881,12 +2241,12 @@ function battleAllSlotsFilled(){ return battleSlotsState.every(s=>s==="bot"); }
 function updateBattleStartState(){
   const btn = document.getElementById("battleStartBtn");
   if(battleInProgress) return;
-  if(!battleCase){
-    btn.disabled = true; btn.innerText = "Выберите кейс";
+  if(battleCaseQueue.length===0){
+    btn.disabled = true; btn.innerText = "Добавьте хотя бы один кейс";
     document.getElementById("battleCostVal").innerText = "0 ◆";
     return;
   }
-  const total = battleCase.cost * battleTotalSlots();
+  const total = battleQueueCostPerSlot() * battleTotalSlots();
   document.getElementById("battleCostVal").innerText = total + " ◆";
   if(!battleAllSlotsFilled()){ btn.disabled = true; btn.innerText = "Заполните свободные слоты"; return; }
   if(state.balance < total){ btn.disabled = true; btn.innerText = "Недостаточно кристаллов"; }
@@ -1894,9 +2254,10 @@ function updateBattleStartState(){
 }
 
 function startBattle(){
-  if(battleInProgress || !battleCase || !battleAllSlotsFilled()) return;
+  if(battleInProgress || battleCaseQueue.length===0 || !battleAllSlotsFilled()) return;
   const totalSlots = battleTotalSlots();
-  const totalCost = battleCase.cost * totalSlots;
+  const costPerSlot = battleQueueCostPerSlot();
+  const totalCost = costPerSlot * totalSlots;
   if(state.balance < totalCost){ showToast("Недостаточно кристаллов"); return; }
 
   battleInProgress = true;
@@ -1904,38 +2265,110 @@ function startBattle(){
   document.getElementById("battleStartBtn").disabled = true;
   document.getElementById("battleStartBtn").innerText = "Идёт баттл...";
 
-  // Bots draw from the exact same weighted table as the player — no hidden advantage.
-  const wonIds = [];
-  for(let i=0;i<totalSlots;i++) wonIds.push(weightedDrop(battleCase.drops.filter(d=>d.weight>0)));
+  // Expand the queue into a flat list of case objects (one entry per unit), same for every participant.
+  const caseSequence = [];
+  battleCaseQueue.forEach(e=>{ const c = caseByKey(e.key); for(let i=0;i<e.qty;i++) caseSequence.push(c); });
 
+  // Bots draw from the exact same weighted tables as the player — no hidden advantage.
+  const participantResults = []; // participantResults[p] = [skin, skin, ...]
+  for(let p=0;p<totalSlots;p++){
+    participantResults.push(caseSequence.map(c => skinById(weightedDrop(c.drops.filter(d=>d.weight>0)))));
+  }
+
+  if(caseSequence.length <= BATTLE_ROULETTE_THRESHOLD){
+    runBattleRouletteAnimation(participantResults, caseSequence, totalSlots, totalCost);
+  } else {
+    runBattleFastReveal(participantResults, totalSlots, totalCost);
+  }
+}
+
+/* Full scrolling-roulette animation, used only for small queues (<= BATTLE_ROULETTE_THRESHOLD cases)
+   so the suspense stays but never drags on. */
+function runBattleRouletteAnimation(participantResults, caseSequence, totalSlots, totalCost){
   const wrap = document.getElementById("battleRouletteWrap");
   wrap.style.display = "flex";
   wrap.innerHTML = "";
-  for(let i=0;i<totalSlots;i++){
-    const label = i===0 ? "Вы" : "Бот "+i;
-    wrap.innerHTML += `<div class="battle-track-label">${label}</div>
-      <div class="roulette-box size-sm"><div class="roulette-fade left"></div><div class="roulette-fade right"></div><div class="roulette-line"></div><div class="roulette-track" id="battle_track_${i}"></div></div>`;
+  for(let p=0;p<totalSlots;p++){
+    const label = p===0 ? "Вы" : "Бот "+p;
+    wrap.innerHTML += `<div class="battle-track-label">${label}${caseSequence.length>1?` (кейс 1/${caseSequence.length})`:''}</div>
+      <div class="roulette-box size-sm"><div class="roulette-fade left"></div><div class="roulette-fade right"></div><div class="roulette-line"></div><div class="roulette-track" id="battle_track_${p}"></div></div>`;
   }
 
-  for(let i=0;i<totalSlots;i++){
-    const track = document.getElementById("battle_track_"+i);
-    const winIndex = buildTrackInto(track, battleCase, wonIds[i]);
-    requestAnimationFrame(()=>{ requestAnimationFrame(()=>{
-      const cardWidth=100, boxWidth=track.parentElement.offsetWidth, jitter=(Math.random()*30)-15;
-      const targetX = (winIndex*cardWidth)-(boxWidth/2)+(cardWidth/2)+jitter;
-      track.style.transition = "transform 3.4s cubic-bezier(0.12,0.75,0.1,1)";
-      track.style.transform = `translateX(-${targetX}px)`;
-    }); });
+  const stepMs = 1300;
+  let doneCount = 0;
+  for(let p=0;p<totalSlots;p++){
+    playParticipantCaseSequence(p, 0, caseSequence, participantResults[p], stepMs, ()=>{
+      doneCount++;
+      if(doneCount===totalSlots) setTimeout(()=>finishBattle(participantResults, totalSlots, totalCost), 300);
+    });
   }
-
-  setTimeout(()=> finishBattle(wonIds, totalSlots, totalCost), 3600);
+}
+function playParticipantCaseSequence(p, caseIdx, caseSequence, results, stepMs, onAllDone){
+  const track = document.getElementById("battle_track_"+p);
+  const c = caseSequence[caseIdx];
+  track.style.transition = "none"; track.style.transform = "translateX(0px)";
+  const winIndex = buildTrackInto(track, c, results[caseIdx].id);
+  requestAnimationFrame(()=>{ requestAnimationFrame(()=>{
+    const cardWidth=100, boxWidth=track.parentElement.offsetWidth, jitter=(Math.random()*30)-15;
+    const targetX = (winIndex*cardWidth)-(boxWidth/2)+(cardWidth/2)+jitter;
+    track.style.transition = `transform ${stepMs*0.8}ms cubic-bezier(0.12,0.75,0.1,1)`;
+    track.style.transform = `translateX(-${targetX}px)`;
+  }); });
+  setTimeout(()=>{
+    if(caseIdx+1 < caseSequence.length){
+      const labels = document.querySelectorAll("#battleRouletteWrap .battle-track-label");
+      if(labels[p]) labels[p].innerText = `${p===0?'Вы':'Бот '+p} (кейс ${caseIdx+2}/${caseSequence.length})`;
+      playParticipantCaseSequence(p, caseIdx+1, caseSequence, results, stepMs, onAllDone);
+    } else {
+      onAllDone();
+    }
+  }, stepMs);
 }
 
-function finishBattle(wonIds, totalSlots, totalCost){
-  const results = wonIds.map(id=>skinById(id));
+/* Fast batch-reveal used for bigger queues (4-50 cases) — items pop in quickly instead of
+   scrolling a reel case-by-case, so a 50-case battle still finishes in ~1.5-2s. */
+function runBattleFastReveal(participantResults, totalSlots, totalCost){
+  const wrap = document.getElementById("battleFastReveal");
+  wrap.style.display = "block";
+  wrap.innerHTML = "";
+  const count = participantResults[0].length;
+  const stagger = Math.max(12, Math.min(70, 900/count));
+
+  for(let p=0;p<totalSlots;p++){
+    const label = p===0 ? "Вы" : "Бот "+p;
+    const block = document.createElement("div");
+    block.className = "bfr-participant";
+    block.innerHTML = `<div class="bfr-name">${label} — открывается ${count} кейс(ов)...</div>
+      <div class="bfr-strip" id="bfrStrip${p}"></div>
+      <div class="bfr-total" id="bfrTotal${p}"></div>`;
+    wrap.appendChild(block);
+    const strip = block.querySelector(`#bfrStrip${p}`);
+    participantResults[p].forEach((skin,i)=>{
+      const r = RARITY[skin.rarity];
+      const item = document.createElement("div");
+      item.className = "bfr-item";
+      item.style.borderBottomColor = r.color;
+      item.style.animationDelay = (i*stagger)+"ms";
+      item.innerHTML = `<div class="art">${weaponSVG(skin.shape, r.color, `bfr${p}_${i}`)}</div>`;
+      strip.appendChild(item);
+    });
+  }
+
+  const totalDuration = count*stagger + 350;
+  setTimeout(()=>{
+    for(let p=0;p<totalSlots;p++){
+      const total = participantResults[p].reduce((a,s)=>a+s.price,0);
+      document.getElementById(`bfrTotal${p}`).innerText = `Итого: ${fmtPrice(total)}`;
+    }
+    setTimeout(()=> finishBattle(participantResults, totalSlots, totalCost), 500);
+  }, totalDuration);
+}
+
+function finishBattle(participantResults, totalSlots, totalCost){
+  const totals = participantResults.map(items => items.reduce((a,s)=>a+s.price,0));
   let sideA, sideB;
-  if(battleMode==="1v1"){ sideA = results[0].price; sideB = results[1].price; }
-  else { sideA = results[0].price + results[1].price; sideB = results[2].price + results[3].price; }
+  if(battleMode==="1v1"){ sideA = totals[0]; sideB = totals[1]; }
+  else { sideA = totals[0]+totals[1]; sideB = totals[2]+totals[3]; }
 
   let outcome; // 'win' | 'lose' | 'draw'
   if(sideA===sideB) outcome = 'draw';
@@ -1943,42 +2376,49 @@ function finishBattle(wonIds, totalSlots, totalCost){
   else outcome = 'lose';
 
   if(outcome==='win'){
-    results.forEach(skin=>{
-      if(skin.isCash) state.balance += skin.price;
-      else state.inventory.push(Object.assign({instId: Date.now()+"_"+Math.random().toString(36).slice(2)+Math.random()}, skin));
+    participantResults.forEach(items=>{
+      items.forEach(skin=>{
+        if(skin.isCash) state.balance += skin.price;
+        else state.inventory.push(Object.assign({instId: Date.now()+"_"+Math.random().toString(36).slice(2)+Math.random()}, skin));
+      });
     });
   } else if(outcome==='draw'){
     state.balance += totalCost; // refund entry, nobody's items are taken
   }
   saveState(); updateBalanceUI(); renderInventory();
 
-  showBattleResultModal(results, outcome);
+  showBattleResultModal(participantResults, totals, outcome);
 
   battleInProgress = false;
+  document.getElementById("battleRouletteWrap").style.display = "none";
+  document.getElementById("battleFastReveal").style.display = "none";
   resetBattleSlots();
+  battleCaseQueue = [];
+  renderBattleCaseQueue();
   document.getElementById("battleStartBtn").disabled = false;
   updateBattleStartState();
 }
 
-function showBattleResultModal(results, outcome){
+function showBattleResultModal(participantResults, totals, outcome){
   const grid = document.getElementById("battleResultGrid");
-  grid.innerHTML = results.map((skin,i)=>{
-    const r = RARITY[skin.rarity];
-    const label = i===0 ? "Вы" : "Бот "+i;
-    const onWinningSide = battleMode==="1v1" ? (outcome==='win' ? i===0 : i===1) : (outcome==='win' ? i<2 : i>=2);
-    const glow = (outcome!=='draw' && onWinningSide) ? `box-shadow:0 0 0 2px ${r.color} inset;` : ``;
+  grid.innerHTML = participantResults.map((items,p)=>{
+    const label = p===0 ? "Вы" : "Бот "+p;
+    const onWinningSide = battleMode==="1v1" ? (outcome==='win' ? p===0 : p===1) : (outcome==='win' ? p<2 : p>=2);
+    const glow = (outcome!=='draw' && onWinningSide) ? `box-shadow:0 0 0 2px var(--acc) inset;` : ``;
+    const best = items.slice().sort((a,b)=>b.price-a.price)[0];
+    const r = RARITY[best.rarity];
     return `<div class="multi-item" style="border-top-color:${r.color}; ${glow}">
-      <div class="art">${weaponSVG(skin.shape, r.color, "battle"+i)}</div>
-      <div class="nm">${label}: ${skin.name}</div>
-      <div class="pr" style="color:${r.color}">${fmtPrice(skin.price)}</div>
+      <div class="art">${weaponSVG(best.shape, r.color, "battlebest"+p)}</div>
+      <div class="nm">${label}${items.length>1?` (${items.length} шт.)`:''}</div>
+      <div class="pr" style="color:${r.color}">${fmtPrice(totals[p])}</div>
     </div>`;
   }).join("");
 
-  const total = results.reduce((a,s)=>a+s.price,0);
   const titleEl = document.getElementById("battleResultTitle");
   const summaryEl = document.getElementById("battleResultSummary");
+  const total = totals.reduce((a,t)=>a+t,0);
   if(outcome==='win'){ titleEl.innerText = "🏆 ВЫ ПОБЕДИЛИ!"; summaryEl.innerText = `Вы забрали весь банк: ${fmtPrice(total)}`; }
-  else if(outcome==='lose'){ titleEl.innerText = "😔 ПОБЕДИЛ БОТ"; summaryEl.innerText = "В этот раз у бота выпало дороже — банк ушёл ему (шансы были одинаковые для всех)."; }
+  else if(outcome==='lose'){ titleEl.innerText = "😔 ПОБЕДИЛ БОТ"; summaryEl.innerText = "В этот раз у бота суммарно выпало дороже — банк ушёл ему (шансы были одинаковые для всех)."; }
   else { titleEl.innerText = "🤝 НИЧЬЯ"; summaryEl.innerText = "Суммы совпали — ставка полностью возвращена."; }
 
   document.getElementById("battleModal").classList.add("active");
@@ -2105,7 +2545,7 @@ function initApp(){
   updateDailyUI();
   renderCases();
   refreshUpgrade();
-  setTimeout(()=>{ document.getElementById("loader").classList.add("hide"); }, 1200);
+  setTimeout(()=>{ document.getElementById("loader").classList.add("hide"); }, 1950);
 }
 window.onload = initApp;
 </script>
