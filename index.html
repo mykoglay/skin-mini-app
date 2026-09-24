@@ -1285,7 +1285,7 @@ function skinById(id){
 /* ---------------- starter cooldown ---------------- */
 function formatCooldown(ms){ 
     const h = Math.floor(ms / 3600000), m = Math.floor((ms % 3600000) / 60000); 
-    return ${h} ч ${m} мин; // или то выражение, которое у вас там было
+    return h + " ч " + m + " мин";
 }
 
 /* ---------------- free cases ---------------- */
