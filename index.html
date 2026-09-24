@@ -1280,6 +1280,7 @@ function skinById(id){
         return { id: id, name: amt + " Кристаллов", rarity: "gold", price: amt, shape: "cash", isCash: true };
     }
     return skinPool.find(s => s.id === id) || (typeof extraById === "function" ? extraById(id) : undefined);
+}
 
 /* ---------------- starter cooldown ---------------- */
 function formatCooldown(ms){ 
