@@ -1065,8 +1065,19 @@ const cases = [
     key:"starter", name:"Стартовый кейс",
     desc:"Доступен раз в 24 часа. Базовое снаряжение и небольшой шанс на кристаллы.",
     unlockLabel:"Открывается автоматически при первом входе",
-    colorA:"#39e08a", colorB:"#1c8f56", cost:0, isUnlocked:s=>true,
-    drops:[
+  <div class="cases-grid">
+
+  <!-- 1. Стартовый кейс -->
+  <div class="case-card">
+    <div class="case-image-container">
+      <img src="images/m4a4_item.png" alt="M4A4" class="case-3d-item">
+      <div class="case-badge-envelope">✉️</div>
+    </div>
+    <div class="case-title">Стартовый кейс</div>
+    <div class="case-status free">Бесплатно</div>
+    <div class="case-lock locked"><span class="lock-icon">🔒</span></div>
+  </div>
+  
       { skinId:"s1", weight:54 }, { skinId:"s5", weight:30 }, { skinId:"s9", weight:14.9 },
       { skinId:"CASH_1000", weight:0.1 },
       { skinId:"s41", weight:0 }, { skinId:"s52", weight:0 }
