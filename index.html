@@ -1283,9 +1283,10 @@ function skinById(id){
 }
 
 /* ---------------- starter cooldown ---------------- */
-const STARTER_COOLDOWN_MS = 24*60*60*1000;
-function starterReady(){ if(!state.lastStarterOpen) return true; return (Date.now()-state.lastStarterOpen) >= STARTER_COOLDOWN_MS; }
-function formatCooldown(ms){ const h=Math.floor(ms/3600000), m=Math.floor((ms%3600000)/60000); return `${h} ч ${m} мин`; }
+function formatCooldown(ms){ 
+    const h = Math.floor(ms / 3600000), m = Math.floor((ms % 3600000) / 60000); 
+    return ${h} ч ${m} мин; // или то выражение, которое у вас там было
+}
 
 /* ---------------- free cases ---------------- */
 const cases = [
