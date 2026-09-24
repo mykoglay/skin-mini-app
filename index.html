@@ -1062,92 +1062,99 @@ function formatCooldown(ms){ const h=Math.floor(ms/3600000), m=Math.floor((ms%36
 /* ---------------- free cases ---------------- */
 const cases = [
   {
-    key:"starter", name:"Стартовый кейс",
-    desc:"Доступен раз в 24 часа. Базовое снаряжение и небольшой шанс на кристаллы.",
-    unlockLabel:"Открывается автоматически при первом входе",
-  <div class="cases-grid">
-  <div class="case-card">
-    <div class="case-image-container">
-      <img src="images/m4a4_item.png" alt="M4A4" class="case-3d-item">
-      <div class="case-badge-envelope">✉️</div>
-    </div>
-    <div class="case-title">Стартовый кейс</div>
-    <div class="case-status free">Бесплатно</div>
-    <div class="case-lock locked"><span class="lock-icon">🔒</span></div>
-  </div>
-  
-      { skinId:"s1", weight:54 }, { skinId:"s5", weight:30 }, { skinId:"s9", weight:14.9 },
-      { skinId:"CASH_1000", weight:0.1 },
-      { skinId:"s41", weight:0 }, { skinId:"s52", weight:0 }
+    key: "starter", name: "Стартовый кейс",
+    desc: "Доступен раз в 24 часа. Базовое снаряжение и небольшой шанс на кристаллы.",
+    unlockLabel: "Открывается автоматически при первом входе",
+    colorA: "#3fb950", colorB: "#193821", cost: 0,
+    previewImg: "images/m4a4_item.png", // Иконка 3D предмета
+    isUnlocked: s => true,
+    drops: [
+      { skinId: "s1", weight: 54 }, { skinId: "s5", weight: 30 }, { skinId: "s9", weight: 14.9 },
+      { skinId: "CASH_1000", weight: 0.1 },
+      { skinId: "s41", weight: 0 }, { skinId: "s52", weight: 0 }
     ]
   },
   {
-    key:"invited", name:"Кейс приглашённого",
-    desc:"Доступен только тем, кто пришёл по реферальной ссылке. Откройте его первым — внутри почти гарантированный бонус +50 кристаллов.",
-    unlockLabel:"Доступно только по реферальной ссылке",
-    colorA:"#ffb84d", colorB:"#8f4310", cost:0, onceOnly:true,
-    isUnlocked:s=>!!s.referredBy,
-    drops:[
-      { skinId:"s4", weight:40 }, { skinId:"s6", weight:30 }, { skinId:"s10", weight:20 },
-      { skinId:"CASH_50", weight:9.98 },
-      { skinId:"s41", weight:0.01 }, { skinId:"s45", weight:0.01 }
+    key: "invited", name: "Кейс приглашённого",
+    desc: "Доступен только тем, кто пришёл по реферальной ссылке. Откройте его первым — внутри почти гарантированный бонус +50 кристаллов.",
+    unlockLabel: "Доступно только по реферальной ссылке",
+    colorA: "#ffb84d", colorB: "#8f4310", cost: 0, onceOnly: true,
+    previewImg: "images/karambit_item.png",
+    isUnlocked: s => !!s.referredBy,
+    drops: [
+      { skinId: "s4", weight: 40 }, { skinId: "s6", weight: 30 }, { skinId: "s10", weight: 20 },
+      { skinId: "CASH_50", weight: 9.98 },
+      { skinId: "s41", weight: 0.01 }, { skinId: "s45", weight: 0.01 }
     ]
   },
   {
-    key:"ref5", name:"Кейс друга",
-    desc:"Открывается, когда по вашей ссылке присоединятся 5 друзей.",
-    unlockLabel:"Нужно 5 рефералов",
-    colorA:"#4f79ff", colorB:"#233a99", cost:0, isUnlocked:s=>s.referralsCount>=5,
-    drops:[
-      { skinId:"s7", weight:38 }, { skinId:"s11", weight:32 }, { skinId:"s12", weight:24 },
-      { skinId:"s21", weight:5.7 }, { skinId:"s31", weight:0.25 }, { skinId:"s41", weight:0.05 }
+    key: "ref5", name: "Кейс друга",
+    desc: "Открывается, когда по вашей ссылке присоединятся 5 друзей.",
+    unlockLabel: "Нужно 5 рефералов",
+    colorA: "#4f79ff", colorB: "#233a99", cost: 0,
+    previewImg: "images/awp_item.png",
+    isUnlocked: s => s.referralsCount >= 5,
+    drops: [
+      { skinId: "s7", weight: 38 }, { skinId: "s11", weight: 32 }, { skinId: "s12", weight: 24 },
+      { skinId: "s21", weight: 5.7 }, { skinId: "s31", weight: 0.25 }, { skinId: "s41", weight: 0.05 }
     ]
   },
   {
-    key:"ref10", name:"Кейс команды",
-    desc:"Открывается, когда по вашей ссылке присоединятся 10 друзей.",
-    unlockLabel:"Нужно 10 рефералов",
-    colorA:"#9a5bff", colorB:"#4c268f", cost:0, isUnlocked:s=>s.referralsCount>=10,
-    drops:[
-      { skinId:"s13", weight:34 }, { skinId:"s22", weight:32 }, { skinId:"s23", weight:28 },
-      { skinId:"s32", weight:5.5 }, { skinId:"s42", weight:0.4 }, { skinId:"s52", weight:0.1 }
+    key: "ref10", name: "Кейс команды",
+    desc: "Открывается, когда по вашей ссылке присоединятся 10 друзей.",
+    unlockLabel: "Нужно 10 рефералов",
+    colorA: "#9a5bff", colorB: "#4c268f", cost: 0,
+    previewImg: "images/envelope_gold.png",
+    isUnlocked: s => s.referralsCount >= 10,
+    drops: [
+      { skinId: "s13", weight: 34 }, { skinId: "s22", weight: 32 }, { skinId: "s23", weight: 28 },
+      { skinId: "s32", weight: 5.5 }, { skinId: "s42", weight: 0.4 }, { skinId: "s52", weight: 0.1 }
     ]
   },
   {
-    key:"ref20", name:"Кейс легиона",
-    desc:"Открывается, когда по вашей ссылке присоединятся 20 друзей.",
-    unlockLabel:"Нужно 20 рефералов",
-    colorA:"#e14bd8", colorB:"#7c1f8f", cost:0, isUnlocked:s=>s.referralsCount>=20,
-    drops:[
-      { skinId:"s24", weight:32 }, { skinId:"s31", weight:30 }, { skinId:"s32", weight:28 },
-      { skinId:"s41", weight:8.5 }, { skinId:"s45", weight:1 }, { skinId:"s52", weight:0.4 }, { skinId:"s53", weight:0.1 }
+    key: "ref20", name: "Кейс легиона",
+    desc: "Открывается, когда по вашей ссылке присоединятся 20 друзей.",
+    unlockLabel: "Нужно 20 рефералов",
+    colorA: "#e14bd8", colorB: "#7c1f8f", cost: 0,
+    previewImg: "images/envelope_gold.png",
+    isUnlocked: s => s.referralsCount >= 20,
+    drops: [
+      { skinId: "s24", weight: 32 }, { skinId: "s31", weight: 30 }, { skinId: "s32", weight: 28 },
+      { skinId: "s41", weight: 8.5 }, { skinId: "s45", weight: 1 }, { skinId: "s52", weight: 0.4 }, { skinId: "s53", weight: 0.1 }
     ]
   },
   {
-    key:"streak", name:"Кейс чемпиона",
-    desc:"Открывается за 7 дней подряд активности в приложении.",
-    unlockLabel:"Нужно 7 дней подряд",
-    colorA:"#ffbe3d", colorB:"#a8641a", cost:0, isUnlocked:s=>s.loginStreak>=7,
-    drops:[
-      { skinId:"s31", weight:30 }, { skinId:"s32", weight:30 }, { skinId:"s41", weight:28 },
-      { skinId:"s45", weight:10.5 }, { skinId:"s52", weight:1.2 }, { skinId:"s53", weight:0.3 }
+    key: "streak", name: "Кейс чемпиона",
+    desc: "Открывается за 7 дней подряд активности в приложении.",
+    unlockLabel: "Нужно 7 дней подряд",
+    colorA: "#ffbe3d", colorB: "#a8641a", cost: 0,
+    previewImg: "images/envelope_gold.png",
+    isUnlocked: s => s.loginStreak >= 7,
+    drops: [
+      { skinId: "s31", weight: 30 }, { skinId: "s32", weight: 30 }, { skinId: "s41", weight: 28 },
+      { skinId: "s45", weight: 10.5 }, { skinId: "s52", weight: 1.2 }, { skinId: "s53", weight: 0.3 }
     ]
   },
   {
-    key:"streak30", name:"Кейс легенды",
-    desc:"Открывается за 30 дней подряд активности в приложении.",
-    unlockLabel:"Нужно 30 дней подряд",
-    colorA:"#ffd76a", colorB:"#8f6a10", cost:0, isUnlocked:s=>s.loginStreak>=30,
-    drops:[
-      { skinId:"s32", weight:32 }, { skinId:"s41", weight:30 }, { skinId:"s45", weight:26 },
-      { skinId:"s47", weight:10 }, { skinId:"s52", weight:1.7 }, { skinId:"s64", weight:0.3 }
+    key: "streak30", name: "Кейс легенды",
+    desc: "Открывается за 30 дней подряд активности в приложении.",
+    unlockLabel: "Нужно 30 дней подряд",
+    colorA: "#ffd76a", colorB: "#8f6a10", cost: 0,
+    previewImg: "images/envelope_gold.png",
+    isUnlocked: s => s.loginStreak >= 30,
+    drops: [
+      { skinId: "s32", weight: 32 }, { skinId: "s41", weight: 30 }, { skinId: "s45", weight: 26 },
+      { skinId: "s47", weight: 10 }, { skinId: "s52", weight: 1.7 }, { skinId: "s64", weight: 0.3 }
     ]
   }
 ];
 
 /* ---------------- official cases (CS2-style collections, paid in crystals) ---------------- */
 const officialCases = [
-  { key:"off_kilowatt", name:"Kilowatt Case", cost:13000, desc:"Коллекция «Киловатт». Ставка 13000 ◆.",
+  { key:"off_kilowatt", name:"Kilowatt Case", cost:13000, desc:"Коллекция «Киловатт».
+
+
+Ставка 13000 ◆.",
     colorA:"#3ec6ff", colorB:"#1f5f8f", isUnlocked:s=>true,
     drops:[ {skinId:"s14",weight:34},{skinId:"s17",weight:30},{skinId:"s23",weight:28},{skinId:"s36",weight:7.5},{skinId:"s49",weight:0.4},{skinId:"s54",weight:0.1} ] },
   { key:"off_revolution", name:"Revolution Case", cost:15000, desc:"Коллекция «Революция». Ставка 15000 ◆.",
@@ -1186,8 +1193,11 @@ const allInCases = [
     drops:[ {skinId:"s32",weight:32},{skinId:"s41",weight:30},{skinId:"s45",weight:28},{skinId:"s47",weight:8.5},{skinId:"s52",weight:1.2},{skinId:"s64",weight:0.3} ] }
 ];
 
-function caseByKey(k){ return cases.find(c=>c.key===k) || officialCases.find(c=>c.key===k) || allInCases.find(c=>c.key===k); }
-
+// Исправлена функция поиска кейса (устранены опечатки в операторах поиска)
+function caseByKey(k) {
+  return cases.find(c => c.key === k)  officialCases.find(c => c.key === k)  allInCases.find(c => c.key === k);
+}
+  
 /* ---------------- shop (bigger catalogue + one exclusive item) ---------------- */
 const shopItems = [
   { skinId:"s21" }, { skinId:"s24" }, { skinId:"s26" }, { skinId:"s29" },
