@@ -3035,21 +3035,22 @@ function spawnLoaderFlyCases(){
 }
 
 function initApp(){
-  processLogin();
-  updateBalanceUI();
-  updateDailyUI();
-  updateSoundToggleUI();
-  renderCases();
-  refreshUpgrade();
-  spawnLoaderFlyCases();
-setTimeout(() => { 
-    const chk = document.getElementById("loaderCheck"); 
-    if(chk) chk.classList.add("show"); 
-}, 100);
-setTimeout(() => { 
-    document.getElementById("loader").classList.add("hide"); 
-}, 1950);
-}
+    processLogin();
+    updateBalanceUI();
+    updateDailyUI();
+    updateSoundToggleUI();
+    renderCases();
+    refreshUpgrade();
+    spawnLoaderFlyCases();
+    setTimeout(() => { 
+        const chk = document.getElementById("loaderCheck"); 
+        if(chk) chk.classList.add("show"); 
+    }, 100);
+    setTimeout(() => { 
+        document.getElementById("loader").classList.add("hide"); 
+    }, 1950);
+} // <--- Это закрывает функцию initApp()
+
 window.onload = initApp;
 </script>
 </body>
