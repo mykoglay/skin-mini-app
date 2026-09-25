@@ -2937,6 +2937,7 @@ function terminalRevealNext(){
   display.classList.add("scanning");
   display.innerHTML = `<div class="terminal-scan-text">&gt; Взлом...</div>`;
   const wonId = weightedDrop(TERMINAL_TIERS[terminalTier].dropTable);
+}
 
   setTimeout(()=>{
     terminalCurrentItem = skinById(wonId);
