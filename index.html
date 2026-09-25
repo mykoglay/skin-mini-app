@@ -2964,8 +2964,11 @@ function updateTerminalButtons(){
 }
 
 function terminalReroll(){
-  if(terminalAttempts >= TERMINAL_MAX_ATTEMPTS){ showToast("Попытки закончились — купите текущий предмет или выйдите"); return; }
-  terminalRevealNext();
+    if(terminalAttempts >= TERMINAL_MAX_ATTEMPTS) {
+        showToast("Попытки закончились – купите текущий предмет или выйдите");
+        return;
+    }
+    terminalRevealNext();
 }
 
 function terminalBuy(){
@@ -3056,6 +3059,11 @@ function initApp(){
         document.getElementById("loader").classList.add("hide"); 
     }, 1950);
 }
+
+window.onload = initApp;
+</script>
+</body>
+</html>
 
 window.onload = initApp;
 </script>
