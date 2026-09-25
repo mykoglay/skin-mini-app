@@ -2943,10 +2943,10 @@ function terminalRevealNext(){
     terminalCurrentItem = skinById(wonId);
     const r = RARITY[terminalCurrentItem.rarity];
     display.classList.remove("scanning");
-    display.innerHTML = `
-      <div class="art">${weaponSVG(terminalCurrentItem.shape, r.color, "term"+terminalAttempts)}</div>
-      <div class="terminal-item-name">${terminalCurrentItem.name}</div>
-      <div class="terminal-item-price" style="color:${r.color}">${fmtPrice(terminalCurrentItem.price)}</div>
+   display.innerHTML = `
+        <div class="art">${weaponSVG(terminalCurrentItem.shape, r.color, "term"+terminalAttempts)}</div>
+        <div class="terminal-item-name">${terminalCurrentItem.name}</div>
+        <div class="terminal-item-price" style="color:${r.color}">${fmtPrice(terminalCurrentItem.price)}</div>
     `;
     updateTerminalButtons();
   }, 650);
