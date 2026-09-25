@@ -2997,10 +2997,15 @@ function renderProfile(){
     return `<div class="ref-step ${done?'done':''}"><div class="dot">${done?'✓':m.count}</div><div class="label">${m.label}</div></div>`;
   }).join("");
 }
-function copyRefLink(){ navigator.clipboard?.writeText(refLink); showToast("Ссылка скопирована"); }
+function copyRefLink(){ 
+    navigator.clipboard?.writeText(refLink); 
+    showToast("Ссылка скопирована"); 
+}
+
 function shareRefLink(){
-  const shareUrl = "https://t.me/share/url?url=" + encodeURIComponent(refLink) + "&text=" + encodeURIComponent("Открывай бесплатные кейсы в ECODROP!");
-  if (tg?.openTelegramLink) tg.openTelegramLink(shareUrl); else window.open(shareUrl, "_blank");
+    const shareUrl = "https://t.me/share/url?url=" + encodeURIComponent(refLink);
+    if(tg?.openTelegramLink) tg.openTelegramLink(shareUrl); 
+    else window.open(shareUrl, "_blank");
 }
 // Demo-only: simulate the inviter's counter incrementing (real counting needs a bot backend, see note above).
 function _debugAddReferral(){
