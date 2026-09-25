@@ -3042,8 +3042,13 @@ function initApp(){
   renderCases();
   refreshUpgrade();
   spawnLoaderFlyCases();
-  setTimeout(()=>{ const chk = document.getElementById("loaderCheck"); if(chk) chk.classList.add("show"); }, 1550);
-  setTimeout(()=>{ document.getElementById("loader").classList.add("hide"); }, 1950);
+setTimeout(() => { 
+    const chk = document.getElementById("loaderCheck"); 
+    if(chk) chk.classList.add("show"); 
+}, 100);
+setTimeout(() => { 
+    document.getElementById("loader").classList.add("hide"); 
+}, 1950);
 }
 window.onload = initApp;
 </script>
