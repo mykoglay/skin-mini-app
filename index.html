@@ -1272,20 +1272,20 @@ const skinPool = [
   { id:"s112", name:"★ Нож Талон | Октябрьский вихрь", rarity:"gold", price:22960, shape:"knife" },
   { id:"s113", name:"★ Складной нож | Слоновая кость", rarity:"gold", price:13120, shape:"knife" },
   // Эксклюзив магазина — реалистичная цена очень редкого ножа, без искусственного "1 млн"
-  { id:"s61", name:"★ Нож Фалчион | Закалка кейсом (Эксклюзив)", rarity:"gold", price:200000, shape:"knife" }];
-  
+  { id:"s61", name:"★ Нож Фалчион | Закалка кейсом (Эксклюзив)", rarity:"gold", price:200000, shape:"knife" }
+];
 function skinById(id){
-    if(typeof id==="string" && id.startsWith("CASH_")){
-        const amt = parseInt(id.split("_")[1]) || 0;
-        return { id: id, name: amt + " Кристаллов", rarity: "gold", price: amt, shape: "cash", isCash: true };
-    }
-    return skinPool.find(s => s.id === id) || (typeof extraById === "function" ? extraById(id) : undefined);
+  if(typeof id==="string" && id.startsWith("CASH_")){
+    const amt = parseInt(id.split("_")[1],10) || 0;
+    return { id, name:`+${amt} Кристаллов`, rarity:"gold", price:amt, shape:"cash", isCash:true };
+  }
+  return skinPool.find(s=>s.id===id) || (typeof extraById==="function" ? extraById(id) : undefined);
+}
 
 /* ---------------- starter cooldown ---------------- */
-function formatCooldown(ms){ 
-    const h = Math.floor(ms / 3600000), m = Math.floor((ms % 3600000) / 60000); 
-    return h + " ч " + m + " мин";
-}
+const STARTER_COOLDOWN_MS = 24*60*60*1000;
+function starterReady(){ if(!state.lastStarterOpen) return true; return (Date.now()-state.lastStarterOpen) >= STARTER_COOLDOWN_MS; }
+function formatCooldown(ms){ const h=Math.floor(ms/3600000), m=Math.floor((ms%3600000)/60000); return `${h} ч ${m} мин`; }
 
 /* ---------------- free cases ---------------- */
 const cases = [
@@ -1294,7 +1294,7 @@ const cases = [
     desc:"Доступен раз в 24 часа. Базовое снаряжение и небольшой шанс на кристаллы.",
     unlockLabel:"Открывается автоматически при первом входе",
     colorA:"#39e08a", colorB:"#1c8f56", cost:0, isUnlocked:s=>true,
-    previewImg:"https://mykoglay.github.io/skin-mini-app/images/startcase.png",
+    previewImg:"images/m4a4_item.png",
     drops:[
       { skinId:"s1", weight:54 }, { skinId:"s5", weight:30 }, { skinId:"s9", weight:14.9 },
       { skinId:"CASH_1000", weight:0.1 },
@@ -1363,7 +1363,6 @@ const cases = [
     desc:"Открывается за 30 дней подряд активности в приложении.",
     unlockLabel:"Нужно 30 дней подряд",
     colorA:"#ffd76a", colorB:"#8f6a10", cost:0, isUnlocked:s=>s.loginStreak>=30,
-    previewImg:"images/envelope_gold.png", // <--- Добавлено недостающее поле
     drops:[
       { skinId:"s32", weight:32 }, { skinId:"s41", weight:30 }, { skinId:"s45", weight:26 },
       { skinId:"s47", weight:10 }, { skinId:"s52", weight:1.7 }, { skinId:"s64", weight:0.3 }
@@ -2937,16 +2936,15 @@ function terminalRevealNext(){
   display.classList.add("scanning");
   display.innerHTML = `<div class="terminal-scan-text">&gt; Взлом...</div>`;
   const wonId = weightedDrop(TERMINAL_TIERS[terminalTier].dropTable);
-}
 
   setTimeout(()=>{
     terminalCurrentItem = skinById(wonId);
     const r = RARITY[terminalCurrentItem.rarity];
     display.classList.remove("scanning");
-   display.innerHTML = `
-        <div class="art">${weaponSVG(terminalCurrentItem.shape, r.color, "term"+terminalAttempts)}</div>
-        <div class="terminal-item-name">${terminalCurrentItem.name}</div>
-        <div class="terminal-item-price" style="color:${r.color}">${fmtPrice(terminalCurrentItem.price)}</div>
+    display.innerHTML = `
+      <div class="art">${weaponSVG(terminalCurrentItem.shape, r.color, "term"+terminalAttempts)}</div>
+      <div class="terminal-item-name">${terminalCurrentItem.name}</div>
+      <div class="terminal-item-price" style="color:${r.color}">${fmtPrice(terminalCurrentItem.price)}</div>
     `;
     updateTerminalButtons();
   }, 650);
@@ -2964,11 +2962,8 @@ function updateTerminalButtons(){
 }
 
 function terminalReroll(){
-    if(terminalAttempts >= TERMINAL_MAX_ATTEMPTS) {
-        showToast("Попытки закончились – купите текущий предмет или выйдите");
-        return;
-    }
-    terminalRevealNext();
+  if(terminalAttempts >= TERMINAL_MAX_ATTEMPTS){ showToast("Попытки закончились — купите текущий предмет или выйдите"); return; }
+  terminalRevealNext();
 }
 
 function terminalBuy(){
@@ -3001,15 +2996,10 @@ function renderProfile(){
     return `<div class="ref-step ${done?'done':''}"><div class="dot">${done?'✓':m.count}</div><div class="label">${m.label}</div></div>`;
   }).join("");
 }
-function copyRefLink(){ 
-    navigator.clipboard?.writeText(refLink); 
-    showToast("Ссылка скопирована"); 
-}
-
+function copyRefLink(){ navigator.clipboard?.writeText(refLink); showToast("Ссылка скопирована"); }
 function shareRefLink(){
-    const shareUrl = "https://t.me/share/url?url=" + encodeURIComponent(refLink);
-    if(tg?.openTelegramLink) tg.openTelegramLink(shareUrl); 
-    else window.open(shareUrl, "_blank");
+  const shareUrl = "https://t.me/share/url?url=" + encodeURIComponent(refLink) + "&text=" + encodeURIComponent("Открывай бесплатные кейсы в ECODROP!");
+  if (tg?.openTelegramLink) tg.openTelegramLink(shareUrl); else window.open(shareUrl, "_blank");
 }
 // Demo-only: simulate the inviter's counter incrementing (real counting needs a bot backend, see note above).
 function _debugAddReferral(){
@@ -3044,27 +3034,16 @@ function spawnLoaderFlyCases(){
 }
 
 function initApp(){
-    processLogin();
-    updateBalanceUI();
-    updateDailyUI();
-    updateSoundToggleUI();
-    renderCases();
-    refreshUpgrade();
-    spawnLoaderFlyCases();
-    setTimeout(() => { 
-        const chk = document.getElementById("loaderCheck"); 
-        if(chk) chk.classList.add("show"); 
-    }, 100);
-    setTimeout(() => { 
-        document.getElementById("loader").classList.add("hide"); 
-    }, 1950);
+  processLogin();
+  updateBalanceUI();
+  updateDailyUI();
+  updateSoundToggleUI();
+  renderCases();
+  refreshUpgrade();
+  spawnLoaderFlyCases();
+  setTimeout(()=>{ const chk = document.getElementById("loaderCheck"); if(chk) chk.classList.add("show"); }, 1550);
+  setTimeout(()=>{ document.getElementById("loader").classList.add("hide"); }, 1950);
 }
-
-window.onload = initApp;
-</script>
-</body>
-</html>
-
 window.onload = initApp;
 </script>
 </body>
