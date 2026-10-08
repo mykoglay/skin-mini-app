@@ -1446,7 +1446,11 @@ const allInCases = [
     drops:[ {skinId:"s32",weight:32},{skinId:"s41",weight:10.5},{skinId:"s45",weight:9.8},{skinId:"s47",weight:2.975},{skinId:"s52",weight:0.264},{skinId:"s64",weight:0.066} ] }
 ];
 
-function caseByKey(k){ return cases.find(c=>c.key===k) || officialCases.find(c=>c.key===k) || allInCases.find(c=>c.key===k); }
+function caseByKey(k){ 
+  return cases.find(c => c.key === k) || 
+         officialCases.find(c => c.key === k) || 
+         allInCases.find(c => c.key === k); 
+}
 
 /* ---------------- shop (bigger catalogue + one exclusive item) ---------------- */
 const shopItems = [
