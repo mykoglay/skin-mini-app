@@ -14,12 +14,12 @@
   --trash:#8a9bb5; --mil:#4f79ff; --restr:#9a5bff; --classi:#e14bd8; --covert:#ff4655; --gold:#ffbe3d;
   --green:#3ddc84; --red:#ff5566;
 }
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none;}
+{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none;}
 html,body{height:100%;}
 body{background:radial-gradient(ellipse at top,#1c1420 0%,#0b0a0e 55%,#070609 100%); color:var(--text); font-family:'Chakra Petch',sans-serif; height:100vh; display:flex; flex-direction:column; overflow:hidden;}
 h1,h2,h3,.display{font-family:'Rajdhani',sans-serif;}
 
-#loader{position:fixed; inset:0; z-index:9999; background:radial-gradient(circle at 50% 40%, #1c1430 0%, #0a0710 55%, #050408 100%); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:22px; transition:opacity .5s ease, visibility .5s ease; overflow:hidden;}
+.loader{position:fixed; inset:0; z-index:9999; background:radial-gradient(circle at 50% 40%, #1c1430 0%, #0a0710 55%, #050408 100%); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:22px; transition:opacity .5s ease, visibility .5s ease; overflow:hidden;}
 .loader-fly-cases{position:absolute; inset:0; pointer-events:none; z-index:0;}
 .loader-fly-case{position:absolute; width:34px; height:34px; opacity:0; animation:flyIn 1.1s cubic-bezier(.2,.8,.2,1) forwards;}
 @keyframes flyIn{
@@ -30,7 +30,7 @@ h1,h2,h3,.display{font-family:'Rajdhani',sans-serif;}
 .loader-title-row{display:flex; align-items:center; gap:7px; position:relative; z-index:1;}
 .loader-check{width:20px; height:20px; opacity:0; transform:scale(.4); transition:opacity .3s ease, transform .3s ease;}
 .loader-check.show{opacity:1; transform:scale(1);}
-#loader.hide{opacity:0; visibility:hidden; pointer-events:none;}
+.loader.hide{opacity:0; visibility:hidden; pointer-events:none;}
 .loader-mark{width:74px; height:74px; position:relative;}
 .loader-mark svg{width:100%;height:100%;}
 .loader-ring{fill:none; stroke:url(#eGrad); stroke-width:3; stroke-linecap:round; stroke-dasharray:180; stroke-dashoffset:180; animation:ringspin 1.4s ease-in-out infinite, ringrotate 1.6s linear infinite; transform-origin:50% 50%;}
