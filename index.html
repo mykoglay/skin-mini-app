@@ -1378,6 +1378,14 @@ const cases = [
 const officialCases = [
   { key:"off_kilowatt", name:"Kilowatt Case", cost:75, desc:"Коллекция «Киловатт». Реалистичная цена как за настоящий кейс — 75 ◆.",
     colorA:"#3ec6ff", colorB:"#1f5f8f", isUnlocked:s=>true,
+   function getPreviewImg(img) {
+  if (!img) return '';
+  // Если ссылка относительная (начинается с images/), добавляем домен
+  if (img.startsWith('https://mykoglay.github.io/skin-mini-app/images/recoilcase')) {
+    return https://mykoglay.github.io/skin-mini-app/${img};
+  }
+  return img; // Если там уже абсолютная ссылка или data:, оставляем как есть
+}
     drops:[ {skinId:"s14",weight:34},{skinId:"s17",weight:30},{skinId:"s23",weight:28},{skinId:"s36",weight:7.5},{skinId:"s49",weight:0.14},{skinId:"s54",weight:0.022} ] },
   { key:"off_revolution", name:"Revolution Case", cost:80, desc:"Коллекция «Революция». Ставка 80 ◆.",
     colorA:"#ff5f5f", colorB:"#8f2323", isUnlocked:s=>true,
