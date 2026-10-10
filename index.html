@@ -805,6 +805,20 @@ h1,h2,h3,.display{font-family:'Rajdhani',sans-serif;}
 
   <div id="pProf" class="page">
     <div class="profile-card">
+      <div class="pc-label">Звук</div>
+      <div class="balance-toggle-row">
+        <label class="switch"><input type="checkbox" id="settingsSoundToggle" checked onchange="toggleSound(); document.getElementById('settingsSoundToggle').checked=state.soundEnabled;"><span class="slider-ui"></span></label>
+        <span>Звук включён</span>
+      </div>
+      <div class="mult-label">Громкость</div>
+      <input type="range" min="0" max="1" step="0.05" id="soundVolumeSlider" value="0.6" oninput="setSoundVolume(this.value)" style="width:100%; margin-bottom:14px;">
+
+      <div class="pc-label">Свои звуки (ссылки)</div>
+      <div class="pc-desc">Вставьте прямую ссылку на аудиофайл (mp3/ogg/wav) для любого события — он заменит стандартный синтезированный звук. Пусто = звук по умолчанию.</div>
+      <div id="customSoundInputs"></div>
+    </div>
+
+    <div class="profile-card">
       <div class="profile-head">
         <div class="avatar" id="avatarLetter">?</div>
         <div><b id="uName">Игрок</b><br><span id="uId">ID: ---</span></div>
@@ -958,7 +972,8 @@ function defaultState(){
     balance: 0, inventory: [],
     openedCasesOnce: {}, referralsCount: 0, casesOpenedTotal: 0,
     loginStreak: 1, lastLoginDate: null, lastDailyClaim: null, lastStarterOpen: null, lastEarnVideoClaim: null,
-    soundEnabled: true,
+    soundEnabled: true, soundVolume: 0.6,
+    customSounds: { click:"", tab:"", unlock:"", coin:"", error:"", reveal:"", battleWin:"", battleLose:"", draw:"" },
     referredBy: null
   };
 }
@@ -982,6 +997,7 @@ function playTone(freq, duration, type, vol, delay, glideTo){
   if(!state.soundEnabled) return;
   const ctx = getAudioCtx();
   if(!ctx) return;
+  const volMul = state.soundVolume!=null ? state.soundVolume : 0.6;
   const t0 = ctx.currentTime + (delay||0);
   const osc = ctx.createOscillator();
   const gain = ctx.createGain();
@@ -989,35 +1005,62 @@ function playTone(freq, duration, type, vol, delay, glideTo){
   osc.frequency.setValueAtTime(freq, t0);
   if(glideTo) osc.frequency.exponentialRampToValueAtTime(glideTo, t0+duration);
   gain.gain.setValueAtTime(0, t0);
-  gain.gain.linearRampToValueAtTime(vol||0.12, t0+0.012);
+  gain.gain.linearRampToValueAtTime((vol||0.12)*volMul, t0+0.012);
   gain.gain.exponentialRampToValueAtTime(0.0001, t0+duration);
   osc.connect(gain); gain.connect(ctx.destination);
   osc.start(t0); osc.stop(t0+duration+0.02);
 }
-function sndClick(){ playTone(520, 0.05, "square", 0.06); }
-function sndTab(){ playTone(360, 0.06, "sine", 0.05); }
-function sndUnlock(){ playTone(700, 0.05, "square", 0.07, 0); playTone(900, 0.08, "square", 0.06, 0.06); }
-function sndCoin(){ playTone(1200, 0.05, "square", 0.08, 0); playTone(1600, 0.09, "square", 0.07, 0.05); }
-function sndError(){ playTone(160, 0.18, "sawtooth", 0.08, 0, 90); }
+/* If the person has pasted their own sound link for this slot, play that instead of the
+   synthesized tone — otherwise fall back to the built-in sound. */
+function playCustomOrFallback(name, fallbackFn){
+  if(!state.soundEnabled) return;
+  const url = state.customSounds && state.customSounds[name];
+  if(url){
+    try{
+      const audio = new Audio(url);
+      audio.volume = Math.max(0, Math.min(1, state.soundVolume!=null ? state.soundVolume : 0.6));
+      audio.play().catch(()=>{ fallbackFn(); });
+      return;
+    }catch(e){ /* fall through to synthesized tone */ }
+  }
+  fallbackFn();
+}
+function sndClick(){ playCustomOrFallback("click", ()=> playTone(520, 0.05, "square", 0.06)); }
+function sndTab(){ playCustomOrFallback("tab", ()=> playTone(360, 0.06, "sine", 0.05)); }
+function sndUnlock(){ playCustomOrFallback("unlock", ()=>{ playTone(700, 0.05, "square", 0.07, 0); playTone(900, 0.08, "square", 0.06, 0.06); }); }
+function sndCoin(){ playCustomOrFallback("coin", ()=>{ playTone(1200, 0.05, "square", 0.08, 0); playTone(1600, 0.09, "square", 0.07, 0.05); }); }
+function sndError(){ playCustomOrFallback("error", ()=> playTone(160, 0.18, "sawtooth", 0.08, 0, 90)); }
 function sndSpinTick(){ playTone(480, 0.03, "square", 0.035); }
 function sndReveal(rarity){
-  const steps = {
-    trash:[[300,0.08]], mil:[[380,0.08],[460,0.08]], restr:[[420,0.08],[540,0.08],[640,0.09]],
-    classi:[[440,0.09],[560,0.09],[680,0.1],[820,0.12]],
-    covert:[[500,0.09],[640,0.09],[780,0.1],[960,0.12],[1180,0.16]],
-    gold:[[520,0.1],[660,0.1],[820,0.11],[1000,0.13],[1240,0.15],[1520,0.22]]
-  }[rarity] || [[440,0.1]];
-  steps.forEach(([f,d],i)=> playTone(f, d, "triangle", 0.1, i*0.07));
+  playCustomOrFallback("reveal", ()=>{
+    const steps = {
+      trash:[[300,0.08]], mil:[[380,0.08],[460,0.08]], restr:[[420,0.08],[540,0.08],[640,0.09]],
+      classi:[[440,0.09],[560,0.09],[680,0.1],[820,0.12]],
+      covert:[[500,0.09],[640,0.09],[780,0.1],[960,0.12],[1180,0.16]],
+      gold:[[520,0.1],[660,0.1],[820,0.11],[1000,0.13],[1240,0.15],[1520,0.22]]
+    }[rarity] || [[440,0.1]];
+    steps.forEach(([f,d],i)=> playTone(f, d, "triangle", 0.1, i*0.07));
+  });
 }
-function sndBattleWin(){ [523,659,784,1047].forEach((f,i)=>playTone(f,0.16,"triangle",0.11,i*0.09)); }
-function sndBattleLose(){ [400,320,250].forEach((f,i)=>playTone(f,0.22,"sawtooth",0.09,i*0.11)); }
-function sndDraw(){ playTone(440,0.15,"sine",0.09); playTone(440,0.15,"sine",0.08,0.18); }
+function sndBattleWin(){ playCustomOrFallback("battleWin", ()=> [523,659,784,1047].forEach((f,i)=>playTone(f,0.16,"triangle",0.11,i*0.09))); }
+function sndBattleLose(){ playCustomOrFallback("battleLose", ()=> [400,320,250].forEach((f,i)=>playTone(f,0.22,"sawtooth",0.09,i*0.11))); }
+function sndDraw(){ playCustomOrFallback("draw", ()=>{ playTone(440,0.15,"sine",0.09); playTone(440,0.15,"sine",0.08,0.18); }); }
 
 function toggleSound(){
   state.soundEnabled = !state.soundEnabled;
   saveState();
   updateSoundToggleUI();
   if(state.soundEnabled) sndClick();
+}
+function setSoundVolume(v){
+  state.soundVolume = Math.max(0, Math.min(1, parseFloat(v)));
+  saveState();
+}
+function saveCustomSoundUrl(name, url){
+  if(!state.customSounds) state.customSounds = {};
+  state.customSounds[name] = (url||"").trim();
+  saveState();
+  showToast(url ? "Ссылка сохранена" : "Звук сброшен на стандартный");
 }
 function updateSoundToggleUI(){
   const btn = document.getElementById("soundToggleBtn");
@@ -1294,7 +1337,7 @@ const skinPool = [
   { id:"s98",  name:"AWP | Хромовая пружина",       rarity:"covert", price:14063,  shape:"sniper" },
   { id:"s99",  name:"Desert Eagle | Императрица",   rarity:"covert", price:7626,  shape:"pistol" },
   { id:"s100", name:"USP-S | Стеклянный мираж",     rarity:"covert", price:13981,  shape:"pistol" },
-  { id:"s101", name:"M4A1-S | Полночный шторм",     rarity:"covert", price:10004,  shape:"rifle"  },
+  { id:"s101", name:"M4A1-S | Полночный шторм",     rarity:"covert", price:10004,  shape:"rifle", previewImg:"https://mykoglay.github.io/skin-mini-app/images/m4a4_item.png" },
   { id:"s102", name:"AK-47 | Найтвиш",              rarity:"covert", price:10660,  shape:"rifle"  },
   { id:"s103", name:"AWP | Оникс",                  rarity:"covert", price:8610, shape:"sniper" },
   { id:"s104", name:"M4A4 | Феникс-огонь",          rarity:"covert", price:9840,  shape:"rifle"  },
@@ -1424,9 +1467,11 @@ const officialCases = [
     drops:[ {skinId:"s3",weight:36},{skinId:"s13",weight:30},{skinId:"s18",weight:26},{skinId:"s24",weight:7.5},{skinId:"s46",weight:0.14},{skinId:"s57",weight:0.022} ] },
   { key:"off_recoil", name:"Recoil Case", cost:85, desc:"Коллекция «Отдача». Ставка 85 ◆.",
     colorA:"#8f6bff", colorB:"#3f2b8f", isUnlocked:s=>true,
+    previewImg:"https://mykoglay.github.io/skin-mini-app/images/recoilcase.png",
     drops:[ {skinId:"s18",weight:32},{skinId:"s28",weight:30},{skinId:"s33",weight:28},{skinId:"s49",weight:3.325},{skinId:"s55",weight:0.088},{skinId:"s56",weight:0.022} ] },
   { key:"off_dreams", name:"Dreams & Nightmares Case", cost:95, desc:"Коллекция «Сны и кошмары». Ставка 95 ◆.",
     colorA:"#ff4fd8", colorB:"#7a1f6b", isUnlocked:s=>true,
+    previewImg:"https://mykoglay.github.io/skin-mini-app/images/dreamcase.png",
     drops:[ {skinId:"s23",weight:32},{skinId:"s32",weight:30},{skinId:"s43",weight:9.45},{skinId:"s47",weight:3.675},{skinId:"s59",weight:0.088},{skinId:"s60",weight:0.022} ] },
   { key:"off_anubis", name:"Anubis Collection", cost:70, desc:"Коллекция «Анубис». Ставка 70 ◆.",
     colorA:"#e8c368", colorB:"#7a5a1a", isUnlocked:s=>true,
@@ -1442,12 +1487,14 @@ const officialCases = [
     drops:[ {skinId:"s9",weight:35},{skinId:"s22",weight:30},{skinId:"s31",weight:27},{skinId:"s42",weight:2.625},{skinId:"s53",weight:0.088},{skinId:"s64",weight:0.022} ] },
   { key:"off_prisma", name:"Prisma Case", cost:55, desc:"Коллекция «Призма». Ставка 55 ◆.",
     colorA:"#ff8fd0", colorB:"#8f2f6b", isUnlocked:s=>true,
+    previewImg:"https://mykoglay.github.io/skin-mini-app/images/prisma2case.png",
     drops:[ {skinId:"s5",weight:36},{skinId:"s19",weight:30},{skinId:"s28",weight:27},{skinId:"s39",weight:7},{skinId:"s45",weight:0.315},{skinId:"s57",weight:0.022} ] },
   { key:"off_prisma2", name:"Prisma 2 Case", cost:58, desc:"Коллекция «Призма 2». Ставка 58 ◆.",
     colorA:"#c98fff", colorB:"#5a2f9f", isUnlocked:s=>true,
     drops:[ {skinId:"s6",weight:35},{skinId:"s20",weight:30},{skinId:"s30",weight:27},{skinId:"s40",weight:7.5},{skinId:"s48",weight:0.14},{skinId:"s58",weight:0.022} ] },
   { key:"off_dangerzone", name:"Danger Zone Case", cost:62, desc:"Коллекция «Опасная зона». Ставка 62 ◆.",
     colorA:"#ffb84d", colorB:"#8f5a1f", isUnlocked:s=>true,
+    previewImg:"https://mykoglay.github.io/skin-mini-app/images/zapretzonacase.png",
     drops:[ {skinId:"s1",weight:36},{skinId:"s16",weight:30},{skinId:"s24",weight:27},{skinId:"s36",weight:7},{skinId:"s50",weight:0.315},{skinId:"s59",weight:0.022} ] },
   { key:"off_horizon", name:"Horizon Case", cost:68, desc:"Коллекция «Горизонт». Ставка 68 ◆.",
     colorA:"#5fc9ff", colorB:"#1f4f8f", isUnlocked:s=>true,
@@ -1479,6 +1526,7 @@ const allInCases = [
     drops:[ {skinId:"s22",weight:30},{skinId:"s32",weight:30},{skinId:"s41",weight:10.15},{skinId:"s45",weight:3.325},{skinId:"s52",weight:0.22},{skinId:"s53",weight:0.11} ] },
   { key:"allin_extreme", name:"Экстрим", cost:150000, desc:"Ставка 150000 ◆. Экстремальный риск — почти всё в шансе на нож.",
     colorA:"#ffd23d", colorB:"#8a5a05", isUnlocked:s=>true,
+    previewImg:"https://mykoglay.github.io/skin-mini-app/images/lagandarycase.png",
     drops:[ {skinId:"s32",weight:32},{skinId:"s41",weight:10.5},{skinId:"s45",weight:9.8},{skinId:"s47",weight:2.975},{skinId:"s52",weight:0.264},{skinId:"s64",weight:0.066} ] }
 ];
 
@@ -3029,6 +3077,28 @@ const REF_MILESTONES = [
   { count:10, label:"10 рефералов — Кейс команды" },
   { count:20, label:"20 рефералов — Кейс легиона" }
 ];
+const SOUND_SLOTS = [
+  { key:"click", label:"Клик" }, { key:"tab", label:"Переключение вкладок" },
+  { key:"unlock", label:"Открытие кейса" }, { key:"coin", label:"Монеты (продажа/бонус)" },
+  { key:"error", label:"Ошибка / нет кристаллов" }, { key:"reveal", label:"Выигрыш предмета" },
+  { key:"battleWin", label:"Победа в баттле" }, { key:"battleLose", label:"Поражение в баттле" },
+  { key:"draw", label:"Ничья в баттле" }
+];
+function renderCustomSoundInputs(){
+  const wrap = document.getElementById("customSoundInputs");
+  if(!wrap) return;
+  if(!state.customSounds) state.customSounds = {};
+  wrap.innerHTML = SOUND_SLOTS.map(s=>`
+    <div style="margin-bottom:10px;">
+      <div style="font-size:10.5px; color:var(--sub); margin-bottom:4px;">${s.label}</div>
+      <div style="display:flex; gap:6px;">
+        <input type="text" class="input-field" style="margin:0;" id="sndUrl_${s.key}" value="${state.customSounds[s.key]||''}" placeholder="https://.../sound.mp3">
+        <button class="btn2 btn2-acc" style="flex-shrink:0; padding:9px 12px; font-size:11px;" onclick="saveCustomSoundUrl('${s.key}', document.getElementById('sndUrl_${s.key}').value)">OK</button>
+      </div>
+    </div>
+  `).join("");
+}
+
 function renderProfile(){
   document.getElementById("uName").innerText = userFirstName;
   document.getElementById("uId").innerText = "ID: " + userId;
@@ -3037,6 +3107,9 @@ function renderProfile(){
   document.getElementById("statOpened").innerText = state.casesOpenedTotal;
   document.getElementById("statRefs").innerText = state.referralsCount;
   document.getElementById("statStreak").innerText = state.loginStreak;
+  document.getElementById("settingsSoundToggle").checked = state.soundEnabled;
+  document.getElementById("soundVolumeSlider").value = state.soundVolume!=null ? state.soundVolume : 0.6;
+  renderCustomSoundInputs();
   document.getElementById("refProgress").innerHTML = REF_MILESTONES.map(m=>{
     const done = state.referralsCount >= m.count;
     return `<div class="ref-step ${done?'done':''}"><div class="dot">${done?'✓':m.count}</div><div class="label">${m.label}</div></div>`;
