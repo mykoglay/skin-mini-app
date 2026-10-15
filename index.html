@@ -19,28 +19,27 @@ html,body{height:100%;}
 body{background:radial-gradient(ellipse at top,#1c1420 0%,#0b0a0e 55%,#070609 100%); color:var(--text); font-family:'Chakra Petch',sans-serif; height:100vh; display:flex; flex-direction:column; overflow:hidden;}
 h1,h2,h3,.display{font-family:'Rajdhani',sans-serif;}
 
-#loader{position:fixed; inset:0; z-index:9999; background:radial-gradient(circle at 50% 40%, #1c1430 0%, #0a0710 55%, #050408 100%); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:22px; transition:opacity .5s ease, visibility .5s ease; overflow:hidden;}
-.loader-fly-cases{position:absolute; inset:0; pointer-events:none; z-index:0;}
-.loader-fly-case{position:absolute; width:34px; height:34px; opacity:0; animation:flyIn 1.1s cubic-bezier(.2,.8,.2,1) forwards;}
-@keyframes flyIn{
-  0%{ opacity:0; transform:translate(var(--fx),var(--fy)) scale(.3) rotate(var(--frot)); }
-  60%{ opacity:.85; }
-  100%{ opacity:0; transform:translate(0,0) scale(1) rotate(0deg); }
-}
-.loader-title-row{display:flex; align-items:center; gap:7px; position:relative; z-index:1;}
-.loader-check{width:20px; height:20px; opacity:0; transform:scale(.4); transition:opacity .3s ease, transform .3s ease;}
-.loader-check.show{opacity:1; transform:scale(1);}
-#loader.hide{opacity:0; visibility:hidden; pointer-events:none;}
-.loader-mark{width:74px; height:74px; position:relative;}
-.loader-mark svg{width:100%;height:100%;}
-.loader-ring{fill:none; stroke:url(#eGrad); stroke-width:3; stroke-linecap:round; stroke-dasharray:180; stroke-dashoffset:180; animation:ringspin 1.4s ease-in-out infinite, ringrotate 1.6s linear infinite; transform-origin:50% 50%;}
-@keyframes ringspin{0%{stroke-dashoffset:180;}50%{stroke-dashoffset:40;}100%{stroke-dashoffset:180;}}
-@keyframes ringrotate{to{transform:rotate(360deg);}}
-.loader-word{font-family:'Rajdhani',sans-serif; font-weight:700; font-size:15px; letter-spacing:.14em; color:var(--sub);}
-.loader-title{font-family:'Rajdhani',sans-serif; font-weight:700; font-size:26px; letter-spacing:.08em;}
-.loader-bar{width:160px; height:2px; background:#241d28; border-radius:2px; overflow:hidden;}
-.loader-bar i{display:block; height:100%; width:30%; background:var(--acc); border-radius:2px; animation:barmove 1.1s ease-in-out infinite;}
-@keyframes barmove{0%{transform:translateX(-120%);}100%{transform:translateX(420%);}}
+#loader{position:fixed;inset:0;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;background:radial-gradient(circle at 20% 20%,rgba(255,107,0,.15),transparent 50%),radial-gradient(circle at 80% 80%,rgba(0,150,255,.12),transparent 50%),#0a0a0f;color:#fff;font-family:'Chakra Petch',-apple-system,sans-serif;transition:opacity .6s ease,visibility .6s}
+#loader.hide{opacity:0;visibility:hidden;pointer-events:none}
+#loader .nl-box{display:flex;flex-direction:column;align-items:center;width:100%;max-width:320px}
+#loader .nl-logo{display:flex;font-size:46px;font-weight:900;letter-spacing:6px;padding-left:6px;margin-bottom:10px;color:#ff8a1f;text-shadow:0 0 8px rgba(255,138,31,.9),0 0 20px rgba(255,107,0,.7),0 0 40px rgba(255,107,0,.4)}
+#loader .nl-logo span{display:inline-block;animation:nlWave 2s ease-in-out infinite}
+#loader .nl-logo span:nth-child(1){animation-delay:0s}
+#loader .nl-logo span:nth-child(2){animation-delay:.1s}
+#loader .nl-logo span:nth-child(3){animation-delay:.2s}
+#loader .nl-logo span:nth-child(4){animation-delay:.3s}
+#loader .nl-logo span:nth-child(5){animation-delay:.4s}
+#loader .nl-logo span:nth-child(6){animation-delay:.5s}
+#loader .nl-logo span:nth-child(7){animation-delay:.6s}
+@keyframes nlWave{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+#loader .nl-sub{font-size:10px;font-weight:700;letter-spacing:6px;color:rgba(255,255,255,.4);margin-bottom:45px;padding-left:6px}
+#loader .nl-case{font-size:80px;margin-bottom:40px;animation:nlFloat 3s ease-in-out infinite;filter:drop-shadow(0 0 20px rgba(255,107,0,.6))}
+@keyframes nlFloat{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-15px) rotate(3deg)}}
+#loader .nl-text{font-size:11px;font-weight:700;letter-spacing:5px;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:16px}
+#loader .nl-bar{width:100%;height:6px;background:rgba(255,255,255,.08);border-radius:100px;overflow:hidden}
+#loader .nl-fill{height:100%;width:0;background:linear-gradient(90deg,#ff6b00,#ffaa00,#ffdd00,#ffaa00,#ff6b00);background-size:200% 100%;border-radius:100px;box-shadow:0 0 20px rgba(255,107,0,.8);animation:nlShift 1.5s linear infinite;transition:width .3s ease}
+@keyframes nlShift{to{background-position:200% 0}}
+#loader .nl-pct{margin-top:14px;font-size:13px;font-weight:700;letter-spacing:2px;color:#ff8a1f;text-shadow:0 0 12px rgba(255,107,0,.7)}
 
 .header{height:56px; background:var(--panel); border-bottom:1px solid var(--line); display:flex; align-items:center; justify-content:space-between; padding:0 14px; flex-shrink:0; gap:10px;}
 .brand{display:flex; align-items:center; gap:8px; border:none; background:none; padding:6px 4px; margin:-6px -4px; cursor:pointer; border-radius:10px; -webkit-tap-highlight-color:transparent;}
@@ -530,25 +529,14 @@ h1,h2,h3,.display{font-family:'Rajdhani',sans-serif;}
 <body ontouchstart="">
 
 <div id="loader">
-  <div class="loader-fly-cases" id="loaderFlyCases"></div>
-  <div class="loader-mark" id="loaderMark">
-  <svg viewBox="0 0 80 80">
-    <defs>
-      <linearGradient id="eGrad" x1="10" y1="10" x2="70" y2="70" gradientUnits="userSpaceOnUse">
-        <stop offset="0" stop-color="#8b5cf6"/>
-        <stop offset="0.4" stop-color="#ff6ec7"/>
-        <stop offset="0.7" stop-color="#39e08a"/>
-        <stop offset="1" stop-color="#3ec6ff"/>
-      </linearGradient>
-    </defs>
-    <circle cx="40" cy="40" r="30" class="loader-ring" stroke="url(#eGrad)"/>
-    <path class="loader-e-path" d="M27 24 L53 24 M27 24 L27 56 M27 40 L47 40 M27 56 L53 56" fill="none" stroke="url(#eGrad)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
-  </svg>
-  <div class="loader-flash"></div>
-</div>
-  <div class="loader-title-row"><div class="loader-title brand-text">ECODROP</div><svg class="loader-check" id="loaderCheck" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="#3ddc84" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-  <div class="loader-word">ЗАГРУЗКА ИНВЕНТАРЯ</div>
-  <div class="loader-bar"><i></i></div>
+  <div class="nl-box">
+    <div class="nl-logo"><span>E</span><span>C</span><span>O</span><span>D</span><span>R</span><span>O</span><span>P</span></div>
+    <div class="nl-sub">CASE OPENING</div>
+    <div class="nl-case">📦</div>
+    <div class="nl-text">Загрузка инвентаря</div>
+    <div class="nl-bar"><div class="nl-fill" id="nlFill"></div></div>
+    <div class="nl-pct" id="nlPct">0%</div>
+  </div>
 </div>
 
 <div class="header">
@@ -3184,6 +3172,22 @@ function spawnLoaderFlyCases(){
   }
 }
 
+function setLoader(p){
+  const fill = document.getElementById("nlFill");
+  const pct = document.getElementById("nlPct");
+  if(!fill || !pct) return;
+  const v = Math.max(0, Math.min(100, p));
+  fill.style.width = v + "%";
+  pct.textContent = Math.floor(v) + "%";
+}
+function hideLoader(){
+  setLoader(100);
+  const el = document.getElementById("loader");
+  if(!el) return;
+  el.classList.add("hide");
+  setTimeout(() => el.remove(), 600);
+}
+
 function initApp(){
     processLogin();
     updateBalanceUI();
@@ -3191,14 +3195,10 @@ function initApp(){
     updateSoundToggleUI();
     renderCases();
     refreshUpgrade();
-    spawnLoaderFlyCases();
-    setTimeout(() => { 
-        const chk = document.getElementById("loaderCheck"); 
-        if(chk) chk.classList.add("show"); 
-    }, 100);
-    setTimeout(() => { 
-        document.getElementById("loader").classList.add("hide"); 
-    }, 1950);
+    setTimeout(() => setLoader(35), 200);
+    setTimeout(() => setLoader(70), 900);
+    setTimeout(() => setLoader(100), 1500);
+    setTimeout(hideLoader, 1950);
 }
 
 window.onload = initApp;
