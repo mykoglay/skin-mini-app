@@ -524,9 +524,63 @@ h1,h2,h3,.display{font-family:'Rajdhani',sans-serif;}
   100%{ opacity:0; transform:scale(1.6); }
 }
 @media (prefers-reduced-motion:reduce){ .loader-e-path,.loader-flash{ animation:none; opacity:1; stroke-dashoffset:0; } }
+#appBg{position:fixed;inset:-24px;z-index:-1;pointer-events:none;display:none;background-size:cover;background-position:center;filter:blur(6px);}
+
+/* ---- sound controls ---- */
+.volume-row{display:flex; align-items:center; gap:10px; margin:6px 0 4px;}
+.vol-label{font-size:12px; color:var(--sub); white-space:nowrap;}
+.vol-value{font-size:12px; color:var(--acc); width:40px; text-align:right; font-variant-numeric:tabular-nums;}
+.vol-slider{-webkit-appearance:none; appearance:none; flex:1; height:6px; border-radius:6px; outline:none; cursor:pointer;
+  background:linear-gradient(90deg,#8b5cf6 var(--p,60%),#2a2330 var(--p,60%));}
+.vol-slider::-webkit-slider-thumb{-webkit-appearance:none; width:20px; height:20px; border-radius:50%; background:#fff;
+  box-shadow:0 0 0 3px #8b5cf6, 0 2px 8px rgba(0,0,0,.45); cursor:pointer;}
+.vol-slider::-moz-range-thumb{width:20px; height:20px; border:none; border-radius:50%; background:#fff; box-shadow:0 0 0 3px #8b5cf6;}
+/* ---- case page background & panels ---- */
+#pOpen{position:relative;}
+#pOpen > *:not(.open-bg){position:relative; z-index:1;}
+.open-bg{position:absolute; inset:-14px; z-index:0; pointer-events:none; display:none; background-size:cover; background-position:center; filter:blur(4px);}
+.open-tools{display:flex; justify-content:flex-end; margin:4px 0 8px;}
+.bg-btn{background:rgba(20,16,26,.7); border:1px solid var(--acc-dim); color:var(--text); border-radius:999px; padding:6px 14px; font-size:12px; font-weight:700; cursor:pointer; backdrop-filter:blur(6px);}
+.bg-panel{background:rgba(14,11,18,.82); border:1px solid var(--line); border-radius:12px; padding:10px; margin-bottom:10px;}
+.bg-panel-row{display:flex; gap:6px;}
+.contents-panel{background:rgba(12,10,16,.55); border:1px solid rgba(255,255,255,.08); border-radius:14px; padding:10px 10px 4px; backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);}
+/* ---- loader choice ---- */
+
+/* ---- upgrade page, modern ---- */
+.upg-board{gap:12px; margin-bottom:16px;}
+.upg-slot{background:linear-gradient(160deg,rgba(44,32,60,.75),rgba(16,13,22,.95)); border:1px solid rgba(139,92,246,.22); border-radius:20px; min-height:170px; box-shadow:inset 0 1px 0 rgba(255,255,255,.05), 0 14px 32px -16px rgba(139,92,246,.45); transition:transform .18s ease, border-color .2s ease, box-shadow .2s ease;}
+.upg-slot:active{transform:scale(.97);}
+.upg-slot.filled{border-color:rgba(139,92,246,.7); box-shadow:0 0 26px -6px rgba(139,92,246,.65), inset 0 1px 0 rgba(255,255,255,.06);}
+.upg-slot .art{width:74px; height:74px;}
+.upg-slot .lbl{font-size:10px; color:var(--sub); font-weight:700; letter-spacing:.08em; text-transform:uppercase; text-align:center;}
+.upg-slot .nm{font-family:'Rajdhani',sans-serif; font-size:12px; font-weight:700; text-align:center; line-height:1.15;}
+.upg-slot .pr{font-size:13px; font-weight:800; color:var(--gold);}
+.upg-slot .bal{font-family:'Rajdhani',sans-serif; font-size:24px; font-weight:700; color:#fff; font-variant-numeric:tabular-nums;}
+.upg-arrow{width:26px; height:26px; color:var(--acc); filter:drop-shadow(0 0 6px rgba(139,92,246,.7));}
+
+/* ---- background visible through roulette ---- */
+.roulette-box{background:rgba(13,10,16,.45) !important; backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);}
+.roulette-fade.left{background:linear-gradient(90deg,rgba(13,10,16,.85),transparent) !important;}
+.roulette-fade.right{background:linear-gradient(270deg,rgba(13,10,16,.85),transparent) !important;}
+.odds-list{background:rgba(12,10,16,.55) !important; backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);}
+/* ---- profile: per-case background list ---- */
+.casebg-list{max-height:260px; overflow-y:auto; border:1px solid var(--line); border-radius:12px; padding:4px 10px;}
+.casebg-row{display:flex; align-items:center; justify-content:space-between; gap:10px; padding:9px 0; border-bottom:1px solid rgba(255,255,255,.06);}
+.casebg-row:last-child{border-bottom:none;}
+.casebg-name{font-size:13px; font-weight:600;}
+.casebg-note{font-size:11px; color:var(--sub);}
+
+/* ---- profile: map background picker ---- */
+.map-row{display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:8px;}
+.map-current{font-size:12px; color:var(--sub);}
+.map-current b{color:var(--text);}
+.map-picker{grid-template-columns:repeat(3,1fr); gap:8px; margin-top:6px;}
+.map-btn{background:rgba(255,255,255,.05); border:1px solid var(--line); color:var(--text); border-radius:10px; padding:9px 6px; font-size:12px; font-weight:700; cursor:pointer;}
+.map-btn.on{border-color:var(--acc); background:rgba(139,92,246,.22); box-shadow:0 0 14px -4px var(--acc);}
 </style>
 </head>
 <body ontouchstart="">
+
 
 <div id="loader">
   <div class="nl-box">
@@ -570,9 +624,7 @@ h1,h2,h3,.display{font-family:'Rajdhani',sans-serif;}
     <div class="section-row"><div class="section-title">Бесплатные кейсы</div><div class="section-note" id="unlockedCount">0/6 открыто</div></div>
     <div class="cases-grid" id="freeCasesGrid"></div>
 
-    <div class="section-row"><div class="section-title">Официальные кейсы</div><div class="section-note">за кристаллы</div></div>
-    <div class="hint-text">Кейсы в стиле известных коллекций CS2 — открываются за кристаллы вместо денег.</div>
-    <div class="cases-grid" id="officialCasesGrid"></div>
+    <div id="officialSections"></div>
 
     <div class="section-row"><div class="section-title">Ол Ин кейсы</div><div class="section-note">риск ↑ награда ↑</div></div>
     <div class="hint-text">Ставка выше — шанс на топовый предмет выше, но можно выбить и что-то дешевле ставки.</div>
@@ -636,9 +688,11 @@ h1,h2,h3,.display{font-family:'Rajdhani',sans-serif;}
   </div>
 
   <div id="pOpen" class="page">
+    <div class="open-bg" id="openBg"></div>
     <button class="back-btn" onclick="switchTab('Cases')"><svg viewBox="0 0 24 24" fill="none"><path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Все кейсы</button>
     <div class="open-title" id="cName">Кейс</div>
     <div class="open-sub" id="cDesc">—</div>
+    <div class="open-tools"><button class="bg-btn" id="caseBgBtn" onclick="toggleCaseBg()">Фон</button></div>
     <div class="roulette-wrap" id="rouletteWrap"></div>
 
     <div class="qty-row" id="qtyRow">
@@ -653,8 +707,10 @@ h1,h2,h3,.display{font-family:'Rajdhani',sans-serif;}
       </button>
     </div>
 
-    <div class="contents-title">Содержимое кейса</div>
-    <div class="odds-list" id="oddsList"></div>
+    <div class="contents-panel">
+      <div class="contents-title">Содержимое кейса</div>
+      <div class="odds-list" id="oddsList"></div>
+    </div>
   </div>
 
   <div id="pUpgrade" class="page">
@@ -795,15 +851,21 @@ h1,h2,h3,.display{font-family:'Rajdhani',sans-serif;}
     <div class="profile-card">
       <div class="pc-label">Звук</div>
       <div class="balance-toggle-row">
-        <label class="switch"><input type="checkbox" id="settingsSoundToggle" checked onchange="toggleSound(); document.getElementById('settingsSoundToggle').checked=state.soundEnabled;"><span class="slider-ui"></span></label>
-        <span>Звук включён</span>
+        <label class="switch"><input type="checkbox" id="settingsSoundToggle" onchange="toggleSound()"><span class="slider-ui"></span></label>
+        <span id="soundStateText">Звук включён</span>
       </div>
-      <div class="mult-label">Громкость</div>
-      <input type="range" min="0" max="1" step="0.05" id="soundVolumeSlider" value="0.6" oninput="setSoundVolume(this.value)" style="width:100%; margin-bottom:14px;">
-
-      <div class="pc-label">Свои звуки (ссылки)</div>
-      <div class="pc-desc">Вставьте прямую ссылку на аудиофайл (mp3/ogg/wav) для любого события — он заменит стандартный синтезированный звук. Пусто = звук по умолчанию.</div>
-      <div id="customSoundInputs"></div>
+      <div id="volumeRow" class="volume-row">
+        <span class="vol-label">Громкость</span>
+        <input type="range" class="vol-slider" min="0" max="1" step="0.05" id="soundVolumeSlider" value="0.6" oninput="setSoundVolume(this.value)">
+        <span class="vol-value" id="volValue">60%</span>
+      </div>
+      <div class="pc-label" style="margin-top:14px;">Фон для кейсов</div>
+      <div class="casebg-note" style="margin-bottom:8px;">Выбранная карта применяется ко всем кейсам. Ссылки задаются в CASE_MAP_BACKGROUNDS в коде.</div>
+      <div class="map-row">
+        <button class="btn2 btn2-acc" style="padding:9px 14px; font-size:12px;" onclick="toggleMapPicker()">Фон для кейсов</button>
+        <span class="map-current">Карта: <b id="caseMapCurrent">не выбрана</b></span>
+      </div>
+      <div id="mapPicker" class="map-picker" style="display:none;"></div>
     </div>
 
     <div class="profile-card">
@@ -1000,9 +1062,14 @@ function playTone(freq, duration, type, vol, delay, glideTo){
 }
 /* If the person has pasted their own sound link for this slot, play that instead of the
    synthesized tone — otherwise fall back to the built-in sound. */
+/* ===== ССЫЛКИ НА ЗВУКИ — вставляйте сюда (прямая ссылка на .mp3/.wav/.ogg). Пустая строка = встроенный звук ===== */
+const SOUND_URLS = {
+  click:"", tab:"", unlock:"", coin:"", error:"", reveal:"",
+  battleWin:"", battleLose:"", draw:""
+};
 function playCustomOrFallback(name, fallbackFn){
   if(!state.soundEnabled) return;
-  const url = state.customSounds && state.customSounds[name];
+  const url = SOUND_URLS[name];
   if(url){
     try{
       const audio = new Audio(url);
@@ -1038,11 +1105,27 @@ function toggleSound(){
   state.soundEnabled = !state.soundEnabled;
   saveState();
   updateSoundToggleUI();
+  renderSoundProfile();
   if(state.soundEnabled) sndClick();
 }
 function setSoundVolume(v){
   state.soundVolume = Math.max(0, Math.min(1, parseFloat(v)));
   saveState();
+  renderSoundProfile();
+}
+function renderSoundProfile(){
+  const on = !!state.soundEnabled;
+  const cb = document.getElementById("settingsSoundToggle");
+  if(cb) cb.checked = on;
+  const txt = document.getElementById("soundStateText");
+  if(txt) txt.innerText = on ? "Звук включён" : "Звук выключен";
+  const row = document.getElementById("volumeRow");
+  if(row) row.style.display = on ? "flex" : "none";
+  const v = state.soundVolume!=null ? state.soundVolume : 0.6;
+  const sl = document.getElementById("soundVolumeSlider");
+  if(sl){ sl.value = v; sl.style.setProperty("--p", (v*100)+"%"); }
+  const vv = document.getElementById("volValue");
+  if(vv) vv.innerText = Math.round(v*100)+"%";
 }
 function saveCustomSoundUrl(name, url){
   if(!state.customSounds) state.customSounds = {};
@@ -1156,9 +1239,10 @@ function skinArtHTML(skin, idSeed){
   if(!skin) return "";
   const color = (RARITY[skin.rarity]||{}).color || "#8b5cf6";
   const svgFallback = weaponSVG(skin.shape, color, idSeed);
-  if(skin.previewImg){
+  const imgUrl = skin.previewImg || findSkinImage(skin.name);
+  if(imgUrl){
     return `<div style="width:100%;height:100%;position:relative;">
-      <img src="${skin.previewImg}" alt="" style="width:100%;height:100%;object-fit:contain;" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+      <img src="${imgUrl}" alt="" style="width:100%;height:100%;object-fit:contain;" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
       <div style="display:none;width:100%;height:100%;">${svgFallback}</div>
     </div>`;
   }
@@ -1348,7 +1432,7 @@ function skinById(id){
         const amt = parseInt(id.split("_")[1]) || 0;
         return { id: id, name: amt + " Кристаллов", rarity: "gold", price: amt, shape: "cash", isCash: true };
     }
-    return skinPool.find(s => s.id === id) || (typeof extraById === "function" ? extraById(id) : undefined);
+    return skinPool.find(s => s.id === id) || csSkinPool.find(s => s.id === id) || csDnSkins.find(s => s.id === id) || (typeof extraById === "function" ? extraById(id) : undefined);
 }
 
 /* ---------------- starter cooldown ---------------- */
@@ -1444,11 +1528,77 @@ const cases = [
 ];
 
 /* ---------------- official cases (CS2-style collections, paid in crystals) ---------------- */
+/* ---- PHOTO LIST: вставьте ссылки сюда. Ключ — название скина ровно как в игре (без «(износа)» для магазина). ---- */
+const SKIN_IMAGES = {
+  // "AWP | Дюна": "https://mykoglay.github.io/skin-mini-app/images/awp_dune.png",
+  // "AK-47 | Nightwish": "https://.../nightwish.png",
+};
+function findSkinImage(name){
+  if(!name) return "";
+  if(SKIN_IMAGES[name]) return SKIN_IMAGES[name];
+  const base = name.replace(/\s*\([^)]*\)\s*$/, "").trim();   // «AWP | Дюна (Немного поношенное)» -> «AWP | Дюна»
+  if(SKIN_IMAGES[base]) return SKIN_IMAGES[base];
+  const pools = [skinPool, typeof csSkinPool!=="undefined"?csSkinPool:[], typeof csDnSkins!=="undefined"?csDnSkins:[]];
+  for(const pool of pools){
+    const hit = pool.find(x => x.name === name && x.previewImg);
+    if(hit) return hit.previewImg;
+  }
+  return "";
+}
+
+/* Real CS2 skins (Kilowatt collection). previewImg intentionally empty: add photo paths later as previewImg:"https://..." */
+const csSkinPool = [
+  { id:"cs_kw_01", name:"Dual Berettas | Hideout",     rarity:"mil",   price:6,   shape:"pistol" },
+  { id:"cs_kw_02", name:"Nova | Dark Sigil",           rarity:"mil",   price:5,   shape:"rifle"  },
+  { id:"cs_kw_03", name:"Tec-9 | Slag",                rarity:"mil",   price:5,   shape:"pistol" },
+  { id:"cs_kw_04", name:"UMP-45 | Motorized",          rarity:"mil",   price:4,   shape:"rifle"  },
+  { id:"cs_kw_05", name:"XM1014 | Irezumi",            rarity:"mil",   price:9,   shape:"rifle"  },
+  { id:"cs_kw_06", name:"SSG 08 | Dizastre",           rarity:"mil",   price:8,   shape:"sniper" },
+  { id:"cs_kw_07", name:"MAC-10 | Light Box",          rarity:"mil",   price:7,   shape:"rifle"  },
+  { id:"cs_kw_08", name:"Sawed-Off | Analog Input",    rarity:"mil",   price:6,   shape:"rifle"  },
+  { id:"cs_kw_09", name:"Five-SeveN | Hybrid",         rarity:"restr", price:30,  shape:"pistol" },
+  { id:"cs_kw_10", name:"MP7 | Just Smile",            rarity:"restr", price:35,  shape:"rifle"  },
+  { id:"cs_kw_11", name:"AWP | Chrome Cannon",         rarity:"covert",price:160, shape:"sniper" },
+  { id:"cs_kw_12", name:"AK-47 | Inheritance",         rarity:"covert",price:220, shape:"rifle"  },
+  { id:"cs_kw_13", name:"Zeus x27 | Olympus",          rarity:"covert",price:300, shape:"pistol" },
+  { id:"cs_kw_14", name:"USP-S | Jawbreaker",          rarity:"covert",price:150, shape:"pistol" },
+  { id:"cs_kw_15", name:"M4A1-S | Black Lotus",        rarity:"covert",price:90,  shape:"rifle"  },
+  { id:"cs_kw_16", name:"★ Kukri Knife | Case Hardened",rarity:"gold", price:6000,shape:"knife"  }
+];
+
+/* Real CS2 skins: Dreams & Nightmares case */
+const csDnSkins = [
+  { id:"cs_dn_01", name:"AK-47 | Nightwish",                 rarity:"covert",  price:250, shape:"rifle"  },
+  { id:"cs_dn_02", name:"MP9 | Starlight Protector",          rarity:"covert",  price:250, shape:"rifle"  },
+  { id:"cs_dn_03", name:"Dual Berettas | Melondrama",        rarity:"classi",  price:30,  shape:"pistol" },
+  { id:"cs_dn_04", name:"FAMAS | Rapid Eye Movement",        rarity:"classi",  price:30,  shape:"rifle"  },
+  { id:"cs_dn_05", name:"MP7 | Abyssal Apparition",          rarity:"classi",  price:30,  shape:"rifle"  },
+  { id:"cs_dn_06", name:"Five-SeveN | Scrawl",               rarity:"restr",   price:15,  shape:"pistol" },
+  { id:"cs_dn_07", name:"MAC-10 | Ensnared",                 rarity:"restr",   price:15,  shape:"rifle"  },
+  { id:"cs_dn_08", name:"MP5-SD | Necro Jr.",                rarity:"restr",   price:15,  shape:"rifle"  },
+  { id:"cs_dn_09", name:"P2000 | Lifted Spirits",            rarity:"restr",   price:15,  shape:"pistol" },
+  { id:"cs_dn_10", name:"Sawed-Off | Spirit Board",          rarity:"restr",   price:15,  shape:"rifle"  },
+  { id:"cs_dn_11", name:"Five-SeveN | Alpha and Omega",      rarity:"mil",     price:3,   shape:"pistol" },
+  { id:"cs_dn_12", name:"Sawed-Off | Ouija",                 rarity:"mil",     price:3,   shape:"rifle"  },
+  { id:"cs_dn_13", name:"MAC-10 | Pixies",                   rarity:"mil",     price:3,   shape:"rifle"  },
+  { id:"cs_dn_14", name:"MP5-SD | Kid's Necronomicon",       rarity:"mil",     price:3,   shape:"rifle"  },
+  { id:"cs_dn_15", name:"★ Bowie Knife | Autotronic",         rarity:"gold",    price:5000, shape:"knife" },
+  { id:"cs_dn_16", name:"★ Bowie Knife | Black Laminate",     rarity:"gold",    price:5000, shape:"knife" },
+  { id:"cs_dn_17", name:"★ Bowie Knife | Bright Water",       rarity:"gold",    price:5000, shape:"knife" },
+  { id:"cs_dn_18", name:"★ Bowie Knife | Freehand",           rarity:"gold",    price:5000, shape:"knife" },
+  { id:"cs_dn_19", name:"★ Bowie Knife | Lore",               rarity:"gold",    price:9000, shape:"knife" },
+  { id:"cs_dn_20", name:"★ Butterfly Knife | Autotronic",     rarity:"gold",    price:20000, shape:"knife" },
+  { id:"cs_dn_21", name:"★ Falchion Knife | Autotronic",      rarity:"gold",    price:4000, shape:"knife" },
+  { id:"cs_dn_22", name:"★ Huntsman Knife | Autotronic",      rarity:"gold",    price:3500, shape:"knife" }
+];
+
 const officialCases = [
+  { key:"off_fever", name:"Fever Case", cost:65, desc:"Кейс «Лихорадка» из Армори. Ставка 65 ◆.",
+    colorA:"#ff5a8a", colorB:"#7a1f3f", isUnlocked:s=>true, drops:[] },
   { key:"off_kilowatt", name:"Kilowatt Case", cost:75, desc:"Коллекция «Киловатт». Реалистичная цена как за настоящий кейс — 75 ◆.",
     colorA:"#3ec6ff", colorB:"#1f5f8f", isUnlocked:s=>true,
     previewImg:"https://mykoglay.github.io/skin-mini-app/images/killowatcase.png",
-    drops:[ {skinId:"s14",weight:34},{skinId:"s17",weight:30},{skinId:"s23",weight:28},{skinId:"s36",weight:7.5},{skinId:"s49",weight:0.14},{skinId:"s54",weight:0.022} ] },
+    drops:[ {skinId:"cs_kw_01",weight:8.75},{skinId:"cs_kw_02",weight:8.75},{skinId:"cs_kw_03",weight:8.75},{skinId:"cs_kw_04",weight:8.75},{skinId:"cs_kw_05",weight:8.75},{skinId:"cs_kw_06",weight:8.75},{skinId:"cs_kw_07",weight:8.75},{skinId:"cs_kw_08",weight:8.75},{skinId:"cs_kw_09",weight:11},{skinId:"cs_kw_10",weight:11},{skinId:"cs_kw_11",weight:1.54},{skinId:"cs_kw_12",weight:1.54},{skinId:"cs_kw_13",weight:1.54},{skinId:"cs_kw_14",weight:1.54},{skinId:"cs_kw_15",weight:1.54},{skinId:"cs_kw_16",weight:0.3} ] },
   { key:"off_revolution", name:"Revolution Case", cost:80, desc:"Коллекция «Революция». Ставка 80 ◆.",
     colorA:"#ff5f5f", colorB:"#8f2323", isUnlocked:s=>true,
     previewImg:"https://mykoglay.github.io/skin-mini-app/images/revocase.png",
@@ -1464,7 +1614,7 @@ const officialCases = [
   { key:"off_dreams", name:"Dreams & Nightmares Case", cost:95, desc:"Коллекция «Сны и кошмары». Ставка 95 ◆.",
     colorA:"#ff4fd8", colorB:"#7a1f6b", isUnlocked:s=>true,
     previewImg:"https://mykoglay.github.io/skin-mini-app/images/dreamcase.png",
-    drops:[ {skinId:"s23",weight:32},{skinId:"s32",weight:30},{skinId:"s43",weight:9.45},{skinId:"s47",weight:3.675},{skinId:"s59",weight:0.088},{skinId:"s60",weight:0.022} ] },
+    drops:[ {skinId:"cs_dn_01",weight:0.3200},{skinId:"cs_dn_02",weight:0.3200},{skinId:"cs_dn_03",weight:1.0667},{skinId:"cs_dn_04",weight:1.0667},{skinId:"cs_dn_05",weight:1.0667},{skinId:"cs_dn_06",weight:3.1960},{skinId:"cs_dn_07",weight:3.1960},{skinId:"cs_dn_08",weight:3.1960},{skinId:"cs_dn_09",weight:3.1960},{skinId:"cs_dn_10",weight:3.1960},{skinId:"cs_dn_11",weight:19.9800},{skinId:"cs_dn_12",weight:19.9800},{skinId:"cs_dn_13",weight:19.9800},{skinId:"cs_dn_14",weight:19.9800},{skinId:"cs_dn_15",weight:0.0325},{skinId:"cs_dn_16",weight:0.0325},{skinId:"cs_dn_17",weight:0.0325},{skinId:"cs_dn_18",weight:0.0325},{skinId:"cs_dn_19",weight:0.0325},{skinId:"cs_dn_20",weight:0.0325},{skinId:"cs_dn_21",weight:0.0325},{skinId:"cs_dn_22",weight:0.0325} ] },
   { key:"off_anubis", name:"Anubis Collection", cost:70, desc:"Коллекция «Анубис». Ставка 70 ◆.",
     colorA:"#e8c368", colorB:"#7a5a1a", isUnlocked:s=>true,
     previewImg:"https://mykoglay.github.io/skin-mini-app/images/colectanubis.png",
@@ -1512,8 +1662,144 @@ const officialCases = [
   { key:"off_chroma", name:"Chroma Case", cost:63, desc:"Коллекция «Хрома». Ставка 63 ◆.",
     colorA:"#5fffea", colorB:"#1f8f8f", isUnlocked:s=>true,
     previewImg:"https://mykoglay.github.io/skin-mini-app/images/chromacase.png",
-    drops:[ {skinId:"s12",weight:36},{skinId:"s26",weight:30},{skinId:"s36",weight:26},{skinId:"s46",weight:2.625},{skinId:"s53",weight:0.088},{skinId:"s65",weight:0.022} ] }
+    drops:[ {skinId:"s12",weight:36},{skinId:"s26",weight:30},{skinId:"s36",weight:26},{skinId:"s46",weight:2.625},{skinId:"s53",weight:0.088},{skinId:"s65",weight:0.022} ] },
+  { key:"souv_01", name:"Paris 2023 Mirage Souvenir Package", cost:0, desc:"Сувенирный пакет. Открывается без ключа. Содержимое скоро будет добавлено.", colorA:"#ffd166", colorB:"#8a5a12", category:"souvenir", isUnlocked:s=>true, drops:[] },
+  { key:"souv_02", name:"Paris 2023 Anubis Souvenir Package", cost:0, desc:"Сувенирный пакет. Открывается без ключа. Содержимое скоро будет добавлено.", colorA:"#ffd166", colorB:"#8a5a12", category:"souvenir", isUnlocked:s=>false, drops:[] },
+  { key:"souv_03", name:"Paris 2023 Vertigo Souvenir Package", cost:0, desc:"Сувенирный пакет. Открывается без ключа. Содержимое скоро будет добавлено.", colorA:"#ffd166", colorB:"#8a5a12", category:"souvenir", isUnlocked:s=>false, drops:[] },
+  { key:"souv_04", name:"Copenhagen 2024 Overpass Souvenir Package", cost:0, desc:"Сувенирный пакет. Открывается без ключа. Содержимое скоро будет добавлено.", colorA:"#ffd166", colorB:"#8a5a12", category:"souvenir", isUnlocked:s=>false, drops:[] },
+  { key:"souv_05", name:"Paris 2023 Overpass Souvenir Package", cost:0, desc:"Сувенирный пакет. Открывается без ключа. Содержимое скоро будет добавлено.", colorA:"#ffd166", colorB:"#8a5a12", category:"souvenir", isUnlocked:s=>false, drops:[] },
+  { key:"souv_06", name:"EMS One 2014 Souvenir Package", cost:0, desc:"Сувенирный пакет. Открывается без ключа. Содержимое скоро будет добавлено.", colorA:"#ffd166", colorB:"#8a5a12", category:"souvenir", isUnlocked:s=>false, drops:[] },
+  { key:"souv_07", name:"Krakow 2017 Cobblestone Souvenir Package", cost:0, desc:"Сувенирный пакет. Открывается без ключа. Содержимое скоро будет добавлено.", colorA:"#ffd166", colorB:"#8a5a12", category:"souvenir", isUnlocked:s=>false, drops:[] },
+  { key:"souv_08", name:"Cologne 2016 Cobblestone Souvenir Package", cost:0, desc:"Сувенирный пакет. Открывается без ключа. Содержимое скоро будет добавлено.", colorA:"#ffd166", colorB:"#8a5a12", category:"souvenir", isUnlocked:s=>false, drops:[] },
+  { key:"souv_09", name:"Boston 2018 Cobblestone Souvenir Package", cost:0, desc:"Сувенирный пакет. Открывается без ключа. Содержимое скоро будет добавлено.", colorA:"#ffd166", colorB:"#8a5a12", category:"souvenir", isUnlocked:s=>false, drops:[] },
+  { key:"souv_10", name:"Atlanta 2017 Cobblestone Souvenir Package", cost:0, desc:"Сувенирный пакет. Открывается без ключа. Содержимое скоро будет добавлено.", colorA:"#ffd166", colorB:"#8a5a12", category:"souvenir", isUnlocked:s=>false, drops:[] },
+  { key:"souv_11", name:"Paris 2023 Ancient Souvenir Package", cost:0, desc:"Сувенирный пакет. Открывается без ключа. Содержимое скоро будет добавлено.", colorA:"#ffd166", colorB:"#8a5a12", category:"souvenir", isUnlocked:s=>false, drops:[] },
+  { key:"souv_12", name:"Paris 2023 Inferno Souvenir Package", cost:0, desc:"Сувенирный пакет. Открывается без ключа. Содержимое скоро будет добавлено.", colorA:"#ffd166", colorB:"#8a5a12", category:"souvenir", isUnlocked:s=>false, drops:[] },
+  { key:"souv_13", name:"DreamHack 2013 Souvenir Package", cost:0, desc:"Сувенирный пакет. Открывается без ключа. Содержимое скоро будет добавлено.", colorA:"#ffd166", colorB:"#8a5a12", category:"souvenir", isUnlocked:s=>false, drops:[] },
+  { key:"souv_14", name:"Paris 2023 Nuke Souvenir Package", cost:0, desc:"Сувенирный пакет. Открывается без ключа. Содержимое скоро будет добавлено.", colorA:"#ffd166", colorB:"#8a5a12", category:"souvenir", isUnlocked:s=>false, drops:[] },
+  { key:"souv_15", name:"Shanghai 2024 Vertigo Souvenir Package", cost:0, desc:"Сувенирный пакет. Открывается без ключа. Содержимое скоро будет добавлено.", colorA:"#ffd166", colorB:"#8a5a12", category:"souvenir", isUnlocked:s=>false, drops:[] },
+  { key:"souv_16", name:"Stockholm 2021 Mirage Souvenir Package", cost:0, desc:"Сувенирный пакет. Открывается без ключа. Содержимое скоро будет добавлено.", colorA:"#ffd166", colorB:"#8a5a12", category:"souvenir", isUnlocked:s=>true, drops:[] },
+  { key:"souv_17", name:"Antwerp 2022 Mirage Souvenir Package", cost:0, desc:"Сувенирный пакет. Открывается без ключа. Содержимое скоро будет добавлено.", colorA:"#ffd166", colorB:"#8a5a12", category:"souvenir", isUnlocked:s=>true, drops:[] },
+  { key:"souv_18", name:"Copenhagen 2024 Mirage Souvenir Package", cost:0, desc:"Сувенирный пакет. Открывается без ключа. Содержимое скоро будет добавлено.", colorA:"#ffd166", colorB:"#8a5a12", category:"souvenir", isUnlocked:s=>true, drops:[] },
+  { key:"souv_19", name:"London 2018 Cache Souvenir Package", cost:0, desc:"Сувенирный пакет. Открывается без ключа. Содержимое скоро будет добавлено.", colorA:"#ffd166", colorB:"#8a5a12", category:"souvenir", isUnlocked:s=>false, drops:[] },
+  { key:"souv_20", name:"Stockholm 2021 Ancient Souvenir Package", cost:0, desc:"Сувенирный пакет. Открывается без ключа. Содержимое скоро будет добавлено.", colorA:"#ffd166", colorB:"#8a5a12", category:"souvenir", isUnlocked:s=>false, drops:[] },
+  { key:"souv_21", name:"Shanghai 2024 Mirage Souvenir Package", cost:0, desc:"Сувенирный пакет. Открывается без ключа. Содержимое скоро будет добавлено.", colorA:"#ffd166", colorB:"#8a5a12", category:"souvenir", isUnlocked:s=>true, drops:[] },
+  { key:"souv_22", name:"Krakow 2017 Overpass Souvenir Package", cost:0, desc:"Сувенирный пакет. Открывается без ключа. Содержимое скоро будет добавлено.", colorA:"#ffd166", colorB:"#8a5a12", category:"souvenir", isUnlocked:s=>false, drops:[] },
+  { key:"souv_23", name:"Rio 2022 Mirage Souvenir Package", cost:0, desc:"Сувенирный пакет. Открывается без ключа. Содержимое скоро будет добавлено.", colorA:"#ffd166", colorB:"#8a5a12", category:"souvenir", isUnlocked:s=>true, drops:[] },
+  { key:"souv_24", name:"Cologne 2016 Train Souvenir Package", cost:0, desc:"Сувенирный пакет. Открывается без ключа. Содержимое скоро будет добавлено.", colorA:"#ffd166", colorB:"#8a5a12", category:"souvenir", isUnlocked:s=>false, drops:[] },
+  { key:"souv_25", name:"Shanghai 2024 Ancient Souvenir Package", cost:0, desc:"Сувенирный пакет. Открывается без ключа. Содержимое скоро будет добавлено.", colorA:"#ffd166", colorB:"#8a5a12", category:"souvenir", isUnlocked:s=>false, drops:[] },
 ];
+
+/* ===== КОНТЕНТ КЕЙСОВ: вставляйте списки сюда. Ключ — key кейса из officialCases (например off_revolution).
+   Шансы выставятся автоматически по официальным: Mil-Spec 79.92%, Restricted 15.98%, Classified 3.20%, Covert 0.64%, ножи/перчатки 0.26%.
+   Цены и форма оружия подставляются автоматически, их потом можно поправить в csSkinPool. ===== */
+const CASE_CONTENTS = {
+  // ЧАСТИЧНО: Mirage-пакеты (Paris 2023, Stockholm 2021, Antwerp 2022, Copenhagen 2024, Shanghai 2024, Rio 2022).
+  // Состав 18 скинов подтверждён. Редкости НЕ подтверждены — все считаются Армейскими.
+  ...Object.fromEntries(["souv_01","souv_16","souv_17","souv_18","souv_21","souv_23"].map(k=>[k,{
+    covert:[], classi:[], restr:[], gold:[],
+    mil: [
+      "AWP | Desert Hydra",
+      "Desert Eagle | Fennec Fox",
+      "MP5-SD | Oxide Oasis",
+      "Glock-18 | Pink DDPAT",
+      "XM1014 | Elegant Vines",
+      "AUG | Sand Storm",
+      "USP-S | Purple DDPAT",
+      "M249 | Humidor",
+      "SG 553 | Desert Blossom",
+      "MP9 | Music Box",
+      "FAMAS | CaliCamo",
+      "Dual Berettas | Drift Wood",
+      "P90 | Verdant Growth",
+      "CZ75-Auto | Midnight Palm",
+      "P250 | Drought",
+      "MAG-7 | Navy Sheen",
+      "PP-Bizon | Anolis",
+      "SSG 08 | Prey"
+    ]
+  }])),
+  // ЧАСТИЧНО: Danger Zone — подтверждено 4 из 17 скинов. Остальные тиры нужно дополнить.
+  off_dangerzone: {
+    covert:  ["AWP | Neo-Noir", "AK-47 | Asiimov"],
+    classi:  [],
+    restr:   [],
+    mil:     ["SG 553 | Danger Close", "Nova | Wood Fired"],
+    gold:    []
+  },
+  off_fracture: {
+    covert:  ["AK-47 | Legion of Anubis", "Desert Eagle | Printstream"],
+    classi:  ["M4A4 | Tooth Fairy", "Glock-18 | Vogue", "XM1014 | Entombed"],
+    restr:   ["Galil AR | Connexion", "Tec-9 | Brother", "MAC-10 | Allure", "MP5-SD | Kitbash", "MAG-7 | Monster Call"],
+    mil:     ["SG 553 | Ol' Rusty", "PP-Bizon | Runic", "P90 | Freight", "SSG 08 | Mainframe 001", "P250 | Cassette"],
+    gold:    []
+  },
+  off_revolution: {
+    covert:  ["M4A4 | Temukau", "AK-47 | Head Shot"],
+    classi:  ["AWP | Doodle Lore", "UMP-45 | Wild Child", "P2000 | Wicked Sick"],
+    restr:   ["P90 | Neoqueen", "R8 Revolver | Banana Cannon", "M4A1-S | Feeding Frenzy", "MAC-10 | Sakkaku", "Glock-18 | Umbral Hare"],
+    mil:     ["MP5-SD | Liquidation", "MAG-7 | Insomnia", "P250 | Re.built", "MP9 | Featherweight", "SCAR-20 | Fragments", "Tec-9 | Rebel", "SG 553 | Cyberforce"],
+    gold:    []
+  },
+  off_recoil: {
+    covert:  ["AWP | Chromatic Aberration", "USP-S | Printstream"],
+    classi:  ["AK-47 | Ice Coaled", "Sawed-Off | Kiss♥Love", "SG 553 | Dragon Tech"],
+    restr:   ["P250 | Visions", "M4A4 | Poly Mag", "R8 Revolver | Crazy 8", "Dual Berettas | Flora Carnivora", "Glock-18 | Winterized"],
+    mil:     ["FAMAS | Meow 36", "Galil AR | Destroyer", "M249 | Downtown", "MAC-10 | Monkeyflage", "Negev | Drop Me", "P90 | Vent Rush", "UMP-45 | Roadblock"],
+    gold:    []
+  },
+  off_fever: {
+    covert:  ["AWP | Printstream", "FAMAS | Bad Trip"],
+    classi:  ["AK-47 | Searing Rage", "Glock-18 | Shinobu", "UMP-45 | K.O. Factory"],
+    restr:   ["Galil AR | Control", "Nova | Rising Sun", "P90 | Wave Breaker", "Desert Eagle | Serpent Strike", "Zeus x27 | Tosai"],
+    mil:     ["SSG 08 | Memorial", "XM1014 | Mockingbird", "P2000 | Sure Grip", "MP7 | Nexus", "USP-S | PC-GRN", "M4A4 | Choppa", "MAG-7 | Resupply"],
+    gold:    ["★ Skeleton Knife | Doppler Sapphire", "★ Skeleton Knife | Doppler Black Pearl"]
+  },
+  // off_revolution: {
+  //   covert:  ["AK-47 | Neon Revolution", "M4A4 | Temukau"],
+  //   classi:  [],
+  //   restr:   [],
+  //   mil:     [],
+  //   gold:    ["★ Karambit | Case Hardened"]
+  // },
+};
+
+const CASE_TIER = {
+  mil:    { rarity:"mil",    odds:79.92, price:3    },
+  restr:  { rarity:"restr",  odds:15.98, price:15   },
+  classi: { rarity:"classi", odds:3.20,  price:30   },
+  covert: { rarity:"covert", odds:0.64,  price:150  },
+  gold:   { rarity:"gold",   odds:0.26,  price:3000 }
+};
+function guessShape(name){
+  const n = name.replace(/^★\s*/, "");
+  if(/Knife|Bayonet|Karambit|Daggers|Butterfly|Talon|Bowie|Falchion|Huntsman|Gut |Flip |Navaja|Stiletto|Ursus|Nomad|Skeleton|Classic|Paracord|Survival|Kukri/i.test(n)) return "knife";
+  if(/Gloves|Wraps|Driver|Hand Wraps|Moto|Sport|Specialist/i.test(n)) return "gloves";
+  if(/^(AWP|SSG 08|G3SG1|SCAR-20)\b/.test(n)) return "sniper";
+  if(/^(Glock-18|USP-S|P2000|P250|Five-SeveN|Tec-9|Dual Berettas|Desert Eagle|R8 Revolver|CZ75-Auto|Zeus x27)\b/.test(n)) return "pistol";
+  return "rifle";
+}
+function buildCaseContents(){
+  Object.keys(CASE_CONTENTS).forEach(caseKey=>{
+    const c = officialCases.find(x=>x.key===caseKey);
+    if(!c) return;
+    const drops = [];
+    Object.keys(CASE_TIER).forEach(tier=>{
+      const names = (CASE_CONTENTS[caseKey][tier]||[]);
+      if(!names.length) return;
+      const t = CASE_TIER[tier];
+      names.forEach((name, i)=>{
+        const id = `cs_${caseKey}_${tier}_${i+1}`;
+        if(!csSkinPool.find(x=>x.id===id)){
+          csSkinPool.push({ id, name, rarity:t.rarity, price:t.price, shape:guessShape(name) });
+        }
+        drops.push({ skinId:id, weight: +(t.odds/names.length).toFixed(4) });
+      });
+    });
+    if(drops.length) c.drops = drops;
+  });
+}
+buildCaseContents();
 
 /* ---------------- all-in (risk) cases ---------------- */
 const allInCases = [
@@ -1785,6 +2071,7 @@ function showToast(msg){
 /* ---------------- navigation ---------------- */
 function switchTab(tab){
   sndTab();
+  { const m = document.querySelector(".main"); if(m) m.scrollTop = 0; if(typeof window.scrollTo === "function") window.scrollTo(0,0); }
   document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
   document.querySelectorAll(".nav-item").forEach(n=>n.classList.remove("active"));
   if(tab==='Cases'){ pCases.classList.add("active"); tabCases.classList.add("active"); renderCases(); }
@@ -1841,7 +2128,7 @@ function renderCases(){
   });
 
   document.getElementById("unlockedCount").innerText = unlockedCount + "/" + cases.length + " открыто";
-  renderPaidGrid("officialCasesGrid", officialCases, "official");
+  renderOfficialSections();
   renderPaidGrid("allInCasesGrid", allInCases, "allin");
 }
 
@@ -1852,10 +2139,49 @@ function lockBadgeMarkup(){
 
 function playUnlockAndOpen(el, c){
   if(el.classList.contains("unlocking")) return;
-  sndUnlock();
+  try { sndUnlock(); } catch(e){ /* sound must never block opening */ }
   el.classList.add("unlocking");
   setTimeout(()=> el.classList.add("dropping"), 0);
-  setTimeout(()=> openCasePage(c), 820);
+  setTimeout(()=>{
+    try {
+      openCasePage(c);
+    } catch(err){
+      // restore the card so the page is not left broken, and show the real error
+      el.classList.remove("unlocking", "dropping");
+      showToast("Ошибка открытия: " + ((err && err.message) || err));
+      console.error(err);
+    }
+  }, 820);
+}
+window.addEventListener("error", function(ev){
+  try { showToast("Ошибка: " + (ev.message || "скрипт") + (ev.lineno ? " (строка " + ev.lineno + ")" : "")); } catch(e){}
+});
+
+/* ===== РАЗДЕЛЫ ОФИЦИАЛЬНЫХ КЕЙСОВ =====
+   Категория кейса задаётся полем category в officialCases или словарём CATEGORY_OVERRIDE. */
+const OFFICIAL_SECTIONS = [
+  { key:"weapon",     title:"Официальные кейсы", hint:"Кейсы в стиле известных коллекций CS2 — открываются за кристаллы вместо денег." },
+  { key:"collection", title:"Коллекции",         hint:"Коллекции скинов CS2 — наборы предметов одной серии." },
+  { key:"capsule",    title:"Капсулы",           hint:"Капсулы с наклейками и нашивками CS2." },
+  { key:"souvenir",   title:"Сувенирные наборы", hint:"Турнирные сувенирные наборы CS2." }
+];
+const CATEGORY_OVERRIDE = {
+  off_anubis: "collection"
+};
+function officialCategoryOf(c){ return CATEGORY_OVERRIDE[c.key] || c.category || "weapon"; }
+function renderOfficialSections(){
+  const wrap = document.getElementById("officialSections");
+  if(!wrap) return;
+  wrap.innerHTML = "";
+  OFFICIAL_SECTIONS.forEach(sec=>{
+    const list = officialCases.filter(c=>officialCategoryOf(c)===sec.key);
+    if(!list.length) return;
+    wrap.insertAdjacentHTML("beforeend",
+      `<div class="section-row"><div class="section-title">${sec.title}</div><div class="section-note">за кристаллы</div></div>
+       <div class="hint-text">${sec.hint}</div>
+       <div class="cases-grid" id="grid_${sec.key}"></div>`);
+    renderPaidGrid("grid_"+sec.key, list, "official");
+  });
 }
 
 function renderPaidGrid(elId, list, cls){
@@ -1865,7 +2191,8 @@ function renderPaidGrid(elId, list, cls){
   list.forEach((c,idx)=>{
     const el = document.createElement("div");
     el.className = "case-card " + cls + " unlocked";
-    el.onclick = ()=> playUnlockAndOpen(el, c);
+    const hasContents = !!(c.drops && c.drops.length);
+    el.onclick = hasContents ? ()=> playUnlockAndOpen(el, c) : ()=>{ shakeLock(el); showToast("Содержимое скоро будет добавлено"); };
     el.innerHTML = `
       <div class="art">${caseArtHTML(c, cls+idx)}</div>
       <div class="cname">${c.name}</div>
@@ -1931,8 +2258,89 @@ function renderRouletteBoxes(qty){
   wrap.innerHTML = html;
 }
 
+/* ===== ФОН ДЛЯ ВСЕХ КЕЙСОВ ПО КАРТЕ =====
+   Вставьте прямую ссылку на картинку карты в кавычки. Пусто = фон не показывается.
+   Выбранная в профиле карта применяется ко всем кейсам. */
+const CASE_MAP_BACKGROUNDS = {
+  dust2: "",   // Dust II
+  mirage: "",   // Mirage
+  inferno: "",   // Inferno
+  nuke: "",   // Nuke
+  overpass: "",   // Overpass
+  ancient: "",   // Ancient
+  vertigo: "",   // Vertigo
+  anubis: "",   // Anubis
+  train: "",   // Train
+  cache: "",   // Cache
+  cobblestone: "",   // Cobblestone
+  office: "",   // Office
+  italy: "",   // Italy
+  aztec: "",   // Aztec
+  agency: "",   // Agency
+};
+function caseBgOn(){ return state.caseBgOn !== false; }
+function currentMapBgUrl(){
+  return (state.caseMap && CASE_MAP_BACKGROUNDS[state.caseMap] || "").trim();
+}
+function applyCaseBackground(c){
+  const el = document.getElementById("openBg");
+  if(!el) return;
+  const url = currentMapBgUrl();
+  el.style.backgroundImage = url ? `linear-gradient(rgba(8,7,12,.12),rgba(8,7,12,.42)), url("${url.replace(/"/g,'')}")` : "";
+  el.style.display = (url && caseBgOn()) ? "block" : "none";
+  const btn = document.getElementById("caseBgBtn");
+  if(btn) btn.innerText = caseBgOn() ? "Фон" : "Фон выкл";
+}
+function toggleCaseBg(){
+  if(!currentMapBgUrl()){ showToast("Сначала выберите карту в профиле (Фон для кейсов)"); return; }
+  state.caseBgOn = !caseBgOn();
+  saveState();
+  applyCaseBackground(currentCase);
+}
+function mapLabelName(key){
+  const m = (typeof MAP_NAMES !== "undefined") ? MAP_NAMES[key] : null;
+  return m || key || "не выбрана";
+}
+const MAP_NAMES = {
+  dust2:"Dust II", mirage:"Mirage", inferno:"Inferno", nuke:"Nuke", overpass:"Overpass", ancient:"Ancient",
+  vertigo:"Vertigo", anubis:"Anubis", train:"Train", cache:"Cache", cobblestone:"Cobblestone", office:"Office",
+  italy:"Italy", aztec:"Aztec", agency:"Agency"
+};
+function renderMapLabel(){
+  const lbl = document.getElementById("caseMapCurrent");
+  if(lbl) lbl.innerText = state.caseMap ? mapLabelName(state.caseMap) : "не выбрана";
+}
+function toggleMapPicker(){
+  const pk = document.getElementById("mapPicker");
+  if(!pk) return;
+  const show = pk.style.display === "none" || !pk.style.display;
+  pk.style.display = show ? "grid" : "none";
+  if(show) renderMapPicker();
+}
+function renderMapPicker(){
+  const pk = document.getElementById("mapPicker");
+  if(!pk) return;
+  pk.innerHTML = Object.keys(MAP_NAMES).map(k=>{
+    const has = !!(CASE_MAP_BACKGROUNDS[k] || "").trim();
+    const on = state.caseMap === k;
+    return `<button class="map-btn${on?' on':''}" ${has?'':'title="нет ссылки в CASE_MAP_BACKGROUNDS"'} onclick="selectCaseMap('${k}')">${MAP_NAMES[k]}${has?'':' ·'}</button>`;
+  }).join("") + `<button class="map-btn" onclick="selectCaseMap('')">Без фона</button>`;
+}
+function selectCaseMap(key){
+  state.caseMap = key || "";
+  if(key && !(CASE_MAP_BACKGROUNDS[key] || "").trim()){
+    showToast("Для " + mapLabelName(key) + " ссылка ещё не задана в CASE_MAP_BACKGROUNDS");
+  }
+  saveState();
+  renderMapLabel();
+  const pk = document.getElementById("mapPicker");
+  if(pk) pk.style.display = "none";   // close the picker after a choice
+  applyCaseBackground(currentCase);
+}
+
 function openCasePage(c){
   currentCase = c;
+  applyCaseBackground(c);
   openQty = 1;
   document.getElementById("cName").innerText = c.name;
   document.getElementById("cDesc").innerText = c.desc;
@@ -1965,7 +2373,7 @@ function buildTrackInto(trackEl, c, forcedSkinId){
   if(!trackEl) return -1;
   trackEl.innerHTML = "";
   const reelSkinIds = c.drops.map(d=>d.skinId);
-  const totalCards = 44, winIndex = 36;
+  const totalCards = 90, winIndex = 78;
   for(let i=0;i<totalCards;i++){
     let skin = (i===winIndex && forcedSkinId) ? skinById(forcedSkinId) : skinById(reelSkinIds[Math.floor(Math.random()*reelSkinIds.length)]);
     const card = document.createElement("div");
@@ -2002,8 +2410,8 @@ function spinRoulette(fast){
   const wonIds = [];
   for(let i=0;i<qty;i++) wonIds.push(weightedDrop(currentCase.drops.filter(d=>d.weight>0)));
 
-  const spinDuration = fast ? 550 : 800;
-  const settleWait = fast ? 650 : 900;
+  const spinDuration = fast ? 1400 : 5200;
+  const settleWait = fast ? 1500 : 5350;
 
   for(let i=0;i<qty;i++){
     const track = document.getElementById("track_"+i);
@@ -2014,7 +2422,7 @@ function spinRoulette(fast){
     requestAnimationFrame(()=>{ requestAnimationFrame(()=>{
       const cardWidth=100, boxWidth=track.parentElement.offsetWidth, jitter=(Math.random()*30)-15;
       const targetX = (winIndex*cardWidth)-(boxWidth/2)+(cardWidth/2)+jitter;
-      track.style.transition = `transform ${spinDuration}ms cubic-bezier(0.12,0.75,0.1,1)`;
+      track.style.transition = `transform ${spinDuration}ms cubic-bezier(0.1,0.6,0.08,1)`;
       track.style.transform = `translateX(-${targetX}px)`;
     }); });
   }
@@ -2388,7 +2796,7 @@ function refreshUpgrade(){
     slot.innerHTML = `<div class="art">${skinArtHTML(stakeSkin, "stakeslot")}</div><div class="nm">${stakeSkin.name}</div><div class="pr">${fmtPrice(stakeSkin.price)}</div>`;
   } else {
     slot.classList.remove("filled");
-    slot.innerHTML = `<svg viewBox="0 0 24 24" fill="none" style="width:26px;height:26px;color:#9a8f9c;"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><div class="lbl">Выбрать скин (необязательно)</div>`;
+    slot.innerHTML = `<svg viewBox="0 0 24 24" fill="none" style="width:26px;height:26px;color:#9a8f9c;"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><div class="lbl">Баланс</div><div class="bal">${fmtPrice(state.balance)}</div>`;
   }
   const tslot = document.getElementById("targetSkinSlot");
   if(targetSkin){
@@ -3106,6 +3514,7 @@ function renderCustomSoundInputs(){
   `).join("");
 }
 
+
 function renderProfile(){
   document.getElementById("uName").innerText = userFirstName;
   document.getElementById("uId").innerText = "ID: " + userId;
@@ -3114,9 +3523,8 @@ function renderProfile(){
   document.getElementById("statOpened").innerText = state.casesOpenedTotal;
   document.getElementById("statRefs").innerText = state.referralsCount;
   document.getElementById("statStreak").innerText = state.loginStreak;
-  document.getElementById("settingsSoundToggle").checked = state.soundEnabled;
-  document.getElementById("soundVolumeSlider").value = state.soundVolume!=null ? state.soundVolume : 0.6;
-  renderCustomSoundInputs();
+  renderSoundProfile();
+  renderMapLabel();
   document.getElementById("refProgress").innerHTML = REF_MILESTONES.map(m=>{
     const done = state.referralsCount >= m.count;
     return `<div class="ref-step ${done?'done':''}"><div class="dot">${done?'✓':m.count}</div><div class="label">${m.label}</div></div>`;
