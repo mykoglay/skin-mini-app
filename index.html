@@ -1170,8 +1170,8 @@ function playTone(freq, duration, type, vol, delay, glideTo){
    synthesized tone — otherwise fall back to the built-in sound. */
 /* ===== ССЫЛКИ НА ЗВУКИ — вставляйте сюда (прямая ссылка на .mp3/.wav/.ogg). Пустая строка = встроенный звук ===== */
 const SOUND_URLS = {
-  click:"", tab:"", unlock:"", coin:"", error:"", reveal:"",
-  battleWin:"", battleLose:"", draw:""
+  click:"https://mykoglay.github.io/skin-mini-app/sound/buttonclickrelease.mp3", tab:"", unlock:"https://mykoglay.github.io/skin-mini-app/images/pickup_grenade_03.mp3", coin:"", error:"", reveal:"",
+  battleWin:"https://mykoglay.github.io/skin-mini-app/sound/d65c017f4c1ee63.mp3", battleLose:"https://mykoglay.github.io/skin-mini-app/sound/pl_respawn.mp3", draw:""
 };
 function playCustomOrFallback(name, fallbackFn){
   if(!state.soundEnabled) return;
