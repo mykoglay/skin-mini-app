@@ -280,6 +280,7 @@ h1,h2,h3,.display{font-family:'Rajdhani',sans-serif;}
 .shop-card .title{font-size:10.5px; text-align:center; margin-bottom:4px; font-weight:700; line-height:1.2;}
 .shop-card .price{font-size:12px; font-weight:800; color:var(--gold); margin-bottom:8px;}
 .shop-card .price.cheap{color:var(--acc);}
+.shop-card .price.hot{color:#ffe14d; text-shadow:0 0 12px rgba(255,225,77,.45);}
 .shop-card button{width:100%; border:none; padding:9px; font-size:11px; font-weight:700; border-radius:8px; cursor:pointer; background:var(--acc); color:#1a1025; font-family:'Rajdhani',sans-serif;}
 .shop-card button:disabled{background:#241d28; color:var(--sub);}
 .exclusive-badge{position:absolute; top:8px; right:8px; font-size:8px; padding:3px 6px; border-radius:5px; font-weight:800; background:var(--gold); color:#2b1c02; letter-spacing:.03em;}
@@ -667,6 +668,277 @@ h1,h2,h3,.display{font-family:'Rajdhani',sans-serif;}
 .stake-chip-row{margin-bottom:10px;}
 /* iOS zooms the whole page when a field with font-size < 16px gets focus: keep every input at 16px */
 input, select, textarea { font-size:16px !important; }
+
+/* ===== history, achievements, long-press preview ===== */
+.inv-tools{display:flex; gap:8px; margin:0 0 12px;}
+.inv-tools .btn2{flex:1; font-size:12px;}
+.ux-overlay{position:fixed; inset:0; background:rgba(5,4,10,.72); backdrop-filter:blur(6px); display:none; align-items:flex-end; justify-content:center; z-index:9000;}
+.ux-overlay.active{display:flex;}
+.ux-sheet{width:100%; max-width:520px; max-height:86vh; background:linear-gradient(180deg,#1b1526,#0f0c16); border:1px solid rgba(139,92,246,.35); border-bottom:none; border-radius:22px 22px 0 0; display:flex; flex-direction:column; box-shadow:0 -20px 60px rgba(139,92,246,.25);}
+.ux-head{display:flex; align-items:center; justify-content:space-between; padding:16px 18px 10px;}
+.ux-title{font-family:'Rajdhani',sans-serif; font-size:20px; font-weight:800; letter-spacing:.04em;}
+.ux-close{width:32px; height:32px; border-radius:50%; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.04); color:#ddd; cursor:pointer;}
+.ux-body{overflow-y:auto; padding:0 14px 22px;}
+.ux-stats{display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:10px;}
+.ux-stats div{background:rgba(139,92,246,.1); border:1px solid rgba(139,92,246,.22); border-radius:12px; padding:8px; text-align:center;}
+.ux-stats span{display:block; font-size:10px; color:#9d92ad; text-transform:uppercase; letter-spacing:.06em;}
+.ux-stats b{font-family:'Rajdhani',sans-serif; font-size:20px;}
+.ux-chips{display:flex; flex-wrap:wrap; gap:6px; margin-bottom:10px;}
+.ux-chip{padding:6px 11px; border-radius:999px; border:1px solid rgba(139,92,246,.3); background:transparent; color:#c9c0d6; font-size:12px; font-weight:700; cursor:pointer;}
+.ux-chip.on{background:linear-gradient(135deg,#8b5cf6,#c026d3); color:#fff; border-color:transparent;}
+.ux-row{display:flex; align-items:center; gap:10px; padding:8px; border-radius:14px; background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.06); margin-bottom:6px;}
+.ux-art{width:46px; height:46px; flex-shrink:0; border-radius:10px; overflow:hidden; background:rgba(0,0,0,.25); display:flex; align-items:center; justify-content:center; font-size:22px;}
+.ux-art svg{width:40px; height:40px;}
+.ux-info{flex:1; min-width:0;}
+.ux-name{font-size:13px; font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+.ux-sub{font-size:11px; color:#9d92ad; margin-top:3px; display:flex; flex-wrap:wrap; gap:4px; align-items:center;}
+.ux-pill{font-size:9px; font-weight:800; letter-spacing:.06em; padding:2px 6px; border-radius:6px; border:1px solid;}
+.ux-price{font-family:'Rajdhani',sans-serif; font-weight:800; font-size:14px; color:#ffd166; white-space:nowrap;}
+.ux-empty{text-align:center; color:#8d8199; padding:30px 0; font-size:13px;}
+.ach-sum{font-size:13px; color:#c9c0d6; margin-bottom:8px;}
+.ach-group{font-family:'Rajdhani',sans-serif; font-size:13px; letter-spacing:.08em; text-transform:uppercase; color:#a78bfa; margin:12px 2px 6px; font-weight:800;}
+.ach-item{display:flex; align-items:center; gap:10px; padding:8px 10px; border-radius:12px; background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.06); margin-bottom:6px;}
+.ach-item.done{border-color:rgba(61,220,132,.4); background:rgba(61,220,132,.06);}
+.ach-ic{width:30px; height:30px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:rgba(139,92,246,.15); font-size:14px; flex-shrink:0;}
+.ach-item.done .ach-ic{background:rgba(61,220,132,.2); color:#3ddc84; font-weight:800;}
+.ach-body{flex:1; min-width:0;}
+.ach-t{font-size:12px; font-weight:700;}
+.ach-bar{height:4px; border-radius:4px; background:rgba(255,255,255,.08); margin:5px 0 3px; overflow:hidden;}
+.ach-bar i{display:block; height:100%; background:linear-gradient(90deg,#8b5cf6,#c026d3);}
+.ach-meta{font-size:10px; color:#8d8199;}
+.ach-rw{font-family:'Rajdhani',sans-serif; font-weight:800; color:#ffd166; font-size:12px; white-space:nowrap;}
+.ux-sub2{font-size:12px; color:#9d92ad; margin:0 0 10px;}
+.ux-prev-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:8px;}
+.ux-prev{background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.06); border-radius:12px; padding:8px 6px; text-align:center;}
+.ux-prev .ux-art{width:100%; height:64px; margin-bottom:4px;}
+.ux-prev .ux-art svg{width:56px; height:56px;}
+.ux-pname{font-size:10px; font-weight:700; line-height:1.15; min-height:24px;}
+.ux-pmeta{display:flex; justify-content:space-between; font-size:10px; color:#9d92ad; margin-top:3px;}
+.case-card{-webkit-touch-callout:none; -webkit-user-select:none; user-select:none;}
+
+/* inventory shortcut tiles */
+.inv-tools{display:grid !important; grid-template-columns:1fr 1fr; gap:10px; margin:0 0 14px;}
+.inv-tile{position:relative; display:flex; align-items:center; gap:10px; padding:12px 12px; border-radius:16px; cursor:pointer; text-align:left; color:#fff;
+  background:linear-gradient(160deg, rgba(40,28,62,.9), rgba(16,12,24,.95));
+  border:1px solid transparent;
+  background-clip:padding-box;
+  box-shadow: 0 10px 24px -14px rgba(0,0,0,.9), inset 0 1px 0 rgba(255,255,255,.06);
+  transition: transform .15s ease, box-shadow .25s ease, filter .2s ease;
+  overflow:hidden;
+}
+.inv-tile::before{ content:""; position:absolute; inset:0; border-radius:16px; padding:1px; pointer-events:none;
+  background:linear-gradient(135deg, var(--tile-a), var(--tile-b)); -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite:xor; mask-composite:exclude; }
+.inv-tile::after{ content:""; position:absolute; right:-30px; top:-30px; width:90px; height:90px; border-radius:50%; background:radial-gradient(closest-side, var(--tile-a), transparent); opacity:.25; pointer-events:none; }
+.inv-tile:active{ transform:scale(.97); }
+.inv-tile:hover{ box-shadow: 0 14px 30px -12px var(--tile-a), inset 0 1px 0 rgba(255,255,255,.08); }
+.inv-tile-hist{ --tile-a:#8b5cf6; --tile-b:#3b82f6; }
+.inv-tile-ach{ --tile-a:#f5b841; --tile-b:#ff6b6b; }
+.inv-tile-ic{ width:40px; height:40px; border-radius:12px; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:20px;
+  background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.08); }
+.inv-tile-txt{ display:flex; flex-direction:column; min-width:0; }
+.inv-tile-txt b{ font-family:'Rajdhani',sans-serif; font-size:16px; font-weight:800; letter-spacing:.03em; line-height:1.1; }
+.inv-tile-txt small{ font-size:10px; color:#9d92ad; margin-top:2px; line-height:1.2; }
+
+/* case preview (long press) */
+.cp-hero{ position:relative; display:flex; align-items:center; gap:14px; padding:14px; margin-bottom:12px; border-radius:18px; overflow:hidden;
+  background:radial-gradient(120% 140% at 0% 0%, color-mix(in srgb, var(--cp-col) 45%, transparent), transparent 70%), linear-gradient(160deg,#1f1830,#100c18);
+  border:1px solid color-mix(in srgb, var(--cp-col) 50%, transparent); }
+.cp-hero-art{ width:96px; height:96px; flex-shrink:0; filter:drop-shadow(0 10px 18px rgba(0,0,0,.6)); }
+.cp-hero-meta{ display:flex; flex-direction:column; gap:4px; min-width:0; }
+.cp-cost{ font-family:'Rajdhani',sans-serif; font-size:28px; font-weight:800; color:#ffd166; line-height:1; text-shadow:0 0 16px rgba(255,209,102,.45); }
+.cp-count{ font-size:12px; color:#c9c0d6; }
+.cp-best{ font-size:11px; color:#9d92ad; }
+.cp-best b{ color:#fff; font-weight:800; }
+.cp-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
+.cp-item{ position:relative; padding:8px 6px 8px; border-radius:14px; text-align:center; overflow:hidden;
+  background:linear-gradient(170deg, rgba(255,255,255,.04), rgba(255,255,255,.01));
+  border:1px solid rgba(255,255,255,.07); border-top:2px solid var(--rc);
+  box-shadow: inset 0 14px 22px -18px var(--rc);
+  transition: transform .15s ease, box-shadow .2s ease; }
+.cp-item:active{ transform:scale(.97); }
+.cp-art{ width:100%; height:62px; margin-bottom:4px; display:flex; align-items:center; justify-content:center; }
+.cp-art svg{ width:56px; height:56px; filter:drop-shadow(0 0 8px var(--rc)); }
+.cp-name{ font-size:10px; font-weight:700; line-height:1.15; min-height:24px; color:#f1ecf9; }
+.cp-price{ font-family:'Rajdhani',sans-serif; font-size:13px; font-weight:800; color:#ffd166; margin-top:2px; }
+.cp-odds{ height:3px; border-radius:3px; background:rgba(255,255,255,.07); margin:6px 6px 3px; overflow:hidden; }
+.cp-odds i{ display:block; height:100%; background:var(--rc); border-radius:3px; }
+.cp-pct{ font-size:9px; color:#8d8199; }
+
+/* big-drop effect: screen shake + flash in the rarity colour */
+@keyframes fxShake{0%,100%{transform:translate(0,0)}15%{transform:translate(-7px,3px)}30%{transform:translate(7px,-4px)}45%{transform:translate(-6px,-2px)}60%{transform:translate(5px,3px)}75%{transform:translate(-3px,2px)}}
+body.fx-shake{animation:fxShake .5s ease-in-out;}
+@keyframes fxFlash{0%{opacity:0}18%{opacity:var(--fx-peak,.5)}100%{opacity:0}}
+.fx-flash{position:fixed; inset:0; pointer-events:none; z-index:9500; animation:fxFlash .75s ease-out forwards;}
+
+/* ---- 3D drum ---- */
+.drum-toggle-row{display:flex; justify-content:center; margin:6px 0 10px;}
+.drum-toggle{padding:7px 14px; border-radius:999px; border:1px solid rgba(139,92,246,.4); background:rgba(139,92,246,.1); color:#d9cfee; font-family:'Rajdhani',sans-serif; font-size:13px; font-weight:800; letter-spacing:.04em; cursor:pointer;}
+.drum-toggle.on{background:linear-gradient(135deg,#8b5cf6,#c026d3); color:#fff; border-color:transparent;}
+.drum3d-wrap{position:relative; width:100%; height:170px; perspective:800px; display:flex; align-items:center; justify-content:center; overflow:hidden;}
+.drum3d{position:relative; width:90px; height:120px; transform-style:preserve-3d;}
+.d3-card{position:absolute; left:0; top:0; width:90px; height:120px; box-sizing:border-box; padding:6px; border-radius:12px; display:flex; flex-direction:column; align-items:center; justify-content:center;
+  background:linear-gradient(170deg,#241c33,#120e1a); border:1px solid rgba(255,255,255,.08); border-top:3px solid var(--d3c); box-shadow:0 0 18px -6px var(--d3c); backface-visibility:hidden;}
+.d3-art{width:70px; height:56px;}
+.d3-art svg{width:100%; height:100%;}
+.d3-name{font-size:9px; text-align:center; line-height:1.1; margin-top:4px; color:#e9e3f5; max-height:22px; overflow:hidden;}
+.drum3d-pointer{position:absolute; left:50%; top:4%; height:92%; width:2px; transform:translateX(-50%); background:linear-gradient(#ffd166,rgba(255,209,102,.1),#ffd166); pointer-events:none; z-index:3;}
+
+/* ---- inventory toolbar, selection, rate ---- */
+.inv-toolbar{margin:0 0 12px; display:flex; flex-direction:column; gap:8px;}
+.inv-rate{font-size:11px; color:#9d92ad; display:flex; justify-content:space-between; gap:8px; flex-wrap:wrap;}
+.inv-rate b{color:#ffd166; font-weight:800;}
+.inv-row{display:flex; gap:6px; flex-wrap:wrap; align-items:center;}
+.inv-select{flex:1; min-width:0; padding:8px 10px; border-radius:12px; border:1px solid rgba(139,92,246,.35); background:#15101f; color:#e9e3f5; font-family:inherit; font-size:16px;}
+.inv-chip{padding:5px 10px; border-radius:999px; border:1px solid rgba(255,255,255,.12); background:transparent; color:#c9c0d6; font-size:11px; font-weight:700; cursor:pointer;}
+.inv-chip.on{color:#fff; border-color:transparent; background:linear-gradient(135deg,#8b5cf6,#c026d3);}
+.inv-btn{padding:8px 12px; border-radius:12px; border:1px solid rgba(139,92,246,.4); background:rgba(139,92,246,.1); color:#fff; font-family:'Rajdhani',sans-serif; font-weight:800; font-size:13px; cursor:pointer;}
+.inv-btn.primary{background:linear-gradient(135deg,#8b5cf6,#c026d3); border-color:transparent;}
+.inv-btn:disabled{opacity:.4; cursor:not-allowed;}
+.inv-card.inv-sel{box-shadow:0 0 0 2px #8b5cf6, 0 0 22px -4px #8b5cf6; transform:translateY(-2px);}
+.inv-check{position:absolute; top:6px; right:6px; width:20px; height:20px; border-radius:50%; border:2px solid rgba(255,255,255,.35); display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:800; color:#fff; background:rgba(0,0,0,.35); z-index:2;}
+.inv-card.inv-sel .inv-check{background:#8b5cf6; border-color:#8b5cf6;}
+
+/* subscription task */
+.sub-task{display:flex; align-items:center; gap:12px; padding:14px; margin:0 0 14px; border-radius:18px;
+  background:radial-gradient(120% 140% at 0% 0%, rgba(59,130,246,.35), transparent 70%), linear-gradient(160deg,#1a1830,#0f0c18);
+  border:1px solid rgba(59,130,246,.45); box-shadow:0 14px 30px -18px rgba(59,130,246,.8);}
+.sub-ic{width:44px; height:44px; border-radius:14px; display:flex; align-items:center; justify-content:center; font-size:22px; background:rgba(255,255,255,.06); flex-shrink:0;}
+.sub-body{flex:1; min-width:0;}
+.sub-t{font-family:'Rajdhani',sans-serif; font-size:17px; font-weight:800;}
+.sub-s{font-size:11px; color:#a9bedf; margin-top:2px;}
+.sub-btns{display:flex; flex-direction:column; gap:6px;}
+.sub-b1,.sub-b2{padding:7px 12px; border-radius:11px; border:none; font-family:'Rajdhani',sans-serif; font-weight:800; font-size:13px; cursor:pointer; color:#fff;}
+.sub-b1{background:rgba(255,255,255,.1);}
+.sub-b2{background:linear-gradient(135deg,#3b82f6,#8b5cf6);}
+.sub-done{font-family:'Rajdhani',sans-serif; font-weight:800; color:#3ddc84; font-size:14px;}
+
+.earn-sub-btns{display:flex; flex-direction:column; gap:6px; align-items:stretch;}
+.earn-sub-btns .btn2{padding:7px 10px; font-size:12px;}
+.earn-sub-done{font-family:'Rajdhani',sans-serif; font-weight:800; color:#3ddc84; font-size:13px; white-space:nowrap;}
+
+/* ---- earn modal: restyled rows ---- */
+#earnModal .earn-option{ position:relative; overflow:hidden; border-radius:18px; padding:14px;
+  background:linear-gradient(160deg,rgba(40,30,60,.85),rgba(14,11,22,.95)); border:1px solid rgba(139,92,246,.3);
+  box-shadow:0 12px 26px -16px rgba(139,92,246,.7), inset 0 1px 0 rgba(255,255,255,.05); }
+#earnModal .earn-option-icon{ width:46px; height:46px; border-radius:14px; display:flex; align-items:center; justify-content:center; font-size:22px; background:rgba(255,255,255,.07); }
+#earnModal .earn-option b{ font-family:'Rajdhani',sans-serif; font-size:16px; font-weight:800; letter-spacing:.02em; }
+#earnModal .earn-option span{ font-size:11px; color:#a79cb8; }
+#earnModal .earn-sub-row{ border-color:rgba(59,130,246,.55); background:radial-gradient(120% 140% at 0% 0%, rgba(59,130,246,.35), transparent 65%), linear-gradient(160deg,#1a1f3a,#0e0c1a); box-shadow:0 14px 30px -14px rgba(59,130,246,.9); }
+#earnModal .earn-sub-row::after{ content:""; position:absolute; right:-40px; top:-40px; width:110px; height:110px; border-radius:50%; background:radial-gradient(closest-side, rgba(59,130,246,.35), transparent); pointer-events:none; }
+#earnModal .earn-sub-btns .btn2{ border-radius:12px; font-size:13px; padding:9px 12px; font-weight:800; letter-spacing:.03em; border:none; color:#fff; cursor:pointer; }
+#earnModal .earn-sub-btns .btn2-blue{ background:linear-gradient(135deg,#3b82f6,#6366f1); box-shadow:0 8px 18px -8px rgba(59,130,246,.9); }
+#earnModal .earn-sub-btns .btn2-acc{ background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.14); }
+#earnModal .earn-sub-done{ display:inline-block; padding:8px 12px; border-radius:12px; background:rgba(61,220,132,.15); border:1px solid rgba(61,220,132,.4); }
+
+/* ---- profile: channel ad banner ---- */
+.ch-ad{ position:relative; overflow:hidden; border-radius:22px; padding:18px; margin:0 0 16px;
+  background:radial-gradient(130% 120% at 100% 0%, rgba(236,72,153,.35), transparent 60%), radial-gradient(120% 140% at 0% 100%, rgba(59,130,246,.4), transparent 60%), linear-gradient(160deg,#1c1534,#0c0a16);
+  border:1px solid rgba(139,92,246,.45); box-shadow:0 18px 40px -20px rgba(139,92,246,.9); }
+.ch-ad-tag{ display:inline-block; font-size:10px; font-weight:800; letter-spacing:.14em; text-transform:uppercase; padding:4px 9px; border-radius:999px; background:rgba(255,255,255,.1); color:#fde7f3; }
+.ch-ad-title{ font-family:'Rajdhani',sans-serif; font-size:24px; font-weight:800; line-height:1.05; margin:10px 0 4px; }
+.ch-ad-sub{ font-size:12px; color:#c9c0d6; margin-bottom:14px; }
+.ch-ad-btn{ width:100%; display:flex; align-items:center; justify-content:center; gap:8px; padding:14px; border-radius:16px; border:none; cursor:pointer;
+  background:linear-gradient(135deg,#3b82f6 0%,#8b5cf6 55%,#ec4899 100%); color:#fff; font-family:'Rajdhani',sans-serif; font-size:18px; font-weight:800; letter-spacing:.06em; text-transform:uppercase;
+  box-shadow:0 14px 28px -10px rgba(139,92,246,.9), inset 0 1px 0 rgba(255,255,255,.25); transition:transform .15s ease, filter .2s ease; }
+.ch-ad-btn:active{ transform:scale(.97); }
+.ch-ad-btn:hover{ filter:brightness(1.08); }
+.ch-ad-ic{ font-size:20px; }
+
+/* earn modal: subscription row — text on top, buttons on their own line (no overlap) */
+#earnModal .earn-sub-row{ flex-wrap:wrap; align-items:center; }
+#earnModal .earn-sub-row .earn-option-info{ flex:1 1 0; min-width:0; }
+#earnModal .earn-sub-row .earn-option-info b{ display:block; white-space:normal; line-height:1.15; }
+#earnModal .earn-sub-row .earn-option-info span{ display:block; margin-top:2px; }
+#earnModal .earn-sub-btns{ flex:0 0 100%; flex-direction:row; margin-top:12px; }
+#earnModal .earn-sub-btns .btn2{ flex:1; text-align:center; }
+#earnModal .earn-sub-done{ flex:0 0 100%; text-align:center; margin-top:12px; }
+
+
+/* ---- referral card: restyled to match the banner ---- */
+.ref-card{ position:relative; overflow:hidden; border-radius:22px !important; padding:18px !important; margin-bottom:16px !important;
+  background:radial-gradient(120% 120% at 100% 0%, rgba(236,72,153,.22), transparent 60%), radial-gradient(120% 140% at 0% 100%, rgba(59,130,246,.22), transparent 60%), linear-gradient(160deg,#1a1430,#0d0a16) !important;
+  border:1px solid rgba(139,92,246,.45) !important; box-shadow:0 18px 40px -22px rgba(139,92,246,.9); }
+.ref-card .pc-label{ font-family:'Rajdhani',sans-serif; font-size:22px; font-weight:800; letter-spacing:.02em; color:#fff; margin-bottom:6px; }
+.ref-card input{ font-size:16px !important; border-radius:14px !important; background:#0b0812 !important; border:1px solid rgba(139,92,246,.35) !important; color:#e9e3f5 !important; padding:12px !important; }
+.ref-card button{ border-radius:14px !important; min-height:46px; font-family:'Rajdhani',sans-serif !important; font-weight:800 !important; font-size:15px !important; letter-spacing:.04em; border:none !important; color:#fff !important; cursor:pointer; transition:transform .15s ease, filter .2s ease; }
+.ref-card button:active{ transform:scale(.97); }
+.ref-card button.btn2-blue{ background:linear-gradient(135deg,#3b82f6,#6366f1) !important; box-shadow:0 10px 20px -10px rgba(59,130,246,.9); }
+.ref-card button.btn2-acc{ background:linear-gradient(135deg,#8b5cf6,#ec4899) !important; box-shadow:0 10px 20px -10px rgba(236,72,153,.8); }
+
+/* ---- compact pass: banner, referral card, sound block ---- */
+.ch-ad{ padding:12px 14px !important; border-radius:16px !important; margin-bottom:12px !important; }
+.ch-ad-tag{ font-size:9px !important; padding:3px 7px !important; letter-spacing:.1em !important; }
+.ch-ad-title{ font-size:18px !important; margin:6px 0 2px !important; }
+.ch-ad-sub{ font-size:11px !important; margin-bottom:10px !important; }
+.ch-ad-btn{ padding:9px 12px !important; border-radius:12px !important; font-size:13px !important; letter-spacing:.05em !important; }
+.ch-ad-ic{ font-size:15px !important; }
+
+.ref-card{ padding:12px !important; border-radius:16px !important; margin-bottom:12px !important; }
+.ref-card .pc-label{ font-size:17px !important; margin-bottom:4px !important; }
+.ref-card > div{ font-size:12px !important; }
+.ref-card input{ padding:9px 10px !important; font-size:13px !important; border-radius:11px !important; }
+.ref-card button{ min-height:38px !important; font-size:13px !important; border-radius:11px !important; }
+
+/* sound block: smaller slider and rows */
+.volume-row{ gap:8px !important; margin-top:6px; }
+.vol-label{ font-size:12px; }
+.vol-slider{ height:4px !important; }
+.vol-slider::-webkit-slider-thumb{ width:14px !important; height:14px !important; }
+.vol-slider::-moz-range-thumb{ width:14px !important; height:14px !important; box-shadow:0 0 0 2px #8b5cf6 !important; }
+.vol-value{ font-size:12px; min-width:34px; }
+
+/* ---- minimal sound block ---- */
+.sound-card{ padding:12px 14px !important; border-radius:16px !important; background:rgba(255,255,255,.025) !important; border:1px solid rgba(255,255,255,.07) !important; margin-bottom:12px !important; }
+.sound-card .pc-label{ font-size:11px !important; letter-spacing:.12em !important; text-transform:uppercase; color:#8d8199 !important; font-weight:700 !important; margin:0 0 10px !important; }
+.sound-card .casebg-note{ display:none !important; }
+.sound-card .switch{ transform:scale(.78); transform-origin:left center; margin-right:-6px; }
+.sound-card .balance-toggle-row, .sound-card > div:first-of-type{ font-size:12px; }
+.sound-card .volume-row{ display:flex; align-items:center; gap:10px; margin:8px 0 0 !important; }
+.sound-card .vol-label{ font-size:11px; color:#8d8199; min-width:64px; }
+.sound-card .vol-slider{ height:3px !important; background:rgba(255,255,255,.1) !important; }
+.sound-card .vol-value{ font-size:11px; color:#c9c0d6; min-width:30px; text-align:right; }
+.sound-card .pc-label:not(:first-child){ margin-top:14px !important; }
+.sound-card .btn2{ padding:7px 12px !important; font-size:12px !important; background:rgba(255,255,255,.06) !important; border:1px solid rgba(255,255,255,.1) !important; box-shadow:none !important; color:#d9cfee !important; border-radius:11px !important; }
+.sound-card .map-row{ margin-top:8px; gap:8px !important; }
+.sound-card .map-current{ font-size:11px; color:#8d8199; }
+
+/* ---- compact referral card ---- */
+.ref-card{ padding:12px 14px !important; }
+.ref-card .pc-label{ font-size:16px !important; margin-bottom:6px !important; }
+.ref-card > div:not(.pc-label){ line-height:1.4; }
+.ref-card input{ height:38px; }
+.ref-card button{ min-height:36px !important; font-size:12px !important; }
+.ref-card > div:nth-of-type(n+2){ margin-top:8px !important; }
+.ref-card > div{ font-size:12px !important; color:#a79cb8; }
+
+/* ---- very compact referral card ---- */
+.ref-card{ padding:12px !important; }
+.ref-card > div:not(.pc-label):not(.ref-tiers-note){ font-size:12px !important; }
+.ref-tiers-note{ font-size:11px !important; color:#8d8199; margin-top:8px !important; }
+.ref-card input{ height:34px !important; font-size:12px !important; padding:6px 10px !important; }
+.ref-card button{ min-height:32px !important; font-size:12px !important; border-radius:10px !important; }
+.ref-card .pc-label{ font-size:15px !important; margin-bottom:4px !important; }
+
+/* drum sizing for multi-open boxes */
+#rouletteWrap.multi .drum3d-wrap{ height:120px; }
+#rouletteWrap.multi .drum3d-wrap > .drum3d{ zoom:.6; }
+#rouletteWrap .drum3d-wrap{ height:170px; }
+
+/* 3D toggle sits next to "Фон" in the top-right corner */
+.open-tools{ display:flex; justify-content:flex-end; align-items:center; gap:8px; }
+.open-tools .drum-toggle{ padding:7px 12px !important; font-size:12px !important; }
+
+/* roulette cards: give the picture and name room, nothing gets clipped */
+.roulette-box{ height:150px !important; }
+.roulette-box.size-md{ height:124px !important; }
+.roulette-box.size-sm{ height:100px !important; }
+.roulette-track .skin-card{ width:96px; height:124px; margin:12px 4px; padding:8px 6px; box-sizing:border-box; justify-content:flex-start; }
+.roulette-track .skin-card .sart{ width:70px !important; height:58px !important; margin:0 0 6px; display:flex; align-items:center; justify-content:center; }
+.roulette-track .skin-card .sart svg{ width:100%; height:100%; }
+.roulette-track .skin-card .sname{ font-size:9px; line-height:1.15; max-height:24px; overflow:hidden; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; }
+#rouletteWrap.multi .roulette-track .skin-card{ width:84px; height:96px; margin:8px 4px; padding:6px 4px; }
+#rouletteWrap.multi .roulette-track .skin-card .sart{ width:54px !important; height:42px !important; margin-bottom:4px; }
+#rouletteWrap.multi .roulette-track .skin-card .sname{ font-size:8px; }
 </style>
 </head>
 <body ontouchstart="">
@@ -703,7 +975,7 @@ input, select, textarea { font-size:16px !important; }
   <div id="pCases" class="page active">
     <div class="referral-banner" id="referralBanner" style="display:none;">
       <svg viewBox="0 0 24 24" fill="none"><path d="M12 2L20 6V12C20 17 16.5 20.5 12 22C7.5 20.5 4 17 4 12V6L12 2Z" stroke="currentColor" stroke-width="1.6"/></svg>
-      <div><b>Вы пришли по приглашению</b><span>Откройте «Кейс приглашённого» во вкладке кейсов, чтобы получить 50 кристаллов</span></div>
+      <div><b>Вы пришли по приглашению</b><span>Откройте «Кейс приглашённого» во вкладке кейсов, чтобы получить 5000 кристаллов</span></div>
     </div>
 
     <div class="daily-strip">
@@ -782,7 +1054,7 @@ input, select, textarea { font-size:16px !important; }
     <button class="back-btn" onclick="switchTab('Cases')"><svg viewBox="0 0 24 24" fill="none"><path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Все кейсы</button>
     <div class="open-title" id="cName">Кейс</div>
     <div class="open-sub" id="cDesc">—</div>
-    <div class="open-tools"><button class="bg-btn" id="caseBgBtn" onclick="toggleCaseBg()">Фон</button></div>
+    <div class="open-tools"><button class="drum-toggle" id="drumToggle" onclick="toggleDrum3D()">3D: выкл</button><button class="bg-btn" id="caseBgBtn" onclick="toggleCaseBg()">Фон</button></div>
     <div class="roulette-wrap" id="rouletteWrap"></div>
 
     <div class="qty-row" id="qtyRow">
@@ -946,6 +1218,16 @@ input, select, textarea { font-size:16px !important; }
       <div class="inv-summary-box"><div class="lbl">Стоимость предметов</div><div class="val" id="invItemsValueVal">0 ◆</div></div>
     </div>
     <button class="btn2 btn2-blue" id="sellAllInvBtn" style="width:auto; padding:8px 14px; font-size:11px; margin-bottom:12px; display:inline-block;" onclick="sellAllInventory()">Продать всё</button>
+    <div class="inv-tools">
+      <button class="inv-tile inv-tile-hist" onclick="openHistory('all')">
+        <span class="inv-tile-ic">📜</span>
+        <span class="inv-tile-txt"><b>История</b><small>выигрыши и продажи</small></span>
+      </button>
+      <button class="inv-tile inv-tile-ach" onclick="openAchievements()">
+        <span class="inv-tile-ic">🏆</span>
+        <span class="inv-tile-txt"><b>Достижения</b><small>награды за прогресс</small></span>
+      </button>
+    </div>
     <div class="inventory-grid" id="invGrid"></div>
   </div>
 
@@ -984,7 +1266,7 @@ input, select, textarea { font-size:16px !important; }
 
     <div class="profile-card">
       <div class="pc-label">Реферальная программа</div>
-      <div class="pc-desc">Приглашай друзей по своей ссылке. Друг, который перейдёт по ссылке и откроет «Кейс приглашённого», получит 50 кристаллов. С ростом числа приглашённых у вас открываются новые кейсы.</div>
+      <div class="pc-desc">Приглашай друзей по своей ссылке. Друг, который перейдёт по ссылке и откроет «Кейс приглашённого», получит 5000 кристаллов, а вы — 10000 кристаллов за каждого приглашённого. С ростом числа приглашённых у вас открываются новые кейсы.</div>
       <input type="text" id="refLinkText" class="input-field" readonly>
       <div class="btn2-row">
         <button class="btn2 btn2-blue" onclick="copyRefLink()" style="flex:1;">Копировать</button>
@@ -1047,10 +1329,10 @@ input, select, textarea { font-size:16px !important; }
     <div class="win-content">
       <div class="win-eyebrow">ЗАРАБОТАТЬ КРИСТАЛЛЫ</div>
 
-      <div class="earn-option">
+      <div class="earn-option earn-sub-row">
         <div class="earn-option-icon">📢</div>
-        <div class="earn-option-info"><b>Подписаться на канал</b><span>Скоро будет доступно</span></div>
-        <button class="btn2 btn2-blue" disabled>Недоступно</button>
+        <div class="earn-option-info"><b>Подписаться на канал</b><span id="earnSubSub">@ecodropsimulator</span></div>
+        <div class="earn-sub-btns" id="earnSubBtns"></div>
       </div>
 
       <div class="earn-option">
@@ -1359,8 +1641,9 @@ function caseArtHTML(c, idSeed, dailyStyle){
   if(!c) return "";
   const svgFallback = dailyStyle ? caseArtDailySVG(idSeed) : caseArtSVG(c.colorA||"#8b5cf6", c.colorB||"#4c2f96", idSeed);
   if(c.previewImg){
-    return `<div style="width:100%;height:100%;position:relative;">
-      <img src="${c.previewImg}" alt="" style="width:100%;height:100%;object-fit:contain;" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+    const zoom = c.imgZoom || 1;   // per-case zoom to even out empty padding inside the source PNG
+    return `<div style="width:100%;height:100%;position:relative;overflow:hidden;border-radius:12px;">
+      <img src="${c.previewImg}" alt="" style="width:100%;height:100%;object-fit:cover;display:block;transform:scale(${zoom});transform-origin:50% 50%;" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
       <div style="display:none;width:100%;height:100%;">${svgFallback}</div>
     </div>`;
   }
@@ -1567,15 +1850,13 @@ const cases = [
   },
   {
     key:"invited", name:"Кейс приглашённого",
-    desc:"Доступен только тем, кто пришёл по реферальной ссылке. Откройте его первым — внутри почти гарантированный бонус +50 кристаллов.",
+    desc:"Доступен только тем, кто пришёл по реферальной ссылке. Откройте его первым — внутри гарантированные 5000 кристаллов.",
     unlockLabel:"Доступно только по реферальной ссылке",
     colorA:"#ffb84d", colorB:"#8f4310", cost:0, onceOnly:true,
     previewImg:"https://mykoglay.github.io/skin-mini-app/images/prigloscase.png",
     isUnlocked:s=>!!s.referredBy,
     drops:[
-      { skinId:"s4", weight:40 }, { skinId:"s6", weight:30 }, { skinId:"s10", weight:20 },
-      { skinId:"CASH_50", weight:9.98 },
-      { skinId:"s41", weight:0.01 }, { skinId:"s45", weight:0.01 }
+      { skinId:"CASH_5000", weight:1 }
     ]
   },
   {
@@ -2134,6 +2415,7 @@ let earnVideoPlaying = false;
 
 function openEarnModal(){
   updateEarnVideoUI();
+  renderSubTask();
   document.getElementById("earnModal").classList.add("active");
 }
 function closeEarnModal(){
@@ -2225,6 +2507,7 @@ function renderCases(){
 
     const el = document.createElement("div");
     el.className = "case-card" + (unlocked ? " unlocked" : "");
+    el.dataset.caseKey = c.key;
     el.onclick = ()=>{
       if(!unlocked){ shakeLock(el); return; }
       playUnlockAndOpen(el, c);
@@ -2314,6 +2597,7 @@ function renderPaidGrid(elId, list, cls){
   list.forEach((c,idx)=>{
     const el = document.createElement("div");
     el.className = "case-card " + cls + " unlocked";
+    el.dataset.caseKey = c.key;
     const hasContents = !!(c.drops && c.drops.length);
     el.onclick = hasContents ? ()=> playUnlockAndOpen(el, c) : ()=>{ shakeLock(el); showToast("Содержимое скоро будет добавлено"); };
     el.innerHTML = `
@@ -2464,6 +2748,7 @@ function selectCaseMap(key){
 }
 
 function openCasePage(c){
+  renderDrumToggle();
   currentCase = c;
   applyCaseBackground(c);
   openQty = 1;
@@ -2545,6 +2830,14 @@ function spinRoulette(fast){
   for(let i=0;i<qty;i++){
     const track = document.getElementById("track_"+i);
     if(!track) continue;
+    const boxEl = track.parentElement;
+    boxEl.querySelectorAll(".drum3d-wrap").forEach(n=>n.remove());
+    if(state.drum3d){
+      track.style.display = "none";
+      startDrum3D(boxEl, wonIds[i], spinDuration);
+      continue;
+    }
+    track.style.display = "";
     track.style.transition = "none"; track.style.transform = "translateX(0px)";
     const winIndex = buildTrackInto(track, currentCase, wonIds[i]);
     // stagger the rAF slightly per-track is unnecessary; each animates independently with its own random jitter
@@ -2558,6 +2851,9 @@ function spinRoulette(fast){
 
   setTimeout(()=>{
     state.casesOpenedTotal += qty;
+    ensureAch();
+    state.achStats.spent += isFree ? 0 : currentCase.cost*qty;
+    winCtx = {type:"case", name:currentCase.name, key:currentCase.key};
     state.openedCasesOnce[currentCase.key] = true;
     if(currentCase.key==="starter") state.lastStarterOpen = Date.now();
     saveState(); renderCases();
@@ -2595,6 +2891,7 @@ function chargeAndFastOpen(){
 
 /* ---------------- win modal (single item) ---------------- */
 function showWinModal(skin){
+  if(!skin.isCash) { logWon([skin], winCtx); dropFX(skin); }
   const r = RARITY[skin.rarity];
   sndReveal(skin.isCash ? "gold" : skin.rarity);
   document.getElementById("mArt").innerHTML = skinArtHTML(skin, "win");
@@ -2615,11 +2912,6 @@ function claimCashWin(){
   state.balance += currentWin.price; saveState(); updateBalanceUI();
   showToast(`+${currentWin.price} ◆ зачислено на баланс`); closeWinModal();
 }
-function sellCurrentWin(){
-  if(!currentWin) return;
-  state.balance += currentWin.price; saveState(); updateBalanceUI();
-  showToast(`Продано за ${fmtPrice(currentWin.price)}`); closeWinModal();
-}
 function keepCurrentWin(){
   if(!currentWin) return;
   state.inventory.push(Object.assign({instId: Date.now()+"_"+Math.random().toString(36).slice(2)}, currentWin));
@@ -2638,6 +2930,7 @@ function closeWinModal(){
 
 /* ---------------- multi-win modal (opening several cases at once) ---------------- */
 function showMultiWinModal(results){
+  logWon(results, winCtx);
   const grid = document.getElementById("multiGrid");
   let cashTotal = 0, sellTotal = 0;
   grid.innerHTML = results.map((skin,i)=>{
@@ -2652,13 +2945,6 @@ function showMultiWinModal(results){
   if(cashTotal>0){ state.balance += cashTotal; saveState(); updateBalanceUI(); }
   document.getElementById("multiSellTotal").innerText = fmtPrice(sellTotal);
   document.getElementById("multiWinModal").classList.add("active");
-}
-function sellAllMulti(){
-  const nonCash = multiResults.filter(s=>!s.isCash);
-  const sum = nonCash.reduce((a,s)=>a+s.price,0);
-  state.balance += sum; saveState(); updateBalanceUI();
-  showToast(`Продано всё за ${fmtPrice(sum)}`);
-  closeMultiWinModal();
 }
 function keepAllMulti(){
   const nonCash = multiResults.filter(s=>!s.isCash);
@@ -2681,51 +2967,6 @@ function closeMultiWinModal(){
 }
 
 /* ---------------- inventory ---------------- */
-function renderInventory(){
-  const grid = document.getElementById("invGrid");
-  const sellAllBtn = document.getElementById("sellAllInvBtn");
-  grid.innerHTML = "";
-  document.getElementById("invCount").innerText = state.inventory.length + " предметов";
-  document.getElementById("invBalanceVal").innerText = fmtPrice(state.balance);
-  document.getElementById("invItemsValueVal").innerText = fmtPrice(state.inventory.reduce((a,i)=>a+i.price,0));
-  sellAllBtn.disabled = state.inventory.length===0;
-  if(state.inventory.length===0){
-    sellAllBtn.innerText = "Продать всё";
-    grid.innerHTML = `<div class="inv-empty">
-      <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="7" width="18" height="13" rx="2" stroke="#9a8f9c" stroke-width="1.5"/><path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2" stroke="#9a8f9c" stroke-width="1.5"/></svg>
-      Инвентарь пуст — откройте кейс, чтобы получить первый предмет</div>`;
-    return;
-  }
-  const total = state.inventory.reduce((a,i)=>a+i.price,0);
-  sellAllBtn.innerText = `Продать всё за ${fmtPrice(total)}`;
-  state.inventory.forEach((item,index)=>{
-    const r = RARITY[item.rarity];
-    const card = document.createElement("div");
-    card.className = "inv-card"; card.style.borderTopColor = r.color;
-    card.innerHTML = `
-      <div class="art">${skinArtHTML(item, "inv"+index)}</div>
-      <div class="title">${item.name}</div>
-      <div class="price">${fmtPrice(item.price)}</div>
-      <button onclick="sellInvItem(${index})">Продать за ${fmtPrice(item.price)}</button>
-    `;
-    grid.appendChild(card);
-  });
-}
-function sellInvItem(index){
-  const item = state.inventory[index];
-  sndCoin();
-  state.balance += item.price; state.inventory.splice(index,1); saveState();
-  updateBalanceUI(); renderInventory(); showToast(`Продано за ${fmtPrice(item.price)}`);
-}
-function sellAllInventory(){
-  if(state.inventory.length===0) return;
-  sndCoin();
-  const total = state.inventory.reduce((a,i)=>a+i.price,0);
-  state.balance += total;
-  state.inventory = [];
-  saveState(); updateBalanceUI(); renderInventory();
-  showToast(`Продано всё за ${fmtPrice(total)}`);
-}
 
 /* ---------------- shop ---------------- */
 let shopSearchQuery = "";
@@ -2793,7 +3034,7 @@ function renderShop(){
       ${exclusive ? '<div class="exclusive-badge">ЭКСКЛЮЗИВ</div>' : ''}
       <div class="art">${skinArtHTML(skin, "shop"+skin.id)}</div>
       <div class="title">${skin.name}</div>
-      <div class="price ${skin.price<1000?'cheap':''}">${fmtPrice(skin.price)}</div>
+      <div class="price ${priceClass(skin)}">${fmtPrice(skin.price)}</div>
       <button ${affordable?'':'disabled'} onclick="buyShopItem('${skin.id}')">${affordable?'Купить':'Недостаточно ◆'}</button>
     `;
     grid.appendChild(card);
@@ -3057,9 +3298,22 @@ function doUpgrade(){
   btn.disabled = true; btn.innerText = "Крутим...";
 
   const success = Math.random()*100 < chance;
+  const upgStakeName = stakeSkin ? stakeSkin.name : "Кристаллы";
+  const upgStakeVal = currentStakeValue();
+  const upgTarget = targetSkin;
 
   spinGaugeNeedle(success, chance, ()=>{
     document.getElementById("gaugeArc").style.stroke = success ? "#3ddc84" : "#ff5566";
+    ensureAch();
+    state.achStats.upgradesTotal++;
+    state.achStats.spent += upgStakeVal;
+    if(success){
+      state.achStats.upgradesWon++;
+      winCtx = {type:"upgrade", name:upgStakeName};
+    } else {
+      logHistory({kind:"upgradeLose", src:"upgrade", name:upgStakeName, price:upgStakeVal, srcName: upgTarget ? upgTarget.name : ""});
+    }
+    saveState(); checkAchievements();
     if(success){
       if(targetSkin.isCase && caseByKey(targetSkin.caseKey)){
         showWonCaseModal(targetSkin);   // "Вы выиграли кейс" -> открыть его бесплатно
@@ -3523,6 +3777,11 @@ function finishBattle(participantResults, totalSlots, totalCost){
   else if(sideA>sideB) outcome = 'win';
   else outcome = 'lose';
 
+  ensureAch();
+  state.achStats.battlesTotal++;
+  if(outcome==='win') state.achStats.battlesWon++;
+  logHistory({kind: outcome==='win' ? 'battleWin' : outcome==='lose' ? 'battleLose' : 'battleDraw', src:'battle', srcName: battleMode, name:`Кейсбатл ${battleMode}`, price: totals[0]});
+  if(outcome==='win') logWon(participantResults[0]||[], {type:"battle", name: battleMode});
   if(outcome==='win'){
     participantResults.forEach(items=>{
       items.forEach(skin=>{
@@ -3723,6 +3982,7 @@ function renderCustomSoundInputs(){
 
 
 function renderProfile(){
+  renderChannelAd();
   document.getElementById("uName").innerText = userFirstName;
   document.getElementById("uId").innerText = "ID: " + userId;
   document.getElementById("avatarLetter").innerText = (userFirstName[0]||"?").toUpperCase();
@@ -3817,6 +4077,571 @@ function initApp(){
 }
 
 window.onload = initApp;
+
+
+/* shop price colour: knives, gloves, gold rarity and top covert skins are bright yellow */
+const HOT_NAME_RE = /Драгон Лор|Вой|Посейдон/;
+function priceClass(skin){
+  if(skin.rarity==="gold" || skin.shape==="knife" || skin.shape==="gloves" || HOT_NAME_RE.test(skin.name)) return "hot";
+  return skin.price<1000 ? "cheap" : "";
+}
+
+/* effect on big drops: gold = strong, covert = medium */
+function dropFX(skin){
+  const tier = skin.rarity==="gold" ? "strong" : skin.rarity==="covert" ? "medium" : null;
+  if(!tier) return;
+  const col = RARITY[skin.rarity].color;
+  if(navigator.vibrate) navigator.vibrate(tier==="strong" ? [40,60,40,60,80] : [30,40,30]);
+  document.body.classList.remove("fx-shake");
+  void document.body.offsetWidth;            // restart the animation
+  document.body.classList.add("fx-shake");
+  setTimeout(()=>document.body.classList.remove("fx-shake"), 520);
+  document.querySelectorAll(".fx-flash").forEach(n=>n.remove());
+  const f = document.createElement("div");
+  f.className = "fx-flash";
+  f.style.setProperty("--fx-peak", tier==="strong" ? ".7" : ".45");
+  f.style.background = `radial-gradient(circle at 50% 42%, ${col} 0%, transparent 65%)`;
+  document.body.appendChild(f);
+  setTimeout(()=>f.remove(), 800);
+}
+
+/* ================= 3D DRUM ================= */
+function renderDrumToggle(){
+  const b = document.getElementById("drumToggle");
+  if(!b) return;
+  b.innerText = state.drum3d ? "3D: вкл" : "3D: выкл";
+  b.classList.toggle("on", !!state.drum3d);
+}
+function toggleDrum3D(){
+  state.drum3d = !state.drum3d;
+  saveState(); renderDrumToggle();
+  showToast(state.drum3d ? "3D барабан включён (только для одного кейса)" : "3D барабан выключен");
+}
+function startDrum3D(box, winnerId, duration){
+  const N = 10, step = 360/N, R = 150;
+  const winner = skinById(winnerId) || currentCase.drops.map(d=>skinById(d.skinId)).find(Boolean);
+  const pool = currentCase.drops.map(d=>skinById(d.skinId)).filter(Boolean);
+  const k = Math.floor(Math.random()*N);
+  const items = [];
+  for(let i=0;i<N;i++) items.push(i===k ? winner : pool[Math.floor(Math.random()*pool.length)]);
+  const cards = items.map((sk,i)=>{
+    const col = RARITY[sk.rarity] ? RARITY[sk.rarity].color : "#8b5cf6";
+    return `<div class="d3-card" style="transform:rotateY(${i*step}deg) translateZ(${R}px); --d3c:${col}">
+      <div class="d3-art">${skinArtHTML(sk, "d3_"+i)}</div>
+      <div class="d3-name">${sk.name}</div></div>`;
+  }).join("");
+  const wrap = document.createElement("div");
+  wrap.className = "drum3d-wrap";
+  wrap.innerHTML = `<div class="drum3d">${cards}</div><div class="drum3d-pointer"></div>`;
+  box.appendChild(wrap);
+  const ring = wrap.querySelector(".drum3d");
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{
+    ring.style.transition = `transform ${duration}ms cubic-bezier(0.1,0.7,0.1,1)`;
+    ring.style.transform = `rotateY(${-k*step - 360*5}deg)`;
+  }));
+}
+
+/* ================= SELL RATE (курс) ================= */
+function dailySellState(){
+  const d = new Date();
+  const key = d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate();
+  if(!state.dailySell || state.dailySell.day!==key) state.dailySell = {day:key, total:0};
+  return state.dailySell;
+}
+function sellRateFor(total){ return total<20000 ? 1 : total<100000 ? 0.75 : 0.5; }
+function payoutFor(amount){
+  const ds = dailySellState();
+  const rate = sellRateFor(ds.total);
+  const pay = Math.round(amount*rate*100)/100;
+  ds.total += amount;
+  return {pay, rate};
+}
+
+/* ================= INVENTORY: sort, filter, multi-select, bulk sell ================= */
+const RARITY_ORDER = ["trash","mil","restr","classi","covert","gold"];
+let invSel = new Set();
+let invSelectMode = false;
+let invRarityFilter = "all";
+
+function ensureInvIds(){
+  state.inventory.forEach(it=>{ if(!it.instId) it.instId = Date.now()+"_"+Math.random().toString(36).slice(2); });
+}
+function invVisibleIndices(){
+  let idx = state.inventory.map((_,i)=>i);
+  if(invRarityFilter!=="all") idx = idx.filter(i=>state.inventory[i].rarity===invRarityFilter);
+  const sort = (document.getElementById("invSort")||{}).value || "new";
+  const inv = state.inventory;
+  if(sort==="price_desc") idx.sort((a,b)=>inv[b].price-inv[a].price);
+  else if(sort==="price_asc") idx.sort((a,b)=>inv[a].price-inv[b].price);
+  else if(sort==="rarity") idx.sort((a,b)=>RARITY_ORDER.indexOf(inv[b].rarity)-RARITY_ORDER.indexOf(inv[a].rarity));
+  else idx.reverse();
+  return idx;
+}
+function ensureInvToolbar(){
+  let tb = document.getElementById("invToolbar");
+  if(!tb){
+    tb = document.createElement("div");
+    tb.id = "invToolbar"; tb.className = "inv-toolbar";
+    const grid = document.getElementById("invGrid");
+    grid.parentElement.insertBefore(tb, grid);
+  }
+  return tb;
+}
+function renderInvToolbar(){
+  const tb = ensureInvToolbar();
+  const ds = dailySellState();
+  const rate = sellRateFor(ds.total);
+  const selItems = state.inventory.filter(it=>invSel.has(it.instId));
+  const selSum = selItems.reduce((a,i)=>a+i.price,0);
+  const chips = [["all","Все",""]].concat(RARITY_ORDER.map(k=>[k, RARITY[k].label, RARITY[k].color]));
+  tb.innerHTML = `
+    <div class="inv-rate">
+      <span>Курс сегодня: <b>×${rate}</b></span>
+      <span>Продано сегодня: ${fmtPrice(ds.total)}</span>
+    </div>
+    <div class="inv-row">
+      <select class="inv-select" id="invSort" onchange="renderInventory()">
+        <option value="new">Сначала новые</option>
+        <option value="price_desc">Дороже сверху</option>
+        <option value="price_asc">Дешевле сверху</option>
+        <option value="rarity">По редкости</option>
+      </select>
+      <button class="inv-btn ${invSelectMode?'primary':''}" onclick="toggleInvSelectMode()">${invSelectMode?'Готово':'☑ Выбрать'}</button>
+    </div>
+    <div class="inv-row">${chips.map(([k,l,c])=>`<button class="inv-chip ${invRarityFilter===k?'on':''}" style="${invRarityFilter===k||!c?'':'border-color:'+c+'66;color:'+c}" onclick="setInvRarity('${k}')">${l}</button>`).join("")}</div>
+    ${invSelectMode ? `<div class="inv-row">
+        <button class="inv-btn" onclick="selectAllVisible()">Выбрать видимые</button>
+        <button class="inv-btn" onclick="clearInvSel()">Снять выбор</button>
+        <button class="inv-btn primary" style="flex:1;" ${selItems.length?'':'disabled'} onclick="sellSelected()">Продать выбранные (${selItems.length}) · ${fmtPrice(Math.round(selSum*rate*100)/100)}</button>
+      </div>` : ""}`;
+}
+function renderInventory(){
+  ensureInvIds();
+  const grid = document.getElementById("invGrid");
+  const sellAllBtn = document.getElementById("sellAllInvBtn");
+  grid.innerHTML = "";
+  document.getElementById("invCount").innerText = state.inventory.length + " предметов";
+  document.getElementById("invBalanceVal").innerText = fmtPrice(state.balance);
+  document.getElementById("invItemsValueVal").innerText = fmtPrice(state.inventory.reduce((a,i)=>a+i.price,0));
+  sellAllBtn.disabled = state.inventory.length===0;
+  renderInvToolbar();
+  if(state.inventory.length===0){
+    sellAllBtn.innerText = "Продать всё";
+    grid.innerHTML = `<div class="inv-empty">
+      <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="7" width="18" height="13" rx="2" stroke="#9a8f9c" stroke-width="1.5"/><path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2" stroke="#9a8f9c" stroke-width="1.5"/></svg>
+      Инвентарь пуст — откройте кейс, чтобы получить первый предмет</div>`;
+    return;
+  }
+  const total = state.inventory.reduce((a,i)=>a+i.price,0);
+  sellAllBtn.innerText = `Продать всё за ${fmtPrice(total)}`;
+  const visible = invVisibleIndices();
+  if(visible.length===0){
+    grid.innerHTML = `<div class="inv-empty">Нет предметов по этому фильтру</div>`;
+    return;
+  }
+  visible.forEach(index=>{
+    const item = state.inventory[index];
+    const r = RARITY[item.rarity];
+    const selected = invSel.has(item.instId);
+    const card = document.createElement("div");
+    card.className = "inv-card" + (selected ? " inv-sel" : "");
+    card.style.borderTopColor = r.color;
+    card.style.position = "relative";
+    card.innerHTML = `
+      ${invSelectMode ? `<div class="inv-check">${selected?'✓':''}</div>` : ""}
+      <div class="art">${skinArtHTML(item, "inv"+index)}</div>
+      <div class="title">${item.name}</div>
+      <div class="price">${fmtPrice(item.price)}</div>
+      ${invSelectMode ? "" : `<button onclick="sellInvItem(${index})">Продать за ${fmtPrice(item.price)}</button>`}
+    `;
+    if(invSelectMode) card.onclick = ()=>toggleInvSel(item.instId);
+    grid.appendChild(card);
+  });
+}
+function toggleInvSelectMode(){
+  invSelectMode = !invSelectMode;
+  if(!invSelectMode) invSel.clear();
+  renderInventory();
+}
+function setInvRarity(k){ invRarityFilter = k; renderInventory(); }
+function toggleInvSel(id){
+  if(invSel.has(id)) invSel.delete(id); else invSel.add(id);
+  renderInventory();
+}
+function selectAllVisible(){
+  invVisibleIndices().forEach(i=>invSel.add(state.inventory[i].instId));
+  renderInventory();
+}
+function clearInvSel(){ invSel.clear(); renderInventory(); }
+function sellSelected(){
+  const items = state.inventory.filter(it=>invSel.has(it.instId));
+  if(!items.length) return;
+  const pr = payoutFor(items.reduce((a,i)=>a+i.price,0));
+  sndCoin();
+  state.balance += pr.pay;
+  state.inventory = state.inventory.filter(it=>!invSel.has(it.instId));
+  logSold(items);
+  invSel.clear(); invSelectMode = false;
+  updateBalanceUI(); renderInventory();
+  showToast(`Продано ${items.length} шт. за ${fmtPrice(pr.pay)}` + (pr.rate<1 ? ` · курс ×${pr.rate}` : ""));
+}
+
+/* ---- single sells (now use the rate too) ---- */
+function sellInvItem(index){
+  const item = state.inventory[index];
+  if(!item) return;
+  const pr = payoutFor(item.price);
+  sndCoin();
+  state.balance += pr.pay; state.inventory.splice(index,1); logSold([item]);
+  invSel.delete(item.instId);
+  updateBalanceUI(); renderInventory();
+  showToast(`Продано за ${fmtPrice(pr.pay)}` + (pr.rate<1 ? ` · курс ×${pr.rate}` : ""));
+}
+function sellAllInventory(){
+  if(state.inventory.length===0) return;
+  sndCoin();
+  const pr = payoutFor(state.inventory.reduce((a,i)=>a+i.price,0));
+  state.balance += pr.pay;
+  logSold(state.inventory.slice());
+  state.inventory = []; invSel.clear(); invSelectMode = false;
+  saveState(); updateBalanceUI(); renderInventory();
+  showToast(`Продано всё за ${fmtPrice(pr.pay)}` + (pr.rate<1 ? ` · курс ×${pr.rate}` : ""));
+}
+function sellCurrentWin(){
+  if(!currentWin) return;
+  const pr = payoutFor(currentWin.price);
+  state.balance += pr.pay; logSold([currentWin]); updateBalanceUI();
+  showToast(`Продано за ${fmtPrice(pr.pay)}`); closeWinModal();
+}
+function sellAllMulti(){
+  const nonCash = multiResults.filter(s=>!s.isCash);
+  const pr = payoutFor(nonCash.reduce((a,s)=>a+s.price,0));
+  state.balance += pr.pay; logSold(nonCash); updateBalanceUI();
+  showToast(`Продано всё за ${fmtPrice(pr.pay)}`);
+  closeMultiWinModal();
+}
+
+/* ================= SUBSCRIPTION TASK (reward once per Telegram account, checked on server) ================= */
+const SUB_LINK = "https://t.me/ecodropsimulator";
+const SUB_REWARD = 2500;
+const SUB_API = ""; // сюда вставить адрес сервера, например "https://your-server.example.com/api/subscribe-claim". Пока пусто — награда не выдаётся.
+
+function renderSubTask(){
+  const box = document.getElementById("earnSubBtns");
+  const sub = document.getElementById("earnSubSub");
+  if(!box) return;
+  if(sub) sub.innerText = `+${SUB_REWARD} ◆ · один раз`;
+  if(state.subClaimed){
+    box.innerHTML = `<span class="earn-sub-done">✓ Получено</span>`;
+    return;
+  }
+  box.innerHTML = `
+    <button class="btn2 btn2-blue" onclick="openSubChannel()">Подписаться</button>
+    <button class="btn2 btn2-acc" onclick="claimSubReward()">Проверить</button>`;
+}
+function openSubChannel(){
+  if(tg && tg.openTelegramLink) tg.openTelegramLink(SUB_LINK);
+  else window.open(SUB_LINK, "_blank");
+}
+async function claimSubReward(){
+  if(state.subClaimed){ showToast("Награда уже получена"); return; }
+  if(!SUB_API){ showToast("Проверка подписки пока не настроена"); return; }
+  if(!tg || !tg.initData){ showToast("Откройте игру из Telegram"); return; }
+  try{
+    const r = await fetch(SUB_API, {
+      method:"POST", headers:{"Content-Type":"application/json"},
+      body: JSON.stringify({ initData: tg.initData })
+    });
+    const data = await r.json();
+    if(data.ok){
+      state.subClaimed = true;
+      state.balance += SUB_REWARD; saveState(); updateBalanceUI();
+      showToast(`+${SUB_REWARD} ◆ за подписку!`);
+      renderSubTask();
+    } else if(data.reason === "already"){
+      state.subClaimed = true; saveState(); renderSubTask();
+      showToast("Награда уже получена");
+    } else if(data.reason === "not_subscribed"){
+      showToast("Подписка не найдена. Подпишитесь и нажмите «Проверить»");
+    } else {
+      showToast("Не удалось проверить, попробуйте позже");
+    }
+  }catch(e){
+    showToast("Нет связи с сервером");
+  }
+}
+
+/* profile banner for the channel/group */
+function renderChannelAd(){
+  const soundCard = document.getElementById("soundVolumeSlider");
+  if(soundCard) soundCard.closest(".profile-card")?.classList.add("sound-card");
+  const anchor = document.getElementById("uName");
+  if(!anchor) return;
+  let card = document.getElementById("chAd");
+  if(!card){
+    card = document.createElement("div");
+    card.id = "chAd"; card.className = "ch-ad";
+  }
+  // place the banner right below the referral card (before the "О валюте" block)
+  const ref = document.getElementById("refLinkText");
+  const refCard = ref ? ref.closest(".profile-card") : null;
+  if(refCard){
+    refCard.classList.add("ref-card");
+    // compact text: one short line instead of the long description, tiers and the developer note
+    const isTier = t => /рефералов\s*—/.test(t) && t.length < 80;
+    [...refCard.querySelectorAll("*")].forEach(el=>{
+      const t = el.textContent.trim();
+      const parentT = el.parentElement ? el.parentElement.textContent.trim() : "";
+      const outermost = !(el.parentElement && (
+        (t.startsWith("Приглашай друзей") && parentT.startsWith("Приглашай друзей")) ||
+        (t.startsWith("Примечание") && parentT.startsWith("Примечание")) ||
+        (isTier(t) && isTier(parentT))));
+      if(!outermost) return;
+      if(t.startsWith("Приглашай друзей")) el.textContent = "Друг получит 5000 ◆, а вы — 10000 ◆ за каждого.";
+      else if(t.startsWith("Примечание") || isTier(t)) el.style.display = "none";
+    });
+    if(!refCard.querySelector(".ref-tiers-note")){
+      const n = document.createElement("div");
+      n.className = "ref-tiers-note";
+      n.textContent = "5 · 10 · 20 рефералов — новые кейсы";
+      refCard.appendChild(n);
+    }
+    refCard.after(card);
+  } else {
+    const host = anchor.closest(".page") || anchor.parentElement;
+    host.prepend(card);
+  }
+  card.innerHTML = `
+    <span class="ch-ad-tag">Telegram-группа</span>
+    <div class="ch-ad-title">Наша группа @ecodropsimulator</div>
+    <div class="ch-ad-sub">Новости, промокоды, розыгрыши и обновления игры первыми.</div>
+    <button class="ch-ad-btn" onclick="openSubChannel()"><span class="ch-ad-ic">✈️</span>Перейти в группу</button>`;
+}
+/* ================= HISTORY · ACHIEVEMENTS · LONG-PRESS PREVIEW ================= */
+let winCtx = {type:"case", name:""};
+const SRC_LABEL = {case:"КЕЙС", upgrade:"АПГРЕЙД", battle:"КЕЙСБАТЛ", sell:"ПРОДАЖА"};
+const SRC_COLOR = {case:"#8b5cf6", upgrade:"#f5b841", battle:"#ff4d8d", sell:"#3ddc84"};
+
+function ensureAch(){
+  state.history = state.history || [];
+  state.achievements = state.achievements || {};
+  state.achStats = Object.assign({ upgradesTotal:0, upgradesWon:0, battlesTotal:0, battlesWon:0, soldCount:0, spent:0, bestDrop:0, uniqueCases:{}, rarityCount:{} }, state.achStats||{});
+}
+function logHistory(entry){
+  ensureAch();
+  state.history.unshift(Object.assign({ t: Date.now() }, entry));
+  if(state.history.length > 300) state.history.length = 300;
+}
+function logWon(items, ctx){
+  ensureAch();
+  (items||[]).forEach(it=>{
+    if(!it || it.isCash) return;
+    logHistory({ kind:"won", src:ctx.type, srcName:ctx.name||"", name:it.name, price:it.price, rarity:it.rarity, shape:it.shape, img:it.previewImg||"" });
+    state.achStats.rarityCount[it.rarity] = (state.achStats.rarityCount[it.rarity]||0) + 1;
+    state.achStats.bestDrop = Math.max(state.achStats.bestDrop||0, it.price||0);
+  });
+  if(ctx.type==="case" && ctx.key) state.achStats.uniqueCases[ctx.key] = true;
+  saveState(); checkAchievements();
+}
+function logSold(items){
+  ensureAch();
+  items.forEach(it=> logHistory({ kind:"sold", src:"sell", name:it.name, price:it.price, rarity:it.rarity, shape:it.shape, img:it.previewImg||"" }));
+  state.achStats.soldCount += items.length;
+  saveState(); checkAchievements();
+}
+
+/* ---------- achievements ---------- */
+const ACH_DEFS = [];
+function achSeries(group, stat, thresholds, titleFn, icon){
+  thresholds.forEach((t,i)=> ACH_DEFS.push({ id:`${stat}_${t}`, group, stat, target:t, icon, title:titleFn(t), reward:i+1 }));
+}
+achSeries("Кейсы","cases",[1,5,10,25,50,100,250,500,1000,2500], t=>`Открыть кейсов: ${t}`, "📦");
+achSeries("Кейсы","uniqueCases",[2,4,6,8,10,15,20], t=>`Открыть разных кейсов: ${t}`, "🗂️");
+achSeries("Апгрейды","upgrades",[1,5,10,25,50,100,250], t=>`Сделать апгрейдов: ${t}`, "⬆️");
+achSeries("Апгрейды","upgradesWon",[1,3,5,10,25,50,100], t=>`Успешных апгрейдов: ${t}`, "✨");
+achSeries("Кейсбатлы","battles",[1,5,10,25,50,100], t=>`Сыграть кейсбатлов: ${t}`, "⚔️");
+achSeries("Кейсбатлы","battlesWon",[1,3,5,10,25,50], t=>`Выиграть кейсбатлов: ${t}`, "🏆");
+achSeries("Продажи","sold",[1,5,10,25,50,100,250,500], t=>`Продать предметов: ${t}`, "💰");
+achSeries("Траты","spent",[100,500,1000,5000,10000,50000,100000], t=>`Потратить кристаллов: ${t}`, "💎");
+achSeries("Дропы","bestDrop",[100,500,1000,5000,10000,50000], t=>`Выбить предмет дороже ${t} ◆`, "🎯");
+achSeries("Вход","streak",[3,7,14,30,60], t=>`Серия входов: ${t} дн.`, "📅");
+achSeries("Рефералы","referrals",[1,3,10,25], t=>`Пригласить друзей: ${t}`, "👥");
+Object.keys(RARITY).forEach(k=>{
+  achSeries("Редкости", `rar_${k}`, [1,10,50], t=>`${RARITY[k].label}: выбить ${t}`, "🎲");
+});
+
+function achValue(stat){
+  ensureAch();
+  const st = state.achStats;
+  switch(stat){
+    case "cases": return state.casesOpenedTotal||0;
+    case "uniqueCases": return Object.keys(st.uniqueCases).length;
+    case "upgrades": return st.upgradesTotal;
+    case "upgradesWon": return st.upgradesWon;
+    case "battles": return st.battlesTotal;
+    case "battlesWon": return st.battlesWon;
+    case "sold": return st.soldCount;
+    case "spent": return Math.floor(st.spent);
+    case "bestDrop": return Math.floor(st.bestDrop);
+    case "streak": return state.loginStreak||0;
+    case "referrals": return state.referralsCount||0;
+    default:
+      if(stat.startsWith("rar_")) return st.rarityCount[stat.slice(4)]||0;
+      return 0;
+  }
+}
+function checkAchievements(){
+  ensureAch();
+  let gained = 0; const names = [];
+  ACH_DEFS.forEach(d=>{
+    if(state.achievements[d.id]) return;
+    if(achValue(d.stat) >= d.target){
+      state.achievements[d.id] = Date.now();
+      state.balance += d.reward; gained += d.reward; names.push(d.title);
+    }
+  });
+  if(names.length){
+    saveState(); updateBalanceUI();
+    showToast(names.length===1 ? `🏆 ${names[0]} · +${gained} ◆` : `🏆 Достижений: ${names.length} · +${gained} ◆`);
+  }
+}
+function openAchievements(){
+  checkAchievements();
+  const done = ACH_DEFS.filter(d=>state.achievements[d.id]).length;
+  let html = `<div class="ach-sum">Открыто <b>${done}</b> из ${ACH_DEFS.length}</div>`;
+  [...new Set(ACH_DEFS.map(d=>d.group))].forEach(g=>{
+    html += `<div class="ach-group">${g}</div>`;
+    ACH_DEFS.filter(d=>d.group===g).forEach(d=>{
+      const isDone = !!state.achievements[d.id];
+      const val = Math.min(achValue(d.stat), d.target);
+      const pct = Math.round(val/d.target*100);
+      html += `<div class="ach-item ${isDone?'done':''}">
+        <div class="ach-ic">${isDone?'✓':d.icon}</div>
+        <div class="ach-body"><div class="ach-t">${d.title}</div>
+          <div class="ach-bar"><i style="width:${pct}%"></i></div>
+          <div class="ach-meta">${val} / ${d.target}</div></div>
+        <div class="ach-rw">+${d.reward} ◆</div></div>`;
+    });
+  });
+  openOverlay("Достижения", html);
+}
+
+/* ---------- history ---------- */
+let histFilter = "all";
+function histRowHTML(h){
+  const src = h.src || "case";
+  const color = SRC_COLOR[src] || "#8b5cf6";
+  const kindTxt = {won:"Выигрыш", sold:"Продано", upgradeLose:"Апгрейд: провал", battleWin:"Баттл: победа", battleLose:"Баттл: поражение", battleDraw:"Баттл: ничья"}[h.kind] || h.kind;
+  const d = new Date(h.t);
+  const pad = n => String(n).padStart(2,"0");
+  const when = `${pad(d.getDate())}.${pad(d.getMonth()+1)} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+  const art = h.shape
+    ? `<div class="ux-art">${skinArtHTML({name:h.name, rarity:h.rarity||"trash", shape:h.shape, previewImg:h.img||""}, "h"+h.t)}</div>`
+    : `<div class="ux-art">${src==='battle'?'⚔️':src==='upgrade'?'⬆️':'📦'}</div>`;
+  return `<div class="ux-row">${art}
+    <div class="ux-info">
+      <div class="ux-name">${h.name}</div>
+      <div class="ux-sub"><span class="ux-pill" style="color:${color};border-color:${color}66;background:${color}1a">${SRC_LABEL[src]||""}</span>${kindTxt}${h.srcName ? " · "+h.srcName : ""} · ${when}</div>
+    </div>
+    <div class="ux-price">${h.price!=null ? fmtPrice(h.price) : ""}</div></div>`;
+}
+function openHistory(f){
+  if(f) histFilter = f;
+  ensureAch();
+  const filters = [["all","Все"],["won","Выигрыши"],["sold","Продажи"],["upgrade","Апгрейды"],["battle","Кейсбатлы"]];
+  const pass = h => histFilter==="all" ? true
+    : histFilter==="won" ? h.kind==="won"
+    : histFilter==="sold" ? h.kind==="sold"
+    : histFilter==="upgrade" ? h.src==="upgrade"
+    : h.src==="battle";
+  const list = state.history.filter(pass);
+  const won = state.history.filter(h=>h.kind==="won").length;
+  const sold = state.history.filter(h=>h.kind==="sold").length;
+  let html = `<div class="ux-stats">
+      <div><span>Выиграно</span><b>${won}</b></div>
+      <div><span>Продано</span><b>${sold}</b></div>
+      <div><span>Баттлы</span><b>${state.achStats.battlesTotal}</b></div></div>
+    <div class="ux-chips">${filters.map(([k,l])=>`<button class="ux-chip ${histFilter===k?'on':''}" onclick="openHistory('${k}')">${l}</button>`).join("")}</div>`;
+  html += list.length ? list.slice(0,200).map(histRowHTML).join("") : `<div class="ux-empty">Пока пусто</div>`;
+  openOverlay("История", html);
+}
+
+/* ---------- long-press preview of a case ---------- */
+function openCasePreview(key){
+  const c = caseByKey(key);
+  if(!c) return;
+  const drops = (c.drops||[]).filter(d=>d.weight>0);
+  if(!drops.length){ showToast("Содержимое скоро будет добавлено"); return; }
+  const total = drops.reduce((a,d)=>a+d.weight,0);
+  const items = drops.map(d=>({ s: skinById(d.skinId), odds: d.weight/total*100 }))
+    .filter(x=>x.s).sort((a,b)=>b.s.price-a.s.price);
+  const best = items[0] ? items[0].s : null;
+  const bestCol = best && RARITY[best.rarity] ? RARITY[best.rarity].color : "#8b5cf6";
+  const html = `
+    <div class="cp-hero" style="--cp-col:${bestCol}">
+      <div class="cp-hero-art">${caseArtHTML(c, "cpHero")}</div>
+      <div class="cp-hero-meta">
+        <div class="cp-cost">${c.cost} ◆</div>
+        <div class="cp-count">${items.length} предметов</div>
+        ${best ? `<div class="cp-best">Лучший: <b>${fmtPrice(best.price)}</b></div>` : ""}
+      </div>
+    </div>
+    <div class="cp-grid">` + items.map(x=>{
+      const col = RARITY[x.s.rarity] ? RARITY[x.s.rarity].color : "#8b5cf6";
+      const pct = Math.min(100, x.odds*2.2);
+      return `<div class="cp-item" style="--rc:${col}">
+        <div class="cp-art">${skinArtHTML(x.s, "pv"+x.s.id)}</div>
+        <div class="cp-name">${x.s.name}</div>
+        <div class="cp-price">${fmtPrice(x.s.price)}</div>
+        <div class="cp-odds"><i style="width:${pct}%"></i></div>
+        <div class="cp-pct">${x.odds<0.1 ? x.odds.toFixed(3) : x.odds.toFixed(2)}%</div>
+      </div>`;
+    }).join("") + `</div>`;
+  openOverlay(c.name, html);
+}
+
+/* ---------- shared overlay ---------- */
+function openOverlay(title, bodyHTML){
+  let ov = document.getElementById("uxOverlay");
+  if(!ov){
+    ov = document.createElement("div");
+    ov.id = "uxOverlay"; ov.className = "ux-overlay";
+    ov.innerHTML = `<div class="ux-sheet"><div class="ux-head"><div class="ux-title"></div><button class="ux-close" onclick="closeOverlay()">✕</button></div><div class="ux-body"></div></div>`;
+    ov.addEventListener("click", e=>{ if(e.target===ov) closeOverlay(); });
+    document.body.appendChild(ov);
+  }
+  ov.querySelector(".ux-title").innerText = title;
+  ov.querySelector(".ux-body").innerHTML = bodyHTML;
+  ov.classList.add("active");
+}
+function closeOverlay(){
+  const ov = document.getElementById("uxOverlay");
+  if(ov) ov.classList.remove("active");
+}
+
+/* long press (~0.4 s) on a case card opens its preview; a normal tap still opens the case */
+let lpTimer = null, lpSuppress = false;
+document.addEventListener("pointerdown", e=>{
+  const card = e.target.closest && e.target.closest(".case-card[data-case-key]");
+  if(!card) return;
+  lpSuppress = false;
+  clearTimeout(lpTimer);
+  lpTimer = setTimeout(()=>{
+    lpSuppress = true;
+    if(navigator.vibrate) navigator.vibrate(12);
+    openCasePreview(card.dataset.caseKey);
+  }, 400);
+});
+["pointerup","pointercancel","pointerleave","pointermove"].forEach(ev=>
+  document.addEventListener(ev, ()=>clearTimeout(lpTimer), true));
+document.addEventListener("click", e=>{
+  if(lpSuppress){ e.stopPropagation(); e.preventDefault(); lpSuppress = false; }
+}, true);
+document.addEventListener("contextmenu", e=>{
+  if(e.target.closest && e.target.closest(".case-card")) e.preventDefault();
+});
+
+setTimeout(checkAchievements, 1500);
 </script>
 </body>
 </html>
