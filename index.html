@@ -939,6 +939,10 @@ body.fx-shake{animation:fxShake .5s ease-in-out;}
 #rouletteWrap.multi .roulette-track .skin-card{ width:84px; height:96px; margin:8px 4px; padding:6px 4px; }
 #rouletteWrap.multi .roulette-track .skin-card .sart{ width:54px !important; height:42px !important; margin-bottom:4px; }
 #rouletteWrap.multi .roulette-track .skin-card .sname{ font-size:8px; }
+
+/* case cards: keep a fixed 4:3 picture frame, no flattening */
+
+
 </style>
 </head>
 <body ontouchstart="">
@@ -1054,7 +1058,7 @@ body.fx-shake{animation:fxShake .5s ease-in-out;}
     <button class="back-btn" onclick="switchTab('Cases')"><svg viewBox="0 0 24 24" fill="none"><path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Все кейсы</button>
     <div class="open-title" id="cName">Кейс</div>
     <div class="open-sub" id="cDesc">—</div>
-    <div class="open-tools"><button class="drum-toggle" id="drumToggle" onclick="toggleDrum3D()">3D: выкл</button><button class="bg-btn" id="caseBgBtn" onclick="toggleCaseBg()">Фон</button></div>
+    <div class="open-tools"><button class="bg-btn" id="caseBgBtn" onclick="toggleCaseBg()">Фон</button></div>
     <div class="roulette-wrap" id="rouletteWrap"></div>
 
     <div class="qty-row" id="qtyRow">
@@ -2004,75 +2008,75 @@ const csDnSkins = [
 
 const officialCases = [
   { key:"off_fever", name:"Fever Case", cost:650, desc:"Кейс «Лихорадка» из Армори. Ставка 650 ◆.",
-    previewImg:"https://mykoglay.github.io/skin-mini-app/images/case/fevercase.png",
+    previewImg:"https://mykoglay.github.io/skin-mini-app/images/fevercase.png",
     colorA:"#ff5a8a", colorB:"#7a1f3f", isUnlocked:s=>true, drops:[] },
   { key:"off_kilowatt", name:"Kilowatt Case", cost:750, desc:"Коллекция «Киловатт». Реалистичная цена как за настоящий кейс — 750 ◆.",
     colorA:"#3ec6ff", colorB:"#1f5f8f", isUnlocked:s=>true,
-    previewImg:"https://mykoglay.github.io/skin-mini-app/images/case/killowatcase.png",
+    previewImg:"https://mykoglay.github.io/skin-mini-app/images/killowatcase.png",
     drops:[ {skinId:"cs_kw_01",weight:8.75},{skinId:"cs_kw_02",weight:8.75},{skinId:"cs_kw_03",weight:8.75},{skinId:"cs_kw_04",weight:8.75},{skinId:"cs_kw_05",weight:8.75},{skinId:"cs_kw_06",weight:8.75},{skinId:"cs_kw_07",weight:8.75},{skinId:"cs_kw_08",weight:8.75},{skinId:"cs_kw_09",weight:11},{skinId:"cs_kw_10",weight:11},{skinId:"cs_kw_11",weight:1.54},{skinId:"cs_kw_12",weight:1.54},{skinId:"cs_kw_13",weight:1.54},{skinId:"cs_kw_14",weight:1.54},{skinId:"cs_kw_15",weight:1.54},{skinId:"cs_kw_16",weight:0.3} ] },
   { key:"off_revolution", name:"Revolution Case", cost:800, desc:"Коллекция «Революция». Ставка 800 ◆.",
     colorA:"#ff5f5f", colorB:"#8f2323", isUnlocked:s=>true,
-    previewImg:"https://mykoglay.github.io/skin-mini-app/images/case/revocase.png",
+    previewImg:"https://mykoglay.github.io/skin-mini-app/images/revocase.png",
     drops:[ {skinId:"s12",weight:34},{skinId:"s16",weight:30},{skinId:"s21",weight:28},{skinId:"s25",weight:7.5},{skinId:"s41",weight:0.14},{skinId:"s58",weight:0.022} ] },
   { key:"off_fracture", name:"Fracture Case", cost:650, desc:"Коллекция «Разлом». Ставка 650 ◆.",
     colorA:"#ffb347", colorB:"#8f5a1f", isUnlocked:s=>true,
-    previewImg:"https://mykoglay.github.io/skin-mini-app/images/case/razlomcase.png",
+    previewImg:"https://mykoglay.github.io/skin-mini-app/images/razlomcase.png",
     drops:[ {skinId:"s3",weight:36},{skinId:"s13",weight:30},{skinId:"s18",weight:26},{skinId:"s24",weight:7.5},{skinId:"s46",weight:0.14},{skinId:"s57",weight:0.022} ] },
   { key:"off_recoil", name:"Recoil Case", cost:850, desc:"Коллекция «Отдача». Ставка 850 ◆.",
     colorA:"#8f6bff", colorB:"#3f2b8f", isUnlocked:s=>true,
-    previewImg:"https://mykoglay.github.io/skin-mini-app/images/case/recoilcase.png",
+    previewImg:"https://mykoglay.github.io/skin-mini-app/images/recoilcase.png",
     drops:[ {skinId:"s18",weight:32},{skinId:"s28",weight:30},{skinId:"s33",weight:28},{skinId:"s49",weight:3.325},{skinId:"s55",weight:0.088},{skinId:"s56",weight:0.022} ] },
   { key:"off_dreams", name:"Dreams & Nightmares Case", cost:950, desc:"Коллекция «Сны и кошмары». Ставка 95 ◆.",
     colorA:"#ff4fd8", colorB:"#7a1f6b", isUnlocked:s=>true,
-    previewImg:"https://mykoglay.github.io/skin-mini-app/images/case/dreamcase.png",
+    previewImg:"https://mykoglay.github.io/skin-mini-app/images/dreamcase.png",
     drops:[ {skinId:"cs_dn_01",weight:0.3200},{skinId:"cs_dn_02",weight:0.3200},{skinId:"cs_dn_03",weight:1.0667},{skinId:"cs_dn_04",weight:1.0667},{skinId:"cs_dn_05",weight:1.0667},{skinId:"cs_dn_06",weight:3.1960},{skinId:"cs_dn_07",weight:3.1960},{skinId:"cs_dn_08",weight:3.1960},{skinId:"cs_dn_09",weight:3.1960},{skinId:"cs_dn_10",weight:3.1960},{skinId:"cs_dn_11",weight:19.9800},{skinId:"cs_dn_12",weight:19.9800},{skinId:"cs_dn_13",weight:19.9800},{skinId:"cs_dn_14",weight:19.9800},{skinId:"cs_dn_15",weight:0.0325},{skinId:"cs_dn_16",weight:0.0325},{skinId:"cs_dn_17",weight:0.0325},{skinId:"cs_dn_18",weight:0.0325},{skinId:"cs_dn_19",weight:0.0325},{skinId:"cs_dn_20",weight:0.0325},{skinId:"cs_dn_21",weight:0.0325},{skinId:"cs_dn_22",weight:0.0325} ] },
   { key:"off_anubis", name:"Anubis Collection", cost:700, desc:"Коллекция «Анубис». Ставка 700 ◆.",
     colorA:"#e8c368", colorB:"#7a5a1a", isUnlocked:s=>true,
-    previewImg:"https://mykoglay.github.io/skin-mini-app/images/case/colectanubis.png",
+    previewImg:"https://mykoglay.github.io/skin-mini-app/images/colectanubis.png",
     drops:[ {skinId:"s19",weight:34},{skinId:"s27",weight:30},{skinId:"s34",weight:27},{skinId:"s44",weight:2.975},{skinId:"s62",weight:0.14},{skinId:"s65",weight:0.022} ] },
   { key:"off_riptide", name:"Operation Riptide", cost:900, desc:"Коллекция «Риптайд». Ставка 900 ◆.",
     colorA:"#4de0c7", colorB:"#1c6f5f", isUnlocked:s=>true,
-    previewImg:"https://mykoglay.github.io/skin-mini-app/images/case/ripripcase.png",
+    previewImg:"https://mykoglay.github.io/skin-mini-app/images/ripripcase.png",
     drops:[ {skinId:"s20",weight:33},{skinId:"s29",weight:30},{skinId:"s37",weight:27},{skinId:"s51",weight:3.325},{skinId:"s63",weight:0.14},{skinId:"s55",weight:0.022} ] },
   { key:"off_snakebite", name:"Snakebite Case", cost:600, desc:"Коллекция «Укус змеи». Ставка 600 ◆.",
     colorA:"#8bd450", colorB:"#3f6f1c", isUnlocked:s=>true,
-    previewImg:"https://mykoglay.github.io/skin-mini-app/images/case/snakecase.png",
+    previewImg:"https://mykoglay.github.io/skin-mini-app/images/snakecase.png",
     drops:[ {skinId:"s2",weight:36},{skinId:"s15",weight:30},{skinId:"s26",weight:26},{skinId:"s38",weight:7.5},{skinId:"s50",weight:0.14},{skinId:"s52",weight:0.022} ] },
   { key:"off_brokenfang", name:"Broken Fang Case", cost:780, desc:"Коллекция «Сломанный клык». Ставка 780 ◆.",
     colorA:"#e05fae", colorB:"#7a1f5a", isUnlocked:s=>true,
-    previewImg:"https://mykoglay.github.io/skin-mini-app/images/case/brokencase.png",
+    previewImg:"https://mykoglay.github.io/skin-mini-app/images/brokencase.png",
     drops:[ {skinId:"s9",weight:35},{skinId:"s22",weight:30},{skinId:"s31",weight:27},{skinId:"s42",weight:2.625},{skinId:"s53",weight:0.088},{skinId:"s64",weight:0.022} ] },
   { key:"off_prisma", name:"Prisma Case", cost:550, desc:"Коллекция «Призма». Ставка 550 ◆.",
     colorA:"#ff8fd0", colorB:"#8f2f6b", isUnlocked:s=>true,
-    previewImg:"https://mykoglay.github.io/skin-mini-app/images/case/prisma2case.png",
+    previewImg:"https://mykoglay.github.io/skin-mini-app/images/prisma2case.png",
     drops:[ {skinId:"s5",weight:36},{skinId:"s19",weight:30},{skinId:"s28",weight:27},{skinId:"s39",weight:7},{skinId:"s45",weight:0.315},{skinId:"s57",weight:0.022} ] },
   { key:"off_prisma2", name:"Prisma 2 Case", cost:580, desc:"Коллекция «Призма 2». Ставка 580 ◆.",
     colorA:"#c98fff", colorB:"#5a2f9f", isUnlocked:s=>true,
-    previewImg:"https://mykoglay.github.io/skin-mini-app/images/case/prisma2case.png",
+    previewImg:"https://mykoglay.github.io/skin-mini-app/images/prisma2case.png",
     drops:[ {skinId:"s6",weight:35},{skinId:"s20",weight:30},{skinId:"s30",weight:27},{skinId:"s40",weight:7.5},{skinId:"s48",weight:0.14},{skinId:"s58",weight:0.022} ] },
   { key:"off_dangerzone", name:"Danger Zone Case", cost:620, desc:"Коллекция «Опасная зона». Ставка 620 ◆.",
     colorA:"#ffb84d", colorB:"#8f5a1f", isUnlocked:s=>true,
-    previewImg:"https://mykoglay.github.io/skin-mini-app/images/case/zapretzonacase.png",
+    previewImg:"https://mykoglay.github.io/skin-mini-app/images/zapretzonacase.png",
     drops:[ {skinId:"s1",weight:36},{skinId:"s16",weight:30},{skinId:"s24",weight:27},{skinId:"s36",weight:7},{skinId:"s50",weight:0.315},{skinId:"s59",weight:0.022} ] },
   { key:"off_horizon", name:"Horizon Case", cost:680, desc:"Коллекция «Горизонт». Ставка 680 ◆.",
     colorA:"#5fc9ff", colorB:"#1f4f8f", isUnlocked:s=>true,
-    previewImg:"https://mykoglay.github.io/skin-mini-app/images/case/horizoncase.png",
+    previewImg:"https://mykoglay.github.io/skin-mini-app/images/horizoncase.png",
     drops:[ {skinId:"s7",weight:35},{skinId:"s21",weight:30},{skinId:"s32",weight:27},{skinId:"s43",weight:2.625},{skinId:"s51",weight:0.14},{skinId:"s60",weight:0.022} ] },
   { key:"off_clutch", name:"Clutch Case", cost:660, desc:"Коллекция «Клатч». Ставка 660 ◆.",
     colorA:"#ff6f5f", colorB:"#8f2f1f", isUnlocked:s=>true,
-    previewImg:"https://mykoglay.github.io/skin-mini-app/images/case/otda4acase.png",
+    previewImg:"https://mykoglay.github.io/skin-mini-app/images/otda4acase.png",
     drops:[ {skinId:"s8",weight:36},{skinId:"s25",weight:30},{skinId:"s35",weight:26},{skinId:"s41",weight:2.625},{skinId:"s49",weight:0.14},{skinId:"s52",weight:0.022} ] },
   { key:"off_spectrum", name:"Spectrum Case", cost:720, desc:"Коллекция «Спектр». Ставка 720 ◆.",
     colorA:"#7fffb0", colorB:"#1f8f5a", isUnlocked:s=>true,
-    previewImg:"https://mykoglay.github.io/skin-mini-app/images/case/spectrumcase.png",
+    previewImg:"https://mykoglay.github.io/skin-mini-app/images/spectrumcase.png",
     drops:[ {skinId:"s10",weight:35},{skinId:"s18",weight:30},{skinId:"s33",weight:27},{skinId:"s44",weight:2.625},{skinId:"s54",weight:0.11} ] },
   { key:"off_glove", name:"Glove Case", cost:820, desc:"Коллекция перчаток. Ставка 820 ◆.",
-    previewImg:"https://mykoglay.github.io/skin-mini-app/images/case/gloveecase.png",
+    previewImg:"https://mykoglay.github.io/skin-mini-app/images/gloveecase.png",
     colorA:"#ffd76a", colorB:"#8f6a10", isUnlocked:s=>true,
     drops:[ {skinId:"s11",weight:35},{skinId:"s23",weight:30},{skinId:"s34",weight:27},{skinId:"s45",weight:2.45},{skinId:"s58",weight:0.198},{skinId:"s108",weight:0.022} ] },
   { key:"off_chroma", name:"Chroma Case", cost:630, desc:"Коллекция «Хрома». Ставка 630 ◆.",
     colorA:"#5fffea", colorB:"#1f8f8f", isUnlocked:s=>true,
-    previewImg:"https://mykoglay.github.io/skin-mini-app/images/case/chromacase.png",
+    previewImg:"https://mykoglay.github.io/skin-mini-app/images/chromacase.png",
     drops:[ {skinId:"s12",weight:36},{skinId:"s26",weight:30},{skinId:"s36",weight:26},{skinId:"s46",weight:2.625},{skinId:"s53",weight:0.088},{skinId:"s65",weight:0.022} ] },
   { key:"souv_01", name:"Paris 2023 Mirage Souvenir Package", cost:0, desc:"Сувенирный пакет. Открывается без ключа. Содержимое скоро будет добавлено.", colorA:"#ffd166", colorB:"#8a5a12", category:"souvenir", isUnlocked:s=>true, drops:[] },
   { key:"souv_02", name:"Paris 2023 Anubis Souvenir Package", cost:0, desc:"Сувенирный пакет. Открывается без ключа. Содержимое скоро будет добавлено.", colorA:"#ffd166", colorB:"#8a5a12", category:"souvenir", isUnlocked:s=>false, drops:[] },
@@ -2832,11 +2836,6 @@ function spinRoulette(fast){
     if(!track) continue;
     const boxEl = track.parentElement;
     boxEl.querySelectorAll(".drum3d-wrap").forEach(n=>n.remove());
-    if(state.drum3d){
-      track.style.display = "none";
-      startDrum3D(boxEl, wonIds[i], spinDuration);
-      continue;
-    }
     track.style.display = "";
     track.style.transition = "none"; track.style.transform = "translateX(0px)";
     const winIndex = buildTrackInto(track, currentCase, wonIds[i]);
