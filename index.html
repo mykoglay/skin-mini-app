@@ -46,7 +46,7 @@ h1,h2,h3,.display{font-family:'Rajdhani',sans-serif;}
 .brand:active{transform:scale(.94); background:rgba(139,92,246,.12);}
 .brand-icon-path{ animation: brandHue 4s linear infinite; }
 .brand-text{
-  font-weight:700; font-size:15px; letter-spacing:.05em;
+  font-weight:800; font-size:20px; letter-spacing:.05em; color:#c4b5fd; background:none; animation:none;
   background:linear-gradient(90deg,#8b5cf6,#ff6ec7,#39e08a,#3ec6ff,#8b5cf6);
   background-size:300% 100%;
   -webkit-background-clip:text; background-clip:text; color:transparent;
@@ -943,6 +943,98 @@ body.fx-shake{animation:fxShake .5s ease-in-out;}
 /* case cards: keep a fixed 4:3 picture frame, no flattening */
 
 
+
+.multi-item .mw-sell{ margin-top:6px; width:100%; padding:6px 4px; border-radius:10px; border:none; cursor:pointer; background:linear-gradient(135deg,#3ddc84,#16a34a); color:#fff; font-family:'Rajdhani',sans-serif; font-weight:800; font-size:12px; letter-spacing:.03em; }
+.multi-item .mw-sold{ margin-top:6px; font-size:11px; color:#3ddc84; font-weight:700; text-align:center; }
+.multi-item.sold{ opacity:.6; }
+
+/* multi-win window: show every item with its sell button, no hidden rows */
+#multiWinModal .multi-grid{ max-height:none !important; overflow:visible !important; grid-template-columns:repeat(2,1fr) !important; gap:8px !important; }
+#multiWinModal .multi-item{ padding:10px 8px !important; }
+#multiWinModal .multi-item .art{ width:56px !important; height:56px !important; margin:0 auto; }
+#multiWinModal .multi-item .nm{ font-size:10px !important; min-height:24px; }
+#multiWinModal .multi-item .pr{ font-size:11px !important; }
+#multiWinModal .multi-item .mw-sell{ display:block !important; visibility:visible !important; opacity:1 !important; }
+#multiWinModal > div{ max-height:88vh; overflow-y:auto; }
+
+/* sell button shows only after tapping the skin */
+#multiWinModal .multi-item .mw-sell{ display:none !important; }
+#multiWinModal .multi-item.show-sell .mw-sell{ display:block !important; }
+#multiWinModal .multi-item.tappable{ cursor:pointer; transition:transform .15s ease, box-shadow .2s ease; }
+#multiWinModal .multi-item.tappable:active{ transform:scale(.97); }
+#multiWinModal .multi-item.show-sell{ box-shadow:0 0 0 1px rgba(61,220,132,.6), 0 0 18px -6px rgba(61,220,132,.7); }
+#multiWinModal .multi-item .mw-sold{ display:block; }
+
+/* smaller controls: sort, select, search, select-button (font stays 16px so iOS does not zoom) */
+select{ height:32px !important; padding:2px 8px !important; border-radius:10px !important; }
+input[placeholder*="Поиск"]{ height:32px !important; padding:2px 8px !important; border-radius:10px !important; }
+.inv-select{ height:32px !important; padding:2px 8px !important; }
+.inv-btn{ padding:4px 8px !important; font-size:12px !important; border-radius:9px !important; min-height:32px; }
+
+/* ---- main screen: new look ---- */
+#pCases .daily-left b{ font-family:'Rajdhani',sans-serif; font-size:17px; font-weight:800; letter-spacing:.02em; }
+#pCases .section-title{ font-family:'Rajdhani',sans-serif; font-size:17px; font-weight:800; letter-spacing:.04em; text-transform:uppercase; color:#e9e3f5; }
+#pCases .section-note{ font-size:11px; color:#8d8199; }
+#pCases .section-row{ margin:14px 0 8px; }
+#pCases .case-card{ border-radius:18px; }
+#pCases .case-card.unlocked{ box-shadow:0 14px 28px -18px rgba(139,92,246,.9); }
+
+/* ===== main screen: distinctive look ===== */
+#pCases{
+  position:relative; isolation:isolate; overflow:hidden;
+  background: radial-gradient(120% 60% at 50% -10%, rgba(255,207,64,.10), transparent 60%), #0b0812;
+}
+/* rare lightning strikes: main bolt + side branches, drawn fast, drawn inside the page */
+.storm-bolt{ position:fixed; top:0; width:110px; height:82vh; z-index:-1; pointer-events:none; opacity:0; transform:translateX(-50%); animation:boltHit .95s linear forwards; }
+.storm-bolt svg{ width:100%; height:100%; overflow:visible; }
+.storm-bolt path{ fill:none; stroke:#fff6d0; stroke-linecap:round; stroke-linejoin:round; vector-effect:non-scaling-stroke; stroke-width:2.8px; stroke-dasharray:100; stroke-dashoffset:100; filter:drop-shadow(0 0 3px #ffe38a) drop-shadow(0 0 10px #ffb84d); animation:boltDraw .13s ease-out forwards; }
+.storm-bolt path.br{ stroke-width:1.6px; animation:boltDraw .11s ease-out forwards; animation-delay:var(--d,.1s); }
+.storm-flash{ position:fixed; inset:0; z-index:-1; pointer-events:none; background:radial-gradient(90% 60% at 50% 0%, rgba(255,236,176,.34), transparent 75%); animation:stormFlash .9s ease-out forwards; }
+@keyframes boltDraw{ to{ stroke-dashoffset:0; } }
+@keyframes boltHit{ 0%{opacity:0} 4%{opacity:1} 10%{opacity:.35} 16%{opacity:1} 30%{opacity:.7} 44%{opacity:1} 70%{opacity:.25} 100%{opacity:0} }
+@keyframes stormFlash{ 0%{opacity:0} 4%{opacity:1} 12%{opacity:.25} 20%{opacity:.8} 100%{opacity:0} }
+@media (prefers-reduced-motion: reduce){ .storm-bolt, .storm-flash{ display:none; } }
+#pCases .daily-left{ position:relative; }
+#pCases .daily-left b{ font-family:'Rajdhani',sans-serif; font-size:18px; font-weight:900; letter-spacing:.03em; text-transform:uppercase; color:#ffd166; }
+#pCases .daily-left span{ color:#c9c0d6; }
+#pCases .section-row{ display:flex; align-items:center; justify-content:space-between; margin:18px 0 10px; }
+#pCases .section-title{ display:inline-flex; align-items:center; gap:8px; font-family:'Rajdhani',sans-serif; font-size:15px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:#fff; padding:6px 12px 6px 10px; border-radius:999px; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.1); }
+#pCases .section-title::before{ content:""; width:8px; height:8px; border-radius:50%; background:linear-gradient(135deg,#ffd166,#ff6b9a); box-shadow:0 0 10px rgba(255,107,154,.7); }
+#pCases .section-note{ font-size:11px; color:#8d8199; letter-spacing:.04em; }
+#pCases .case-card{ border-radius:20px; transition:transform .2s ease, box-shadow .25s ease; }
+#pCases .case-card:nth-child(odd){ transform:rotate(-.4deg); }
+#pCases .case-card:nth-child(even){ transform:rotate(.4deg); }
+#pCases .case-card:active{ transform:scale(.97) rotate(0deg); }
+#pCases .case-card.unlocked{ box-shadow:0 18px 30px -18px rgba(255,209,102,.55); }
+#pCases .cases-grid{ gap:12px; }
+
+/* lightning sparkle on the logo and the balance */
+.balance{ overflow:hidden; }
+.balance.storm-glow{ box-shadow:0 0 0 1px rgba(255,236,176,.35), 0 0 10px 1px rgba(255,236,176,.28); }
+.balance.storm-glow span{ filter:brightness(1.2); }
+.balance.storm-glow::after{ content:""; position:absolute; inset:0; border-radius:inherit; pointer-events:none;
+  background:linear-gradient(105deg, transparent 38%, rgba(255,255,255,.4) 50%, transparent 62%); background-size:250% 100%;
+  animation:shineSweep .85s ease-out forwards; }
+.brand-text.storm-glow{ filter:brightness(1.18) drop-shadow(0 0 4px rgba(255,236,176,.45)); }
+@keyframes shineSweep{ from{ background-position:120% 0; } to{ background-position:-30% 0; } }
+@media (prefers-reduced-motion:reduce){ .balance.storm-glow::after{ display:none; } }
+
+/* ---- logo and balance: solid colour, no colour shimmer ---- */
+.brand-icon-path{ animation:none !important; }
+.brand svg{ width:28px !important; height:28px !important; }
+.brand-text{ background:none !important; -webkit-background-clip:border-box !important; background-clip:border-box !important; color:#c4b5fd !important; animation:none !important; font-size:20px !important; }
+.balance svg{ animation:none !important; }
+.balance span{ background:none !important; -webkit-background-clip:border-box !important; background-clip:border-box !important; color:#e9e3f5 !important; animation:none !important; }
+/* loader: gentle sparkle on the project name when lightning hits */
+#loader .nl-logo.nl-spark{ filter:brightness(1.12); text-shadow:0 0 6px rgba(255,243,196,.6), 0 0 14px rgba(255,184,77,.4); }
+
+/* ---- upgrader gauge: title above, skin cycling in the centre, percent a bit lower ---- */
+.gauge-title{ text-align:center; font-size:16px !important; letter-spacing:.22em !important; margin:0 0 4px; }
+.gauge-center{ display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px; }
+.gauge-skin{ width:70px; height:56px; transition:opacity .35s ease, transform .35s ease; }
+.gauge-skin svg{ width:100%; height:100%; }
+.gauge-skin.fade-out{ opacity:0; transform:scale(.92); }
+.gauge-center .gauge-pct{ font-size:22px !important; margin-top:6px; }
 </style>
 </head>
 <body ontouchstart="">
@@ -1084,6 +1176,7 @@ body.fx-shake{animation:fxShake .5s ease-in-out;}
     <div class="hint-text">Шанс зависит от соотношения ценностей ставки и цели. Выберите скин из инвентаря и/или добавьте кристаллы ползунком, затем выберите желаемый предмет. При неудаче ставка сгорает.</div>
 
     <div class="chance-card">
+      <div class="gauge-title brand-text">ECODROP</div>
       <div class="gauge-wrap">
         <svg viewBox="0 0 160 160" class="gauge-svg">
           <circle cx="80" cy="80" r="68" class="gauge-track"/>
@@ -1091,8 +1184,8 @@ body.fx-shake{animation:fxShake .5s ease-in-out;}
         </svg>
         <div class="gauge-needle-wrap" id="gaugeNeedleWrap"><div class="gauge-needle-tip"></div></div>
         <div class="gauge-center">
+          <div class="gauge-skin" id="gaugeSkin"></div>
           <div class="gauge-pct" id="upgChanceVal">—</div>
-          <div class="gauge-brand brand-text">ECODROP</div>
         </div>
       </div>
       <div class="chance-row"><span>Ставка</span><b id="upgStakeVal">0 ◆</b></div>
@@ -1771,22 +1864,26 @@ const skinPool = [
   { id:"s69", name:"P250 | Замазка",                rarity:"trash", price:12, shape:"pistol", previewImg:"https://mykoglay.github.io/skin-mini-app/images/p250metallicddpat.png" },
   { id:"s70", name:"UMP-45 | Сажа",                  rarity:"trash", price:29, shape:"rifle", previewImg:"https://mykoglay.github.io/skin-mini-app/images/ump45sazha.png"  },
   // Армейский (доп.)
+  { id:"s71", name:"AK-47 | Ягуар",                 rarity:"covert", price:653, shape:"rifle", previewImg:"https://mykoglay.github.io/skin-mini-app/images/jaguar.png"  },
+  { id:"s72", name:"M4A4 | Безлюдный космос",       rarity:"classi", price:205, shape:"rifle", previewImg:"https://mykoglay.github.io/skin-mini-app/images/kosmos.png"  },
   { id:"s73", name:"AWP | Дикое пламя",             rarity:"mil", price:205, shape:"sniper", previewImg:"https://mykoglay.github.io/skin-mini-app/images/dikoeplamya.png" },
+  { id:"s74", name:"Desert Eagle | Код красный",    rarity:"mil", price:1300, shape:"pistol", previewImg:"https://mykoglay.github.io/skin-mini-app/images/CodeRed.png" },
   { id:"s75", name:"Glock-18 | Дальний свет",       rarity:"mil", price:205, shape:"pistol", previewImg:"https://mykoglay.github.io/skin-mini-app/images/glock18highbeam.png" },
   { id:"s76", name:"USP-S | Cortex",              rarity:"mil", price:164, shape:"pistol", previewImg:"https://mykoglay.github.io/skin-mini-app/images/cortex.png" },
   { id:"s77", name:"Five-SeveN | Скоростной зверь",   rarity:"mil", price:220, shape:"pistol", previewImg:"https://mykoglay.github.io/skin-mini-app/images/skorzzver.png" },
+  { id:"s78", name:"P90 | Азимов",                 rarity:"covert", price:307, shape:"rifle", previewImg:"https://mykoglay.github.io/skin-mini-app/images/azimovp90.png"  },
+  { id:"s79", name:"MAC-10 | Неоновый гонщик",              rarity:"covert", price:164, shape:"rifle", previewImg:"https://mykoglay.github.io/skin-mini-app/images/mac10neonrider.png"  },
   { id:"s80", name:"Nova | Тарантул",               rarity:"mil", price:123, shape:"rifle", previewImg:"https://mykoglay.github.io/skin-mini-app/images/mainnovarisingsun.png"  },
   // Запрещённое (доп.)
+  { id:"s81", name:"AK-47 | Нуво руж",              rarity:"classi", price:1203,  shape:"rifle", previewImg:"https://mykoglay.github.io/skin-mini-app/images/nyvoruzh.png"  },
   { id:"s82", name:"M4A1-S | Сайрекс",               rarity:"restr", price:661, shape:"rifle", previewImg:"https://mykoglay.github.io/skin-mini-app/images/cyrex.png"  },
   { id:"s83", name:"AWP | Электрический улей",      rarity:"restr", price:943, shape:"sniper", previewImg:"https://mykoglay.github.io/skin-mini-app/images/uliyawp.png" },
   { id:"s84", name:"Desert Eagle | Стрелковая дисциплина",          rarity:"restr", price:328,  shape:"pistol", previewImg:"https://mykoglay.github.io/skin-mini-app/images/deserteagletriggerdiscipline.png" },
- 
-  // Засекреченное (доп.)
-  { id:"s81", name:"AK-47 | Нуво руж",              rarity:"classi", price:1203,  shape:"rifle", previewImg:"https://mykoglay.github.io/skin-mini-app/images/nyvoruzh.png"  },
-  { id:"s72", name:"M4A4 | Безлюдный космос",       rarity:"classi", price:205, shape:"rifle", previewImg:"https://mykoglay.github.io/skin-mini-app/images/kosmos.png"  },
   { id:"s85", name:"USP-S | Орион",                 rarity:"classi", price:1025, shape:"pistol", previewImg:"https://mykoglay.github.io/skin-mini-app/images/orionusp.png" },
+  // Засекреченное (доп.)
   { id:"s910",  name:"M4A4 | Посейдон",               rarity:"classi", price:235000,  shape:"rifle", previewImg:"https://mykoglay.github.io/skin-mini-app/images/poseydon.png"  },
   { id:"s86", name:"AK-47 | Точка плутанинни",         rarity:"classi", price:943,  shape:"rifle", previewImg:"https://mykoglay.github.io/skin-mini-app/images/plutanini.png"  },
+  { id:"s87", name:"M4A4 | Темукау",                rarity:"covert", price:4551,  shape:"rifle", previewImg:"https://mykoglay.github.io/skin-mini-app/images/temukay.png"  },
   { id:"s88", name:"AWP | Мортис",                 rarity:"classi", price:4018,  shape:"sniper", previewImg:"https://mykoglay.github.io/skin-mini-app/images/mortis.png" },
   { id:"s89", name:"Desert Eagle | Океанское побережье",          rarity:"classi", price:2009,  shape:"pistol", previewImg:"https://mykoglay.github.io/skin-mini-app/images/poberezh.png" },
   { id:"s90", name:"Glock-18 | Захоронение",           rarity:"classi", price:4756,  shape:"pistol", previewImg:"https://mykoglay.github.io/skin-mini-app/images/glock18catacombs.png" },
@@ -1796,11 +1893,6 @@ const skinPool = [
   { id:"s94", name:"AK-47 | Нейтрино",              rarity:"classi", price:3690, shape:"rifle", previewImg:"https://mykoglay.github.io/skin-mini-app/images/NouveauRouge.png"  },
   { id:"s95", name:"AWP | Атеон",                   rarity:"classi", price:4223, shape:"sniper", previewImg:"https://mykoglay.github.io/skin-mini-app/images/drevo.png" },
   // Тайное (доп.)
-  { id:"s78", name:"P90 | Азимов",                 rarity:"covert", price:307, shape:"rifle", previewImg:"https://mykoglay.github.io/skin-mini-app/images/azimovp90.png"  },
-  { id:"s79", name:"MAC-10 | Неоновый гонщик",              rarity:"covert", price:164, shape:"rifle", previewImg:"https://mykoglay.github.io/skin-mini-app/images/mac10neonrider.png"  },
-  { id:"s71", name:"AK-47 | Ягуар",                 rarity:"covert", price:653, shape:"rifle", previewImg:"https://mykoglay.github.io/skin-mini-app/images/jaguar.png"  },
-  { id:"s87", name:"M4A4 | Темукау",                rarity:"covert", price:4551,  shape:"rifle", previewImg:"https://mykoglay.github.io/skin-mini-app/images/temukay.png"  },
-  { id:"s74", name:"Desert Eagle | Код красный",    rarity:"mil", price:1300, shape:"pistol", previewImg:"https://mykoglay.github.io/skin-mini-app/images/CodeRed.png" },
   { id:"s96",  name:"AK-47 | Рентген",          rarity:"covert", price:17700,  shape:"rifle", previewImg:"https://mykoglay.github.io/skin-mini-app/images/rentgen.png"  },
   { id:"s97",  name:"M4A4 | Император",               rarity:"covert", price:9000,  shape:"rifle", previewImg:"https://mykoglay.github.io/skin-mini-app/images/imperator.png"  },
   { id:"s98",  name:"AWP | Хромовая пушка",       rarity:"covert", price:33000,  shape:"sniper", previewImg:"https://mykoglay.github.io/skin-mini-app/images/awpchromecannon.png"},
@@ -1974,7 +2066,6 @@ const csSkinPool = [
   { id:"cs_kw_09", name:"Five-SeveN | Hybrid",         rarity:"restr", price:300,  shape:"pistol", previewImg:"https://mykoglay.github.io/skin-mini-app/images/fivesev83.png" },
   { id:"cs_kw_10", name:"MP7 | Just Smile",            rarity:"restr", price:350,  shape:"rifle", previewImg:"https://mykoglay.github.io/skin-mini-app/images/mp7smile.png"  },
   { id:"cs_kw_11", name:"AWP | Гунгнир",         rarity:"covert",price:770000, shape:"sniper", previewImg:"https://mykoglay.github.io/skin-mini-app/images/gungnir.png" },
-  { id:"cs_kw_18", name:"AWP | Green Energy",         rarity:"covert",price:77000, shape:"sniper", previewImg:"https://mykoglay.github.io/skin-mini-app/images/greenenergy.png" },
   { id:"cs_kw_12", name:"AK-47 | Inheritance",         rarity:"covert",price:7400, shape:"rifle", previewImg:"https://mykoglay.github.io/skin-mini-app/images/ak47hgu.png"  },
   { id:"cs_kw_13", name:"Zeus x27 | Olympus",          rarity:"covert",price:300, shape:"pistol", previewImg:"https://mykoglay.github.io/skin-mini-app/images/zeus283ui.png" },
   { id:"cs_kw_14", name:"USP-S | Jawbreaker",          rarity:"covert",price:150, shape:"pistol", previewImg:"https://mykoglay.github.io/skin-mini-app/images/usp2814h9.png" },
@@ -2080,31 +2171,22 @@ const officialCases = [
     colorA:"#5fffea", colorB:"#1f8f8f", isUnlocked:s=>true,
     previewImg:"https://mykoglay.github.io/skin-mini-app/images/chromacase.png",
     drops:[ {skinId:"s12",weight:36},{skinId:"s26",weight:30},{skinId:"s36",weight:26},{skinId:"s46",weight:2.625},{skinId:"s53",weight:0.088},{skinId:"s65",weight:0.022} ] },
-  { key:"souv_01", name:"Paris 2023 Mirage Souvenir Package", cost:0, desc:"Сувенирный пакет. Открывается без ключа. Содержимое скоро будет добавлено.", colorA:"#ffd166", colorB:"#8a5a12", category:"souvenir", isUnlocked:s=>true, drops:[] },
-  { key:"souv_02", name:"Paris 2023 Anubis Souvenir Package", cost:0, desc:"Сувенирный пакет. Открывается без ключа. Содержимое скоро будет добавлено.", colorA:"#ffd166", colorB:"#8a5a12", category:"souvenir", isUnlocked:s=>false, drops:[] },
-  { key:"souv_03", name:"Paris 2023 Vertigo Souvenir Package", cost:0, desc:"Сувенирный пакет. Открывается без ключа. Содержимое скоро будет добавлено.", colorA:"#ffd166", colorB:"#8a5a12", category:"souvenir", isUnlocked:s=>false, drops:[] },
-  { key:"souv_04", name:"Copenhagen 2024 Overpass Souvenir Package", cost:0, desc:"Сувенирный пакет. Открывается без ключа. Содержимое скоро будет добавлено.", colorA:"#ffd166", colorB:"#8a5a12", category:"souvenir", isUnlocked:s=>false, drops:[] },
-  { key:"souv_05", name:"Paris 2023 Overpass Souvenir Package", cost:0, desc:"Сувенирный пакет. Открывается без ключа. Содержимое скоро будет добавлено.", colorA:"#ffd166", colorB:"#8a5a12", category:"souvenir", isUnlocked:s=>false, drops:[] },
-  { key:"souv_06", name:"EMS One 2014 Souvenir Package", cost:0, desc:"Сувенирный пакет. Открывается без ключа. Содержимое скоро будет добавлено.", colorA:"#ffd166", colorB:"#8a5a12", category:"souvenir", isUnlocked:s=>false, drops:[] },
-  { key:"souv_07", name:"Krakow 2017 Cobblestone Souvenir Package", cost:0, desc:"Сувенирный пакет. Открывается без ключа. Содержимое скоро будет добавлено.", colorA:"#ffd166", colorB:"#8a5a12", category:"souvenir", isUnlocked:s=>false, drops:[] },
-  { key:"souv_08", name:"Cologne 2016 Cobblestone Souvenir Package", cost:0, desc:"Сувенирный пакет. Открывается без ключа. Содержимое скоро будет добавлено.", colorA:"#ffd166", colorB:"#8a5a12", category:"souvenir", isUnlocked:s=>false, drops:[] },
-  { key:"souv_09", name:"Boston 2018 Cobblestone Souvenir Package", cost:0, desc:"Сувенирный пакет. Открывается без ключа. Содержимое скоро будет добавлено.", colorA:"#ffd166", colorB:"#8a5a12", category:"souvenir", isUnlocked:s=>false, drops:[] },
-  { key:"souv_10", name:"Atlanta 2017 Cobblestone Souvenir Package", cost:0, desc:"Сувенирный пакет. Открывается без ключа. Содержимое скоро будет добавлено.", colorA:"#ffd166", colorB:"#8a5a12", category:"souvenir", isUnlocked:s=>false, drops:[] },
-  { key:"souv_11", name:"Paris 2023 Ancient Souvenir Package", cost:0, desc:"Сувенирный пакет. Открывается без ключа. Содержимое скоро будет добавлено.", colorA:"#ffd166", colorB:"#8a5a12", category:"souvenir", isUnlocked:s=>false, drops:[] },
-  { key:"souv_12", name:"Paris 2023 Inferno Souvenir Package", cost:0, desc:"Сувенирный пакет. Открывается без ключа. Содержимое скоро будет добавлено.", colorA:"#ffd166", colorB:"#8a5a12", category:"souvenir", isUnlocked:s=>false, drops:[] },
-  { key:"souv_13", name:"DreamHack 2013 Souvenir Package", cost:0, desc:"Сувенирный пакет. Открывается без ключа. Содержимое скоро будет добавлено.", colorA:"#ffd166", colorB:"#8a5a12", category:"souvenir", isUnlocked:s=>false, drops:[] },
-  { key:"souv_14", name:"Paris 2023 Nuke Souvenir Package", cost:0, desc:"Сувенирный пакет. Открывается без ключа. Содержимое скоро будет добавлено.", colorA:"#ffd166", colorB:"#8a5a12", category:"souvenir", isUnlocked:s=>false, drops:[] },
-  { key:"souv_15", name:"Shanghai 2024 Vertigo Souvenir Package", cost:0, desc:"Сувенирный пакет. Открывается без ключа. Содержимое скоро будет добавлено.", colorA:"#ffd166", colorB:"#8a5a12", category:"souvenir", isUnlocked:s=>false, drops:[] },
-  { key:"souv_16", name:"Stockholm 2021 Mirage Souvenir Package", cost:0, desc:"Сувенирный пакет. Открывается без ключа. Содержимое скоро будет добавлено.", colorA:"#ffd166", colorB:"#8a5a12", category:"souvenir", isUnlocked:s=>true, drops:[] },
-  { key:"souv_17", name:"Antwerp 2022 Mirage Souvenir Package", cost:0, desc:"Сувенирный пакет. Открывается без ключа. Содержимое скоро будет добавлено.", colorA:"#ffd166", colorB:"#8a5a12", category:"souvenir", isUnlocked:s=>true, drops:[] },
-  { key:"souv_18", name:"Copenhagen 2024 Mirage Souvenir Package", cost:0, desc:"Сувенирный пакет. Открывается без ключа. Содержимое скоро будет добавлено.", colorA:"#ffd166", colorB:"#8a5a12", category:"souvenir", isUnlocked:s=>true, drops:[] },
-  { key:"souv_19", name:"London 2018 Cache Souvenir Package", cost:0, desc:"Сувенирный пакет. Открывается без ключа. Содержимое скоро будет добавлено.", colorA:"#ffd166", colorB:"#8a5a12", category:"souvenir", isUnlocked:s=>false, drops:[] },
-  { key:"souv_20", name:"Stockholm 2021 Ancient Souvenir Package", cost:0, desc:"Сувенирный пакет. Открывается без ключа. Содержимое скоро будет добавлено.", colorA:"#ffd166", colorB:"#8a5a12", category:"souvenir", isUnlocked:s=>false, drops:[] },
-  { key:"souv_21", name:"Shanghai 2024 Mirage Souvenir Package", cost:0, desc:"Сувенирный пакет. Открывается без ключа. Содержимое скоро будет добавлено.", colorA:"#ffd166", colorB:"#8a5a12", category:"souvenir", isUnlocked:s=>true, drops:[] },
-  { key:"souv_22", name:"Krakow 2017 Overpass Souvenir Package", cost:0, desc:"Сувенирный пакет. Открывается без ключа. Содержимое скоро будет добавлено.", colorA:"#ffd166", colorB:"#8a5a12", category:"souvenir", isUnlocked:s=>false, drops:[] },
-  { key:"souv_23", name:"Rio 2022 Mirage Souvenir Package", cost:0, desc:"Сувенирный пакет. Открывается без ключа. Содержимое скоро будет добавлено.", colorA:"#ffd166", colorB:"#8a5a12", category:"souvenir", isUnlocked:s=>true, drops:[] },
-  { key:"souv_24", name:"Cologne 2016 Train Souvenir Package", cost:0, desc:"Сувенирный пакет. Открывается без ключа. Содержимое скоро будет добавлено.", colorA:"#ffd166", colorB:"#8a5a12", category:"souvenir", isUnlocked:s=>false, drops:[] },
-  { key:"souv_25", name:"Shanghai 2024 Ancient Souvenir Package", cost:0, desc:"Сувенирный пакет. Открывается без ключа. Содержимое скоро будет добавлено.", colorA:"#ffd166", colorB:"#8a5a12", category:"souvenir", isUnlocked:s=>false, drops:[] },
+  { key:"meme_doge", name:"Кейс Доге", cost:28, desc:"Такси до Луны и обратно. Внутри монетки для шиба.", colorA:"#f5c451", colorB:"#7a4b00", category:"meme", isUnlocked:s=>true, drops:[{ skinId:"CASH_10", weight:60 }, { skinId:"CASH_25", weight:25 }, { skinId:"CASH_50", weight:10 }, { skinId:"CASH_100", weight:4 }, { skinId:"CASH_250", weight:1 }] },
+  { key:"meme_bananyc", name:"Кот Бананыч", cost:159, desc:"Кот, который всё знает. Иногда даёт бананы, иногда кристаллы.", colorA:"#7adf8a", colorB:"#1f5b2c", category:"meme", isUnlocked:s=>true, drops:[{ skinId:"CASH_50", weight:50 }, { skinId:"CASH_100", weight:30 }, { skinId:"CASH_250", weight:12 }, { skinId:"CASH_500", weight:6 }, { skinId:"CASH_1000", weight:2 }] },
+  { key:"meme_zhiza", name:"Жиза Кейс", cost:29, desc:"Жиза? Жиза. Почти гарантированный бонус.", colorA:"#ff9bd2", colorB:"#6b1f49", category:"meme", isUnlocked:s=>true, drops:[{ skinId:"CASH_10", weight:55 }, { skinId:"CASH_25", weight:30 }, { skinId:"CASH_50", weight:10 }, { skinId:"CASH_100", weight:4 }, { skinId:"CASH_250", weight:1 }] },
+  { key:"meme_krinzh", name:"Кринж Бокс", cost:406, desc:"Открывай на свой страх и риск. Выпадет что-то, о чём потом будешь вспоминать.", colorA:"#7c8cff", colorB:"#1d2466", category:"meme", isUnlocked:s=>true, drops:[{ skinId:"CASH_100", weight:50 }, { skinId:"CASH_250", weight:30 }, { skinId:"CASH_500", weight:12 }, { skinId:"CASH_1000", weight:6 }, { skinId:"CASH_5000", weight:2 }, { skinId:"s910", weight:0.02 }] },
+  { key:"meme_rofl", name:"Рофлан", cost:159, desc:"Ржака гарантирована. Кристаллы — тоже.", colorA:"#ff6b6b", colorB:"#6b1d1d", category:"meme", isUnlocked:s=>true, drops:[{ skinId:"CASH_50", weight:50 }, { skinId:"CASH_100", weight:30 }, { skinId:"CASH_250", weight:12 }, { skinId:"CASH_500", weight:6 }, { skinId:"CASH_1000", weight:2 }] },
+  { key:"meme_ultra", name:"Ультра Рофл", cost:406, desc:"Для самых отчаянных. Редкие выпадения с большими суммами.", colorA:"#c77dff", colorB:"#3b1462", category:"meme", isUnlocked:s=>true, drops:[{ skinId:"CASH_100", weight:50 }, { skinId:"CASH_250", weight:30 }, { skinId:"CASH_500", weight:12 }, { skinId:"CASH_1000", weight:6 }, { skinId:"CASH_5000", weight:2 }, { skinId:"s910", weight:0.02 }] },
+  { key:"local_marshrutka", name:"Кейс Маршрутки", cost:28, desc:"Утро, давка и водитель, который «сейчас поедем». Внутри — сдача и сюрпризы.", colorA:"#ffcf40", colorB:"#6b4b00", category:"local", isUnlocked:s=>true, drops:[{ skinId:"CASH_10", weight:60 }, { skinId:"CASH_25", weight:25 }, { skinId:"CASH_50", weight:10 }, { skinId:"CASH_100", weight:4 }, { skinId:"CASH_250", weight:1 }] },
+  { key:"local_pelmen", name:"Пельменная", cost:159, desc:"Горячие и с бульоном. Внутри — обычные пельмени, но иногда с золотой монетой.", colorA:"#ff8a5c", colorB:"#6b2a12", category:"local", isUnlocked:s=>true, drops:[{ skinId:"CASH_50", weight:50 }, { skinId:"CASH_100", weight:30 }, { skinId:"CASH_250", weight:12 }, { skinId:"CASH_500", weight:6 }, { skinId:"CASH_1000", weight:2 }] },
+  { key:"local_dacha", name:"Дачный кейс", cost:72, desc:"Грядки, шашлык и ведро огурцов. Иногда попадается что-то очень ценное.", colorA:"#8fe388", colorB:"#23541c", category:"local", isUnlocked:s=>true, drops:[{ skinId:"CASH_25", weight:55 }, { skinId:"CASH_50", weight:28 }, { skinId:"CASH_100", weight:11 }, { skinId:"CASH_250", weight:5 }, { skinId:"CASH_1000", weight:1 }] },
+  { key:"local_larek", name:"Ларёк на углу", cost:159, desc:"Семечки, пиво и кристаллы в одном пакете. Открывать можно прямо у ларька.", colorA:"#7fd6ff", colorB:"#1b4c6b", category:"local", isUnlocked:s=>true, drops:[{ skinId:"CASH_50", weight:50 }, { skinId:"CASH_100", weight:30 }, { skinId:"CASH_250", weight:12 }, { skinId:"CASH_500", weight:6 }, { skinId:"CASH_1000", weight:2 }] },
+  { key:"local_dvor", name:"Двор 90-х", cost:406, desc:"Гаражи, качели и старые кассеты. Ностальгия гарантирована, выигрыш — иногда.", colorA:"#e0a3ff", colorB:"#4b1a66", category:"local", isUnlocked:s=>true, drops:[{ skinId:"CASH_100", weight:50 }, { skinId:"CASH_250", weight:30 }, { skinId:"CASH_500", weight:12 }, { skinId:"CASH_1000", weight:6 }, { skinId:"CASH_5000", weight:2 }] },
+  { key:"shirp_poseidon", name:"Посейдон", cost:3317, desc:"Редкий M4A4 | Посейдон выпадает очень редко. Остальное — простые скины.", colorA:"#4ad4ff", colorB:"#0e3a57", category:"shirp", isUnlocked:s=>true, drops:[{ skinId:"s910", weight:0.2 }, { skinId:"s81", weight:30 }, { skinId:"s32", weight:25 }, { skinId:"s93", weight:20 }, { skinId:"s41", weight:15 }, { skinId:"s94", weight:9.8 }] },
+  { key:"shirp_dragon", name:"Ширп Драгон Лор", cost:3212, desc:"Дешёвая версия легенды. Настоящий AWP | Драгон Лор почти не выпадает.", colorA:"#ffb84d", colorB:"#5a2e00", category:"shirp", isUnlocked:s=>true, drops:[{ skinId:"s47", weight:0.05 }, { skinId:"s81", weight:35 }, { skinId:"s32", weight:30 }, { skinId:"s93", weight:20 }, { skinId:"s41", weight:14.95 }] },
+  { key:"shirp_knife", name:"Ширп нож", cost:40494, desc:"Ножи попроще: выпадают чаще дешёвые, редко — настоящие ★.", colorA:"#ff7ad9", colorB:"#4a1238", category:"shirp", isUnlocked:s=>true, drops:[{ skinId:"s106", weight:40 }, { skinId:"s55", weight:30 }, { skinId:"s57", weight:20 }, { skinId:"s54", weight:8 }, { skinId:"s56", weight:2 }] },
+  { key:"shirp_gloves", name:"Ширп перчи", cost:30995, desc:"Перчатки для тех, кто любит стиль. Шанс на Ящик Пандоры есть, но очень маленький.", colorA:"#9bff6b", colorB:"#1f4a14", category:"shirp", isUnlocked:s=>true, drops:[{ skinId:"s60", weight:40 }, { skinId:"s59", weight:35 }, { skinId:"s58", weight:0.5 }, { skinId:"s108", weight:0.1 }, { skinId:"s71", weight:24.4 }] },
+  { key:"shirp_all", name:"Ширп", cost:861, desc:"Всё понемногу — простые скины и мелкие кристаллы.", colorA:"#c9c9c9", colorB:"#3a3a3a", category:"shirp", isUnlocked:s=>true, drops:[{ skinId:"s71", weight:30 }, { skinId:"s21", weight:25 }, { skinId:"s82", weight:20 }, { skinId:"s86", weight:15 }, { skinId:"s25", weight:10 }] },
 ];
 
 /* ===== КОНТЕНТ КЕЙСОВ: вставляйте списки сюда. Ключ — key кейса из officialCases (например off_revolution).
@@ -2575,7 +2657,9 @@ const OFFICIAL_SECTIONS = [
   { key:"weapon",     title:"Официальные кейсы", hint:"Кейсы в стиле известных коллекций CS2 — открываются за кристаллы вместо денег." },
   { key:"collection", title:"Коллекции",         hint:"Коллекции скинов CS2 — наборы предметов одной серии." },
   { key:"capsule",    title:"Капсулы",           hint:"Капсулы с наклейками и нашивками CS2." },
-  { key:"souvenir",   title:"Сувенирные наборы", hint:"Турнирные сувенирные наборы CS2." }
+  { key:"shirp",      title:"Ширпотреб-версии",  hint:"Дешёвые версии топовых скинов: редкое есть, но выпадает почти всегда простое." },
+  { key:"meme",       title:"Мемные кейсы",      hint:"Весёлые кейсы с мемами — открывай и смейся." },
+  { key:"local",      title:"Местные кейсы",     hint:"Кейсы про наш двор, дачу и маршрутку." }
 ];
 const CATEGORY_OVERRIDE = {
   off_anubis: "collection"
@@ -2844,7 +2928,7 @@ function spinRoulette(fast){
     // stagger the rAF slightly per-track is unnecessary; each animates independently with its own random jitter
     requestAnimationFrame(()=>{ requestAnimationFrame(()=>{
       const cardWidth=100, boxWidth=track.parentElement.offsetWidth, jitter=(Math.random()*30)-15;
-      const targetX = (winIndex*cardWidth)-(boxWidth/2)+(cardWidth/2)+jitter;
+      const winEl = track.children[winIndex]; const targetX = winEl ? (winEl.offsetLeft + winEl.offsetWidth/2) - (boxWidth/2) + jitter : (winIndex*cardWidth)-(boxWidth/2)+(cardWidth/2)+jitter;
       track.style.transition = `transform ${spinDuration}ms cubic-bezier(0.1,0.6,0.08,1)`;
       track.style.transform = `translateX(-${targetX}px)`;
     }); });
@@ -2930,25 +3014,59 @@ function closeWinModal(){
 }
 
 /* ---------------- multi-win modal (opening several cases at once) ---------------- */
+let multiSold = new Set();
 function showMultiWinModal(results){
   logWon(results, winCtx);
+  multiSold = new Set();
   const grid = document.getElementById("multiGrid");
   let cashTotal = 0, sellTotal = 0;
   grid.innerHTML = results.map((skin,i)=>{
     const r = RARITY[skin.rarity];
     if(skin.isCash) cashTotal += skin.price; else sellTotal += skin.price;
-    return `<div class="multi-item" style="border-top-color:${r.color}">
+    const sellBtn = skin.isCash ? "" : `<button class="mw-sell" onclick="event.stopPropagation(); sellMultiItem(${i})">Продать за ${fmtPrice(skin.price)}</button>`;
+    const tap = skin.isCash ? "" : ` onclick="toggleMultiSell(${i}, this)"`;
+    return `<div class="multi-item${skin.isCash ? '' : ' tappable'}" style="border-top-color:${r.color}"${tap}>
       <div class="art">${skinArtHTML(skin, "multi"+i)}</div>
       <div class="nm">${skin.name}</div>
       <div class="pr" style="color:${r.color}">${skin.isCash?('+'+skin.price+' ◆'):fmtPrice(skin.price)}</div>
+      ${sellBtn}
     </div>`;
   }).join("");
   if(cashTotal>0){ state.balance += cashTotal; saveState(); updateBalanceUI(); }
   document.getElementById("multiSellTotal").innerText = fmtPrice(sellTotal);
   document.getElementById("multiWinModal").classList.add("active");
 }
+function sellMultiItem(i){
+  if(multiSold.has(i)) return;
+  const skin = multiResults[i];
+  if(!skin || skin.isCash) return;
+  const pr = payoutFor(skin.price);
+  state.balance += pr.pay;
+  multiSold.add(i);
+  logSold([skin]);
+  updateBalanceUI();
+  const grid = document.getElementById("multiGrid");
+  const el = grid.children[i];
+  if(el){
+    el.classList.add("sold");
+    const btn = el.querySelector(".mw-sell");
+    if(btn) btn.outerHTML = `<div class="mw-sold">Продано · ${fmtPrice(pr.pay)}${pr.rate<1 ? ` · курс ×${pr.rate}` : ""}</div>`;
+  }
+  const left = multiResults.reduce((a,s,k)=> (!s.isCash && !multiSold.has(k)) ? a+s.price : a, 0);
+  document.getElementById("multiSellTotal").innerText = fmtPrice(left);
+  showToast(`Продано за ${fmtPrice(pr.pay)}`);
+}
+function toggleMultiSell(i, el){
+  if(multiSold.has(i)) return;
+  const open = el.classList.contains("show-sell");
+  document.querySelectorAll("#multiGrid .multi-item.show-sell").forEach(n=>n.classList.remove("show-sell"));
+  if(!open) el.classList.add("show-sell");
+}
+function unsoldMulti(){
+  return multiResults.filter((s,i)=>!s.isCash && !multiSold.has(i));
+}
 function keepAllMulti(){
-  const nonCash = multiResults.filter(s=>!s.isCash);
+  const nonCash = unsoldMulti();
   nonCash.forEach(skin=>{
     state.inventory.push(Object.assign({instId: Date.now()+"_"+Math.random().toString(36).slice(2)+Math.random()}, skin));
   });
@@ -3212,6 +3330,7 @@ function applyCustomMult(){
 }
 
 function refreshUpgrade(){
+  updateGaugeFromTarget();
   const slot = document.getElementById("stakeSkinSlot");
   if(stakeSkin){
     const r = RARITY[stakeSkin.rarity];
@@ -3713,7 +3832,7 @@ function playParticipantCaseSequence(p, caseIdx, caseSequence, results, stepMs, 
   const winIndex = buildTrackInto(track, c, results[caseIdx].id);
   requestAnimationFrame(()=>{ requestAnimationFrame(()=>{
     const cardWidth=100, boxWidth=track.parentElement.offsetWidth, jitter=(Math.random()*30)-15;
-    const targetX = (winIndex*cardWidth)-(boxWidth/2)+(cardWidth/2)+jitter;
+    const winEl = track.children[winIndex]; const targetX = winEl ? (winEl.offsetLeft + winEl.offsetWidth/2) - (boxWidth/2) + jitter : (winIndex*cardWidth)-(boxWidth/2)+(cardWidth/2)+jitter;
     track.style.transition = `transform ${stepMs*0.8}ms cubic-bezier(0.12,0.75,0.1,1)`;
     track.style.transform = `translateX(-${targetX}px)`;
   }); });
@@ -4149,7 +4268,7 @@ function dailySellState(){
   if(!state.dailySell || state.dailySell.day!==key) state.dailySell = {day:key, total:0};
   return state.dailySell;
 }
-function sellRateFor(total){ return total<20000 ? 1 : total<100000 ? 0.75 : 0.5; }
+function sellRateFor(total){ return 1; }   // курс отключён: продажа по полной цене
 function payoutFor(amount){
   const ds = dailySellState();
   const rate = sellRateFor(ds.total);
@@ -4196,10 +4315,6 @@ function renderInvToolbar(){
   const selSum = selItems.reduce((a,i)=>a+i.price,0);
   const chips = [["all","Все",""]].concat(RARITY_ORDER.map(k=>[k, RARITY[k].label, RARITY[k].color]));
   tb.innerHTML = `
-    <div class="inv-rate">
-      <span>Курс сегодня: <b>×${rate}</b></span>
-      <span>Продано сегодня: ${fmtPrice(ds.total)}</span>
-    </div>
     <div class="inv-row">
       <select class="inv-select" id="invSort" onchange="renderInventory()">
         <option value="new">Сначала новые</option>
@@ -4315,7 +4430,8 @@ function sellCurrentWin(){
   showToast(`Продано за ${fmtPrice(pr.pay)}`); closeWinModal();
 }
 function sellAllMulti(){
-  const nonCash = multiResults.filter(s=>!s.isCash);
+  const nonCash = unsoldMulti();
+  if(nonCash.length===0){ closeMultiWinModal(); return; }
   const pr = payoutFor(nonCash.reduce((a,s)=>a+s.price,0));
   state.balance += pr.pay; logSold(nonCash); updateBalanceUI();
   showToast(`Продано всё за ${fmtPrice(pr.pay)}`);
@@ -4418,6 +4534,113 @@ function renderChannelAd(){
     <div class="ch-ad-sub">Новости, промокоды, розыгрыши и обновления игры первыми.</div>
     <button class="ch-ad-btn" onclick="openSubChannel()"><span class="ch-ad-ic">✈️</span>Перейти в группу</button>`;
 }
+
+/* ================= LIGHTNING ON THE MAIN SCREEN (rare strikes) ================= */
+function stormStrike(container){
+  const page = container || document.getElementById("pCases");
+  if(!container && (!page || !page.classList.contains("active"))) return;
+  const W = 100, H = 300, segs = 8;
+  // main line from top to the bottom, zig-zag
+  const main = [{x: 40 + Math.random()*30, y: 0}];
+  for(let i=0;i<segs;i++){
+    const prev = main[main.length-1];
+    const nx = Math.min(94, Math.max(6, prev.x + (Math.random()*2-1)*16));
+    main.push({x: nx, y: prev.y + (H/segs)*(0.85 + Math.random()*0.3)});
+  }
+  const mainD = "M" + main.map(p=>p.x.toFixed(1)+" "+p.y.toFixed(1)).join(" L");
+  // 2-3 branches that split off the main line
+  const branchCount = 2 + Math.floor(Math.random()*2);
+  const picks = new Set();
+  while(picks.size < branchCount) picks.add(1 + Math.floor(Math.random()*(segs-2)));
+  let branchPaths = "";
+  picks.forEach(idx=>{
+    const from = main[idx];
+    const dir = Math.random()<0.5 ? -1 : 1;
+    let bx = from.x, by = from.y;
+    const pts = ["M" + bx.toFixed(1) + " " + by.toFixed(1)];
+    const len = 2 + Math.floor(Math.random()*2);
+    for(let j=0;j<len;j++){
+      bx = Math.min(96, Math.max(4, bx + dir*(6 + Math.random()*10)));
+      by += 16 + Math.random()*18;
+      pts.push("L" + bx.toFixed(1) + " " + by.toFixed(1));
+    }
+    const delay = (0.06 + Math.random()*0.1).toFixed(2) + "s";
+    branchPaths += `<path class="br" pathLength="100" style="--d:${delay}" d="${pts.join(" ")}"/>`;
+  });
+  const bolt = document.createElement("div");
+  bolt.className = "storm-bolt";
+  bolt.style.left = (12 + Math.random()*76) + "%";
+  bolt.innerHTML = `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">
+    <path pathLength="100" d="${mainD}"/>${branchPaths}</svg>`;
+  const flash = document.createElement("div");
+  flash.className = "storm-flash";
+  page.append(flash, bolt);
+  if(navigator.vibrate) navigator.vibrate(18);
+  if(container){
+    // loader: the project name sparkles a little
+    const logo = container.querySelector(".nl-logo");
+    if(logo){ logo.classList.add("nl-spark"); setTimeout(()=>logo.classList.remove("nl-spark"), 700); }
+  } else
+  // main screen: logo and balance sparkle on the same strike
+  document.querySelectorAll(".balance, .brand-text").forEach(el=>{
+    el.classList.remove("storm-glow"); void el.offsetWidth;
+    el.classList.add("storm-glow");
+    setTimeout(()=>el.classList.remove("storm-glow"), 900);
+  });
+  setTimeout(()=>{ flash.remove(); bolt.remove(); }, 1000);
+}
+function startStorm(){
+  const loop = ()=>{
+    setTimeout(()=>{ stormStrike(); loop(); }, 9000 + Math.random()*16000);
+  };
+  loop();
+}
+setTimeout(startStorm, 2000);
+
+/* loader lightning: strikes while the loading screen is visible */
+function startLoaderStorm(){
+  const loader = document.getElementById("loader");
+  if(!loader) return;
+  const tick = ()=>{
+    if(loader.classList.contains("hide") || !document.body.contains(loader)) return;
+    stormStrike(loader);
+    setTimeout(tick, 1400 + Math.random()*1400);
+  };
+  setTimeout(tick, 350);
+}
+startLoaderStorm();
+
+/* upgrader gauge: a skin fades out and in at the centre */
+function setGaugeSkin(skin){
+  const box = document.getElementById("gaugeSkin");
+  if(!box || !skin) return;
+  if(box.dataset.skinId === String(skin.id)) return;   // already showing it
+  box.dataset.skinId = String(skin.id);
+  box.classList.add("fade-out");
+  setTimeout(()=>{
+    if(!document.body.contains(box)) return;
+    box.innerHTML = skinArtHTML(skin, "gs"+String(skin.id).replace(/[^a-z0-9]/gi,"").slice(-8));
+    box.classList.remove("fade-out");
+  }, 320);
+}
+// once a target skin is chosen, the centre shows that skin instead of random ones
+function updateGaugeFromTarget(){
+  if(targetSkin) setGaugeSkin(targetSkin);
+}
+function startGaugeCycle(){
+  const box = document.getElementById("gaugeSkin");
+  if(!box || !skinPool || skinPool.length===0) return;
+  let i = Math.floor(Math.random()*skinPool.length);
+  const show = ()=>{
+    if(targetSkin){ setGaugeSkin(targetSkin); return; }   // user picked a target: keep it on screen
+    const skin = skinPool[i % skinPool.length];
+    i += 1 + Math.floor(Math.random()*7);
+    setGaugeSkin(skin);
+  };
+  show();
+  setInterval(show, 2000);
+}
+setTimeout(startGaugeCycle, 800);
 /* ================= HISTORY · ACHIEVEMENTS · LONG-PRESS PREVIEW ================= */
 let winCtx = {type:"case", name:""};
 const SRC_LABEL = {case:"КЕЙС", upgrade:"АПГРЕЙД", battle:"КЕЙСБАТЛ", sell:"ПРОДАЖА"};
