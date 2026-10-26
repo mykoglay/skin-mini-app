@@ -2781,14 +2781,38 @@ function caseBgOn(){ return state.caseBgOn !== false; }
 function currentMapBgUrl(){
   return (state.caseMap && CASE_MAP_BACKGROUNDS[state.caseMap] || "").trim();
 }
+// map pictures: if the link in CASE_MAP_BACKGROUNDS fails, try the same name with other extensions
+const mapUrlCache = {};
+function tryLoadImage(u){
+  return new Promise(res=>{ const im = new Image(); im.onload = ()=>res(true); im.onerror = ()=>res(false); im.src = u; });
+}
+async function resolveMapUrl(url){
+  if(mapUrlCache[url] !== undefined) return mapUrlCache[url];
+  const base = url.replace(/\.(png|jpe?g|webp)$/i, "");
+  const cands = [url, base+".png", base+".jpg", base+".jpeg", base+".webp", base+".PNG", base+".JPG"];
+  for(const c of [...new Set(cands)]){
+    if(await tryLoadImage(c)){ mapUrlCache[url] = c; return c; }
+  }
+  mapUrlCache[url] = null;
+  return null;
+}
 function applyCaseBackground(c){
   const el = document.getElementById("openBg");
   if(!el) return;
   const url = currentMapBgUrl();
-  el.style.backgroundImage = url ? `linear-gradient(rgba(8,7,12,.12),rgba(8,7,12,.42)), url("${url.replace(/"/g,'')}")` : "";
-  el.style.display = (url && caseBgOn()) ? "block" : "none";
   const btn = document.getElementById("caseBgBtn");
   if(btn) btn.innerText = caseBgOn() ? "Фон" : "Фон выкл";
+  if(!url || !caseBgOn()){ el.style.backgroundImage = ""; el.style.display = "none"; return; }
+  resolveMapUrl(url).then(real=>{
+    if(!real){
+      el.style.display = "none";
+      showToast("Картинка этой карты не загрузилась. Проверьте файл в images/maps");
+      return;
+    }
+    if(!(url && caseBgOn())) return;
+    el.style.backgroundImage = `linear-gradient(rgba(8,7,12,.12),rgba(8,7,12,.42)), url("${real.replace(/"/g,'')}")`;
+    el.style.display = "block";
+  });
 }
 function toggleCaseBg(){
   if(!currentMapBgUrl()){ showToast("Сначала выберите карту в профиле (Фон для кейсов)"); return; }
