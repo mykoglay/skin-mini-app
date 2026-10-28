@@ -1103,6 +1103,14 @@ input[placeholder*="Поиск"]{ height:32px !important; padding:2px 8px !impor
 /* banner pictures: real images, medium size */
 .terminal-banner-icon{ width:52px !important; height:52px !important; overflow:hidden; padding:0 !important; }
 .terminal-banner-icon img{ width:100% !important; height:100% !important; object-fit:cover; display:block; }
+
+/* terminal banners fit the screen width: no overflow to the right, text wraps */
+.terminal-banner{ width:100% !important; max-width:100% !important; box-sizing:border-box !important; min-width:0 !important; overflow:hidden !important; gap:10px !important; padding:10px 12px !important; }
+.terminal-banner-text{ flex:1 1 auto; min-width:0; }
+.terminal-banner-text b{ display:block; font-size:12.5px !important; line-height:1.2 !important; white-space:normal !important; overflow-wrap:anywhere; }
+.terminal-banner-text span{ display:block; font-size:10.5px !important; line-height:1.3 !important; white-space:normal !important; overflow-wrap:anywhere; margin-top:2px; }
+.terminal-banner-icon{ width:44px !important; height:44px !important; flex-shrink:0; }
+.terminal-banner-arrow{ flex-shrink:0; }
 </style>
 </head>
 <body ontouchstart="">
@@ -2250,11 +2258,11 @@ const officialCases = [
   { key:"local_dacha", name:"Прибыль кейс", cost:72, desc:"Грядки, шашлык и ведро огурцов. Иногда попадается что-то очень ценное.", colorA:"#8fe388", colorB:"#23541c", category:"local", isUnlocked:s=>true, previewImg:"https://mykoglay.github.io/skin-mini-app/images/da4nuy.png", drops:[{ skinId:"CASH_25", weight:55 }, { skinId:"CASH_50", weight:28 }, { skinId:"CASH_100", weight:11 }, { skinId:"CASH_250", weight:5 }, { skinId:"CASH_1000", weight:1 }] },
   { key:"local_larek", name:"Богатый кейс", cost:159, desc:"Семечки, пиво и кристаллы в одном пакете. Открывать можно прямо у ларька.", colorA:"#7fd6ff", colorB:"#1b4c6b", category:"local", isUnlocked:s=>true, previewImg:"https://mykoglay.github.io/skin-mini-app/images/bogat.png", drops:[{ skinId:"CASH_50", weight:50 }, { skinId:"CASH_100", weight:30 }, { skinId:"CASH_250", weight:12 }, { skinId:"CASH_500", weight:6 }, { skinId:"CASH_1000", weight:2 }] },
   { key:"local_dvor", name:"Двор 90-х", cost:406, desc:"Гаражи, качели и старые кассеты. Ностальгия гарантирована, выигрыш — иногда.", colorA:"#e0a3ff", colorB:"#4b1a66", category:"local", isUnlocked:s=>true, previewImg:"https://mykoglay.github.io/skin-mini-app/images/dvor.png", drops:[{ skinId:"CASH_100", weight:50 }, { skinId:"CASH_250", weight:30 }, { skinId:"CASH_500", weight:12 }, { skinId:"CASH_1000", weight:6 }, { skinId:"CASH_5000", weight:2 }] },
-  { key:"shirp_poseidon", name:"Посейдон", cost:3317, desc:"Редкий M4A4 | Посейдон выпадает очень редко. Остальное — простые скины.", colorA:"#4ad4ff", colorB:"#0e3a57", category:"shirp", isUnlocked:s=>true, previewImg:"https://mykoglay.github.io/skin-mini-app/images/poseidoncase2.png", drops:[{ skinId:"s910", weight:0.2 }, { skinId:"s81", weight:30 }, { skinId:"s32", weight:25 }, { skinId:"s93", weight:20 }, { skinId:"s41", weight:15 }, { skinId:"s94", weight:9.8 }] },
-  { key:"shirp_dragon", name:"Ширп Драгон Лор", cost:3212, desc:"Дешёвая версия легенды. Настоящий AWP | Драгон Лор почти не выпадает.", colorA:"#ffb84d", colorB:"#5a2e00", category:"shirp", isUnlocked:s=>true, previewImg:"https://mykoglay.github.io/skin-mini-app/images/dragoncase2.png", drops:[{ skinId:"s47", weight:0.05 }, { skinId:"s81", weight:35 }, { skinId:"s32", weight:30 }, { skinId:"s93", weight:20 }, { skinId:"s41", weight:14.95 }] },
-  { key:"shirp_knife", name:"Ширп нож", cost:40494, desc:"Ножи попроще: выпадают чаще дешёвые, редко — настоящие ★.", colorA:"#ff7ad9", colorB:"#4a1238", category:"shirp", isUnlocked:s=>true, previewImg:"https://mykoglay.github.io/skin-mini-app/images/caseknife.png", drops:[{ skinId:"s106", weight:40 }, { skinId:"s55", weight:30 }, { skinId:"s57", weight:20 }, { skinId:"s54", weight:8 }, { skinId:"s56", weight:2 }] },
-  { key:"shirp_gloves", name:"Ширп перчи", cost:30995, desc:"Перчатки для тех, кто любит стиль. Шанс на Ящик Пандоры есть, но очень маленький.", colorA:"#9bff6b", colorB:"#1f4a14", category:"shirp", isUnlocked:s=>true, previewImg:"https://mykoglay.github.io/skin-mini-app/images/glovecase.png", drops:[{ skinId:"s60", weight:40 }, { skinId:"s59", weight:35 }, { skinId:"s58", weight:0.5 }, { skinId:"s108", weight:0.1 }, { skinId:"s71", weight:24.4 }] },
-  { key:"shirp_all", name:"Bubble Case", cost:861, desc:"Всё понемногу — простые скины и мелкие кристаллы.", colorA:"#c9c9c9", colorB:"#3a3a3a", category:"shirp", isUnlocked:s=>true, previewImg:"https://mykoglay.github.io/skin-mini-app/images/buoble.png", drops:[{ skinId:"s71", weight:30 }, { skinId:"s21", weight:25 }, { skinId:"s82", weight:20 }, { skinId:"s86", weight:15 }, { skinId:"s25", weight:10 }] },
+  { key:"shirp_poseidon", name:"Посейдон", cost:3317, desc:"Редкий M4A4 | Посейдон выпадает очень редко. Остальное — простые скины.", colorA:"#4ad4ff", colorB:"#0e3a57", category:"shirp", isUnlocked:s=>true, drops:[{ skinId:"s910", weight:0.2 }, { skinId:"s81", weight:30 }, { skinId:"s32", weight:25 }, { skinId:"s93", weight:20 }, { skinId:"s41", weight:15 }, { skinId:"s94", weight:9.8 }] },
+  { key:"shirp_dragon", name:"Ширп Драгон Лор", cost:3212, desc:"Дешёвая версия легенды. Настоящий AWP | Драгон Лор почти не выпадает.", colorA:"#ffb84d", colorB:"#5a2e00", category:"shirp", isUnlocked:s=>true, drops:[{ skinId:"s47", weight:0.05 }, { skinId:"s81", weight:35 }, { skinId:"s32", weight:30 }, { skinId:"s93", weight:20 }, { skinId:"s41", weight:14.95 }] },
+  { key:"shirp_knife", name:"Ширп нож", cost:377, desc:"Два настоящих ножа ★ на весь кейс, остальное — ширпотреб.", colorA:"#8a9bb5", colorB:"#243040", category:"shirp", isUnlocked:s=>true, drops:[{ skinId:"s106", weight:0.5 }, { skinId:"s55", weight:0.5 }, { skinId:"s1", weight:20 }, { skinId:"s2", weight:15 }, { skinId:"s3", weight:15 }, { skinId:"s4", weight:12 }, { skinId:"s5", weight:10 }, { skinId:"s9", weight:10 }, { skinId:"s10", weight:8 }, { skinId:"s67", weight:5 }, { skinId:"s69", weight:5 }] },
+  { key:"shirp_gloves", name:"Ширп перчи", cost:379, desc:"Пара перчаток ★ на весь кейс, остальное — ширпотреб.", colorA:"#8a9bb5", colorB:"#243040", category:"shirp", isUnlocked:s=>true, drops:[{ skinId:"s60", weight:0.5 }, { skinId:"s59", weight:0.5 }, { skinId:"s1", weight:20 }, { skinId:"s2", weight:15 }, { skinId:"s3", weight:15 }, { skinId:"s4", weight:12 }, { skinId:"s5", weight:10 }, { skinId:"s9", weight:10 }, { skinId:"s10", weight:8 }, { skinId:"s67", weight:5 }, { skinId:"s69", weight:5 }] },
+  { key:"shirp_all", name:"Ширп", cost:22, desc:"Чистый ширпотреб. Всё, что выпадает, — простые скины.", colorA:"#8a9bb5", colorB:"#243040", category:"shirp", isUnlocked:s=>true, drops:[{ skinId:"s1", weight:20 }, { skinId:"s2", weight:15 }, { skinId:"s3", weight:15 }, { skinId:"s4", weight:12 }, { skinId:"s5", weight:10 }, { skinId:"s9", weight:10 }, { skinId:"s10", weight:8 }, { skinId:"s67", weight:5 }, { skinId:"s69", weight:5 }] },
 ];
 
 /* ===== КОНТЕНТ КЕЙСОВ: вставляйте списки сюда. Ключ — key кейса из officialCases (например off_revolution).
@@ -2933,6 +2941,7 @@ function selectCaseMap(key){
 
 function openCasePage(c){
   renderDrumToggle();
+  setupUltraDodge();
   currentCase = c;
   applyCaseBackground(c);
   openQty = 1;
@@ -2987,6 +2996,7 @@ function spinRoulette(fast){
   if(isSpinning || !currentCase) return;
   const isFree = freeWonCaseOpen;
   freeWonCaseOpen = false;
+  if(currentCase && currentCase.key==="meme_ultra" && isFree===false && ultraStage===3) ultraStage = 0;   // allowed open used, start over
   const qty = isFree ? 1 : openQty;
   if(!isFree && currentCase.key==="starter" && !starterReady()){
     showToast("Стартовый кейс уже открыт сегодня. Через " + formatCooldown(STARTER_COOLDOWN_MS-(Date.now()-state.lastStarterOpen))); return;
@@ -4777,6 +4787,49 @@ function applyTerminalBannerImages(){
   });
 }
 applyTerminalBannerImages();
+
+/* ===== Ультра Рофл: the open button runs away on press 1 and 2, on press 3 it goes back home, press 4 opens ===== */
+let ultraStage = 0;   // 0,1 = runs away; 2 = back home (next press opens); 3 = allowed open
+function ultraHome(btn){
+  btn.style.transition = "transform .3s ease";
+  btn.style.transform = "";
+}
+function ultraRunAway(btn){
+  const side = Math.random() < 0.5 ? -1 : 1;
+  const dx = side * (120 + Math.random()*40);
+  const dy = (Math.random()*2 - 1) * 45;
+  btn.style.transition = "transform .22s ease";
+  btn.style.transform = `translate(${dx}px, ${dy}px)`;
+}
+function setupUltraDodge(){
+  const btn = document.getElementById("spinBtn");
+  if(!btn) return;
+  if(!window._ultraBound){
+    window._ultraBound = true;
+    document.addEventListener("click", (e)=>{
+      const b = e.target.closest && e.target.closest("#spinBtn");
+      if(!b || !currentCase || currentCase.key !== "meme_ultra" || isSpinning) return;
+      if(ultraStage === 3){ ultraStage = 0; return; }        // open goes through
+      e.preventDefault(); e.stopPropagation();
+      if(ultraStage < 2){
+        ultraRunAway(b);
+        ultraStage++;
+        showToast(ultraStage === 1 ? "Лови его! 😂" : "Ещё раз!");
+      } else {
+        ultraHome(b);                                         // third press: back to its place
+        ultraStage = 3;
+        showToast("Вот он, жми!");
+      }
+    }, true);
+  }
+  if(currentCase && currentCase.key === "meme_ultra"){
+    ultraStage = 0;
+  } else {
+    ultraStage = 0;
+    btn.style.transition = "";
+    btn.style.transform = "";
+  }
+}
 /* ================= HISTORY · ACHIEVEMENTS · LONG-PRESS PREVIEW ================= */
 let winCtx = {type:"case", name:""};
 const SRC_LABEL = {case:"КЕЙС", upgrade:"АПГРЕЙД", battle:"КЕЙСБАТЛ", sell:"ПРОДАЖА"};
