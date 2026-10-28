@@ -1035,6 +1035,74 @@ input[placeholder*="Поиск"]{ height:32px !important; padding:2px 8px !impor
 .gauge-skin svg{ width:100%; height:100%; }
 .gauge-skin.fade-out{ opacity:0; transform:scale(.92); }
 .gauge-center .gauge-pct{ font-size:22px !important; margin-top:6px; }
+
+/* ===== TERMINAL: CS-style look (own design: dark steel panels, amber accents, sharp edges) ===== */
+.terminal-banner{
+  position:relative; display:flex; align-items:center; gap:12px; padding:12px 14px;
+  background:linear-gradient(180deg,#1d2026,#121417); border:1px solid #2b3038; border-radius:4px;
+  clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px));
+  cursor:pointer; margin-bottom:10px; transition:transform .15s ease, border-color .2s ease;
+}
+.terminal-banner::before{ content:""; position:absolute; left:0; top:0; bottom:0; width:3px; background:#f5a524; }
+.terminal-banner:active{ transform:scale(.985); }
+.terminal-banner:hover{ border-color:#f5a524; }
+.terminal-banner-icon{ width:38px; height:38px; display:flex; align-items:center; justify-content:center; font-size:20px; background:#0c0e11; border:1px solid #2b3038; border-radius:3px; }
+.terminal-banner-text b{ font-family:'Rajdhani',sans-serif; font-size:15px; font-weight:800; letter-spacing:.06em; text-transform:uppercase; color:#e8e8e8; }
+.terminal-banner-text span{ font-size:11px; color:#8f96a3; }
+.terminal-banner-arrow{ color:#f5a524; }
+.terminal-banner-pro{ background:linear-gradient(180deg,#2a2212,#15110a); border-color:#4a3a14; }
+.terminal-banner-pro::before{ background:#ffcc4d; }
+.terminal-banner-pro .terminal-banner-text b{ color:#ffcc4d; }
+.terminal-banner-pro .terminal-banner-arrow{ color:#ffcc4d; }
+
+.terminal-screen{ background:#101215 !important; border:1px solid #2b3038 !important; border-radius:4px !important; box-shadow:none !important; }
+.terminal-scanlines{ display:none !important; }
+.terminal-titlebar{ background:#1a1d22 !important; border-bottom:1px solid #2b3038 !important; padding:10px 12px !important; }
+.terminal-titletext{ color:#f5a524 !important; opacity:1 !important; font-family:'Rajdhani',sans-serif; font-size:13px !important; font-weight:800; letter-spacing:.08em; text-transform:uppercase; }
+.terminal-dot{ background:#3a404a !important; }
+.terminal-body{ padding:16px 14px 18px !important; }
+.terminal-attempts{ color:#8f96a3 !important; font-family:'Rajdhani',sans-serif; font-weight:800; font-size:12px !important; letter-spacing:.1em !important; text-transform:uppercase; }
+.terminal-item{ background:#15181d !important; border:1px solid #2b3038 !important; border-bottom:3px solid #f5a524 !important; border-radius:3px !important; padding:12px !important; }
+.terminal-placeholder{ color:#8f96a3 !important; opacity:1 !important; font-size:12px !important; }
+.terminal-scan-text{ color:#f5a524 !important; }
+.terminal-item-name{ color:#e8e8e8 !important; font-family:'Rajdhani',sans-serif; font-weight:800; font-size:14px !important; text-transform:uppercase; letter-spacing:.04em; }
+.terminal-item-price{ font-family:'Rajdhani',sans-serif; font-weight:800; }
+#pTerminal .open-btn{ background:linear-gradient(180deg,#ffb020,#e07b00) !important; color:#15110a !important; border:none !important; border-radius:3px !important; font-family:'Rajdhani',sans-serif !important; font-weight:800 !important; letter-spacing:.08em !important; text-transform:uppercase; clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px)); }
+#pTerminal .btn2{ background:#1a1d22 !important; border:1px solid #3a404a !important; color:#e8e8e8 !important; border-radius:3px !important; font-family:'Rajdhani',sans-serif; font-weight:800; text-transform:uppercase; letter-spacing:.06em; }
+#pTerminal .btn2-acc{ background:linear-gradient(180deg,#ffb020,#e07b00) !important; color:#15110a !important; border:none !important; }
+
+/* ===== TERMINAL v2: CS-like layout, own cyan colours and wording ===== */
+#pTerminal .terminal-screen{ background:#0b1116 !important; border:1px solid #1b2b36 !important; border-radius:6px !important; overflow:hidden; }
+#pTerminal .terminal-titlebar{ display:flex !important; align-items:center; gap:8px; padding:10px 12px !important; background:#0e161d !important; border-bottom:1px solid #1b2b36 !important; }
+#pTerminal .terminal-brand-logo{ width:20px !important; height:20px !important; flex-shrink:0; }
+#pTerminal .terminal-dot{ background:#2a3d4a !important; }
+#pTerminal .terminal-titletext{ color:#37d7ff !important; opacity:1 !important; font-family:'Rajdhani',sans-serif; font-size:13px !important; font-weight:800; letter-spacing:.1em; text-transform:uppercase; margin-left:0 !important; }
+#pTerminal .terminal-body{ padding:14px 14px 16px !important; }
+#pTerminal .terminal-attempts{ color:#7aa3b8 !important; font-family:'Rajdhani',sans-serif; font-weight:800; font-size:12px !important; letter-spacing:.12em; text-transform:uppercase; margin-bottom:10px !important; }
+#pTerminal .terminal-item{ position:relative; min-height:230px; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; background:radial-gradient(70% 60% at 50% 30%, rgba(55,215,255,.20), transparent 70%), #0f1a22 !important; border:1px solid #1d3442 !important; border-top:3px solid #37d7ff !important; border-radius:6px !important; padding:16px !important; }
+#pTerminal .terminal-item .art{ width:96px !important; height:96px !important; margin-bottom:10px; }
+#pTerminal .terminal-placeholder{ color:#7aa3b8 !important; opacity:1 !important; font-size:12px !important; max-width:240px; line-height:1.4; }
+#pTerminal .terminal-scan-text{ color:#37d7ff !important; font-family:'Rajdhani',sans-serif; font-weight:800; letter-spacing:.08em; text-transform:uppercase; }
+#pTerminal .terminal-item-name{ color:#e8f6fb !important; font-family:'Rajdhani',sans-serif; font-weight:800; font-size:16px !important; text-transform:uppercase; letter-spacing:.04em; }
+#pTerminal .terminal-item-price{ color:#37d7ff !important; font-family:'Rajdhani',sans-serif; font-weight:800; font-size:16px !important; }
+#pTerminal .terminal-inprogress-actions{ gap:10px !important; margin-top:12px !important; }
+#pTerminal .open-btn{ background:linear-gradient(180deg,#37d7ff,#1592c4) !important; color:#06141b !important; border:none !important; border-radius:4px !important; font-family:'Rajdhani',sans-serif !important; font-weight:800 !important; letter-spacing:.08em !important; text-transform:uppercase; padding:12px 10px !important; }
+#pTerminal .btn2{ background:#0f1a22 !important; border:1px solid #2a4553 !important; color:#d6eef7 !important; border-radius:4px !important; font-family:'Rajdhani',sans-serif; font-weight:800; text-transform:uppercase; letter-spacing:.06em; padding:12px 10px !important; }
+#pTerminal .btn2-acc{ background:linear-gradient(180deg,#37d7ff,#1592c4) !important; color:#06141b !important; border:none !important; }
+/* banners: cyan steel */
+.terminal-banner{ background:linear-gradient(180deg,#132029,#0b1116) !important; border:1px solid #1d3442 !important; border-radius:6px !important; }
+.terminal-banner::before{ background:#37d7ff !important; }
+.terminal-banner:hover{ border-color:#37d7ff !important; }
+.terminal-banner-text b{ color:#e8f6fb !important; font-family:'Rajdhani',sans-serif; font-weight:800; letter-spacing:.06em; text-transform:uppercase; }
+.terminal-banner-arrow{ color:#37d7ff !important; }
+.terminal-banner-pro{ background:linear-gradient(180deg,#0e2a36,#0a1820) !important; border-color:#2a5566 !important; }
+.terminal-banner-pro::before{ background:#7af0ff !important; }
+.terminal-banner-pro .terminal-banner-text b{ color:#7af0ff !important; }
+.terminal-banner-pro .terminal-banner-arrow{ color:#7af0ff !important; }
+
+/* banner pictures: real images, medium size */
+.terminal-banner-icon{ width:52px !important; height:52px !important; overflow:hidden; padding:0 !important; }
+.terminal-banner-icon img{ width:100% !important; height:100% !important; object-fit:cover; display:block; }
 </style>
 </head>
 <body ontouchstart="">
@@ -1088,9 +1156,9 @@ input[placeholder*="Поиск"]{ height:32px !important; padding:2px 8px !impor
     <div class="hint-text">Ставка выше — шанс на топовый предмет выше, но можно выбить и что-то дешевле ставки.</div>
     <div class="cases-grid" id="allInCasesGrid"></div>
 
-    <div class="section-row"><div class="section-title">Терминал</div></div>
+    <div class="section-row"><div class="section-title">Закупщик</div></div>
     <div class="terminal-banner" onclick="openTerminal('basic')">
-      <div class="terminal-banner-icon">🖥️</div>
+      <div class="terminal-banner-icon" id="termIconBasic">🖥️</div>
       <div class="terminal-banner-text">
         <b>Взломай терминал</b>
         <span id="terminalBannerBasicSub">До 4 попыток поймать что-то дорогое. Вход — 150 ◆.</span>
@@ -1098,9 +1166,9 @@ input[placeholder*="Поиск"]{ height:32px !important; padding:2px 8px !impor
       <svg class="terminal-banner-arrow" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </div>
     <div class="terminal-banner terminal-banner-pro" onclick="openTerminal('pro')">
-      <div class="terminal-banner-icon">💻</div>
+      <div class="terminal-banner-icon" id="termIconPro">💻</div>
       <div class="terminal-banner-text">
-        <b>Терминал Про</b>
+        <b>Закупщик Про</b>
         <span id="terminalBannerProSub">Дороже вход (900 ◆) — заметно выше шанс на топовый предмет.</span>
       </div>
       <svg class="terminal-banner-arrow" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -1126,7 +1194,7 @@ input[placeholder*="Поиск"]{ height:32px !important; padding:2px 8px !impor
           <path d="M20 11v6M20 23v6M11 20h6M23 20h6" stroke="url(#eGrad)" stroke-width="2.2" stroke-linecap="round"/>
           <circle cx="20" cy="20" r="4.2" fill="url(#eGrad)"/>
         </svg>
-        <span class="terminal-titletext" id="terminalTitleText">Барахолка ECODROP</span>
+        <span class="terminal-titletext" id="terminalTitleText">Закупщик ECODROP</span>
       </div>
       <div class="terminal-body">
         <div class="terminal-attempts" id="terminalAttempts">Попытка 0/4</div>
@@ -1134,9 +1202,9 @@ input[placeholder*="Поиск"]{ height:32px !important; padding:2px 8px !impor
         <div class="dealer-chat" id="dealerChatLog"></div>
 
         <div class="terminal-item" id="terminalItemDisplay">
-          <div class="terminal-placeholder">Нажмите «Начать торг», чтобы получить первое предложение</div>
+          <div class="terminal-placeholder">Нажмите «Старт», чтобы получить первое предложение</div>
         </div>
-        <button class="open-btn" id="terminalStartBtn" onclick="terminalStart()">Начать торг за 150 ◆</button>
+        <button class="open-btn" id="terminalStartBtn" onclick="terminalStart()">Старт · 150 ◆</button>
         <div class="terminal-inprogress-actions" id="terminalInProgressActions" style="display:none;">
           <button class="btn2 btn2-blue" id="terminalRerollBtn" onclick="terminalReroll()">Отклонить</button>
           <button class="btn2 btn2-acc" id="terminalBuyBtn" onclick="terminalBuy()">Принять</button>
@@ -2171,19 +2239,18 @@ const officialCases = [
     colorA:"#5fffea", colorB:"#1f8f8f", isUnlocked:s=>true,
     previewImg:"https://mykoglay.github.io/skin-mini-app/images/chromacase.png",
     drops:[ {skinId:"s12",weight:36},{skinId:"s26",weight:30},{skinId:"s36",weight:26},{skinId:"s46",weight:2.625},{skinId:"s53",weight:0.088},{skinId:"s65",weight:0.022} ] },
-  { key:"meme_doge", name:"Dog-Olympus Case", cost:28, desc:"Такси до Луны и обратно. Внутри монетки для шиба.", colorA:"#f5c451", colorB:"#7a4b00", category:"meme", isUnlocked:s=>true, previewImg:"https://mykoglay.github.io/skin-mini-app/images/dogolympus.png", drops:[{ skinId:"CASH_10", id:"s108", weight:0.1 }, { skinId:"CASH_25", weight:25 }, { skinId:"CASH_50", weight:10 }, { skinId:"CASH_100", weight:4 }, { skinId:"CASH_250", weight:1 }] },
-   { key:"meme_doge", name:"Dog-Zeus Case", cost:28, desc:"Такси до Луны и обратно. Внутри монетки для шиба.", colorA:"#f5c451", colorB:"#7a4b00", category:"meme", isUnlocked:s=>true, previewImg:"https://mykoglay.github.io/skin-mini-app/images/dogzeus.png", drops:[{ skinId:"CASH_10", id:"s61", weight:0.1 }, { skinId:"CASH_25", weight:25 }, { skinId:"CASH_50", weight:10 }, { skinId:"CASH_100", weight:4 }, { skinId:"CASH_250", weight:1 }] },
-  { key:"meme_bananyc", name:"Кот Бананыч", cost:159, desc:"Кот, который всё знает. Иногда даёт бананы, иногда кристаллы.", colorA:"#7adf8a", colorB:"#1f5b2c", category:"meme", isUnlocked:s=>true, previewImg:"https://mykoglay.github.io/skin-mini-app/images/banana.png", drops:[{ skinId:"CASH_50", weight:50 }, { skinId:"CASH_100", weight:30 }, { skinId:"CASH_250", weight:12 }, { skinId:"CASH_500", weight:6 }, { skinId:"CASH_1000", weight:2 }] },
-  { key:"meme_zhiza", name:"Жиза Кейс", cost:29, desc:"Жиза? Жиза. Почти гарантированный бонус.", colorA:"#ff9bd2", colorB:"#6b1f49", category:"meme", isUnlocked:s=>true, previewImg:"https://mykoglay.github.io/skin-mini-app/images/shiza.png", drops:[{ skinId:"CASH_10", weight:55 }, { skinId:"CASH_25", weight:30 }, { skinId:"CASH_50", weight:10 }, { skinId:"CASH_100", weight:4 }, { skinId:"CASH_250", weight:1 }] },
-  { key:"meme_krinzh", name:"Кринж Бокс", cost:406, desc:"Открывай на свой страх и риск. Выпадет что-то, о чём потом будешь вспоминать.", colorA:"#7c8cff", colorB:"#1d2466", category:"meme", isUnlocked:s=>true, previewImg:"https://mykoglay.github.io/skin-mini-app/images/kinzgcase.png", drops:[{ skinId:"CASH_100", weight:50 }, { skinId:"CASH_250", weight:30 }, { skinId:"CASH_500", weight:12 }, { skinId:"CASH_1000", weight:6 }, { skinId:"CASH_5000", weight:2 }, { skinId:"s910", weight:0.02 }] },
-  { key:"meme_rofl", name:"Рофлан", cost:159, desc:"Ржака гарантирована. Кристаллы — тоже.", colorA:"#ff6b6b", colorB:"#6b1d1d", category:"meme", isUnlocked:s=>true, drops:[{ skinId:"CASH_50", weight:50 }, { skinId:"CASH_100", weight:30 },  { skinId:"CASH_250", weight:12 }, { skinId:"CASH_500", weight:6 }, { skinId:"CASH_1000", weight:2 }] },
+  { key:"meme_doge", name:"Кейс Доге", cost:28, desc:"Такси до Луны и обратно. Внутри монетки для шиба.", colorA:"#f5c451", colorB:"#7a4b00", category:"meme", isUnlocked:s=>true, drops:[{ skinId:"CASH_10", weight:60 }, { skinId:"CASH_25", weight:25 }, { skinId:"CASH_50", weight:10 }, { skinId:"CASH_100", weight:4 }, { skinId:"CASH_250", weight:1 }] },
+  { key:"meme_bananyc", name:"Кот Бананыч", cost:159, desc:"Кот, который всё знает. Иногда даёт бананы, иногда кристаллы.", colorA:"#7adf8a", colorB:"#1f5b2c", category:"meme", isUnlocked:s=>true, drops:[{ skinId:"CASH_50", weight:50 }, { skinId:"CASH_100", weight:30 }, { skinId:"CASH_250", weight:12 }, { skinId:"CASH_500", weight:6 }, { skinId:"CASH_1000", weight:2 }] },
+  { key:"meme_zhiza", name:"Жиза Кейс", cost:29, desc:"Жиза? Жиза. Почти гарантированный бонус.", colorA:"#ff9bd2", colorB:"#6b1f49", category:"meme", isUnlocked:s=>true, drops:[{ skinId:"CASH_10", weight:55 }, { skinId:"CASH_25", weight:30 }, { skinId:"CASH_50", weight:10 }, { skinId:"CASH_100", weight:4 }, { skinId:"CASH_250", weight:1 }] },
+  { key:"meme_krinzh", name:"Кринж Бокс", cost:406, desc:"Открывай на свой страх и риск. Выпадет что-то, о чём потом будешь вспоминать.", colorA:"#7c8cff", colorB:"#1d2466", category:"meme", isUnlocked:s=>true, drops:[{ skinId:"CASH_100", weight:50 }, { skinId:"CASH_250", weight:30 }, { skinId:"CASH_500", weight:12 }, { skinId:"CASH_1000", weight:6 }, { skinId:"CASH_5000", weight:2 }, { skinId:"s910", weight:0.02 }] },
+  { key:"meme_rofl", name:"Рофлан", cost:159, desc:"Ржака гарантирована. Кристаллы — тоже.", colorA:"#ff6b6b", colorB:"#6b1d1d", category:"meme", isUnlocked:s=>true, drops:[{ skinId:"CASH_50", weight:50 }, { skinId:"CASH_100", weight:30 }, { skinId:"CASH_250", weight:12 }, { skinId:"CASH_500", weight:6 }, { skinId:"CASH_1000", weight:2 }] },
   { key:"meme_ultra", name:"Ультра Рофл", cost:406, desc:"Для самых отчаянных. Редкие выпадения с большими суммами.", colorA:"#c77dff", colorB:"#3b1462", category:"meme", isUnlocked:s=>true, drops:[{ skinId:"CASH_100", weight:50 }, { skinId:"CASH_250", weight:30 }, { skinId:"CASH_500", weight:12 }, { skinId:"CASH_1000", weight:6 }, { skinId:"CASH_5000", weight:2 }, { skinId:"s910", weight:0.02 }] },
   { key:"local_marshrutka", name:"Кейс Маршрутки", cost:28, desc:"Утро, давка и водитель, который «сейчас поедем». Внутри — сдача и сюрпризы.", colorA:"#ffcf40", colorB:"#6b4b00", category:"local", isUnlocked:s=>true, drops:[{ skinId:"CASH_10", weight:60 }, { skinId:"CASH_25", weight:25 }, { skinId:"CASH_50", weight:10 }, { skinId:"CASH_100", weight:4 }, { skinId:"CASH_250", weight:1 }] },
   { key:"local_pelmen", name:"Пельменная", cost:159, desc:"Горячие и с бульоном. Внутри — обычные пельмени, но иногда с золотой монетой.", colorA:"#ff8a5c", colorB:"#6b2a12", category:"local", isUnlocked:s=>true, drops:[{ skinId:"CASH_50", weight:50 }, { skinId:"CASH_100", weight:30 }, { skinId:"CASH_250", weight:12 }, { skinId:"CASH_500", weight:6 }, { skinId:"CASH_1000", weight:2 }] },
   { key:"local_dacha", name:"Дачный кейс", cost:72, desc:"Грядки, шашлык и ведро огурцов. Иногда попадается что-то очень ценное.", colorA:"#8fe388", colorB:"#23541c", category:"local", isUnlocked:s=>true, drops:[{ skinId:"CASH_25", weight:55 }, { skinId:"CASH_50", weight:28 }, { skinId:"CASH_100", weight:11 }, { skinId:"CASH_250", weight:5 }, { skinId:"CASH_1000", weight:1 }] },
   { key:"local_larek", name:"Ларёк на углу", cost:159, desc:"Семечки, пиво и кристаллы в одном пакете. Открывать можно прямо у ларька.", colorA:"#7fd6ff", colorB:"#1b4c6b", category:"local", isUnlocked:s=>true, drops:[{ skinId:"CASH_50", weight:50 }, { skinId:"CASH_100", weight:30 }, { skinId:"CASH_250", weight:12 }, { skinId:"CASH_500", weight:6 }, { skinId:"CASH_1000", weight:2 }] },
   { key:"local_dvor", name:"Двор 90-х", cost:406, desc:"Гаражи, качели и старые кассеты. Ностальгия гарантирована, выигрыш — иногда.", colorA:"#e0a3ff", colorB:"#4b1a66", category:"local", isUnlocked:s=>true, drops:[{ skinId:"CASH_100", weight:50 }, { skinId:"CASH_250", weight:30 }, { skinId:"CASH_500", weight:12 }, { skinId:"CASH_1000", weight:6 }, { skinId:"CASH_5000", weight:2 }] },
-  { key:"shirp_poseidon", name:"Посейдон", cost:3317, desc:"Редкий M4A4 | Посейдон выпадает очень редко. Остальное — простые скины.", colorA:"#4ad4ff", colorB:"#0e3a57", category:"shirp", isUnlocked:s=>true, previewImg:"https://mykoglay.github.io/skin-mini-app/images/poseidoncase2.png", drops:[{ skinId:"s910", weight:0.2 }, { skinId:"s81", weight:30 }, { skinId:"s32", weight:25 }, { skinId:"s93", weight:20 }, { skinId:"s41", weight:15 }, { skinId:"s94", weight:9.8 }] },
+  { key:"shirp_poseidon", name:"Посейдон", cost:3317, desc:"Редкий M4A4 | Посейдон выпадает очень редко. Остальное — простые скины.", colorA:"#4ad4ff", colorB:"#0e3a57", category:"shirp", isUnlocked:s=>true, drops:[{ skinId:"s910", weight:0.2 }, { skinId:"s81", weight:30 }, { skinId:"s32", weight:25 }, { skinId:"s93", weight:20 }, { skinId:"s41", weight:15 }, { skinId:"s94", weight:9.8 }] },
   { key:"shirp_dragon", name:"Ширп Драгон Лор", cost:3212, desc:"Дешёвая версия легенды. Настоящий AWP | Драгон Лор почти не выпадает.", colorA:"#ffb84d", colorB:"#5a2e00", category:"shirp", isUnlocked:s=>true, drops:[{ skinId:"s47", weight:0.05 }, { skinId:"s81", weight:35 }, { skinId:"s32", weight:30 }, { skinId:"s93", weight:20 }, { skinId:"s41", weight:14.95 }] },
   { key:"shirp_knife", name:"Ширп нож", cost:40494, desc:"Ножи попроще: выпадают чаще дешёвые, редко — настоящие ★.", colorA:"#ff7ad9", colorB:"#4a1238", category:"shirp", isUnlocked:s=>true, drops:[{ skinId:"s106", weight:40 }, { skinId:"s55", weight:30 }, { skinId:"s57", weight:20 }, { skinId:"s54", weight:8 }, { skinId:"s56", weight:2 }] },
   { key:"shirp_gloves", name:"Ширп перчи", cost:30995, desc:"Перчатки для тех, кто любит стиль. Шанс на Ящик Пандоры есть, но очень маленький.", colorA:"#9bff6b", colorB:"#1f4a14", category:"shirp", isUnlocked:s=>true, drops:[{ skinId:"s60", weight:40 }, { skinId:"s59", weight:35 }, { skinId:"s58", weight:0.5 }, { skinId:"s108", weight:0.1 }, { skinId:"s71", weight:24.4 }] },
@@ -2318,7 +2385,7 @@ const allInCases = [
   { key:"allin_extreme", name:"Экстрим", cost:150000, desc:"Ставка 150000 ◆. Экстремальный риск — почти всё в шансе на нож.",
     colorA:"#ffd23d", colorB:"#8a5a05", isUnlocked:s=>true,
     previewImg:"https://mykoglay.github.io/skin-mini-app/images/extrimcase.png",
-    drops:[ {skinId:"s61",weight:0.9}, {skinId:"s108",weight:0.9}, {skinId:"s107",weight:0.9}, {skinId:"s910",weight:0.9}, {skinId:"s98",weight:0.9}, {skinId:"s53",weight:0.9}, {skinId:"s58",weight:0.9}, {skinId:"s48",weight:0.9}, {skinId:"s32",weight:32},{skinId:"s41",weight:10.5},{skinId:"s45",weight:9.8},{skinId:"s47",weight:2.975},{skinId:"s52",weight:0.264},{skinId:"s64",weight:0.066} ] }
+    drops:[ {skinId:"s61",weight:0.9}, {skinId:"s108",weight:0.9}, {skinId:"s107",weight:0.9}, {skinId:"s910",weight:0.9}, {skinId:"s98",weight:0.9}, {skinId:"s53",weight:0.9}, {skinId:"s58",weight:0.9}, {skinId:"s48",weight:0.9},{skinId:"s41",weight:20},{skinId:"s45",weight:20},{skinId:"s47",weight:2.975},{skinId:"s52",weight:0.264},{skinId:"s64",weight:2.5} ] }
 ];
 
 function caseByKey(k){ return cases.find(c=>c.key===k) || officialCases.find(c=>c.key===k) || allInCases.find(c=>c.key===k); }
@@ -2519,35 +2586,37 @@ function updateEarnVideoUI(){
   if(earnVideoReady()){ btn.disabled = false; btn.innerText = "Смотреть"; sub.innerText = `Получите +${EARN_VIDEO_REWARD} ◆`; }
   else { btn.disabled = true; btn.innerText = "Просмотрено"; sub.innerText = "Следующий ролик через " + formatCooldown(EARN_VIDEO_COOLDOWN_MS-(Date.now()-state.lastEarnVideoClaim)); }
 }
+/* ---------- rewarded ads ----------
+   AD_CONFIG.adsgramBlockId: the block id from your ad network cabinet (e.g. Adsgram).
+   The network's SDK script must be added to <head> as their docs describe.
+   testMode = true only for local tests: it pays after 4 seconds WITHOUT an ad, do not ship it on. */
+const AD_CONFIG = { adsgramBlockId: "", testMode: false };
+function showRewardedAd(){
+  return new Promise((resolve, reject)=>{
+    if(AD_CONFIG.testMode){ setTimeout(()=>resolve(true), 4000); return; }
+    if(!AD_CONFIG.adsgramBlockId || !window.Adsgram){ reject(new Error("ads-not-configured")); return; }
+    const ctrl = window.Adsgram.init({ blockId: AD_CONFIG.adsgramBlockId });
+    ctrl.show().then(()=>resolve(true)).catch(err=>reject(err));
+  });
+}
 function watchEarnVideo(){
   if(!earnVideoReady() || earnVideoPlaying) return;
   earnVideoPlaying = true;
-  document.getElementById("earnVideoBtn").disabled = true;
-  const progress = document.getElementById("earnVideoProgress");
-  const fill = document.getElementById("earnVideoBarFill");
-  const text = document.getElementById("earnVideoProgressText");
-  progress.style.display = "block";
-  fill.style.transition = "none"; fill.style.width = "0%";
-  requestAnimationFrame(()=>{
-    fill.style.transition = "width 4s linear";
-    fill.style.width = "100%";
-  });
-  let secondsLeft = 4;
-  text.innerText = `Загрузка ролика... ${secondsLeft}с`;
-  const tick = setInterval(()=>{
-    secondsLeft--;
-    if(secondsLeft>0) text.innerText = `Загрузка ролика... ${secondsLeft}с`;
-  }, 1000);
-  setTimeout(()=>{
-    clearInterval(tick);
-    progress.style.display = "none";
+  const btn = document.getElementById("earnVideoBtn");
+  btn.disabled = true; btn.innerText = "Загрузка...";
+  showRewardedAd().then(ok=>{
     earnVideoPlaying = false;
+    if(!ok){ showToast("Реклама не досмотрена — награды нет"); updateEarnVideoUI(); return; }
     state.balance += EARN_VIDEO_REWARD;
     state.lastEarnVideoClaim = Date.now();
     saveState(); updateBalanceUI();
-    showToast(`+${EARN_VIDEO_REWARD} ◆ за просмотр ролика`);
+    showToast(`+${EARN_VIDEO_REWARD} ◆ за просмотр`);
     updateEarnVideoUI();
-  }, 4000);
+  }).catch(()=>{
+    earnVideoPlaying = false;
+    showToast("Реклама сейчас недоступна, попробуйте позже");
+    updateEarnVideoUI();
+  });
 }
 
 /* ---------------- balance / toast ---------------- */
@@ -2762,7 +2831,7 @@ function renderRouletteBoxes(qty){
    Вставьте прямую ссылку на картинку карты в кавычки. Пусто = фон не показывается.
    Выбранная в профиле карта применяется ко всем кейсам. */
 const CASE_MAP_BACKGROUNDS = {
-  dust2: "https://mykoglay.github.io/skin-mini-app/images/maps/dust2.png",   // Dust II
+  dust2: "https://mykoglay.github.io/skin-mini-app/images/maps/dust.png",   // Dust II
   mirage: "https://mykoglay.github.io/skin-mini-app/images/maps/mirage.png",   // Mirage
   inferno: "https://mykoglay.github.io/skin-mini-app/images/maps/inferno.png",   // Inferno
   nuke: "https://mykoglay.github.io/skin-mini-app/images/maps/nuke.png",   // Nuke
@@ -4016,7 +4085,7 @@ function setTerminalTier(tier){
   terminalTier = tier;
   document.getElementById("terminalTierBasic").classList.toggle("active", tier==="basic");
   document.getElementById("terminalTierPro").classList.toggle("active", tier==="pro");
-  document.getElementById("terminalTitleText").innerText = tier==="pro" ? "root@ecodrop:~$ unlock_pro.sh" : "root@ecodrop:~$ unlock.sh";
+  document.getElementById("terminalTitleText").innerText = tier==="pro" ? "ЗАКУПЩИК · ПРО" : "ЗАКУПЩИК · ОБЫЧНЫЙ";
   initTerminalPage();
 }
 
@@ -4072,15 +4141,15 @@ function updateTerminalButtons(){
   const buyBtn = document.getElementById("terminalBuyBtn");
   const canReroll = terminalAttempts < TERMINAL_MAX_ATTEMPTS;
   rerollBtn.disabled = !canReroll;
-  rerollBtn.innerText = canReroll ? `Сменить (${terminalAttempts}/${TERMINAL_MAX_ATTEMPTS})` : "Попытки закончились";
+  rerollBtn.innerText = canReroll ? `Переброс (${terminalAttempts}/${TERMINAL_MAX_ATTEMPTS})` : "Перебросы закончились";
   const affordable = state.balance >= terminalCurrentItem.price;
   buyBtn.disabled = !affordable;
-  buyBtn.innerText = affordable ? `Купить за ${fmtPrice(terminalCurrentItem.price)}` : "Недостаточно ◆";
+  buyBtn.innerText = affordable ? `Забрать за ${fmtPrice(terminalCurrentItem.price)}` : "Недостаточно ◆";
 }
 
 function terminalReroll(){
     if(terminalAttempts >= TERMINAL_MAX_ATTEMPTS) {
-        showToast("Попытки закончились – купите текущий предмет или выйдите");
+        showToast("Перебросы закончились – заберите текущий предмет или выйдите");
         return;
     }
     terminalRevealNext();
@@ -4666,6 +4735,48 @@ function startGaugeCycle(){
   setInterval(show, 2000);
 }
 setTimeout(startGaugeCycle, 800);
+
+/* ===== realistic odds: every drop stays possible, expected return about 80% of the case price ===== */
+const CASE_RTP = 0.80;
+function dropValue(id){
+  if(typeof id==="string" && id.startsWith("CASH_")) return parseInt(id.split("_")[1]) || 0;
+  const sk = skinById(id);
+  return sk && sk.price ? sk.price : 0;
+}
+function balanceCaseOdds(c){
+  if(!c || !c.drops) return;
+  const items = c.drops.filter(d=>d.weight>0);
+  if(items.length<2 || !c.cost) return;
+  const vals = items.map(d=>dropValue(d.skinId));
+  const base = items.map(d=>d.weight);
+  const total = base.reduce((a,b)=>a+b,0);
+  const target = c.cost * CASE_RTP;
+  const weights = a => items.map((d,i)=>base[i]*Math.pow(vals[i]+1, -a));
+  const evFor = a => {
+    const w = weights(a); const den = w.reduce((x,y)=>x+y,0);
+    return den ? w.reduce((acc,wi,i)=>acc+wi*vals[i],0)/den : 0;
+  };
+  // expected value falls as a grows: bisect to hit the target return
+  let lo=-3, hi=3;
+  for(let k=0;k<60;k++){ const mid=(lo+hi)/2; if(evFor(mid) > target) lo=mid; else hi=mid; }
+  const a=(lo+hi)/2;
+  const w = weights(a); const den = w.reduce((x,y)=>x+y,0);
+  items.forEach((d,i)=>{ d.weight = Math.max(0.01, +(total*w[i]/den).toFixed(3)); });
+}
+(typeof officialCases!=="undefined" ? officialCases : []).forEach(balanceCaseOdds);
+(typeof allInCases!=="undefined" ? allInCases : []).forEach(balanceCaseOdds);
+
+/* banner pictures for the terminal: put image links here (e.g. "images/terminal_basic.png"); empty = emoji */
+const TERMINAL_BANNER_IMG = { basic: "", pro: "" };
+function applyTerminalBannerImages(){
+  [["termIconBasic","basic","🖥️"],["termIconPro","pro","💻"]].forEach(([id,key,fallback])=>{
+    const el = document.getElementById(id);
+    if(!el) return;
+    const src = TERMINAL_BANNER_IMG[key];
+    el.innerHTML = src ? `<img src="${src}" alt="">` : fallback;
+  });
+}
+applyTerminalBannerImages();
 /* ================= HISTORY · ACHIEVEMENTS · LONG-PRESS PREVIEW ================= */
 let winCtx = {type:"case", name:""};
 const SRC_LABEL = {case:"КЕЙС", upgrade:"АПГРЕЙД", battle:"КЕЙСБАТЛ", sell:"ПРОДАЖА"};
