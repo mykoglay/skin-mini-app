@@ -1129,6 +1129,11 @@ input[placeholder*="Поиск"]{ height:32px !important; padding:2px 8px !impor
 .terminal-banner-icon img{ width:auto !important; height:66px !important; max-width:96px; object-fit:contain !important; display:block; border-radius:0 !important; }
 .terminal-banner-pro .terminal-banner-icon{ width:auto !important; height:auto !important; }
 .terminal-banner-pro .terminal-banner-icon img{ height:74px !important; max-width:108px; }
+
+/* back button: a clear pill, easy to see and tap */
+.back-btn{ display:inline-flex !important; align-items:center; gap:8px !important; align-self:flex-start; background:linear-gradient(135deg,rgba(139,92,246,.35),rgba(236,72,153,.25)) !important; border:1px solid rgba(196,181,253,.55) !important; color:#fff !important; font-family:'Rajdhani',sans-serif !important; font-size:15px !important; font-weight:800 !important; letter-spacing:.06em; text-transform:uppercase; padding:9px 16px 9px 12px !important; border-radius:999px !important; box-shadow:0 8px 20px -10px rgba(139,92,246,.9); cursor:pointer; margin:4px 0 12px 0 !important; }
+.back-btn svg{ width:18px !important; height:18px !important; stroke-width:2.6; }
+.back-btn:active{ transform:scale(.96); }
 </style>
 </head>
 <body ontouchstart="">
@@ -3452,6 +3457,11 @@ function applyCustomMult(){
 }
 
 function refreshUpgrade(){
+  // the stake skin must still be in the inventory (it may have been sold)
+  ensureInvIds();
+  if(stakeSkin && !state.inventory.some(it=>it.instId===stakeSkin.instId)){
+    stakeSkin = null;
+  }
   updateGaugeFromTarget();
   const slot = document.getElementById("stakeSkinSlot");
   if(stakeSkin){
@@ -4789,7 +4799,9 @@ function balanceCaseOdds(c){
   for(let k=0;k<60;k++){ const mid=(lo+hi)/2; if(evFor(mid) > target) lo=mid; else hi=mid; }
   const a=(lo+hi)/2;
   const w = weights(a); const den = w.reduce((x,y)=>x+y,0);
-  items.forEach((d,i)=>{ d.weight = Math.max(0.01, +(total*w[i]/den).toFixed(3)); });
+  // every drop keeps a visible chance (never shown as 0%)
+  const MIN_SHOWN = 0.15;
+  items.forEach((d,i)=>{ d.weight = Math.max(MIN_SHOWN, +(total*w[i]/den).toFixed(3)); });
 }
 (typeof officialCases!=="undefined" ? officialCases : []).forEach(balanceCaseOdds);
 (typeof allInCases!=="undefined" ? allInCases : []).forEach(balanceCaseOdds);
