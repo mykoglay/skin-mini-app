@@ -1855,9 +1855,21 @@ function updateSoundToggleUI(){
 // detect referral start param once
 if(startParam && !state.referredBy){ state.referredBy = startParam; saveState(); }
 
+function fmtCompact(n){
+  // 1 234 -> "1.2к", 1 000 000 -> "1кк", 3 000 000 000 -> "3ккк"
+  const abs = Math.abs(n);
+  const short = (v, suffix)=>{
+    const r = v >= 10 ? Math.round(v) : Math.round(v*10)/10;
+    return (Number.isInteger(r) ? r : r.toFixed(1)) + suffix;
+  };
+  if(abs >= 1e9) return short(n/1e9, "ккк");
+  if(abs >= 1e6) return short(n/1e6, "кк");
+  if(abs >= 1e3) return short(n/1e3, "к");
+  return null;
+}
 function fmtPrice(n){
-  if(n >= 1000000){ const m = n/1000000; return (Number.isInteger(m)?m:m.toFixed(1)) + "млн🪎"; }
-  if(n >= 1000){ return Math.round(n).toLocaleString('ru-RU') + " ◆"; }
+  const c = fmtCompact(n);
+  if(c) return c + " ◆";
   if(Number.isInteger(n)) return n + " ◆";
   // fractional crystal values (cheap collectibles priced like their real-world cent value)
   return (Math.round(n*100)/100) + " ◆";
@@ -2777,6 +2789,8 @@ function watchEarnVideo(){
 
 /* ---------------- balance / toast ---------------- */
 function fmtBalance(n){
+  const c = fmtCompact(n);
+  if(c) return c;
   const rounded = Math.round(n*100)/100;
   return Number.isInteger(rounded) ? rounded.toLocaleString('ru-RU') : rounded.toFixed(2);
 }
