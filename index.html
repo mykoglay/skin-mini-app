@@ -1246,6 +1246,13 @@ body{ height:100vh; height:100dvh; min-height:-webkit-fill-available; }
 /* centre button sits lower: it only lifts a little above the bar */
 .nav-center{ top:-8px !important; width:56px !important; height:56px !important; border-width:3px !important; }
 .nc-ic{ font-size:22px !important; }
+
+/* bottom bar: all seven items fit the width, no cut-off labels */
+.nav-bar{ justify-content:space-between !important; padding-left:4px !important; padding-right:4px !important; }
+.nav-bar .nav-item{ flex:1 1 0 !important; min-width:0 !important; padding:0 1px !important; font-size:9px !important; }
+.nav-bar .nav-label{ display:block !important; max-width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:9.5px !important; letter-spacing:-.01em; }
+.nav-center{ width:52px !important; height:52px !important; flex:0 0 52px !important; margin:0 4px !important; top:-6px !important; }
+.nc-ic{ font-size:20px !important; }
 </style>
 </head>
 <body ontouchstart="">
