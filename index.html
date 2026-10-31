@@ -980,10 +980,7 @@ input[placeholder*="Поиск"]{ height:32px !important; padding:2px 8px !impor
 #pCases .case-card.unlocked{ box-shadow:0 14px 28px -18px rgba(139,92,246,.9); }
 
 /* ===== main screen: distinctive look ===== */
-#pCases{
-  position:relative; isolation:isolate; overflow:hidden;
-  background: radial-gradient(120% 60% at 50% -10%, rgba(255,207,64,.10), transparent 60%), #0b0812;
-}
+#pCases{ position:relative; background:none; }
 /* rare lightning strikes: main bolt + side branches, drawn fast, drawn inside the page */
 .storm-bolt{ position:fixed; top:0; width:110px; height:82vh; z-index:-1; pointer-events:none; opacity:0; transform:translateX(-50%); animation:boltHit .95s linear forwards; }
 .storm-bolt svg{ width:100%; height:100%; overflow:visible; }
@@ -1134,6 +1131,121 @@ input[placeholder*="Поиск"]{ height:32px !important; padding:2px 8px !impor
 .back-btn{ display:inline-flex !important; align-items:center; gap:8px !important; align-self:flex-start; background:linear-gradient(135deg,rgba(139,92,246,.35),rgba(236,72,153,.25)) !important; border:1px solid rgba(196,181,253,.55) !important; color:#fff !important; font-family:'Rajdhani',sans-serif !important; font-size:15px !important; font-weight:800 !important; letter-spacing:.06em; text-transform:uppercase; padding:9px 16px 9px 12px !important; border-radius:999px !important; box-shadow:0 8px 20px -10px rgba(139,92,246,.9); cursor:pointer; margin:4px 0 12px 0 !important; }
 .back-btn svg{ width:18px !important; height:18px !important; stroke-width:2.6; }
 .back-btn:active{ transform:scale(.96); }
+
+/* back button a little smaller; case description readable, plain text (no outline, no box) */
+.back-btn{ font-size:13px !important; padding:6px 13px 6px 9px !important; letter-spacing:.05em !important; margin:2px 0 8px 0 !important; box-shadow:none !important; }
+.back-btn svg{ width:15px !important; height:15px !important; }
+.open-sub{ font-size:13px !important; line-height:1.4 !important; color:#e2dcef !important; margin-bottom:12px !important; border:none !important; outline:none !important; background:none !important; box-shadow:none !important; text-shadow:none !important; padding:0 !important; }
+
+/* ===== drop feed on the main screen: scrolling line of recent wins ===== */
+.drop-feed{ position:relative; overflow:hidden; height:58px; display:flex; align-items:center; margin:10px 0 4px; border-radius:10px; background:rgba(12,10,18,.7); border:1px solid rgba(139,92,246,.25); }
+.drop-feed::before, .drop-feed::after{ content:""; position:absolute; top:0; bottom:0; width:24px; z-index:2; pointer-events:none; }
+.drop-feed::before{ left:0; background:linear-gradient(90deg,#0c0a12,transparent); }
+.drop-feed::after{ right:0; background:linear-gradient(270deg,#0c0a12,transparent); }
+.df-track{ display:flex; width:max-content; white-space:nowrap; }
+.drop-feed:hover .df-track{ animation-play-state:paused; }
+@keyframes dfScroll{ from{ transform:translateX(0); } to{ transform:translateX(-50%); } }
+.df-item{ display:inline-flex; align-items:center; gap:6px; padding:0 14px; font-size:12px; color:#cfc8de; }
+.df-item b{ color:#fff; font-weight:700; }
+.df-dot{ width:6px; height:6px; border-radius:50%; flex-shrink:0; }
+.df-price{ font-family:'Rajdhani',sans-serif; font-weight:800; color:#ffd166; }
+.df-demo{ font-size:9px; letter-spacing:.1em; text-transform:uppercase; color:#8d8199; border:1px solid #3a3146; border-radius:6px; padding:1px 5px; margin-left:4px; }
+
+/* drop feed: skin pictures, names, bot tag */
+.drop-feed{ height:58px !important; }
+.df-track{ align-items:center; }
+.df-item{ display:inline-flex !important; align-items:center; gap:8px; padding:0 16px 0 10px !important; height:58px; border-right:1px solid rgba(255,255,255,.06); }
+.df-art{ width:46px; height:40px; display:flex; align-items:center; justify-content:center; flex-shrink:0; background:rgba(255,255,255,.03); border-radius:8px; }
+.df-art svg{ width:44px; height:36px; }
+.df-txt{ display:flex; flex-direction:column; line-height:1.25; font-size:11px; color:#cfc8de; white-space:nowrap; }
+.df-txt b{ color:#fff; font-weight:700; }
+.df-name{ font-weight:800; font-size:12px; }
+.df-tag{ font-size:8px; letter-spacing:.08em; text-transform:uppercase; color:#8d8199; border:1px solid #3a3146; border-radius:4px; padding:0 3px; margin-left:2px; }
+.df-price{ font-family:'Rajdhani',sans-serif; font-weight:800; color:#ffd166; font-size:14px; }
+
+/* drop feed: just the pictures */
+.df-item{ display:inline-flex !important; align-items:center; justify-content:center; width:72px; height:58px; padding:0 !important; border-right:1px solid rgba(255,255,255,.06); cursor:pointer; }
+.df-art{ width:56px !important; height:46px !important; }
+.df-art svg{ width:54px !important; height:44px !important; }
+
+/* drops appear with a sharp snap, no continuous scrolling */
+.df-track{ animation:none !important; }
+
+/* each drop is a square: a new one pops in, the others slide over */
+.df-new{ animation:tilePop .42s cubic-bezier(.2,.9,.3,1.15) both; }
+@keyframes tilePop{ from{ opacity:0; transform:scale(.3); } to{ opacity:1; transform:scale(1); } }
+.drop-feed .df-track{ width:max-content; }
+
+/* daily bonus: gold gift card with a shine sweep */
+.daily-strip{ position:relative; overflow:hidden; background:linear-gradient(120deg,#2a1f08,#16110a 62%) !important; border:1px solid #6b4c10 !important; border-radius:16px !important; padding:14px !important; box-shadow:0 14px 30px -18px rgba(255,180,40,.6); }
+.daily-strip::before{ content:""; position:absolute; top:-30%; width:40%; height:160%; left:-45%; background:linear-gradient(90deg,transparent,rgba(255,226,140,.22),transparent); transform:rotate(18deg); animation:dbShine 5s ease-in-out infinite; pointer-events:none; }
+@keyframes dbShine{ 0%,55%{ left:-45%; } 100%{ left:135%; } }
+.daily-left{ flex-direction:row !important; align-items:center !important; gap:12px !important; min-width:0; }
+.db-ic{ width:46px; height:46px; display:flex; align-items:center; justify-content:center; font-size:24px; flex-shrink:0; background:rgba(255,200,80,.12); border:1px solid rgba(255,200,80,.35); border-radius:14px; }
+.db-txt{ display:flex; flex-direction:column; gap:2px; min-width:0; }
+.daily-btn{ background:linear-gradient(180deg,#ffd166,#e89b1a) !important; color:#2a1804 !important; border:none !important; border-radius:12px !important; padding:11px 18px !important; font-family:'Rajdhani',sans-serif !important; font-weight:800 !important; font-size:14px !important; letter-spacing:.05em; text-transform:uppercase; box-shadow:0 8px 18px -8px rgba(255,190,60,.9); }
+.daily-btn:disabled{ background:#2a232d !important; color:var(--sub) !important; box-shadow:none !important; }
+
+/* promo code card in the profile */
+.promo-card{ margin:0 0 12px; padding:14px; border-radius:16px; background:linear-gradient(160deg,#1a1430,#0d0a16); border:1px solid rgba(139,92,246,.35); }
+.promo-title{ font-family:'Rajdhani',sans-serif; font-size:16px; font-weight:800; letter-spacing:.04em; color:#fff; margin-bottom:8px; }
+.promo-row{ display:flex; gap:8px; }
+.promo-input{ flex:1; min-width:0; height:40px; padding:0 12px; border-radius:12px; border:1px solid rgba(139,92,246,.35); background:#0b0812; color:#e9e3f5; font-family:'Rajdhani',sans-serif; font-size:16px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; }
+.promo-btn{ height:40px; padding:0 14px; border:none; border-radius:12px; cursor:pointer; background:linear-gradient(135deg,#8b5cf6,#c026d3); color:#fff; font-family:'Rajdhani',sans-serif; font-weight:800; font-size:13px; letter-spacing:.05em; text-transform:uppercase; }
+.promo-msg{ margin-top:8px; font-size:12px; color:#8d8199; min-height:16px; }
+
+/* wheel of fortune card + rank card */
+.wheel-card{ display:flex; align-items:center; gap:12px; padding:12px 14px; margin:10px 0 14px; border-radius:16px; cursor:pointer; background:linear-gradient(120deg,#1e1538,#0f0b1a); border:1px solid rgba(139,92,246,.4); box-shadow:0 12px 26px -16px rgba(139,92,246,.8); }
+.wheel-card:active{ transform:scale(.985); }
+.wc-ic{ width:44px; height:44px; border-radius:14px; display:flex; align-items:center; justify-content:center; font-size:24px; background:rgba(139,92,246,.18); border:1px solid rgba(139,92,246,.45); flex-shrink:0; }
+.wc-txt{ flex:1; min-width:0; display:flex; flex-direction:column; gap:2px; }
+.wc-txt b{ font-family:'Rajdhani',sans-serif; font-size:17px; font-weight:800; letter-spacing:.03em; color:#fff; }
+.wc-txt span{ font-size:11px; color:#a79cb8; }
+.wc-go{ padding:9px 14px; border-radius:12px; background:linear-gradient(135deg,#8b5cf6,#c026d3); color:#fff; font-family:'Rajdhani',sans-serif; font-weight:800; font-size:13px; letter-spacing:.05em; text-transform:uppercase; flex-shrink:0; }
+.wheel-card.done .wc-go{ background:#2a232d; color:#8d8199; }
+.wheel-box{ position:relative; width:260px; height:260px; margin:6px auto 4px; }
+.wheel-svg{ width:100%; height:100%; transition:transform 4.2s cubic-bezier(.12,.7,.1,1); }
+.wheel-pointer{ position:absolute; top:-6px; left:50%; transform:translateX(-50%); width:0; height:0; border-left:11px solid transparent; border-right:11px solid transparent; border-top:20px solid #ffd166; filter:drop-shadow(0 0 6px rgba(255,209,102,.8)); z-index:2; }
+.wheel-res{ text-align:center; font-family:'Rajdhani',sans-serif; font-size:20px; font-weight:800; color:#ffd166; min-height:28px; margin-top:6px; }
+.wheel-btn{ display:block; width:100%; margin-top:10px; padding:13px; border:none; border-radius:14px; cursor:pointer; background:linear-gradient(135deg,#8b5cf6,#c026d3); color:#fff; font-family:'Rajdhani',sans-serif; font-weight:800; font-size:16px; letter-spacing:.06em; text-transform:uppercase; }
+.wheel-btn:disabled{ background:#2a232d; color:#8d8199; }
+.rank-card{ margin:0 0 12px; padding:14px; border-radius:16px; background:linear-gradient(160deg,#1a1430,#0d0a16); border:1px solid rgba(255,255,255,.08); }
+.rank-top{ display:flex; align-items:center; gap:12px; }
+.rank-badge{ width:46px; height:46px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:22px; background:rgba(255,255,255,.06); border:2px solid var(--rank-col,#8f96a3); flex-shrink:0; }
+.rank-name{ font-family:'Rajdhani',sans-serif; font-size:18px; font-weight:800; letter-spacing:.04em; color:var(--rank-col,#fff); }
+.rank-xp{ font-size:11px; color:#a79cb8; margin-top:2px; }
+.rank-bar{ height:6px; border-radius:6px; background:rgba(255,255,255,.08); margin-top:12px; overflow:hidden; }
+.rank-bar i{ display:block; height:100%; background:var(--rank-col,#8b5cf6); border-radius:6px; transition:width .5s ease; }
+.rank-next{ font-size:11px; color:#8d8199; margin-top:6px; }
+
+/* bottom bar: vbet-style, with a raised round button in the middle (wheel of fortune) */
+.nav-bar{ position:relative; display:flex !important; justify-content:space-around; align-items:flex-end; background:linear-gradient(180deg,#120e1c,#0a0810) !important; border-top:1px solid rgba(255,61,139,.35) !important; padding-top:6px !important; }
+.nav-bar::before{ content:""; position:absolute; top:-1px; left:20%; right:20%; height:2px; background:linear-gradient(90deg,transparent,#ff3d8b,transparent); pointer-events:none; }
+.nav-center{ position:relative; top:-20px; display:flex; flex-direction:column; align-items:center; justify-content:center; width:66px; height:66px; border-radius:50%; border:4px solid #0a0810; cursor:pointer; background:radial-gradient(circle at 30% 25%,#ff7ab3,#d81b60 60%,#8e0f3c); box-shadow:0 10px 24px -6px rgba(216,27,96,.9), 0 0 0 2px rgba(255,61,139,.35); flex-shrink:0; margin:0 2px; }
+.nav-center:active{ transform:scale(.94); }
+.nc-ic{ font-size:26px; line-height:1; animation:ncSpin 6s linear infinite; }
+.nc-lbl{ display:none; }
+@keyframes ncSpin{ from{ transform:rotate(0deg); } to{ transform:rotate(360deg); } }
+.nav-bar .nav-item.active{ color:#ff5ca8 !important; }
+.nav-bar .nav-item.active svg{ color:#ff5ca8; }
+
+/* menu list: daily bonus and wheel stacked, full width */
+.menu-list{ display:flex; flex-direction:column; gap:12px; padding-top:4px; }
+.menu-list .daily-strip, .menu-list .wheel-card{ margin:0 !important; }
+
+/* centre button: no spinning icon; full-height app; no empty strip under the bottom bar */
+.nc-ic{ animation:none !important; }
+html,body{ height:100%; }
+body{ height:100vh; height:100dvh; min-height:-webkit-fill-available; }
+.nav-bar{ height:auto !important; min-height:60px; padding-bottom:calc(env(safe-area-inset-bottom,0px) + 4px) !important; box-sizing:content-box; }
+
+/* no box behind the cases: the page background shows through, no square */
+#pCases, #pCases::before, #pCases::after{ background:none !important; }
+#pCases{ overflow:visible !important; isolation:auto !important; }
+
+/* centre button sits lower: it only lifts a little above the bar */
+.nav-center{ top:-8px !important; width:56px !important; height:56px !important; border-width:3px !important; }
+.nc-ic{ font-size:22px !important; }
 </style>
 </head>
 <body ontouchstart="">
@@ -1174,10 +1286,15 @@ input[placeholder*="Поиск"]{ height:32px !important; padding:2px 8px !impor
     </div>
 
     <div class="daily-strip">
-      <div class="daily-left"><b>Ежедневный бонус</b><span id="dailySub">+1000 кристаллов каждые 24 часа</span></div>
+      <div class="daily-left"><span class="db-ic">🎁</span><div class="db-txt"><b>Ежедневный бонус</b><span id="dailySub">+1000 кристаллов каждые 24 часа</span></div></div>
       <button class="daily-btn" id="dailyBtn" onclick="claimDaily()">Забрать</button>
     </div>
 
+    <div class="wheel-card" id="wheelCard" onclick="openWheel()">
+      <div class="wc-ic">🎡</div>
+      <div class="wc-txt"><b>Колесо удачи</b><span id="wheelSub">Один раз в сутки</span></div>
+      <div class="wc-go" id="wheelGo">Крутить</div>
+    </div>
     <div class="section-row"><div class="section-title">Бесплатные кейсы</div><div class="section-note" id="unlockedCount">0/6 открыто</div></div>
     <div class="cases-grid" id="freeCasesGrid"></div>
 
@@ -1567,6 +1684,7 @@ input[placeholder*="Поиск"]{ height:32px !important; padding:2px 8px !impor
   <button class="nav-item active" id="tabCases" onclick="switchTab('Cases')"><svg viewBox="0 0 24 24" fill="none"><path class="brand-icon-path" d="M12 2L20 6V12C20 17 16.5 20.5 12 22C7.5 20.5 4 17 4 12V6L12 2Z" stroke="currentColor" stroke-width="1.7"/></svg><span class="nav-label">Кейсы</span></button>
   <button class="nav-item" id="tabUpgrade" onclick="switchTab('Upgrade')"><svg viewBox="0 0 24 24" fill="none"><path d="M4 14l4-9 4 9M6 11h4M14 20l3-11 3 11M15.5 15h3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="nav-label">Апгрейд</span></button>
   <button class="nav-item" id="tabBattle" onclick="switchTab('Battle')"><svg viewBox="0 0 24 24" fill="none"><path d="M6 18L18 6M9 6h4v4M6 15v4h4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="nav-label">Баттлы</span></button>
+  <button class="nav-center" onclick="openMainMenu()" aria-label="Меню"><span class="nc-ic">🎡</span><span class="nc-lbl">Меню</span></button>
   <button class="nav-item" id="tabShop" onclick="switchTab('Shop')"><svg viewBox="0 0 24 24" fill="none"><path d="M4 8h16l-1.5 11a2 2 0 01-2 1.8H7.5a2 2 0 01-2-1.8L4 8Z" stroke="currentColor" stroke-width="1.6"/><path d="M8 8V6a4 4 0 018 0v2" stroke="currentColor" stroke-width="1.6"/></svg><span class="nav-label">Магазин</span></button>
   <button class="nav-item" id="tabInv" onclick="switchTab('Inv')"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="7" width="18" height="13" rx="2" stroke="currentColor" stroke-width="1.7"/><path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2" stroke="currentColor" stroke-width="1.7"/></svg><span class="nav-label">Инвент.</span></button>
   <button class="nav-item" id="tabProf" onclick="switchTab('Prof')"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="3.4" stroke="currentColor" stroke-width="1.7"/><path d="M4.5 20c1.4-3.6 4.4-5.6 7.5-5.6s6.1 2 7.5 5.6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><span class="nav-label">Профиль</span></button>
@@ -2041,7 +2159,7 @@ const cases = [
     drops:[
       { skinId:"s1", weight:54 }, { skinId:"s5", weight:30 }, { skinId:"s9", weight:14.9 },
       { skinId:"CASH_1000", weight:7 },
-      { skinId:"s41", weight:3 }, { skinId:"s52", weight:0.13 }
+      { skinId:"s41", weight:0.15 }, { skinId:"s52", weight:0.13 }
     ]
   },
   {
@@ -3063,6 +3181,7 @@ function spinRoulette(fast){
 
   setTimeout(()=>{
     state.casesOpenedTotal += qty;
+    addXp(qty);
     ensureAch();
     state.achStats.spent += isFree ? 0 : currentCase.cost*qty;
     winCtx = {type:"case", name:currentCase.name, key:currentCase.key};
@@ -3558,6 +3677,7 @@ function doUpgrade(){
     document.getElementById("gaugeArc").style.stroke = success ? "#3ddc84" : "#ff5566";
     ensureAch();
     state.achStats.upgradesTotal++;
+    addXp(2);
     state.achStats.spent += upgStakeVal;
     if(success){
       state.achStats.upgradesWon++;
@@ -4031,6 +4151,7 @@ function finishBattle(participantResults, totalSlots, totalCost){
 
   ensureAch();
   state.achStats.battlesTotal++;
+  addXp(3);
   if(outcome==='win') state.achStats.battlesWon++;
   logHistory({kind: outcome==='win' ? 'battleWin' : outcome==='lose' ? 'battleLose' : 'battleDraw', src:'battle', srcName: battleMode, name:`Кейсбатл ${battleMode}`, price: totals[0]});
   if(outcome==='win') logWon(participantResults[0]||[], {type:"battle", name: battleMode});
@@ -4235,6 +4356,8 @@ function renderCustomSoundInputs(){
 
 function renderProfile(){
   renderChannelAd();
+  renderPromoCard();
+  renderRankCard();
   document.getElementById("uName").innerText = userFirstName;
   document.getElementById("uId").innerText = "ID: " + userId;
   document.getElementById("avatarLetter").innerText = (userFirstName[0]||"?").toUpperCase();
@@ -4860,6 +4983,296 @@ function setupUltraDodge(){
     btn.style.transform = "";
   }
 }
+
+/* ===== drop feed: only the skin picture; tap it to see the case it came from ===== */
+const DF_BOT_NAMES = ["Бот_228","Бот_mx7","Бот_Kolya","Бот_ruben","Бот_0x3f","Бот_pro","Бот_ecd","Бот_zeta"];
+let dfBotEvents = [];
+let dfList = [];   // what is shown now (for taps)
+function dfBotDrop(){
+  const cases = (typeof officialCases!=="undefined" ? officialCases : []).filter(c=>c.drops && c.drops.length);
+  if(cases.length){
+    const c = cases[Math.floor(Math.random()*cases.length)];
+    const d = c.drops[Math.floor(Math.random()*c.drops.length)];
+    const sk = skinById(d.skinId);
+    if(sk) return { who: DF_BOT_NAMES[Math.floor(Math.random()*DF_BOT_NAMES.length)], bot:true, skin: sk, from: c.name };
+  }
+  const pool = skinPool.filter(sk=>sk && sk.price>0);
+  return { who: DF_BOT_NAMES[0], bot:true, skin: pool[Math.floor(Math.random()*pool.length)], from: "Стартовый кейс" };
+}
+function dfSeed(){
+  if(dfBotEvents.length) return;
+  for(let i=0;i<8;i++) dfBotEvents.push(dfBotDrop());
+}
+function dfMakeTile(ev){
+  const el = document.createElement("span");
+  el.className = "df-item";
+  el.innerHTML = `<span class="df-art">${skinArtHTML(ev.skin, "dfa"+Math.floor(Math.random()*1e6))}</span>`;
+  el.dfEv = ev;
+  return el;
+}
+function renderDropFeed(){
+  const track = document.getElementById("dfTrack");
+  if(!track) return;
+  dfSeed();
+  const mine = (state.history||[]).filter(h=>h.kind==="won").slice(0,3).map(h=>({
+    who:"Вы", bot:false, from: h.srcName || "кейс",
+    skin:{ name:h.name, price:h.price, rarity:h.rarity||"trash", shape:h.shape||"rifle", previewImg:h.img||"" }
+  }));
+  dfList = mine.concat(dfBotEvents).slice(0, 12);
+  while(dfList.length < 12) dfList.push(dfBotDrop());
+  track.innerHTML = "";
+  dfList.forEach(ev=>track.appendChild(dfMakeTile(ev)));
+  track.style.transition = "none";
+  track.style.transform = "translateX(0)";
+}
+function dfTap(ev){
+  if(!ev) return;
+  const from = ev.from ? `из кейса «${ev.from}»` : "";
+  showToast(`${ev.skin.name} · ${from}`);
+}
+let dfBusy = false;   // true while the finger is on the feed
+(function dfInit(){
+  const feed = document.getElementById("dropFeed");
+  if(feed && !feed._dfBound){
+    feed._dfBound = true;
+    feed.addEventListener("click", (e)=>{
+      const it = e.target.closest && e.target.closest(".df-item");
+      if(it && it.dfEv) dfTap(it.dfEv);
+    });
+    feed.addEventListener("pointerdown", ()=>{ dfBusy = true; });
+    feed.addEventListener("pointerup", ()=>{ setTimeout(()=>{ dfBusy = false; }, 250); });
+    feed.addEventListener("pointerleave", ()=>{ dfBusy = false; });
+  }
+})();
+// a new drop: a new square with the skin pops in on the left, the others slide one step right
+function dfSnapIn(){
+  const page = document.getElementById("pCases");
+  const track = document.getElementById("dfTrack");
+  if(!page || !track || !page.classList.contains("active") || dfBusy) return;
+  const ev = dfBotDrop();
+  dfBotEvents.unshift(ev);
+  if(dfBotEvents.length > 14) dfBotEvents.length = 14;
+  dfList.unshift(ev);
+  if(dfList.length > 12) dfList.length = 12;
+  const tile = dfMakeTile(ev);
+  tile.classList.add("df-new");
+  track.style.transition = "none";
+  track.style.transform = "translateX(-72px)";
+  track.insertBefore(tile, track.firstChild);
+  while(track.children.length > 12) track.removeChild(track.lastChild);
+  void track.offsetWidth;
+  track.style.transition = "transform .35s cubic-bezier(.2,.8,.2,1)";
+  track.style.transform = "translateX(0)";
+}
+// (drop feed removed from the main screen)
+const _switchTabBase = switchTab;
+switchTab = function(tab){
+  _switchTabBase(tab);
+  if(tab === "Cases") refreshWheelCard();
+};
+
+/* ===== promo codes: a code gives crystals once per account (checked in the game, not on a server) ===== */
+const PROMO_CODES = {
+  "ECODROP1000": { reward: 1000, expires: "2026-12-31" },
+  "WELCOME500":  { reward: 500,  expires: "2026-12-31" },
+};
+function promoRedeem(raw){
+  const code = (raw || "").trim().toUpperCase();
+  const msg = document.getElementById("promoMsg");
+  const say = (t, ok)=>{ if(msg){ msg.innerText = t; msg.style.color = ok ? "#3ddc84" : "#8d8199"; } };
+  if(!code){ say("Введите код", false); return; }
+  const p = PROMO_CODES[code];
+  if(!p){ say("Такого кода нет", false); return; }
+  if(new Date() > new Date(p.expires + "T23:59:59")){ say("Срок действия кода истёк", false); return; }
+  state.promoUsed = state.promoUsed || {};
+  if(state.promoUsed[code]){ say("Этот код уже активирован", false); return; }
+  state.promoUsed[code] = true;
+  state.balance += p.reward;
+  saveState(); updateBalanceUI();
+  say(`Код активирован: +${p.reward} ◆`, true);
+  showToast(`+${p.reward} ◆ по промокоду`);
+  const inp = document.getElementById("promoInput"); if(inp) inp.value = "";
+}
+function renderPromoCard(){
+  const anchor = document.getElementById("uName");
+  if(!anchor || document.getElementById("promoCard")) return;
+  const card = document.createElement("div");
+  card.id = "promoCard"; card.className = "promo-card";
+  card.innerHTML = `
+    <div class="promo-title">Промокод</div>
+    <div class="promo-row">
+      <input id="promoInput" class="promo-input" type="text" placeholder="Введите код" autocomplete="off" autocapitalize="characters">
+      <button class="promo-btn" onclick="promoRedeem(document.getElementById('promoInput').value)">Активировать</button>
+    </div>
+    <div class="promo-msg" id="promoMsg"></div>`;
+  const ref = document.getElementById("refLinkText");
+  const refCard = ref ? ref.closest(".profile-card") : null;
+  if(refCard) refCard.after(card);
+  else (anchor.closest(".page") || anchor.parentElement).appendChild(card);
+}
+
+/* ===== XP and ranks (slow: 1 XP per case, 2 per upgrade, 3 per battle) ===== */
+const RANKS = [
+  { name:"Новичок",   min:0,      color:"#8f96a3", icon:"🔰" },
+  { name:"Бронза",    min:500,    color:"#c08457", icon:"🥉" },
+  { name:"Серебро",   min:2000,   color:"#c9d3df", icon:"🥈" },
+  { name:"Золото",    min:6000,   color:"#ffd166", icon:"🥇" },
+  { name:"Платина",   min:15000,  color:"#7af0ff", icon:"💠" },
+  { name:"Бриллиант", min:40000,  color:"#5ab0ff", icon:"💎" },
+  { name:"Мастер",    min:100000, color:"#c77dff", icon:"👑" },
+  { name:"Легенда",   min:250000, color:"#ff6b9a", icon:"🔥" },
+];
+function addXp(n){ state.xp = (state.xp||0) + (n||0); }
+function rankOf(xp){
+  let r = RANKS[0], idx = 0;
+  RANKS.forEach((rk,i)=>{ if(xp >= rk.min){ r = rk; idx = i; } });
+  return { rank:r, idx, next: RANKS[idx+1] || null };
+}
+function renderRankCard(){
+  const anchor = document.getElementById("uName");
+  if(!anchor) return;
+  let card = document.getElementById("rankCard");
+  if(!card){
+    card = document.createElement("div");
+    card.id = "rankCard"; card.className = "rank-card";
+    const pc = document.getElementById("promoCard");
+    const host = anchor.closest(".page") || anchor.parentElement;
+    if(pc) pc.after(card); else host.appendChild(card);
+  }
+  const xp = state.xp || 0;
+  const { rank, next } = rankOf(xp);
+  const from = rank.min, to = next ? next.min : rank.min;
+  const pct = next ? Math.min(100, Math.round((xp-from)/(to-from)*100)) : 100;
+  card.style.setProperty("--rank-col", rank.color);
+  card.innerHTML = `
+    <div class="rank-top">
+      <div class="rank-badge">${rank.icon}</div>
+      <div><div class="rank-name">${rank.name}</div><div class="rank-xp">Опыт: ${xp}</div></div>
+    </div>
+    <div class="rank-bar"><i style="width:${pct}%"></i></div>
+    <div class="rank-next">${next ? `До «${next.name}» осталось ${next.min - xp} опыта` : "Высший ранг"}</div>`;
+}
+
+/* ===== wheel of fortune: once a day ===== */
+const WHEEL_PRIZES = [
+  { label:"50 ◆",    amount:50,    color:"#3a2d5c", w:30 },
+  { label:"100 ◆",   amount:100,   color:"#2a3d66", w:25 },
+  { label:"150 ◆",   amount:150,   color:"#2a5a55", w:18 },
+  { label:"250 ◆",   amount:250,   color:"#5a4a1c", w:12 },
+  { label:"500 ◆",   amount:500,   color:"#6b2a4a", w:8  },
+  { label:"1000 ◆",  amount:1000,  color:"#7a3a12", w:4  },
+  { label:"2500 ◆",  amount:2500,  color:"#5c1f5f", w:2  },
+  { label:"10000 ◆", amount:10000, color:"#8a6a00", w:1  },
+];
+function wheelDayKey(){ const d=new Date(); return d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate(); }
+function wheelUsedToday(){ return state.wheelDay === wheelDayKey(); }
+function wheelPick(){
+  const total = WHEEL_PRIZES.reduce((a,p)=>a+p.w,0);
+  let r = Math.random()*total;
+  for(let i=0;i<WHEEL_PRIZES.length;i++){ r -= WHEEL_PRIZES[i].w; if(r < 0) return i; }
+  return 0;
+}
+function wheelSvg(){
+  const N = WHEEL_PRIZES.length, R = 120, C = 130, step = 360/N;
+  const pt = (deg)=>{ const a=(deg-90)*Math.PI/180; return [C + R*Math.cos(a), C + R*Math.sin(a)]; };
+  let segs = "", labels = "";
+  WHEEL_PRIZES.forEach((p,i)=>{
+    const a0 = i*step, a1 = (i+1)*step;
+    const [x0,y0] = pt(a0), [x1,y1] = pt(a1);
+    segs += `<path d="M${C} ${C} L${x0.toFixed(2)} ${y0.toFixed(2)} A${R} ${R} 0 0 1 ${x1.toFixed(2)} ${y1.toFixed(2)} Z" fill="${p.color}" stroke="#0b0812" stroke-width="2"/>`;
+    const [lx,ly] = pt(a0+step/2), mid = (a0+step/2);
+    labels += `<text x="${(C + (R*0.62)*Math.cos((mid-90)*Math.PI/180)).toFixed(1)}" y="${(C + (R*0.62)*Math.sin((mid-90)*Math.PI/180)).toFixed(1)}" fill="#fff" font-size="11" font-weight="800" font-family="Rajdhani,sans-serif" text-anchor="middle" dominant-baseline="middle" transform="rotate(${mid} ${(C + (R*0.62)*Math.cos((mid-90)*Math.PI/180)).toFixed(1)} ${(C + (R*0.62)*Math.sin((mid-90)*Math.PI/180)).toFixed(1)})">${p.label}</text>`;
+  });
+  return `<svg class="wheel-svg" id="wheelSvg" viewBox="0 0 260 260">${segs}${labels}<circle cx="${C}" cy="${C}" r="16" fill="#0b0812" stroke="#ffd166" stroke-width="2"/></svg>`;
+}
+function openWheel(){
+  const used = wheelUsedToday();
+  openOverlay("Колесо удачи", `
+    <div class="wheel-box"><div class="wheel-pointer"></div>${wheelSvg()}</div>
+    <div class="wheel-res" id="wheelRes">${used ? "Сегодня уже крутили — завтра снова" : "Крутите и заберите приз"}</div>
+    <button class="wheel-btn" id="wheelBtn" ${used ? "disabled" : ""} onclick="spinWheel()">${used ? "Завтра" : "Крутить"}</button>`);
+}
+function spinWheel(){
+  if(wheelUsedToday()) return;
+  const btn = document.getElementById("wheelBtn");
+  const svg = document.getElementById("wheelSvg");
+  const res = document.getElementById("wheelRes");
+  if(!btn || !svg) return;
+  btn.disabled = true;
+  const k = wheelPick();
+  const N = WHEEL_PRIZES.length, step = 360/N;
+  const center = k*step + step/2;
+  const turns = 5*360;
+  const cur = svg._rot || 0;
+  const target = cur + turns + (360 - (center % 360)) - (cur % 360);
+  svg._rot = target;
+  svg.style.transform = `rotate(${target}deg)`;
+  res.innerText = "…";
+  setTimeout(()=>{
+    const prize = WHEEL_PRIZES[k];
+    state.balance += prize.amount;
+    state.wheelDay = wheelDayKey();
+    saveState(); updateBalanceUI();
+    res.innerText = `Выпало: +${prize.amount} ◆`;
+    btn.innerText = "Завтра";
+    const card = document.getElementById("wheelCard");
+    if(card) card.classList.add("done");
+    const go = document.getElementById("wheelGo"); if(go) go.innerText = "Завтра";
+    const sub = document.getElementById("wheelSub"); if(sub) sub.innerText = "Следующий спин завтра";
+    showToast(`Колесо: +${prize.amount} ◆`);
+  }, 4300);
+}
+function refreshWheelCard(){
+  const card = document.getElementById("wheelCard");
+  if(!card) return;
+  const used = wheelUsedToday();
+  card.classList.toggle("done", used);
+  const go = document.getElementById("wheelGo"); if(go) go.innerText = used ? "Завтра" : "Крутить";
+  const sub = document.getElementById("wheelSub"); if(sub) sub.innerText = used ? "Следующий спин завтра" : "Один раз в сутки";
+}
+
+/* ===== centre button menu: daily bonus and wheel live here, not on the main screen ===== */
+const menuHolder = document.createElement("div");
+menuHolder.id = "menuHolder";
+menuHolder.style.display = "none";
+document.body.appendChild(menuHolder);
+function menuNodes(){
+  return [document.querySelector(".daily-strip"), document.getElementById("wheelCard")].filter(Boolean);
+}
+function restoreMenuNodes(){
+  menuNodes().forEach(n=>{ if(n.parentElement !== menuHolder) menuHolder.appendChild(n); });
+}
+// keep the menu cards out of the page: put them back into the hidden holder before any overlay redraws its body
+const _openOvBase = openOverlay;
+openOverlay = function(title, html){
+  restoreMenuNodes();
+  _openOvBase(title, html);
+};
+function openMainMenu(){
+  restoreMenuNodes();
+  _openOvBase("Меню", "");
+  const body = document.querySelector("#uxOverlay .ux-body");
+  if(!body) return;
+  const wrap = document.createElement("div");
+  wrap.className = "menu-list";
+  menuNodes().forEach(n=>{ n.style.display = ""; wrap.appendChild(n); });
+  body.appendChild(wrap);
+  if(typeof refreshWheelCard === "function") refreshWheelCard();
+}
+const _closeOvBase = closeOverlay;
+closeOverlay = function(){
+  _closeOvBase();
+  restoreMenuNodes();
+};
+restoreMenuNodes();
+
+/* Telegram mini app: open it full height */
+(function fullScreenTG(){
+  try{
+    const tg = window.Telegram && window.Telegram.WebApp;
+    if(tg){ tg.ready && tg.ready(); tg.expand && tg.expand(); }
+  }catch(e){}
+})();
 /* ================= HISTORY · ACHIEVEMENTS · LONG-PRESS PREVIEW ================= */
 let winCtx = {type:"case", name:""};
 const SRC_LABEL = {case:"КЕЙС", upgrade:"АПГРЕЙД", battle:"КЕЙСБАТЛ", sell:"ПРОДАЖА"};
